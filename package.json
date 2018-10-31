@@ -1,0 +1,49 @@
+{
+  "name": "imt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/hxfdarling/imt.git",
+  "author": "zman <hxfdarling@hotmail.com>",
+  "license": "MIT",
+  "bin": {
+    "imt": "./bin/cli.js"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{jsx,js}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^7.1.2",
+    "commitizen": "^3.0.4",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint-config-zman": "^0.0.9",
+    "husky": "^1.1.2",
+    "lint-staged": "^8.0.3",
+    "prettier": "^1.14.3"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.19.0",
+    "inquirer": "^6.2.0",
+    "shelljs": "^0.8.2"
+  }
+}
