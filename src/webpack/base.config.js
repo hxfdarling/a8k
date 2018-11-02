@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { WebPlugin } = require('web-webpack-plugin');
+// const { WebPlugin } = require('web-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const { resolve } = require;
 module.exports = ({ projectDir, env, imtConfig: { mode }, imtrc: { cdn } }) => {
@@ -125,7 +126,7 @@ module.exports = ({ projectDir, env, imtConfig: { mode }, imtrc: { cdn } }) => {
 
   if (mode === 'single') {
     config.plugins.push(
-      new WebPlugin({
+      new HtmlWebpackPlugin({
         filename: 'index.html',
         template: path.resolve(projectDir, './src/index.html'),
       })

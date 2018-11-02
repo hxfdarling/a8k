@@ -49,7 +49,6 @@ class ImtBuild extends Imt {
       this.hooks.beforeBuild.callAsync(this, resolve);
     });
     fs.emptyDirSync(this.distDir);
-    console.log(this.webpackConfig);
     await new Promise((resolve, reject) => {
       webpack(this.webpackConfig, (err, stats) => {
         stopSpinner(false);
