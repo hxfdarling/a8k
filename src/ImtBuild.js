@@ -4,12 +4,14 @@ const path = require('path');
 const { AsyncSeriesWaterfallHook } = require('tapable');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-// const getServerConfig = require('./webpack/devServer.config');
+const getServerConfig = require('./webpack/devServer.config');
 
 const getConfig = require('./webpack');
 const { logWithSpinner, stopSpinner } = require('./utils/spinner');
 const { done, info } = require('./utils/logger');
 const Imt = require('.');
+
+const host = process.env.HOST || '127.0.0.1';
 
 const cwd = process.cwd();
 class ImtBuild extends Imt {
@@ -54,18 +56,18 @@ class ImtBuild extends Imt {
       this.hooks.beforeDev.callAsync(this, resolve);
     });
 
-    await new Promise((resolve, reject) => {
+    await new Promise(resolve => {
       const compiler = webpack(this.webpackConfig);
-      const devServer = new WebpackDevServer(compiler);
+      const devServer = new WebpackDevServer(compiler, getServerConfig());
       // Launch WebpackDevServer.
-      devServer.listen(port, err => {
+      devServer.listen(port, host, err => {
         if (err) {
-          return reject(err);
+          process.exit(1);
         }
-        info('Starting the development server...\n');
         resolve();
       });
-      info(`http://0.0.0.0:${port}`);
+
+      info('Starting the development server...\n');
 
       ['SIGINT', 'SIGTERM'].forEach(sig => {
         process.on(sig, () => {
@@ -77,6 +79,7 @@ class ImtBuild extends Imt {
 
     await new Promise(resolve => {
       this.hooks.afterDev.callAsync(this, async () => {
+        console.log(chalk.green(`http://${host}:${port}`));
         resolve();
       });
     });

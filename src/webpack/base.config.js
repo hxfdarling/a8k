@@ -21,9 +21,16 @@ module.exports = ({ projectDir, env, imtConfig: { mode }, imtrc: { cdn } }) => {
         loader: resolve('postcss-loader'),
         options: {
           // Necessary for external CSS imports to work
-          // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
-          plugins: () => [],
+          plugins: () => [
+            require('postcss-flexbugs-fixes'),
+            require('postcss-preset-env')({
+              autoprefixer: {
+                flexbox: 'no-2009',
+              },
+              stage: 3,
+            }),
+          ],
         },
       },
     ];
@@ -39,6 +46,7 @@ module.exports = ({ projectDir, env, imtConfig: { mode }, imtrc: { cdn } }) => {
   }
   const config = {
     entry,
+    bail: true,
     resolve: {
       // 加快搜索速度
       modules: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules')],
@@ -61,19 +69,43 @@ module.exports = ({ projectDir, env, imtConfig: { mode }, imtrc: { cdn } }) => {
               options: {
                 babelrc: false,
                 cacheDirectory: true,
-
-                presets: [
-                  resolve('babel-preset-es2015'),
-                  resolve('babel-preset-stage-2'),
-                  resolve('babel-preset-react'),
-                ],
+                presets: [resolve('@babel/preset-env'), resolve('@babel/preset-react')],
                 plugins: [
-                  resolve('babel-plugin-transform-runtime'),
-                  resolve('babel-plugin-add-module-exports'),
-                  resolve('babel-plugin-transform-decorators-legacy'),
-                  resolve('babel-plugin-transform-class-properties'),
-                  // resolve('react-hot-loader/babel'),
-                ],
+                  '@babel/plugin-transform-runtime',
+
+                  // Stage 0
+                  '@babel/plugin-proposal-function-bind',
+
+                  // Stage 1
+                  '@babel/plugin-proposal-export-default-from',
+                  '@babel/plugin-proposal-logical-assignment-operators',
+                  ['@babel/plugin-proposal-optional-chaining', { loose: false }],
+                  ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }],
+                  ['@babel/plugin-proposal-nullish-coalescing-operator', { loose: false }],
+                  '@babel/plugin-proposal-do-expressions',
+
+                  // Stage 2
+                  ['@babel/plugin-proposal-decorators', { legacy: true }],
+                  '@babel/plugin-proposal-function-sent',
+                  '@babel/plugin-proposal-export-namespace-from',
+                  '@babel/plugin-proposal-numeric-separator',
+                  '@babel/plugin-proposal-throw-expressions',
+
+                  // Stage 3
+                  '@babel/plugin-syntax-dynamic-import',
+                  '@babel/plugin-syntax-import-meta',
+                  ['@babel/plugin-proposal-class-properties', { loose: false }],
+                  '@babel/plugin-proposal-json-strings',
+
+                  // 'react-hot-loader/babel',
+                ].map(item => {
+                  if (Array.isArray(item)) {
+                    item[0] = resolve(item[0]);
+                  } else {
+                    item = resolve(item);
+                  }
+                  return item;
+                }),
               },
             },
           ],
