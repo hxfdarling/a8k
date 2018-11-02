@@ -15,7 +15,7 @@ const Imt = require('../');
 // 内置模板，提供选择
 const defaultTemplates = [{ name: 'React应用', value: 'hxfdarling/imt-react-template' }];
 class ImtCreate extends Imt {
-  constructor({ template, dir, ...options }) {
+  constructor(template, dir, options) {
     super(options);
 
     this.template = template;
@@ -34,8 +34,8 @@ class ImtCreate extends Imt {
 
   initHooks() {
     this.hooks = {
-      beforeCreate: new AsyncSeriesWaterfallHook(['options']),
-      afterCreate: new AsyncSeriesWaterfallHook(['options']),
+      beforeCreate: new AsyncSeriesWaterfallHook(['context']),
+      afterCreate: new AsyncSeriesWaterfallHook(['context']),
     };
   }
 
@@ -120,6 +120,6 @@ class ImtCreate extends Imt {
   }
 }
 
-module.exports = (template, dir, { plugins, proxy }) => {
-  new ImtCreate({ template, dir, plugins, proxy }).create();
+module.exports = (template, dir, options) => {
+  new ImtCreate(template, dir, options).create();
 };

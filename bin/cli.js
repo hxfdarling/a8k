@@ -3,7 +3,10 @@
 const program = require('commander');
 const pkg = require('../package.json');
 
-program.version(pkg.version).option('-P, --proxy <proxy>', '设置代理');
+program
+  .version(pkg.version)
+  .option('-P, --proxy <proxy>', '设置代理')
+  .option('-x, --defaultProxy', '使用内网代理', false);
 
 program
   .command('create [template] [dir]')
@@ -21,13 +24,13 @@ program
   });
 
 program
-  .command('build')
+  .command('build [dir]')
   .description('构建生产包')
   .option('-d, --dist <dist>', '配置构建文件生成目标目录,默认:dist', 'dist')
   .option('-m, --no-mini', '是否压缩，默认压缩代码')
   .option('-s, --source-map [bool]', '是否生成source-map,默认false', false)
-  .action(options => {
-    require('../src/commands/build')(options);
+  .action((dir, options) => {
+    require('../src/commands/build')(dir, options);
   });
 
 program
