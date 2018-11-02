@@ -12,12 +12,11 @@ const { AsyncSeriesWaterfallHook } = require('tapable');
 
 const Imt = require('../');
 
+// 内置模板，提供选择
+const defaultTemplates = [{ name: 'React应用', value: 'hxfdarling/imt-react-template' }];
 class ImtCreate extends Imt {
   constructor({ template, dir, ...options }) {
     super(options);
-    if (/\.zip$/.test(template)) {
-      template = `direct:${template}`;
-    }
 
     this.template = template;
 
@@ -75,10 +74,29 @@ class ImtCreate extends Imt {
     }
   }
 
+  async getTemplate() {
+    let { template } = this;
+    if (!template) {
+      ({ template } = await inquirer.prompt([
+        {
+          name: 'template',
+          message: '选择内置模板',
+          type: 'list',
+          choices: defaultTemplates,
+        },
+      ]));
+    }
+    if (/\.zip$/.test(template)) {
+      template = `direct:${template}`;
+    }
+    this.template = template;
+  }
+
   create() {
     const { templateDir } = this;
     this.hooks.beforeCreate.callAsync(this, async () => {
       await this.confirmDir();
+      await this.getTemplate();
       await this.downloadTemplate();
       console.log(chalk.yellow('初始化模板'));
       shell.cd(templateDir);
@@ -87,7 +105,8 @@ class ImtCreate extends Imt {
         npmCmd = 'tnpm';
       }
       shell.exec(`${npmCmd} i`, { silent: true });
-      spawnSync('node', ['.template/bin/cli.js'], {
+      const main = require(`${templateDir}/package.json`).main || 'index.js';
+      spawnSync('node', [`.template/${main}`], {
         cwd: this.projectDir,
         stdio: 'inherit',
       });

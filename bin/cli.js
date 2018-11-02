@@ -6,7 +6,7 @@ const pkg = require('../package.json');
 program.version(pkg.version).option('-P, --proxy <proxy>', '设置代理');
 
 program
-  .command('create <template> [dir]')
+  .command('create [template] [dir]')
   .description('初始化项目')
   .action((template, dir, options) => {
     require('../src/commands/create')(template, dir, options);
