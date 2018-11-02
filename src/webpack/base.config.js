@@ -72,7 +72,7 @@ module.exports = ({ projectDir, env, imtConfig: { mode }, imtrc: { cdn } }) => {
                   resolve('babel-plugin-add-module-exports'),
                   resolve('babel-plugin-transform-decorators-legacy'),
                   resolve('babel-plugin-transform-class-properties'),
-                  resolve('react-hot-loader/babel'),
+                  // resolve('react-hot-loader/babel'),
                 ],
               },
             },

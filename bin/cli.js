@@ -16,11 +16,11 @@ program
   });
 
 program
-  .command('dev')
+  .command('dev [dir]')
   .description('启动开发者模式')
   .option('-p, --port <port>', '配置开发者服务器监听端口,默认端口:8899', 8899)
-  .action(options => {
-    require('../src/commands/dev')(options);
+  .action((dir, options) => {
+    require('../src/commands/dev')(dir, options);
   });
 
 program

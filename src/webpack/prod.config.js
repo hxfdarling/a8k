@@ -1,19 +1,18 @@
 const webpackMerge = require('webpack-merge');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
+// const path = require('path');
 const getBaseConfig = require('./base.config');
 
 module.exports = imtBuild => {
   const {
-    projectDir,
     distDir,
     imtrc: { cdn = '' },
   } = imtBuild;
   const config = webpackMerge(getBaseConfig(imtBuild), {
     mode: 'production',
     output: {
-      path: path.resolve(projectDir, distDir),
+      path: distDir,
       publicPath: cdn,
       filename: '[name]_[chunkhash].js',
     },
