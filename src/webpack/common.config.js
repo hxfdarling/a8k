@@ -42,7 +42,12 @@ function configureCssLoader({ sourceMap, publicPath }) {
     },
   ];
   if (env.NODE_ENV === DEV) {
-    loaders.unshift(resolve('style-loader'));
+    loaders.unshift({
+      loader: resolve('style-loader'),
+      options: {
+        sourceMap,
+      },
+    });
   } else {
     loaders.unshift({
       loader: MiniCssExtractPlugin.loader,
