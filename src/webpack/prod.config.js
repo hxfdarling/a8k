@@ -1,3 +1,4 @@
+const path = require('path');
 const webpackMerge = require('webpack-merge');
 const webpack = require('webpack');
 
@@ -21,9 +22,9 @@ const configureCleanWebpack = ({ distDir: root }) => {
   };
 };
 
-const configureTerser = ({ sourceMap }) => {
+const configureTerser = ({ sourceMap, cacheDir }) => {
   return {
-    cache: true,
+    cache: path.resolve(cacheDir, 'terser-webpack-plugin'),
     parallel: true,
     sourceMap,
   };
@@ -43,8 +44,8 @@ const configureOptimizeCSS = ({ sourceMap }) => {
     },
   };
 };
-const configureWebapp = ({ webappConfig }) => {
-  return webappConfig;
+const configureWebapp = ({ cacheDir, webappConfig }) => {
+  return { cache: path.resolve(cacheDir, 'webapp-webpack-plugin'), ...webappConfig };
 };
 const configOptimization = options => {
   const config = {
@@ -61,7 +62,6 @@ const configOptimization = options => {
   if (!options.mini) {
     config.minimizer = [];
   }
-  console.log(config);
   return config;
 };
 module.exports = options => {

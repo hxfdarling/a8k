@@ -25,6 +25,8 @@ class Service extends Imt {
       dir = path.resolve(cwd, dir);
     }
 
+    this.cacheDir = path.resolve(options.cacheDir);
+
     this.projectDir = dir;
     // 开发者模式 dist 目录默认 dev，生产模式默认 dist（可配置)
     this.distDir = path.resolve(dir, options.dist || 'dev');
@@ -52,6 +54,7 @@ class Service extends Imt {
       analyzer,
       mini: this.options.mini,
       webappConfig: this.imtrc.webappConfig,
+      cacheDir: this.cacheDir,
     };
     this.webpackConfig = getConfig(configOptions);
     const { webpackOverride } = this.imtrc;

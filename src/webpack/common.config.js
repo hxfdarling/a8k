@@ -88,7 +88,7 @@ const configureBabelLoader = options => {
         loader: resolve('babel-loader'),
         options: {
           babelrc: false,
-          cacheDirectory: true,
+          cacheDirectory: path.resolve(options.cacheDir, 'babel-loader'),
           presets: [resolve('@babel/preset-env'), resolve('@babel/preset-react')],
           plugins: [
             // 优化lodash导入
