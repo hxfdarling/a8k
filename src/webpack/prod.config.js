@@ -9,7 +9,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const LodashPlugin = require('lodash-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
-
 // config
 const getBaseConfig = require('./common.config');
 const { PROD } = require('../const');
@@ -82,7 +81,6 @@ module.exports = options => {
       new MiniCssExtractPlugin({
         filename: '[name]_[contenthash].css',
       }),
-
       new webpack.HashedModuleIdsPlugin({
         hashDigestLength: 6,
       }),

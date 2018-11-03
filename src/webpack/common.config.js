@@ -3,6 +3,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const { WebPlugin } = require('web-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
+
 const { DEV } = require('../const');
 
 const { resolve } = require;
@@ -147,6 +149,9 @@ module.exports = options => {
 
   const config = {
     entry: configureEntries(options),
+    output: {
+      crossOriginLoading: 'anonymous',
+    },
     // 出错不继续编译
     bail: true,
     resolve: {
@@ -204,6 +209,12 @@ module.exports = options => {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: path.resolve(projectDir, './src/index.html'),
+      }),
+      // 支持js资源完整性校验
+      // https://www.w3.org/TR/SRI/
+      new SriPlugin({
+        hashFuncNames: ['sha256', 'sha384'],
+        enabled: process.env.NODE_ENV === 'production',
       })
     );
   }
