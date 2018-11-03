@@ -8,7 +8,6 @@ const shell = require('shelljs');
 const { spawnSync } = require('child_process');
 
 const cwd = process.cwd();
-const { AsyncSeriesWaterfallHook } = require('tapable');
 
 const Imt = require('../');
 
@@ -30,13 +29,6 @@ class ImtCreate extends Imt {
     this.projectDir = dir;
     this.projectName = path.basename(dir);
     this.templateDir = path.join(this.projectDir, '.template');
-  }
-
-  initHooks() {
-    this.hooks = {
-      beforeCreate: new AsyncSeriesWaterfallHook(['context']),
-      afterCreate: new AsyncSeriesWaterfallHook(['context']),
-    };
   }
 
   downloadTemplate() {

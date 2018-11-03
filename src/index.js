@@ -1,20 +1,10 @@
 const shell = require('shelljs');
-const path = require('path');
 const { AsyncSeriesWaterfallHook } = require('tapable');
 
-const defaultPlugins = [
-  {
-    /**
-     *
-     *
-     * @param {Imt} imt
-     */
-    apply() {},
-  },
-];
+const buildInPlugins = require('./plugins');
+
 class Imt {
   constructor(options = {}) {
-    this.clidir = path.resolve(__dirname, '../');
     this.initHooks();
     this.options = options;
     this.proxy = options.proxy;
@@ -26,7 +16,7 @@ class Imt {
         'export http_proxy=http://web-proxy.tencent.com:8080;export https_proxy=http://web-proxy.tencent.com:8080;'
       );
     }
-    this.plugins = [...defaultPlugins, ...(options.plugins || [])];
+    this.plugins = [...buildInPlugins, ...(options.plugins || [])];
     this.plugins.forEach(plugin => {
       plugin.apply(this);
     });
@@ -34,8 +24,12 @@ class Imt {
 
   initHooks() {
     this.hooks = {
-      beforeCreate: new AsyncSeriesWaterfallHook(['options']),
-      afterCreate: new AsyncSeriesWaterfallHook(['options']),
+      beforeCreate: new AsyncSeriesWaterfallHook(['context']),
+      afterCreate: new AsyncSeriesWaterfallHook(['context']),
+      beforeDev: new AsyncSeriesWaterfallHook(['context']),
+      afterDev: new AsyncSeriesWaterfallHook(['context']),
+      beforeBuild: new AsyncSeriesWaterfallHook(['context']),
+      afterBuild: new AsyncSeriesWaterfallHook(['context']),
     };
   }
 }

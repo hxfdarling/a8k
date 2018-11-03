@@ -2,50 +2,78 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const { WebPlugin } = require('web-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const { DEV } = require('../const');
 
 const { resolve } = require;
-module.exports = ({ projectDir, env, imtConfig: { mode }, imtrc: { cdn } }) => {
-  console.log(__dirname);
-  const isDev = env === 'development';
-  const entry = {
-    vendor: './src/assets/vendor',
-  };
+const { env } = process;
 
+function getCssLoader() {
+  const loaders = [
+    resolve('css-loader'),
+    {
+      loader: resolve('postcss-loader'),
+      options: {
+        // Necessary for external CSS imports to work
+        ident: 'postcss',
+        plugins: () => [
+          require('postcss-import'),
+          require('postcss-extend'),
+          require('postcss-simple-vars'),
+          require('postcss-nested-ancestors'),
+          require('postcss-nested'),
+          require('postcss-hexrgba'),
+          require('autoprefixer'),
+          require('postcss-flexbugs-fixes'),
+
+          require('postcss-preset-env')({
+            autoprefixer: {
+              flexbox: 'no-2009',
+            },
+            stage: 3,
+          }),
+        ],
+      },
+    },
+  ];
+  if (env.NODE_ENV === DEV) {
+    loaders.unshift(resolve('style-loader'));
+  } else {
+    loaders.unshift({
+      loader: MiniCssExtractPlugin.loader,
+      options: { publicPath: env.IMT_ENV_PUBLIC_PATH },
+    });
+  }
+  return loaders;
+}
+// Configure Manifest
+const configureManifest = fileName => {
+  return {
+    fileName,
+    basePath: env.IMT_ENV_DIST_DIR,
+    map: file => {
+      file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
+      return file;
+    },
+  };
+};
+const configureEntries = () => {
+  const mode = env.IMT_ENV_MODE;
+
+  const entry = {};
   if (mode === 'single') {
     entry.index = './src/index';
   }
-  function getCssLoader() {
-    const scssUse = [
-      resolve('css-loader'),
-      {
-        loader: resolve('postcss-loader'),
-        options: {
-          // Necessary for external CSS imports to work
-          ident: 'postcss',
-          plugins: () => [
-            require('postcss-flexbugs-fixes'),
-            require('postcss-preset-env')({
-              autoprefixer: {
-                flexbox: 'no-2009',
-              },
-              stage: 3,
-            }),
-          ],
-        },
-      },
-    ];
-    if (isDev) {
-      scssUse.unshift(resolve('style-loader'));
-    } else {
-      scssUse.unshift({
-        loader: MiniCssExtractPlugin.loader,
-        options: { publicPath: cdn },
-      });
-    }
-    return scssUse;
-  }
+  return entry;
+};
+
+module.exports = () => {
+  const projectDir = env.IMT_ENV_PROJECT_DIR;
+  const mode = env.IMT_ENV_MODE;
+
   const config = {
-    entry,
+    entry: configureEntries(),
+    // 出错不继续编译
     bail: true,
     resolve: {
       // 加快搜索速度
@@ -114,7 +142,7 @@ module.exports = ({ projectDir, env, imtConfig: { mode }, imtrc: { cdn } }) => {
         },
         {
           test: /\.scss$/,
-          use: getCssLoader().concat(resolve('sass-loader')),
+          use: getCssLoader(),
           include: [path.resolve(projectDir, 'src')],
         },
         {
@@ -153,7 +181,7 @@ module.exports = ({ projectDir, env, imtConfig: { mode }, imtrc: { cdn } }) => {
         },
       ],
     },
-    plugins: [],
+    plugins: [new ManifestPlugin(configureManifest('manifest-legacy.json'))],
   };
 
   if (mode === 'single') {
