@@ -29,6 +29,8 @@ class Service extends Imt {
     // 开发者模式 dist 目录默认 dev，生产模式默认 dist（可配置)
     this.distDir = path.resolve(dir, options.dist || 'dev');
 
+    this.pkg = require(path.join(dir, 'package.json'));
+
     try {
       /** @type ImtConfig */
       this.imtrc = { publicPath: '', mode: 'single', ...require(path.join(dir, '.imtrc.js')) };
@@ -48,8 +50,9 @@ class Service extends Imt {
       distDir: this.distDir,
       mode: this.imtrc.mode,
       analyzer,
+      webappConfig: this.imtrc.webappConfig,
+      pkg: this.pkg,
     };
-    console.log('TCL: Service -> getWebpackConfig -> configOptions', configOptions);
     this.webpackConfig = getConfig(configOptions);
     const { webpackOverride } = this.imtrc;
     if (webpackOverride) {
