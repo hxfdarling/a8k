@@ -27,7 +27,7 @@ program
   .command('build [dir]')
   .description('构建生产包')
   .option('-d, --dist <dist>', '配置构建文件生成目标目录,默认:dist', 'dist')
-  .option('-m, --no-mini', '是否压缩，默认压缩代码')
+  .option('--no-mini', '是否压缩，默认压缩代码')
   .option('-a, --analyzer', '开启构建分析', false)
   .option('-s, --source-map', '是否生成source-map,默认false', false)
   .action((dir, options) => {

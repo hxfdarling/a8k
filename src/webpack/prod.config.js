@@ -46,6 +46,24 @@ const configureOptimizeCSS = ({ sourceMap }) => {
 const configureWebapp = ({ webappConfig }) => {
   return webappConfig;
 };
+const configOptimization = options => {
+  const config = {
+    // Automatically split vendor and commons
+    // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
+    // splitChunks: {
+    //   chunks: 'all',
+    //   name: false,
+    // },
+    // Keep the runtime chunk seperated to enable long term caching
+    runtimeChunk: true,
+    minimizer: [new TerserPlugin(configureTerser(options)), new OptimizeCSSAssetsPlugin(configureOptimizeCSS(options))],
+  };
+  if (!options.mini) {
+    config.minimizer = [];
+  }
+  console.log(config);
+  return config;
+};
 module.exports = options => {
   const { sourceMap, publicPath, distDir } = options;
   const config = webpackMerge(getBaseConfig(options), {
@@ -56,22 +74,7 @@ module.exports = options => {
       path: distDir,
       filename: '[name]_[chunkhash].js',
     },
-    optimization: {
-      // Automatically split vendor and commons
-      // https://twitter.com/wSokra/status/969633336732905474
-      // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
-      // splitChunks: {
-      //   chunks: 'all',
-      //   name: false,
-      // },
-      // Keep the runtime chunk seperated to enable long term caching
-      // https://twitter.com/wSokra/status/969679223278505985
-      runtimeChunk: true,
-      minimizer: [
-        new TerserPlugin(configureTerser(options)),
-        new OptimizeCSSAssetsPlugin(configureOptimizeCSS(options)),
-      ],
-    },
+    optimization: configOptimization(options),
     plugins: [
       // 支持lodash包 按需引用
       new LodashPlugin(),

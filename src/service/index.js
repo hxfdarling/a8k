@@ -50,8 +50,8 @@ class Service extends Imt {
       distDir: this.distDir,
       mode: this.imtrc.mode,
       analyzer,
+      mini: this.options.mini,
       webappConfig: this.imtrc.webappConfig,
-      pkg: this.pkg,
     };
     this.webpackConfig = getConfig(configOptions);
     const { webpackOverride } = this.imtrc;
