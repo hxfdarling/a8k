@@ -4,6 +4,7 @@ const path = require('path');
 const getConfig = require('../webpack');
 
 const Imt = require('..');
+const { DEV } = require('../const');
 
 const cwd = process.cwd();
 
@@ -35,13 +36,21 @@ class Service extends Imt {
       console.log(chalk.error('项目目录找不到`.imrc.js`配置文件，无法继续构建'));
       process.exit(1);
     }
+    this.getWebpackConfig();
+  }
 
-    process.env.IMT_ENV_PROJECT_DIR = this.projectDir;
-    process.env.IMT_ENV_DIST_DIR = this.distDir;
-    process.env.IMT_ENV_PUBLIC_PATH = this.imtrc.publicPath;
-    process.env.IMT_ENV_MODE = this.imtrc.mode;
-
-    this.webpackConfig = getConfig(this);
+  getWebpackConfig() {
+    const { analyzer, sourceMap } = this.options;
+    const configOptions = {
+      projectDir: this.projectDir,
+      sourceMap: sourceMap || process.env.NODE_ENV === DEV,
+      publicPath: this.imtrc.publicPath,
+      distDir: this.distDir,
+      mode: this.imtrc.mode,
+      analyzer,
+    };
+    console.log('TCL: Service -> getWebpackConfig -> configOptions', configOptions);
+    this.webpackConfig = getConfig(configOptions);
     const { webpackOverride } = this.imtrc;
     if (webpackOverride) {
       webpackOverride(this.webpackConfig, this);

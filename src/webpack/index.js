@@ -4,18 +4,28 @@ const { DEV, PROD } = require('../const');
 
 const smp = new SpeedMeasurePlugin();
 
-module.exports = service => {
-  const {
-    options: { analyzer },
-  } = service;
+/**
+ * @typedef {Object} ConfigOptions
+ * @property {String} projectDir
+ * @property {Boolean} sourceMap
+ * @property {String} publicPath
+ * @property {String} distDir
+ * @property {String} mode
+ * @property {Boolean} analyzer
+ */
+/**
+ * @param {ConfigOptions} options
+ */
+module.exports = options => {
+  const { analyzer } = options;
 
   let config;
   switch (process.env.NODE_ENV) {
     case DEV:
-      config = require('./dev.config')(service);
+      config = require('./dev.config')(options);
       break;
     case PROD:
-      config = require('./prod.config')(service);
+      config = require('./prod.config')(options);
       break;
     default:
   }

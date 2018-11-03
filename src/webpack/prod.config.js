@@ -1,27 +1,55 @@
 const webpackMerge = require('webpack-merge');
 const webpack = require('webpack');
+
+// plugins
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-// const path = require('path');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const LodashPlugin = require('lodash-webpack-plugin');
+
+// config
 const getBaseConfig = require('./common.config');
 const { PROD } = require('../const');
 
-const { env } = process;
-// Configure Clean webpack
-const configureCleanWebpack = () => {
+const configureCleanWebpack = ({ distDir: root }) => {
   return {
-    root: env.IMT_ENV_DIST_DIR,
+    root,
     verbose: true,
     dry: false,
   };
 };
 
-module.exports = service => {
-  const config = webpackMerge(getBaseConfig(service), {
+const configureTerser = ({ sourceMap }) => {
+  return {
+    cache: true,
+    parallel: true,
+    sourceMap,
+  };
+};
+
+const configureOptimizeCSS = ({ sourceMap }) => {
+  return {
+    cssProcessorOptions: {
+      map: sourceMap
+        ? {
+          inline: false,
+          annotation: true,
+        }
+        : false,
+      safe: true,
+      discardComments: true,
+    },
+  };
+};
+module.exports = options => {
+  const { sourceMap, publicPath, distDir } = options;
+  const config = webpackMerge(getBaseConfig(options), {
     mode: PROD,
+    devtool: sourceMap ? 'source-map' : 'none',
     output: {
-      publicPath: env.IMT_ENV_PUBLIC_PATH,
-      path: env.IMT_ENV_DIST_DIR,
+      publicPath,
+      path: distDir,
       filename: '[name]_[chunkhash].js',
     },
     optimization: {
@@ -35,9 +63,14 @@ module.exports = service => {
       // Keep the runtime chunk seperated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       runtimeChunk: true,
+      minimizer: [
+        new TerserPlugin(configureTerser(options)),
+        new OptimizeCSSAssetsPlugin(configureOptimizeCSS(options)),
+      ],
     },
     plugins: [
-      new CleanWebpackPlugin('*', configureCleanWebpack()),
+      new LodashPlugin(),
+      new CleanWebpackPlugin('*', configureCleanWebpack(options)),
       new MiniCssExtractPlugin({
         filename: '[name]_[contenthash].css',
       }),

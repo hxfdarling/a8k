@@ -8,14 +8,19 @@ const { DEV } = require('../const');
 const { resolve } = require;
 const { env } = process;
 
-function getCssLoader() {
+function configureCssLoader({ sourceMap, publicPath }) {
   const loaders = [
-    resolve('css-loader'),
+    {
+      loader: resolve('css-loader'),
+      options: {
+        importLoaders: 2,
+        sourceMap,
+      },
+    },
     {
       loader: resolve('postcss-loader'),
       options: {
-        // Necessary for external CSS imports to work
-        ident: 'postcss',
+        sourceMap,
         plugins: () => [
           require('postcss-import'),
           require('postcss-extend'),
@@ -41,24 +46,30 @@ function getCssLoader() {
   } else {
     loaders.unshift({
       loader: MiniCssExtractPlugin.loader,
-      options: { publicPath: env.IMT_ENV_PUBLIC_PATH },
+      options: {
+        publicPath,
+        sourceMap,
+      },
     });
   }
-  return loaders;
+  return {
+    test: /\.(scss|css)$/,
+    use: loaders,
+  };
 }
 // Configure Manifest
-const configureManifest = fileName => {
+const configureManifest = (fileName, { distDir }) => {
   return {
     fileName,
-    basePath: env.IMT_ENV_DIST_DIR,
+    basePath: distDir,
     map: file => {
       file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
       return file;
     },
   };
 };
-const configureEntries = () => {
-  const mode = env.IMT_ENV_MODE;
+const configureEntries = options => {
+  const { mode } = options;
 
   const entry = {};
   if (mode === 'single') {
@@ -66,13 +77,71 @@ const configureEntries = () => {
   }
   return entry;
 };
+const configureBabelLoader = options => {
+  const { projectDir } = options;
 
-module.exports = () => {
-  const projectDir = env.IMT_ENV_PROJECT_DIR;
-  const mode = env.IMT_ENV_MODE;
+  return {
+    test: /\.jsx?$/,
+    // cacheDirectory 缓存babel编译结果加快重新编译速度
+    use: [
+      {
+        loader: resolve('babel-loader'),
+        options: {
+          babelrc: false,
+          cacheDirectory: true,
+          presets: [resolve('@babel/preset-env'), resolve('@babel/preset-react')],
+          plugins: [
+            // 优化lodash导入
+            'babel-plugin-lodash',
+
+            '@babel/plugin-transform-runtime',
+
+            // Stage 0
+            '@babel/plugin-proposal-function-bind',
+
+            // Stage 1
+            '@babel/plugin-proposal-export-default-from',
+            '@babel/plugin-proposal-logical-assignment-operators',
+            ['@babel/plugin-proposal-optional-chaining', { loose: false }],
+            ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }],
+            ['@babel/plugin-proposal-nullish-coalescing-operator', { loose: false }],
+            '@babel/plugin-proposal-do-expressions',
+
+            // Stage 2
+            ['@babel/plugin-proposal-decorators', { legacy: true }],
+            '@babel/plugin-proposal-function-sent',
+            '@babel/plugin-proposal-export-namespace-from',
+            '@babel/plugin-proposal-numeric-separator',
+            '@babel/plugin-proposal-throw-expressions',
+
+            // Stage 3
+            '@babel/plugin-syntax-dynamic-import',
+            '@babel/plugin-syntax-import-meta',
+            ['@babel/plugin-proposal-class-properties', { loose: false }],
+            '@babel/plugin-proposal-json-strings',
+
+            // 'react-hot-loader/babel',
+          ].map(item => {
+            if (Array.isArray(item)) {
+              item[0] = resolve(item[0]);
+            } else {
+              item = resolve(item);
+            }
+            return item;
+          }),
+        },
+      },
+    ],
+    // 只命中 src 目录里的jsx?文件，加快webpack搜索速度
+    include: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules/@tencent')],
+  };
+};
+
+module.exports = options => {
+  const { projectDir, mode } = options;
 
   const config = {
-    entry: configureEntries(),
+    entry: configureEntries(options),
     // 出错不继续编译
     bail: true,
     resolve: {
@@ -88,67 +157,8 @@ module.exports = () => {
       // 这些库都是不依赖其它库的库 不需要解析他们可以加快编译速度
       noParse: /node_modules\/(moment|chart\.js)/,
       rules: [
-        {
-          test: /\.jsx?$/,
-          // cacheDirectory 缓存babel编译结果加快重新编译速度
-          use: [
-            {
-              loader: resolve('babel-loader'),
-              options: {
-                babelrc: false,
-                cacheDirectory: true,
-                presets: [resolve('@babel/preset-env'), resolve('@babel/preset-react')],
-                plugins: [
-                  '@babel/plugin-transform-runtime',
-
-                  // Stage 0
-                  '@babel/plugin-proposal-function-bind',
-
-                  // Stage 1
-                  '@babel/plugin-proposal-export-default-from',
-                  '@babel/plugin-proposal-logical-assignment-operators',
-                  ['@babel/plugin-proposal-optional-chaining', { loose: false }],
-                  ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }],
-                  ['@babel/plugin-proposal-nullish-coalescing-operator', { loose: false }],
-                  '@babel/plugin-proposal-do-expressions',
-
-                  // Stage 2
-                  ['@babel/plugin-proposal-decorators', { legacy: true }],
-                  '@babel/plugin-proposal-function-sent',
-                  '@babel/plugin-proposal-export-namespace-from',
-                  '@babel/plugin-proposal-numeric-separator',
-                  '@babel/plugin-proposal-throw-expressions',
-
-                  // Stage 3
-                  '@babel/plugin-syntax-dynamic-import',
-                  '@babel/plugin-syntax-import-meta',
-                  ['@babel/plugin-proposal-class-properties', { loose: false }],
-                  '@babel/plugin-proposal-json-strings',
-
-                  // 'react-hot-loader/babel',
-                ].map(item => {
-                  if (Array.isArray(item)) {
-                    item[0] = resolve(item[0]);
-                  } else {
-                    item = resolve(item);
-                  }
-                  return item;
-                }),
-              },
-            },
-          ],
-          // 只命中 src 目录里的jsx?文件，加快webpack搜索速度
-          include: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules/@tencent')],
-        },
-        {
-          test: /\.scss$/,
-          use: getCssLoader(),
-          include: [path.resolve(projectDir, 'src')],
-        },
-        {
-          test: /\.css$/,
-          use: getCssLoader(),
-        },
+        configureBabelLoader(options),
+        configureCssLoader(options),
         {
           // svg 直接inline
           test: /\.svg$/,
@@ -181,7 +191,7 @@ module.exports = () => {
         },
       ],
     },
-    plugins: [new ManifestPlugin(configureManifest('manifest-legacy.json'))],
+    plugins: [new ManifestPlugin(configureManifest('manifest-legacy.json', options))],
   };
 
   if (mode === 'single') {

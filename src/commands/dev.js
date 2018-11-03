@@ -55,5 +55,6 @@ class DevServer extends Service {
 }
 
 module.exports = (dir, options) => {
+  process.env.IMT_SOURCE_MAP = true;
   return new DevServer(dir, options).start();
 };
