@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
-
 const { DEV } = require('../const');
 
 const { resolve } = require;
@@ -143,7 +142,23 @@ const configureBabelLoader = options => {
     include: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules/@tencent')],
   };
 };
-
+const configureHtmlLoader = () => {
+  return {
+    test: /\.(html|njk|nunjucks)$/,
+    use: [
+      resolve('html-loader'),
+      {
+        loader: resolve('nunjucks-html-loader'),
+        options: {
+          // Other super important. This will be the base
+          // directory in which webpack is going to find
+          // the layout and any other file index.njk is calling.
+          searchPaths: ['./src'],
+        },
+      },
+    ],
+  };
+};
 module.exports = options => {
   const { projectDir, mode } = options;
 
@@ -169,6 +184,7 @@ module.exports = options => {
       rules: [
         configureBabelLoader(options),
         configureCssLoader(options),
+        configureHtmlLoader(options),
         {
           // svg 直接inline
           test: /\.svg$/,
@@ -208,7 +224,7 @@ module.exports = options => {
     config.plugins.push(
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        template: path.resolve(projectDir, './src/index.html'),
+        template: './src/index.html',
       }),
       // 支持js资源完整性校验
       // https://www.w3.org/TR/SRI/
