@@ -148,7 +148,8 @@ const configureHtmlLoader = () => {
     test: /\.(html|njk|nunjucks)$/,
     use: [
       resolve('html-loader'),
-      resolve('../plugins/inline-html-loader'),
+      // 自动处理html中的相对路径引用 css/js文件
+      resolve('html-inline-assets-loader'),
       {
         loader: resolve('nunjucks-html-loader'),
         options: {
