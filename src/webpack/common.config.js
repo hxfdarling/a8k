@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
+
 const { DEV } = require('../const');
 
 const { resolve } = require;
@@ -147,6 +148,7 @@ const configureHtmlLoader = () => {
     test: /\.(html|njk|nunjucks)$/,
     use: [
       resolve('html-loader'),
+      resolve('../plugins/inline-html-loader'),
       {
         loader: resolve('nunjucks-html-loader'),
         options: {
