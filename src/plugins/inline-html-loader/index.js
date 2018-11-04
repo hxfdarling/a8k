@@ -2,20 +2,14 @@ const loaderUtils = require('loader-utils');
 const queryParse = require('query-parse');
 const fs = require('fs');
 const path = require('path');
+const { transform } = require('@babel/core');
 const attrParse = require('./lib/attributesParser');
 
-function getCode(file, tag) {
-  let code = '';
+function getCode(file) {
   return new Promise(resolve => {
     if (fs.existsSync(file)) {
       fs.readFile(file, (err, data) => {
-        if (tag.name === 'script') {
-          // TODO: babel 编译
-          code = `<script>${data.toString()}</script>`;
-        } else if (tag.name === 'link') {
-          code = `<style type="text/css" >${data.toString()}</style>`;
-        }
-        resolve(code);
+        resolve(data.toString());
       });
     } else {
       throw Error(`${file} not found`);
@@ -25,6 +19,14 @@ function getCode(file, tag) {
 module.exports = async function(content) {
   this.cacheable && this.cacheable();
   const callback = this.async();
+
+  const webpackConfig = this._compiler.parentCompilation.options;
+  const { publicPath } = webpackConfig.output;
+
+  const babelOptions = {
+    minified: process.env.NODE_ENV !== 'development',
+    presets: [require.resolve('@babel/preset-env')],
+  };
   const { resource } = this;
 
   const dir = path.dirname(resource);
@@ -47,11 +49,37 @@ module.exports = async function(content) {
       });
 
       let code = '<!--inline-html-loader-->';
+      const file = path.resolve(dir, temp[0]);
+      code = await getCode(file, tag);
+
       if (query._inline) {
-        const file = path.resolve(dir, temp[0]);
-        code = await getCode(file, tag);
+        if (tag.name === 'script') {
+          code = transform(code, babelOptions).code;
+          code = `<script>${code}</script>`;
+        } else if (tag.name === 'link') {
+          code = `<style type="text/css" >${code}</style>`;
+        }
       } else {
-        // TODO: 支持自动拷贝文件到dist目录
+        let sourceMap = '';
+        if (tag.name === 'script') {
+          const tr = transform(code, babelOptions);
+          code = tr.code;
+          sourceMap = tr.sourceMap;
+        }
+
+        const crypto = require('crypto');
+        const Hash = crypto.createHash('md5');
+        Hash.update(code);
+        const hash = Hash.digest('hex').substr(0, 6);
+        const newFileName = `${path.basename(file).split('.')[0]}_${hash}${path.extname(file)}`;
+
+        this.emitFile(newFileName, code, sourceMap);
+        const newUrl = path.join(publicPath, newFileName);
+        if (tag.name === 'script') {
+          code = `<script src=${newUrl}></script>`;
+        } else {
+          code = `<link ref="stylesheet" href="${newUrl}"/>`;
+        }
       }
       tag.code = code;
     })
