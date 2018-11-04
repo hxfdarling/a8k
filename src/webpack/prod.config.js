@@ -93,13 +93,15 @@ module.exports = options => {
       new class {
         apply(compiler) {
           compiler.hooks.make.tapAsync('A', (compilation, callback) => {
-            compilation.hooks.webappWebpackPluginBeforeEmit.tapAsync('B', (result, _callback) => {
-              const { html } = result;
-              const reg = /<link rel="apple-touch-icon" sizes="152x152" href="([^"]*)">/;
-              const url = html.match(reg)[1];
-              result.html = `<meta itemprop="image" content="${url}" />${result.html}`;
-              return _callback(null, result);
-            });
+            // 修复分析模式没有该hooks
+            compilation.hooks.webappWebpackPluginBeforeEmit
+              && compilation.hooks.webappWebpackPluginBeforeEmit.tapAsync('B', (result, _callback) => {
+                const { html } = result;
+                const reg = /<link rel="apple-touch-icon" sizes="152x152" href="([^"]*)">/;
+                const url = html.match(reg)[1];
+                result.html = `<meta itemprop="image" content="${url}" />${result.html}`;
+                return _callback(null, result);
+              });
             return callback();
           });
         }
