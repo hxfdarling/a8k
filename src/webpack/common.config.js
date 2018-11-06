@@ -14,7 +14,7 @@ const { DEV, PROD } = require('../const');
 const { resolve } = require;
 const { env } = process;
 
-function configureCssLoader({ sourceMap, publicPath }) {
+function configureCssLoader({ projectDir, sourceMap, publicPath }) {
   const loaders = [
     {
       loader: resolve('css-loader'),
@@ -28,15 +28,17 @@ function configureCssLoader({ sourceMap, publicPath }) {
       options: {
         sourceMap,
         plugins: () => [
-          require('postcss-import'),
-          require('postcss-extend'),
-          require('postcss-simple-vars'),
-          require('postcss-nested-ancestors'),
+          require('postcss-import')({
+            path: path.resolve(projectDir, 'src'),
+          }),
+          require('postcss-advanced-variables'),
+          // require('postcss-extend'),
+          // require('postcss-simple-vars'),
+          // require('postcss-nested-ancestors'),
           require('postcss-nested'),
           require('postcss-hexrgba'),
           require('autoprefixer'),
           require('postcss-flexbugs-fixes'),
-
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
@@ -46,6 +48,7 @@ function configureCssLoader({ sourceMap, publicPath }) {
         ],
       },
     },
+    resolve('sass-loader'),
   ];
   if (env.NODE_ENV === DEV) {
     loaders.unshift({
@@ -241,7 +244,6 @@ module.exports = options => {
     getPages(options).forEach(file => {
       const name = path.basename(file);
       file = `${pages}/${file}/index.html`;
-      console.log('TCL: file', file);
       config.plugins.push(
         new HtmlWebpackPlugin({
           filename: `${name}.html`,
