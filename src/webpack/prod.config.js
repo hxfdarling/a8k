@@ -52,6 +52,41 @@ const configOptimization = options => {
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
     splitChunks: {
       chunks: 'all',
+      minSize: 30000,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        react: {
+          test({ resource }) {
+            return /[\\/]node_modules[\\/](react)/.test(resource);
+          },
+          name: 'react',
+          priority: 20,
+          reuseExistingChunk: true,
+        },
+        antd: {
+          test: /[\\/]node_modules[\\/]antd/,
+          name: 'antd',
+          priority: 15,
+          reuseExistingChunk: true,
+        },
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          priority: 10,
+          reuseExistingChunk: true,
+        },
+        default: {
+          name: 'common',
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
     },
     // Keep the runtime chunk seperated to enable long term caching
     runtimeChunk: true,
