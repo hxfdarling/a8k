@@ -40,7 +40,7 @@
     "autoprefixer": "^9.3.1",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
-    "babel-preset-imt": "0.0.2",
+    "babel-preset-imt": "0.0.3",
     "chalk": "^2.4.1",
     "clean-css": "^4.2.1",
     "clean-webpack-plugin": "^0.1.19",
