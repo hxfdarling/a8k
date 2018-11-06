@@ -40,21 +40,29 @@ class Service extends Imt {
       console.log(chalk.error('项目目录找不到`.imrc.js`配置文件，无法继续构建'));
       process.exit(1);
     }
+    this._init();
     this.getWebpackConfig();
   }
+
+  _init() {}
 
   getWebpackConfig() {
     const { analyzer, sourceMap } = this.options;
     const configOptions = {
+      ...this.options,
       projectDir: this.projectDir,
       sourceMap: sourceMap || process.env.NODE_ENV === DEV,
       publicPath: this.imtrc.publicPath,
       distDir: this.distDir,
       mode: this.imtrc.mode,
       analyzer,
-      mini: this.options.mini,
       webappConfig: this.imtrc.webappConfig,
       cacheDir: this.cacheDir,
+      devServer: {
+        host: this.host,
+        port: this.port,
+        https: this.https,
+      },
     };
     this.webpackConfig = getConfig(configOptions);
     const { webpackOverride } = this.imtrc;

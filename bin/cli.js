@@ -30,6 +30,7 @@ program
   .option('-d, --dist <dist>', '配置构建文件生成目标目录', 'dist')
   .option('--no-mini', '禁用压缩代码')
   .option('-a, --analyzer', '开启构建分析', false)
+  .option('-m, --use-smp', '分析构建耗时', false)
   .option('-s, --source-map', '是否生成source-map,默认false', false)
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
   .action((dir, options) => {

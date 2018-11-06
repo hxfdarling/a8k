@@ -4,6 +4,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
+const WebpackBar = require('webpackbar');
+
+const ReportStatusPlugin = require('./plugins/report-status-plugin');
 
 const { DEV, PROD } = require('../const');
 
@@ -186,7 +189,17 @@ module.exports = options => {
         },
       ],
     },
-    plugins: [new ManifestPlugin(configureManifest('manifest-legacy.json', options))],
+    plugins: [
+      new WebpackBar({
+        profile: options.analyzer,
+      }),
+      new ReportStatusPlugin({
+        mode: env.NODE_ENV,
+        showFileStats: true,
+        devServer: options.devServer,
+      }),
+      new ManifestPlugin(configureManifest('manifest-legacy.json', options)),
+    ],
   };
 
   if (mode === 'single') {

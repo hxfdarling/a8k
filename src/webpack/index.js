@@ -17,7 +17,7 @@ const smp = new SpeedMeasurePlugin();
  * @param {ConfigOptions} options
  */
 module.exports = options => {
-  const { analyzer } = options;
+  const { analyzer, useSmp } = options;
 
   let config;
   switch (process.env.NODE_ENV) {
@@ -32,6 +32,8 @@ module.exports = options => {
 
   if (analyzer) {
     config.plugins.push(new BundleAnalyzerPlugin());
+  }
+  if (useSmp) {
     return smp.wrap(config);
   }
   return config;

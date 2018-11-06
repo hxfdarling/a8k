@@ -2,14 +2,14 @@ const fs = require('fs-extra');
 const webpack = require('webpack');
 const Service = require('../service');
 
-const { logWithSpinner, stopSpinner } = require('../utils/spinner');
+// const { logWithSpinner, stopSpinner } = require('../utils/spinner');
 const { done } = require('../utils/logger');
 const { PROD } = require('../const');
 
 process.env.NODE_ENV = PROD;
 class Build extends Service {
   async build() {
-    logWithSpinner('building...');
+    // logWithSpinner('building...');
 
     await new Promise(resolve => {
       this.hooks.beforeBuild.callAsync(this, resolve);
@@ -17,16 +17,10 @@ class Build extends Service {
     fs.emptyDirSync(this.distDir);
     await new Promise(resolve => {
       webpack(this.webpackConfig, (err, stats) => {
-        stopSpinner(false);
+        // stopSpinner(false);
         if (err) {
-          console.error(err);
           process.exit(1);
         }
-        console.log(
-          stats.toString({
-            colors: true,
-          })
-        );
         if (stats.hasErrors()) {
           process.exit(1);
         }
