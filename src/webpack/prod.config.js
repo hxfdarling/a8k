@@ -50,10 +50,9 @@ const configOptimization = options => {
   const config = {
     // Automatically split vendor and commons
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
-    // splitChunks: {
-    //   chunks: 'all',
-    //   name: false,
-    // },
+    splitChunks: {
+      chunks: 'all',
+    },
     // Keep the runtime chunk seperated to enable long term caching
     runtimeChunk: true,
     minimizer: [new TerserPlugin(configureTerser(options)), new OptimizeCSSAssetsPlugin(configureOptimizeCSS(options))],

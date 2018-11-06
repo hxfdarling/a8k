@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 
-const { DEV } = require('../const');
+const { DEV, PROD } = require('../const');
 
 const { resolve } = require;
 const { env } = process;
@@ -104,11 +104,16 @@ const configureBabelLoader = options => {
     include: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules/@tencent')],
   };
 };
-const configureHtmlLoader = () => {
+const configureHtmlLoader = options => {
   return {
     test: /\.(html|njk|nunjucks)$/,
     use: [
-      resolve('html-loader'),
+      {
+        loader: resolve('html-loader'),
+        options: {
+          minimize: options.mini && env.NODE_ENV === PROD,
+        },
+      },
       // 自动处理html中的相对路径引用 css/js文件
       resolve('html-inline-assets-loader'),
       {
@@ -194,7 +199,7 @@ module.exports = options => {
       // https://www.w3.org/TR/SRI/
       new SriPlugin({
         hashFuncNames: ['sha256', 'sha384'],
-        enabled: process.env.NODE_ENV === 'production',
+        enabled: env.NODE_ENV === PROD,
       })
     );
   }
