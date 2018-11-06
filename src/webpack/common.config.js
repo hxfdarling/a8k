@@ -192,6 +192,8 @@ module.exports = options => {
   if (mode === 'single') {
     config.plugins.push(
       new HtmlWebpackPlugin({
+        // https://github.com/jantimon/html-webpack-plugin/issues/870
+        // html-webpack-plugin@next or chunksSortMode: 'none',
         filename: 'index.html',
         template: './src/index.html',
       }),
