@@ -57,6 +57,7 @@ class Service extends Imt {
       mode: this.imtrc.mode,
       analyzer,
       webappConfig: this.imtrc.webappConfig,
+      ignorePages: this.imtrc.ignorePages,
       cacheDir: this.cacheDir,
       devServer: {
         host: this.host,

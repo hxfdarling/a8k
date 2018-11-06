@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const WebpackBar = require('webpackbar');
+const fs = require('fs-extra');
 
 const ReportStatusPlugin = require('./plugins/report-status-plugin');
 
@@ -78,12 +79,36 @@ const configureManifest = (fileName, { distDir }) => {
     },
   };
 };
+const pages = './src/pages';
+const getPages = options => {
+  const { projectDir, ignorePages = [] } = options;
+  const pagesDir = path.join(projectDir, pages);
+  return fs.readdirSync(pagesDir).filter(item => {
+    if (ignorePages.includes(item)) {
+      return false;
+    }
+    let filepath = path.join(pagesDir, item, 'index.js');
+
+    if (!fs.existsSync(filepath)) {
+      filepath = `${filepath}x`; // jsx
+    }
+    if (!fs.existsSync(filepath)) {
+      return false;
+    }
+    return true;
+  });
+};
 const configureEntries = options => {
-  const { mode } = options;
+  const { mode = [] } = options;
 
   const entry = {};
   if (mode === 'single') {
     entry.index = './src/index';
+  } else {
+    getPages(options).forEach(file => {
+      const name = path.basename(file);
+      entry[name] = `${pages}/${file}/index`;
+    });
   }
   return entry;
 };
@@ -209,14 +234,31 @@ module.exports = options => {
         // html-webpack-plugin@next or chunksSortMode: 'none',
         filename: 'index.html',
         template: './src/index.html',
-      }),
-      // 支持js资源完整性校验
-      // https://www.w3.org/TR/SRI/
-      new SriPlugin({
-        hashFuncNames: ['sha256', 'sha384'],
-        enabled: env.NODE_ENV === PROD,
       })
     );
   }
+  if (mode === 'multi') {
+    getPages(options).forEach(file => {
+      const name = path.basename(file);
+      file = `${pages}/${file}/index.html`;
+      console.log('TCL: file', file);
+      config.plugins.push(
+        new HtmlWebpackPlugin({
+          filename: `${name}.html`,
+          template: file,
+        })
+      );
+    });
+  }
+
+  config.plugins.push(
+    // 支持js资源完整性校验
+    // https://www.w3.org/TR/SRI/
+    new SriPlugin({
+      hashFuncNames: ['sha256', 'sha384'],
+      enabled: env.NODE_ENV === PROD,
+    })
+  );
+
   return config;
 };
