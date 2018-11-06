@@ -19,6 +19,7 @@ class Build extends Service {
       webpack(this.webpackConfig, (err, stats) => {
         // stopSpinner(false);
         if (err) {
+          console.log(err);
           process.exit(1);
         }
         if (stats.hasErrors()) {

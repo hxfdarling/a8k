@@ -42,6 +42,7 @@ class DevServer extends Service {
       // Launch WebpackDevServer.
       devServer.listen(this.port, this.host, err => {
         if (err) {
+          console.error(err);
           process.exit(1);
         }
         resolve();
