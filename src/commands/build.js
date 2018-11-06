@@ -18,15 +18,15 @@ class Build extends Service {
     await new Promise(resolve => {
       webpack(this.webpackConfig, (err, stats) => {
         stopSpinner(false);
+        if (err) {
+          console.error(err);
+          process.exit(1);
+        }
         console.log(
           stats.toString({
             colors: true,
           })
         );
-
-        if (err) {
-          process.exit(1);
-        }
         if (stats.hasErrors()) {
           process.exit(1);
         }
