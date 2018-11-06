@@ -62,7 +62,7 @@ const configOptimization = options => {
       cacheGroups: {
         react: {
           test({ resource }) {
-            return /[\\/]node_modules[\\/](react)/.test(resource);
+            return /[\\/]node_modules[\\/](react|redux)/.test(resource);
           },
           name: 'react',
           priority: 20,
