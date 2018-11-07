@@ -5,13 +5,12 @@ const getBaseConfig = require('./common.config');
 const { DEV } = require('../const');
 
 module.exports = options => {
-  const { publicPath, distDir } = options;
+  const { distDir } = options;
 
   const config = webpackMerge(getBaseConfig(options), {
     mode: DEV,
     // entry: { 'react-hot-loader/patch': require.resolve('react-hot-loader/patch') },
     output: {
-      publicPath,
       path: distDir,
       filename: '[name].js',
     },
