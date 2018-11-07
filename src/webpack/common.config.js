@@ -147,7 +147,12 @@ const configureHtmlLoader = ({ mini, projectDir }) => {
         },
       },
       // 自动处理html中的相对路径引用 css/js文件
-      resolve('html-inline-assets-loader'),
+      {
+        loader: resolve('html-inline-assets-loader'),
+        options: {
+          minimize: mini && env.NODE_ENV === PROD,
+        },
+      },
       {
         loader: resolve('imt-nunjucks-loader'),
         options: {
