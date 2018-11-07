@@ -16,7 +16,6 @@ const { env } = process;
 
 const PAGES_DIR = './src/pages';
 
-
 function configureCssLoader({ projectDir, sourceMap, publicPath }) {
   const loaders = [
     {
@@ -243,13 +242,17 @@ module.exports = options => {
     );
   }
   if (mode === 'multi') {
-    getPages(options).forEach(file => {
+    const files = getPages(options);
+    // const names = files.map(i => path.basename(i));
+    files.forEach(file => {
       const name = path.basename(file);
       file = `${PAGES_DIR}/${file}/index.html`;
+      const chunks = ['react', 'antd', 'vender', 'common', `runtime~${name}`, name];
       config.plugins.push(
         new HtmlWebpackPlugin({
           filename: `${name}.html`,
           template: file,
+          chunks,
         })
       );
     });
