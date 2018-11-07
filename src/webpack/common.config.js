@@ -14,6 +14,9 @@ const { DEV, PROD } = require('../const');
 const { resolve } = require;
 const { env } = process;
 
+const PAGES_DIR = './src/pages';
+
+
 function configureCssLoader({ projectDir, sourceMap, publicPath }) {
   const loaders = [
     {
@@ -82,10 +85,9 @@ const configureManifest = (fileName, { distDir }) => {
     },
   };
 };
-const pages = './src/pages';
 const getPages = options => {
   const { projectDir, ignorePages = [] } = options;
-  const pagesDir = path.join(projectDir, pages);
+  const pagesDir = path.join(projectDir, PAGES_DIR);
   return fs.readdirSync(pagesDir).filter(item => {
     if (ignorePages.includes(item)) {
       return false;
@@ -110,7 +112,7 @@ const configureEntries = options => {
   } else {
     getPages(options).forEach(file => {
       const name = path.basename(file);
-      entry[name] = `${pages}/${file}/index`;
+      entry[name] = `${PAGES_DIR}/${file}/index`;
     });
   }
   return entry;
@@ -120,12 +122,12 @@ const configureBabelLoader = options => {
 
   return {
     test: /\.jsx?$/,
-    // cacheDirectory 缓存babel编译结果加快重新编译速度
     use: [
       {
         loader: resolve('babel-loader'),
         options: {
           babelrc: false,
+          // cacheDirectory 缓存babel编译结果加快重新编译速度
           cacheDirectory: path.resolve(options.cacheDir, 'babel-loader'),
           presets: [require('babel-preset-imt')],
         },
@@ -135,25 +137,25 @@ const configureBabelLoader = options => {
     include: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules/@tencent')],
   };
 };
-const configureHtmlLoader = options => {
+const configureHtmlLoader = ({ mini, projectDir }) => {
   return {
     test: /\.(html|njk|nunjucks)$/,
     use: [
       {
         loader: resolve('html-loader'),
         options: {
-          minimize: options.mini && env.NODE_ENV === PROD,
+          minimize: mini && env.NODE_ENV === PROD,
         },
       },
       // 自动处理html中的相对路径引用 css/js文件
       resolve('html-inline-assets-loader'),
       {
-        loader: resolve('nunjucks-html-loader'),
+        loader: resolve('imt-nunjucks-loader'),
         options: {
           // Other super important. This will be the base
           // directory in which webpack is going to find
           // the layout and any other file index.njk is calling.
-          searchPaths: ['./src'],
+          searchPaths: ['./src', './src/pages', './src/assets'].map(i => path.join(projectDir, i)),
         },
       },
     ],
@@ -243,7 +245,7 @@ module.exports = options => {
   if (mode === 'multi') {
     getPages(options).forEach(file => {
       const name = path.basename(file);
-      file = `${pages}/${file}/index.html`;
+      file = `${PAGES_DIR}/${file}/index.html`;
       config.plugins.push(
         new HtmlWebpackPlugin({
           filename: `${name}.html`,
