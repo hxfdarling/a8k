@@ -9,10 +9,10 @@ const DEFAULT_PORT = 8080;
 process.env.NODE_ENV = DEV;
 class DevServer extends Service {
   _init() {
-    const { options } = this;
-    this.host = options.host || DEFAULT_HOST;
-    this.port = options.port || DEFAULT_PORT;
-    this.https = options.https || false;
+    const { options, imtrc: { devServer = {} } } = this;
+    this.host = options.host || devServer.host || DEFAULT_HOST;
+    this.port = options.port || devServer.port || DEFAULT_PORT;
+    this.https = options.https || devServer.https || false;
   }
 
   getServerConfig() {

@@ -38,6 +38,7 @@ class Service extends Imt {
       this.imtrc = { publicPath: '', mode: 'single', ...require(path.join(dir, '.imtrc.js')) };
     } catch (e) {
       console.log(chalk.error('项目目录找不到`.imrc.js`配置文件，无法继续构建'));
+      console.error(e);
       process.exit(1);
     }
     this._init();

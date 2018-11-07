@@ -18,7 +18,7 @@ program
 program
   .command('dev [dir]')
   .description('启动开发者模式')
-  .option('-p, --port <port>', '配置开发者服务器监听端口', 8899)
+  .option('-p, --port <port>', '配置开发者服务器监听端口')
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
   .action((dir, options) => {
     require('../src/commands/dev')(dir, options);
