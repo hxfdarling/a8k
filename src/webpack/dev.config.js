@@ -1,5 +1,5 @@
-// const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
+const webpack = require('webpack');
 
 const getBaseConfig = require('./common.config');
 const { DEV } = require('../const');
@@ -14,8 +14,10 @@ module.exports = options => {
       path: distDir,
       filename: '[name].js',
     },
-    // plugins: [new webpack.HotModuleReplacementPlugin()],
     optimization: {},
+    plugins: [
+      new webpack.HotModuleReplacementPlugin(),
+    ],
   });
 
   return config;

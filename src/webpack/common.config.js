@@ -131,6 +131,7 @@ const configureBabelLoader = options => {
           // cacheDirectory 缓存babel编译结果加快重新编译速度
           cacheDirectory: path.resolve(options.cacheDir, 'babel-loader'),
           presets: [require('babel-preset-imt')],
+          // plugins: [env.NODE_ENV === DEV && resolve('react-hot-loader/babel')].filter(Boolean),
         },
       },
     ],
