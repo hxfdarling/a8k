@@ -1,10 +1,10 @@
 const chalk = require('chalk');
 const path = require('path');
 
-const getConfig = require('../webpack');
+const getConfig = require('./webpack');
 
-const Imt = require('..');
-const { DEV } = require('../const');
+const Imt = require('.');
+const { DEV } = require('./const');
 
 const cwd = process.cwd();
 
@@ -60,11 +60,7 @@ class Service extends Imt {
       webappConfig: this.imtrc.webappConfig,
       ignorePages: this.imtrc.ignorePages,
       cacheDir: this.cacheDir,
-      devServer: {
-        host: this.host,
-        port: this.port,
-        https: this.https,
-      },
+      devServer: this.devServer,
     };
     this.webpackConfig = getConfig(configOptions);
     const { webpackOverride } = this.imtrc;

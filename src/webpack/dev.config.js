@@ -9,15 +9,12 @@ module.exports = options => {
 
   const config = webpackMerge(getBaseConfig(options), {
     mode: DEV,
-    // entry: { 'react-hot-loader/patch': require.resolve('react-hot-loader/patch') },
     output: {
       path: distDir,
       filename: '[name].js',
     },
     optimization: {},
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-    ],
+    plugins: [new webpack.HotModuleReplacementPlugin()],
   });
 
   return config;

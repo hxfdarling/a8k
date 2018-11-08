@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const webpack = require('webpack');
-const Service = require('../service');
+const Service = require('../Service');
 
 // const { logWithSpinner, stopSpinner } = require('../utils/spinner');
 const { done } = require('../utils/logger');

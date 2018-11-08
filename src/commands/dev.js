@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk').default;
-const Service = require('../service');
+const Service = require('../Service');
 
 const { DEV } = require('../const');
 
@@ -30,29 +30,29 @@ const prependEntry = entry => {
 
 class DevServer extends Service {
   _init() {
+    this.devServer = this.getServerConfig();
+  }
+
+  getServerConfig() {
     const {
       options,
       imtrc: { devServer = {} },
     } = this;
-    this.host = options.host || devServer.host || DEFAULT_HOST;
-    this.port = options.port || devServer.port || DEFAULT_PORT;
-    this.https = options.https || devServer.https || false;
-  }
-
-  getServerConfig() {
+    const host = options.host || DEFAULT_HOST;
+    const port = options.port || DEFAULT_PORT;
+    const https = options.https || false;
     return {
       // Enable gzip compression of generated files.
       compress: true,
       hot: true,
       quiet: true,
-      https: this.https,
-      // clientLogLevel: 'none',
+      host,
+      port,
+      https,
       historyApiFallback: {
         disableDotRule: true,
       },
-      // before(app, server) {
-      //   console.log('-----');
-      // },
+      ...devServer,
     };
   }
 
@@ -60,12 +60,11 @@ class DevServer extends Service {
     await new Promise(resolve => {
       this.hooks.beforeDev.callAsync(this, resolve);
     });
-
     await new Promise(resolve => {
-      this.webpackConfig.entry = prependEntry(this.webpackConfig.entry);
       try {
+        this.webpackConfig.entry = prependEntry(this.webpackConfig.entry);
         const compiler = webpack(this.webpackConfig);
-        const devServer = new WebpackDevServer(compiler, this.getServerConfig());
+        const devServer = new WebpackDevServer(compiler, this.devServer);
         // Launch WebpackDevServer.
         devServer.listen(this.port, this.host, err => {
           if (err) {
@@ -92,7 +91,6 @@ class DevServer extends Service {
 
     await new Promise(resolve => {
       this.hooks.afterDev.callAsync(this, async () => {
-        // console.log(chalk.green(`http://${this.host}:${this.port}`));
         resolve();
       });
     });
