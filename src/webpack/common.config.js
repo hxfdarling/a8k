@@ -180,7 +180,7 @@ module.exports = options => {
     bail: true,
     resolve: {
       // 加快搜索速度
-      modules: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules')],
+      modules: ['node_modules', path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules')],
       // es tree-shaking
       mainFields: ['jsnext:main', 'browser', 'main'],
       // 加快编译速度
