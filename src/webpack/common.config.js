@@ -56,6 +56,8 @@ function configureCssLoader({ projectDir, sourceMap, publicPath }) {
     loaders.unshift({
       loader: resolve('style-loader'),
       options: {
+        // https://github.com/webpack-contrib/style-loader/issues/107
+        singleton: true,
         sourceMap,
       },
     });
