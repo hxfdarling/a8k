@@ -38,17 +38,15 @@ class DevServer extends Service {
       options,
       imtrc: { devServer = {} },
     } = this;
-    const host = options.host || DEFAULT_HOST;
-    const port = options.port || DEFAULT_PORT;
-    const https = options.https || false;
+
     return {
       // Enable gzip compression of generated files.
       compress: true,
       hot: true,
       quiet: true,
-      host,
-      port,
-      https,
+      host: options.host || DEFAULT_HOST,
+      port: options.port || DEFAULT_PORT,
+      https: options.https || false,
       historyApiFallback: {
         disableDotRule: true,
       },
