@@ -48,6 +48,8 @@
     "debug": "^4.1.0",
     "dotenv": "^6.1.0",
     "download-git-repo": "^1.1.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.1.1",
     "events": "^3.0.0",
     "fastparse": "^1.1.2",
     "file-loader": "^2.0.0",
