@@ -30,7 +30,7 @@ const prependEntry = entry => {
 
 class DevServer extends Service {
   _init() {
-    this.devServer = this.getServerConfig();
+    this.options.devServer = this.getServerConfig();
   }
 
   getServerConfig() {

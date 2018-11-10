@@ -9,12 +9,10 @@ const { PROD } = require('../const');
 process.env.NODE_ENV = PROD;
 class Build extends Service {
   async build() {
-    // logWithSpinner('building...');
-
     await new Promise(resolve => {
       this.hooks.beforeBuild.callAsync(this, resolve);
     });
-    fs.emptyDirSync(this.distDir);
+    fs.emptyDirSync(this.options.distDir);
     await new Promise(resolve => {
       webpack(this.webpackConfig, (err, stats) => {
         // stopSpinner(false);
@@ -39,5 +37,5 @@ class Build extends Service {
   }
 }
 module.exports = (dir, options) => {
-  return new Build(dir, options).build();
+  new Build(dir, options).build();
 };

@@ -25,13 +25,10 @@ class Service extends Imt {
       dir = path.resolve(cwd, dir);
     }
 
-    this.cacheDir = path.resolve(options.cacheDir);
-
-    this.projectDir = dir;
+    this.options.cacheDir = path.resolve(options.cacheDir);
+    this.options.projectDir = dir;
     // 开发者模式 dist 目录默认 dev，生产模式默认 dist（可配置)
-    this.distDir = path.resolve(dir, options.dist || 'dev');
-
-    this.pkg = require(path.join(dir, 'package.json'));
+    this.options.distDir = path.resolve(dir, options.dist || 'dev');
 
     try {
       /** @type ImtConfig */
@@ -41,6 +38,7 @@ class Service extends Imt {
       console.error(e);
       process.exit(1);
     }
+    Object.assign(this.options, this.imtrc);
     this._init();
     this.getWebpackConfig();
   }
@@ -48,24 +46,19 @@ class Service extends Imt {
   _init() {}
 
   getWebpackConfig() {
-    const { analyzer, sourceMap } = this.options;
+    const { sourceMap } = this.options;
     const configOptions = {
       ...this.options,
-      projectDir: this.projectDir,
+      // 开发模式需要sourceMap
       sourceMap: sourceMap || process.env.NODE_ENV === DEV,
-      publicPath: this.imtrc.publicPath,
-      distDir: this.distDir,
-      mode: this.imtrc.mode,
-      analyzer,
-      webappConfig: this.imtrc.webappConfig,
-      ignorePages: this.imtrc.ignorePages,
-      cacheDir: this.cacheDir,
-      devServer: this.devServer,
     };
     this.webpackConfig = getConfig(configOptions);
     const { webpackOverride } = this.imtrc;
     if (webpackOverride) {
-      webpackOverride(this.webpackConfig, this);
+      const temp = webpackOverride(this.webpackConfig, this);
+      if (temp !== undefined) {
+        this.webpackConfig = temp;
+      }
     }
   }
 }
