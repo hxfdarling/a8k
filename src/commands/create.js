@@ -1,10 +1,10 @@
 const download = require('download-git-repo');
 const fs = require('fs-extra');
-const chalk = require('chalk');
 const path = require('path');
 const inquirer = require('inquirer');
 const ora = require('ora');
 const shell = require('shelljs');
+const util = require('util');
 const { spawnSync } = require('child_process');
 
 const cwd = process.cwd();
@@ -37,12 +37,11 @@ class ImtCreate extends Imt {
     return new Promise(resolve => {
       download(template, this.templateDir, {}, error => {
         if (error) {
-          console.log(chalk.red(`下载模板失败:${template},请确认网络是否正常`));
+          spinner.fail(`下载模板失败:${template},请确认网络是否正常`);
           console.error(error);
           process.exit(1);
         } else {
-          spinner.stop();
-          console.log(chalk.green('模板下载成功'));
+          spinner.succeed('模板下载成功');
           resolve();
         }
       });
@@ -90,13 +89,19 @@ class ImtCreate extends Imt {
       await this.confirmDir();
       await this.getTemplate();
       await this.downloadTemplate();
-      console.log(chalk.yellow('初始化模板'));
+
+      const spinner = ora('初始化模板').start();
+
       shell.cd(templateDir);
       let npmCmd = 'npm';
+
       if (!shell.exec('tnpm -v', { silent: true }).stderr) {
         npmCmd = 'tnpm';
       }
-      shell.exec(`${npmCmd} i`, { silent: true });
+
+      await util.promisify(shell.exec)(`${npmCmd} i`, { silent: true });
+
+      spinner.succeed('模板初始化完毕');
       const main = require(`${templateDir}/package.json`).main || 'index.js';
       spawnSync('node', [`.template/${main}`], {
         cwd: this.projectDir,
@@ -106,7 +111,7 @@ class ImtCreate extends Imt {
       fs.removeSync(templateDir);
 
       this.hooks.afterCreate.callAsync(this, async () => {
-        console.log(chalk.green('项目初始化完毕'));
+        spinner.succeed('项目创建完毕');
       });
     });
   }
