@@ -22,6 +22,7 @@ module.exports = options => {
           use: [
             {
               options: {
+                cache: path.resolve(options.cacheDir, 'eslint-loader'),
                 formatter: require.resolve('eslint-friendly-formatter'),
                 // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
                 eslintPath: path.resolve(projectDir, 'node_modules', 'eslint'),
@@ -33,7 +34,6 @@ module.exports = options => {
         },
       ],
     },
-    optimization: {},
     plugins: [new webpack.HotModuleReplacementPlugin()],
   });
 
