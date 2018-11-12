@@ -62,9 +62,10 @@ class DevServer extends Service {
       try {
         this.webpackConfig.entry = prependEntry(this.webpackConfig.entry);
         const compiler = webpack(this.webpackConfig);
-        const devServer = new WebpackDevServer(compiler, this.devServer);
+        const { devServer } = this.options;
+        const server = new WebpackDevServer(compiler, devServer);
         // Launch WebpackDevServer.
-        devServer.listen(this.port, this.host, err => {
+        server.listen(devServer.port, devServer.host, err => {
           if (err) {
             console.error(err);
             process.exit(1);
@@ -74,7 +75,7 @@ class DevServer extends Service {
 
         ['SIGINT', 'SIGTERM'].forEach(sig => {
           process.on(sig, () => {
-            devServer.close();
+            server.close();
             process.exit();
           });
         });
