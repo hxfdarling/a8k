@@ -110,9 +110,7 @@ module.exports = options => {
     },
     optimization: configOptimization(options),
     plugins: [
-      new RetryPlugin({
-        retryPublicPath: '',
-      }),
+      options.retry && new RetryPlugin(options.retry),
       // 支持lodash包 按需引用
       new LodashPlugin(),
       new CleanWebpackPlugin('*', configureCleanWebpack(options)),
@@ -122,7 +120,7 @@ module.exports = options => {
       new webpack.HashedModuleIdsPlugin({
         hashDigestLength: 6,
       }),
-    ],
+    ].filter(Boolean),
   });
   if (options.webappConfig) {
     config.plugins.push(
