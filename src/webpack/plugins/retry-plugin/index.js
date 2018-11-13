@@ -12,9 +12,17 @@ const varName = '__JS_RETRY__';
  * @typedef {Object} PluginOptions
  * @property {String} retryPublicPath 重试加载地址，例如://fudao.qq.com/pc
  * @property {Boolean?} entryOnly default false
- * @property {string|RegExp|Array?} test
- * @property {string|RegExp|Array?} include
- * @property {string|RegExp|Array?} exclude
+ * @property {String|RegExp|Array?} test
+ * @property {String|RegExp|Array?} include
+ * @property {String|RegExp|Array?} exclude
+ * @property {String|Number} JS_SUCC_MSID JS成功
+ * @property {String|Number} JS_FAIL_MSID JS失败
+ * @property {String|Number} CSS_SUCC_MSID CSS成功
+ * @property {String|Number} CSS_FAIL_MSID CSS失败
+ * @property {String|Number} JS_RETRY_SUCC_MSID JS重试成功
+ * @property {String|Number} JS_RETRY_FAIL_MSID JS重试失败
+ * @property {String|Number} CSS_RETRY_SUCC_MSID CSS重试成功
+ * @property {String|Number} CSS_RETRY_FAIL_MSID CSS重试失败
  */
 
 class RetryPlugin {
