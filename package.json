@@ -1,5 +1,5 @@
 {
-  "name": "imt",
+  "name": "imt-cli",
   "version": "0.0.1",
   "main": "index.js",
   "repository": "https://github.com/hxfdarling/imt.git",
@@ -54,7 +54,7 @@
     "fastparse": "^1.1.2",
     "file-loader": "^2.0.0",
     "fs-extra": "^7.0.0",
-    "html-inline-assets-loader": "0.0.8",
+    "html-inline-assets-loader": "0.0.9",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^4.0.0-beta.2",
     "imt-nunjucks-loader": "^1.0.0",

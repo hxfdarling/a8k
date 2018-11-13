@@ -9,6 +9,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const LodashPlugin = require('lodash-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
+const RetryPlugin = require('./plugins/retry-plugin');
 // config
 const getBaseConfig = require('./common.config');
 const { PROD } = require('../const');
@@ -109,6 +110,9 @@ module.exports = options => {
     },
     optimization: configOptimization(options),
     plugins: [
+      new RetryPlugin({
+        retryPublicPath: '',
+      }),
       // 支持lodash包 按需引用
       new LodashPlugin(),
       new CleanWebpackPlugin('*', configureCleanWebpack(options)),
