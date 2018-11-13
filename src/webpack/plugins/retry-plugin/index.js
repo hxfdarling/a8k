@@ -27,47 +27,113 @@ class RetryPlugin {
     }
 
     /** @type {PluginOptions} */
-    this.options = Object.assign({}, options);
+    this.options = Object.assign(
+      {
+        JS_SUCC_MSID: '',
+        JS_FAIL_MSID: '',
+        CSS_SUCC_MSID: '',
+        CSS_FAIL_MSID: '',
+
+        JS_RETRY_SUCC_MSID: '',
+        JS_RETRY_FAIL_MSID: '',
+        CSS_RETRY_SUCC_MSID: '',
+        CSS_RETRY_FAIL_MSID: '',
+      },
+      options
+    );
   }
 
   genReportCode() {
+    const {
+      JS_SUCC_MSID = '',
+      JS_FAIL_MSID = '',
+      CSS_SUCC_MSID = '',
+      CSS_FAIL_MSID = '',
+
+      JS_RETRY_SUCC_MSID = '',
+      JS_RETRY_FAIL_MSID = '',
+      CSS_RETRY_SUCC_MSID = '',
+      CSS_RETRY_FAIL_MSID = '',
+    } = this.options;
     return `
 <script>
 var ${varName}={};
 function __retryPlugin(event){
+
+  var JS_SUCC_MSID = "${JS_SUCC_MSID}";
+  var JS_FAIL_MSID = "${JS_FAIL_MSID}";
+  var CSS_SUCC_MSID = "${CSS_SUCC_MSID}";
+  var CSS_FAIL_MSID = "${CSS_FAIL_MSID}"
+
+  var JS_RETRY_SUCC_MSID = "${JS_RETRY_SUCC_MSID}";
+  var JS_RETRY_FAIL_MSID = "${JS_RETRY_FAIL_MSID}";
+  var CSS_RETRY_SUCC_MSID = "${CSS_RETRY_SUCC_MSID}";
+  var CSS_RETRY_FAIL_MSID = "${CSS_RETRY_FAIL_MSID}";
+
+  var BADJS_LEVEL = ${this.options.badjsLevel || 2};
+
   var isRetry = this.hasAttribute('retry');
   var isStyle = this.tagName==='LINK';
   var isError = event.type==='error';
   var src = this.href||this.src;
+  var report = function(data){
+    console.log(data);
+    setTimeout(function(){
+      window.BJ_REPORT&&window.BJ_REPORT.report(data)
+    },2000);
+  }
   if(isError){
     if(isRetry){
-      console.log('【加载失败】【retry】',src);
+      report({
+        level: BADJS_LEVEL||2,
+        msg: this.tagName + ' retry load fail: ' + src,
+        ext: {
+          msid: isStyle?CSS_RETRY_FAIL_MSID:JS_RETRY_FAIL_MSID,
+        },
+      });
     }else{
-      console.log('【加载失败】',src);
       if(isStyle){
-        console.log('需要重新加载style');
         var retryPublicPath  = "${this.options.retryPublicPath}";
         var hwpPublicPath = "${this.hwpPublicPath}";
-        var src = this.href;
 
         if(retryPublicPath){
           retryPublicPath += '/';
           retryPublicPath = retryPublicPath.replace(/\\/\\/$/, '/');
         }
-        src = src.replace(hwpPublicPath, '').replace(/^\\//, '');
+        var value = src.replace(hwpPublicPath, '').replace(/^\\//, '');
 
         var link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href= retryPublicPath + src;
+        link.href= retryPublicPath + value;
         link.setAttribute('retry','');
         this.parentNode.insertBefore(link,this.nextSibling);
       }
+      report({
+        level: BADJS_LEVEL||2,
+        msg: this.tagName + ' load fail: ' + src,
+        ext: {
+          msid: isStyle?CSS_FAIL_MSID:JS_FAIL_MSID,
+        },
+      });
     }
   }else{
     if(isRetry){
-      console.log('【加载成功】【retry】',src);
+      report({
+        level: BADJS_LEVEL||2,
+        msg: this.tagName + ' load fail: ' + src,
+        ext: {
+          msid: isStyle?CSS_RETRY_SUCC_MSID:JS_RETRY_SUCC_MSID,
+        },
+      });
+
     }else{
-      console.log('【加载成功】',src);
+      report({
+        level: BADJS_LEVEL||2,
+        msg: this.tagName + ' load success: ' + src,
+        ext: {
+          msid: isStyle?CSS_SUCC_MSID:JS_SUCC_MSID,
+        },
+      });
     }
   }
 }
@@ -92,7 +158,6 @@ function __retryPlugin(event){
     const hooks = HtmlWebpackPlugin.getHooks(compilation);
     hooks.beforeAssetTagGeneration.tapAsync('retry', (pluginArgs, callback) => {
       this.hwpPublicPath = pluginArgs.assets.publicPath;
-      console.log('​registerHwpHooks -> this.hwpPublicPath', this.hwpPublicPath);
       callback(null, pluginArgs);
     });
 
