@@ -4,7 +4,7 @@ const { ModuleFilenameHelpers } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const attrParse = require('./attributesParser');
-const { SCRIPT } = require('./const');
+const { SCRIPT, pluginName } = require('./const');
 const MainTemplatePlugin = require('./mainTemplatePlugin');
 
 const varName = '__JS_RETRY__';
@@ -65,38 +65,30 @@ class RetryPlugin {
       CSS_RETRY_FAIL_MSID = '',
     } = this.options;
     return `
-  var JS_SUCC_MSID = "${JS_SUCC_MSID}";
-  var JS_FAIL_MSID = "${JS_FAIL_MSID}";
-  var CSS_SUCC_MSID = "${CSS_SUCC_MSID}";
-  var CSS_FAIL_MSID = "${CSS_FAIL_MSID}"
+var JS_SUCC_MSID = "${JS_SUCC_MSID}";
+var JS_FAIL_MSID = "${JS_FAIL_MSID}";
+var CSS_SUCC_MSID = "${CSS_SUCC_MSID}";
+var CSS_FAIL_MSID = "${CSS_FAIL_MSID}"
 
-  var JS_RETRY_SUCC_MSID = "${JS_RETRY_SUCC_MSID}";
-  var JS_RETRY_FAIL_MSID = "${JS_RETRY_FAIL_MSID}";
-  var CSS_RETRY_SUCC_MSID = "${CSS_RETRY_SUCC_MSID}";
-  var CSS_RETRY_FAIL_MSID = "${CSS_RETRY_FAIL_MSID}";
+var JS_RETRY_SUCC_MSID = "${JS_RETRY_SUCC_MSID}";
+var JS_RETRY_FAIL_MSID = "${JS_RETRY_FAIL_MSID}";
+var CSS_RETRY_SUCC_MSID = "${CSS_RETRY_SUCC_MSID}";
+var CSS_RETRY_FAIL_MSID = "${CSS_RETRY_FAIL_MSID}";
 
-  var BADJS_LEVEL = ${this.options.badjsLevel || 2};
+var BADJS_LEVEL = ${this.options.badjsLevel || 2};
 
-  var report = function(data){
-    console.log(data);
-    setTimeout(function(){
-      window.BJ_REPORT&&window.BJ_REPORT.report(data)
-    },2000);
-  }
+var report = function(data){
+  console.log(data);
+  setTimeout(function(){
+    window.BJ_REPORT&&window.BJ_REPORT.report(data)
+  },2000);
+}
 `;
   }
 
-  genRetryCode(jsComplete = '') {
+  genGetRetryUrlCode() {
     return `
-  ${this.genBadJsCode()}
-
-  var isRetry = this.hasAttribute('retry');
-  // 只有异步的js走这个重试逻辑，同步的都是采用document.write
-  var isAsync = this.hasAttribute('isAsync');
-  var isStyle = this.tagName==='LINK';
-  var isError = event.type==='error'||event.type==='timeout';
-  var src = this.href||this.src;
-
+function getRetryUrl(src){
   var retryPublicPath  = "${this.options.retryPublicPath}";
   var hwpPublicPath = "${this.publicPath}";
 
@@ -104,8 +96,20 @@ class RetryPlugin {
     retryPublicPath += '/';
     retryPublicPath = retryPublicPath.replace(/\\/\\/$/, '/');
   }
-  var newSrc = retryPublicPath + src.replace(hwpPublicPath, '').replace(/^\\//, '');
+  return retryPublicPath + src.replace(hwpPublicPath, '').replace(/^\\//, '');
+}
+`;
+  }
 
+  genRetryCode(jsComplete = '') {
+    return `
+  var isRetry = this.hasAttribute('retry');
+  // 只有异步的js走这个重试逻辑，同步的都是采用document.write
+  var isAsync = this.hasAttribute('isAsync');
+  var isStyle = this.tagName==='LINK';
+  var isError = event.type==='error'||event.type==='timeout';
+  var src = this.href||this.src;
+  var newSrc = getRetryUrl(src);
   if(isError){
     if(isRetry){
       report({
@@ -193,11 +197,13 @@ class RetryPlugin {
 `;
   }
 
-  genReportCode() {
+  genInjectCode() {
     return `
 <script>
 var ${varName}={};
 function __retryPlugin(event){
+${this.genBadJsCode()}
+${this.genGetRetryUrlCode()}
 ${this.genRetryCode()}
 }
 </script>
@@ -219,11 +225,11 @@ ${this.genRetryCode()}
   registerHwpHooks(compilation) {
     // HtmlWebpackPlugin >= 4
     const hooks = HtmlWebpackPlugin.getHooks(compilation);
-    hooks.beforeAssetTagGeneration.tapAsync('retry', (pluginArgs, callback) => {
+    hooks.beforeAssetTagGeneration.tapAsync(pluginName, (pluginArgs, callback) => {
       callback(null, pluginArgs);
     });
 
-    hooks.alterAssetTags.tap('retry', ({ assetTags }) => {
+    hooks.alterAssetTags.tap(pluginName, ({ assetTags }) => {
       const code = '__retryPlugin.call(this,event)';
       assetTags.styles.map(tag => {
         tag.attributes.onerror = code;
@@ -234,9 +240,9 @@ ${this.genRetryCode()}
         tag.attributes.onload = code;
       });
     });
-    hooks.beforeEmit.tapAsync('retry', (pluginArgs, callback) => {
+    hooks.beforeEmit.tapAsync(pluginName, (pluginArgs, callback) => {
       let { html } = pluginArgs;
-      html = html.replace('<head>', `<head>${this.genReportCode()}`);
+      html = html.replace('<head>', `<head>${this.genInjectCode()}`);
       const scripts = attrParse(html).filter(tag => tag.name === SCRIPT);
 
       scripts.reverse();
@@ -289,9 +295,8 @@ ${this.genRetryCode()}
     const { options } = this;
     this.publicPath = compiler.options.output.publicPath;
     const matchObject = ModuleFilenameHelpers.matchObject.bind(undefined, options);
-
-    compiler.hooks.compilation.tap('retryPluginHtmlWebpackPluginHooks', this.registerHwpHooks.bind(this));
-    compiler.hooks.compilation.tap('retryPlugin', compilation => {
+    compiler.hooks.compilation.tap(pluginName, compilation => {
+      this.registerHwpHooks(compilation);
       compilation.hooks.optimizeChunkAssets.tap('retryPlugin', chunks => {
         for (const chunk of chunks) {
           if (options.entryOnly && !chunk.canBeInitial()) {
@@ -331,8 +336,8 @@ ${this.genRetryCode()}
       });
     });
     // eslint-disable-next-line
-    compiler.hooks.afterPlugins.tap('retryPlugin', compiler => {
-      compiler.hooks.thisCompilation.tap('retryPlugin', this.registerMTP.bind(this, compiler));
+    compiler.hooks.afterPlugins.tap(pluginName, compiler => {
+      compiler.hooks.thisCompilation.tap(pluginName, this.registerMTP.bind(this, compiler));
     });
   }
 }
