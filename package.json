@@ -53,7 +53,7 @@
     "events": "^3.0.0",
     "file-loader": "^2.0.0",
     "fs-extra": "^7.0.0",
-    "html-inline-assets-loader": "0.0.9",
+    "html-inline-assets-loader": "0.0.10",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^4.0.0-beta.2",
     "imt-nunjucks-loader": "^1.0.0",
@@ -102,7 +102,7 @@
     "webpack-dev-server": "^3.1.10",
     "webpack-manifest-plugin": "^2.0.4",
     "webpack-merge": "^4.1.4",
-    "webpack-retry-load-plugin": "^1.0.0",
+    "webpack-retry-load-plugin": "^1.0.4",
     "webpack-subresource-integrity": "^1.2.0",
     "webpackbar": "^2.6.3",
     "yeoman-generator": "^3.1.1"

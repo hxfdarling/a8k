@@ -27,8 +27,6 @@ class Service extends Imt {
 
     this.options.cacheDir = path.resolve(options.cacheDir);
     this.options.projectDir = dir;
-    // 开发者模式 dist 目录默认 dev，生产模式默认 dist（可配置)
-    this.options.distDir = path.resolve(dir, options.dist || 'dev');
 
     try {
       /** @type ImtConfig */
@@ -38,6 +36,9 @@ class Service extends Imt {
       console.error(e);
       process.exit(1);
     }
+
+    this.options.distDir = path.resolve(dir, this.imtrc.dist || options.dist || 'dist');
+
     Object.assign(this.options, this.imtrc);
     this._init();
     this.getWebpackConfig();
