@@ -9,21 +9,14 @@ class MainTemplatePlugin {
   jsonpScriptPlugin(mainTemplate, source) {
     return (Template.asString || mainTemplate.asString)([
       source,
-      `
-// retry-plugin inject retry load js resource
-script.setAttribute('isAsync','')
-var retryJS = function(event){
-  clearTimeout(timeout);
-  ${this.retryPlugin.genRetryCode(`
-          onScriptComplete(event);
-  `)}
-}
-script.onload = function(event){
-  onScriptComplete(event);
-  retryJS.call(this,event);
-}
-script.onerror = retryJS;
-`,
+      '// retry-plugin inject retry load js resource',
+      "script.setAttribute('isAsync','')",
+      'var retryJS = function(event){',
+      Template.indent(['clearTimeout(timeout);', this.retryPlugin.genRetryCode('onScriptComplete(event);'), '}']),
+      'script.onload = function(event){',
+      Template.indent(['onScriptComplete(event);', 'retryJS.call(this,event);']),
+      '}',
+      'script.onerror = retryJS;',
     ]);
   }
 

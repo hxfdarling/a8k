@@ -65,131 +65,131 @@ class RetryPlugin {
       CSS_RETRY_FAIL_MSID = '',
     } = this.options;
     return `
-    var JS_SUCC_MSID = "${JS_SUCC_MSID}";
-    var JS_FAIL_MSID = "${JS_FAIL_MSID}";
-    var CSS_SUCC_MSID = "${CSS_SUCC_MSID}";
-    var CSS_FAIL_MSID = "${CSS_FAIL_MSID}"
+  var JS_SUCC_MSID = "${JS_SUCC_MSID}";
+  var JS_FAIL_MSID = "${JS_FAIL_MSID}";
+  var CSS_SUCC_MSID = "${CSS_SUCC_MSID}";
+  var CSS_FAIL_MSID = "${CSS_FAIL_MSID}"
 
-    var JS_RETRY_SUCC_MSID = "${JS_RETRY_SUCC_MSID}";
-    var JS_RETRY_FAIL_MSID = "${JS_RETRY_FAIL_MSID}";
-    var CSS_RETRY_SUCC_MSID = "${CSS_RETRY_SUCC_MSID}";
-    var CSS_RETRY_FAIL_MSID = "${CSS_RETRY_FAIL_MSID}";
+  var JS_RETRY_SUCC_MSID = "${JS_RETRY_SUCC_MSID}";
+  var JS_RETRY_FAIL_MSID = "${JS_RETRY_FAIL_MSID}";
+  var CSS_RETRY_SUCC_MSID = "${CSS_RETRY_SUCC_MSID}";
+  var CSS_RETRY_FAIL_MSID = "${CSS_RETRY_FAIL_MSID}";
 
-    var BADJS_LEVEL = ${this.options.badjsLevel || 2};
+  var BADJS_LEVEL = ${this.options.badjsLevel || 2};
 
-    var report = function(data){
-      console.log(data);
-      setTimeout(function(){
-        window.BJ_REPORT&&window.BJ_REPORT.report(data)
-      },2000);
-    }
+  var report = function(data){
+    console.log(data);
+    setTimeout(function(){
+      window.BJ_REPORT&&window.BJ_REPORT.report(data)
+    },2000);
+  }
 `;
   }
 
   genRetryCode(jsComplete = '') {
     return `
-    ${this.genBadJsCode()}
+  ${this.genBadJsCode()}
 
-    var isRetry = this.hasAttribute('retry');
-    // 只有异步的js走这个重试逻辑，同步的都是采用document.write
-    var isAsync = this.hasAttribute('isAsync');
-    var isStyle = this.tagName==='LINK';
-    var isError = event.type==='error'||event.type==='timeout';
-    var src = this.href||this.src;
+  var isRetry = this.hasAttribute('retry');
+  // 只有异步的js走这个重试逻辑，同步的都是采用document.write
+  var isAsync = this.hasAttribute('isAsync');
+  var isStyle = this.tagName==='LINK';
+  var isError = event.type==='error'||event.type==='timeout';
+  var src = this.href||this.src;
 
-    var retryPublicPath  = "${this.options.retryPublicPath}";
-    var hwpPublicPath = "${this.publicPath}";
+  var retryPublicPath  = "${this.options.retryPublicPath}";
+  var hwpPublicPath = "${this.publicPath}";
 
-    if(retryPublicPath){
-      retryPublicPath += '/';
-      retryPublicPath = retryPublicPath.replace(/\\/\\/$/, '/');
-    }
-    var newSrc = retryPublicPath + src.replace(hwpPublicPath, '').replace(/^\\//, '');
+  if(retryPublicPath){
+    retryPublicPath += '/';
+    retryPublicPath = retryPublicPath.replace(/\\/\\/$/, '/');
+  }
+  var newSrc = retryPublicPath + src.replace(hwpPublicPath, '').replace(/^\\//, '');
 
-    if(isError){
-      if(isRetry){
-        report({
-          level: BADJS_LEVEL||2,
-          msg: this.tagName + ' retry load fail: ' + src,
-          ext: {
-            msid: isStyle?CSS_RETRY_FAIL_MSID:JS_RETRY_FAIL_MSID,
-          },
-        });
-      }else{
-        if(isStyle){
-          // link style 重新加载
-          var link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href= newSrc;
-          link.setAttribute('retry','');
-          this.parentNode.insertBefore(link,this.nextSibling);
-        }else if(isAsync){
-          // js 重新加载
-          var head = document.getElementsByTagName('head')[0];
-          var script = document.createElement('script');
-        
-          script.charset = 'utf-8';
-          script.timeout = 120;
-          script.src = newSrc;
-          if (script.src.indexOf(window.location.origin + '/') !== 0) {
-            script.crossOrigin = 'anonymous';
-          }
-          var _timeout_ = setTimeout(function() {
-            script.onerror({ type: 'timeout', target: script });
-          }, 120000);
-          script.onerror = function(event){
-            script.onerror = script.onload = null;
-            clearTimeout(_timeout_);
-            ${jsComplete}
-            report({
-              level: BADJS_LEVEL||2,
-              msg: this.tagName + ' retry load fail: ' + this.src,
-              ext: {
-                msid: JS_RETRY_SUCC_MSID,
-              },
-            });
-          }
-          script.onload = function(event){
-            script.onerror = script.onload = null;
-            clearTimeout(_timeout_);
-            ${jsComplete}
-            report({
-              level: BADJS_LEVEL||2,
-              msg: this.tagName + ' retry load success: ' + this.src,
-              ext: {
-                msid: JS_SUCC_MSID,
-              },
-            });
-          }
-          head.appendChild(script);
-        }
-        report({
-          level: BADJS_LEVEL||2,
-          msg: this.tagName + ' load fail: ' + src,
-          ext: {
-            msid: isStyle?CSS_FAIL_MSID:JS_FAIL_MSID,
-          },
-        });
-      }
+  if(isError){
+    if(isRetry){
+      report({
+        level: BADJS_LEVEL||2,
+        msg: this.tagName + ' retry load fail: ' + src,
+        ext: {
+          msid: isStyle?CSS_RETRY_FAIL_MSID:JS_RETRY_FAIL_MSID,
+        },
+      });
     }else{
-      if(isRetry){
-        report({
-          level: BADJS_LEVEL||2,
-          msg: this.tagName + ' load fail: ' + src,
-          ext: {
-            msid: isStyle?CSS_RETRY_SUCC_MSID:JS_RETRY_SUCC_MSID,
-          },
-        });
-      }else{
-        report({
-          level: BADJS_LEVEL||2,
-          msg: this.tagName + ' load success: ' + src,
-          ext: {
-            msid: isStyle?CSS_SUCC_MSID:JS_SUCC_MSID,
-          },
-        });
+      if(isStyle){
+        // link style 重新加载
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href= newSrc;
+        link.setAttribute('retry','');
+        this.parentNode.insertBefore(link,this.nextSibling);
+      }else if(isAsync){
+        // js 重新加载
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+      
+        script.charset = 'utf-8';
+        script.timeout = 120;
+        script.src = newSrc;
+        if (script.src.indexOf(window.location.origin + '/') !== 0) {
+          script.crossOrigin = 'anonymous';
+        }
+        var _timeout_ = setTimeout(function() {
+          script.onerror({ type: 'timeout', target: script });
+        }, 120000);
+        script.onerror = function(event){
+          script.onerror = script.onload = null;
+          clearTimeout(_timeout_);
+          ${jsComplete}
+          report({
+            level: BADJS_LEVEL||2,
+            msg: this.tagName + ' retry load fail: ' + this.src,
+            ext: {
+              msid: JS_RETRY_SUCC_MSID,
+            },
+          });
+        }
+        script.onload = function(event){
+          script.onerror = script.onload = null;
+          clearTimeout(_timeout_);
+          ${jsComplete}
+          report({
+            level: BADJS_LEVEL||2,
+            msg: this.tagName + ' retry load success: ' + this.src,
+            ext: {
+              msid: JS_SUCC_MSID,
+            },
+          });
+        }
+        head.appendChild(script);
       }
+      report({
+        level: BADJS_LEVEL||2,
+        msg: this.tagName + ' load fail: ' + src,
+        ext: {
+          msid: isStyle?CSS_FAIL_MSID:JS_FAIL_MSID,
+        },
+      });
     }
+  }else{
+    if(isRetry){
+      report({
+        level: BADJS_LEVEL||2,
+        msg: this.tagName + ' load fail: ' + src,
+        ext: {
+          msid: isStyle?CSS_RETRY_SUCC_MSID:JS_RETRY_SUCC_MSID,
+        },
+      });
+    }else{
+      report({
+        level: BADJS_LEVEL||2,
+        msg: this.tagName + ' load success: ' + src,
+        ext: {
+          msid: isStyle?CSS_SUCC_MSID:JS_SUCC_MSID,
+        },
+      });
+    }
+  }
 `;
   }
 
