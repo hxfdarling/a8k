@@ -13,9 +13,9 @@ const varName = '__JS_RETRY__';
  * @typedef {Object} PluginOptions
  * @property {String} retryPublicPath 重试加载地址，例如://fudao.qq.com/pc
  * @property {Boolean?} entryOnly default false
- * @property {String|RegExp|Array?} test
- * @property {String|RegExp|Array?} include
- * @property {String|RegExp|Array?} exclude
+ * @property {String|RegExp|Array?} test 正则
+ * @property {String|RegExp|Array?} include 需要重试的文件，可以不传
+ * @property {String|RegExp|Array?} exclude 不需要重试的文件
  * @property {String|Number} JS_SUCC_MSID JS成功
  * @property {String|Number} JS_FAIL_MSID JS失败
  * @property {String|Number} CSS_SUCC_MSID CSS成功
