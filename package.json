@@ -103,6 +103,7 @@
     "webpack-dev-server": "^3.1.10",
     "webpack-manifest-plugin": "^2.0.4",
     "webpack-merge": "^4.1.4",
+    "webpack-retry-load-plugin": "^1.0.0",
     "webpack-subresource-integrity": "^1.2.0",
     "webpackbar": "^2.6.3",
     "yeoman-generator": "^3.1.1"

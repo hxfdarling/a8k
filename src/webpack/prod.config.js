@@ -9,7 +9,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const LodashPlugin = require('lodash-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
-const RetryPlugin = require('./plugins/retry-plugin');
+const RetryPlugin = require('webpack-retry-load-plugin');
 // config
 const getBaseConfig = require('./common.config');
 const { PROD } = require('../const');
