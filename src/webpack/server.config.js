@@ -12,7 +12,7 @@ module.exports = options => {
     devtool: sourceMap ? 'source-map' : 'none',
     output: {
       publicPath,
-      path: path.resolve(projectDir, ssrConfig.distDir || './node_modules/components'),
+      path: path.resolve(projectDir, ssrConfig.distDir),
       filename: '[name].js',
       libraryTarget: 'commonjs2',
     },
