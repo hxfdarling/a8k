@@ -30,6 +30,8 @@ class Imt {
       afterDev: new AsyncSeriesWaterfallHook(['context']),
       beforeBuild: new AsyncSeriesWaterfallHook(['context']),
       afterBuild: new AsyncSeriesWaterfallHook(['context']),
+      beforeSSRBuild: new AsyncSeriesWaterfallHook(['context']),
+      afterSSRBuild: new AsyncSeriesWaterfallHook(['context']),
     };
   }
 }

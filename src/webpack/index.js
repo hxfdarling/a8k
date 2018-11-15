@@ -28,7 +28,7 @@ module.exports = options => {
       config = require('./prod.config')(options);
       break;
     case SSR:
-      config = require('./server.config')(options);
+      config = require('./ssr.config')(options);
       break;
     default:
       break;

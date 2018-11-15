@@ -1,18 +1,17 @@
 const webpackMerge = require('webpack-merge');
-const path = require('path');
 
 const getBaseConfig = require('./common.config');
 const { PROD } = require('../const');
 
 module.exports = options => {
-  const { sourceMap, publicPath, projectDir, ssrConfig } = options;
+  const { sourceMap, publicPath, ssrConfig } = options;
 
   const config = webpackMerge(getBaseConfig(options), {
     mode: PROD,
     devtool: sourceMap ? 'source-map' : 'none',
     output: {
       publicPath,
-      path: path.resolve(projectDir, ssrConfig.distDir),
+      path: ssrConfig.distDir,
       filename: '[name].js',
       libraryTarget: 'commonjs2',
     },

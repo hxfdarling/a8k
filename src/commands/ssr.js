@@ -1,5 +1,6 @@
 const fs = require('fs-extra');
 const webpack = require('webpack');
+const path = require('path');
 const Service = require('../Service');
 
 // const { logWithSpinner, stopSpinner } = require('../utils/spinner');
@@ -11,20 +12,27 @@ class Build extends Service {
   _init() {
     this.options.ssrConfig = Object.assign(
       {
+        // js存放地址
         distDir: './node_modules/components',
+        // html存放地址
+        viewDir: './app/views',
       },
       this.options.ssrConfig
     );
+    const { ssrConfig, projectDir } = this.options;
+    ssrConfig.distDir = path.resolve(projectDir, ssrConfig.distDir);
+    ssrConfig.viewDir = path.resolve(projectDir, ssrConfig.viewDir);
   }
 
   async build() {
+    const { ssrConfig } = this.options;
     await new Promise(resolve => {
-      this.hooks.beforeBuild.callAsync(this, resolve);
+      this.hooks.beforeSSRBuild.callAsync(this, resolve);
     });
-    fs.emptyDirSync(this.options.ssrConfig.distDir);
+    fs.emptyDirSync(ssrConfig.distDir);
+    fs.emptyDirSync(ssrConfig.viewDir);
     await new Promise(resolve => {
       webpack(this.webpackConfig, (err, stats) => {
-        // stopSpinner(false);
         if (err) {
           console.log(err);
           process.exit(1);
@@ -39,7 +47,7 @@ class Build extends Service {
     });
 
     await new Promise(resolve => {
-      this.hooks.afterBuild.callAsync(this, async () => {
+      this.hooks.afterSSRBuild.callAsync(this, async () => {
         resolve();
       });
     });

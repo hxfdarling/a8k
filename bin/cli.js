@@ -38,12 +38,12 @@ program
   });
 
 program
-  .command('server [dir]')
-  .description('运行node服务器，测试直出环境')
+  .command('ssr [dir]')
+  .description('构建直出JS包，以及拷贝HTML文件')
   .option('-p, --port <port>', '配置监听端口', 8081)
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
   .action((dir, options) => {
-    require('../src/commands/server')(dir, options);
+    require('../src/commands/ssr')(dir, options);
   });
 
 program
