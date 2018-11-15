@@ -37,5 +37,6 @@ class Build extends Service {
   }
 }
 module.exports = (dir, options) => {
+  options.type = PROD;
   new Build(dir, options).build();
 };

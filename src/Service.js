@@ -24,7 +24,6 @@ class Service extends Imt {
     } else {
       dir = path.resolve(cwd, dir);
     }
-
     this.options.cacheDir = path.resolve(options.cacheDir);
     this.options.projectDir = dir;
 

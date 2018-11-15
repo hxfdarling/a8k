@@ -38,11 +38,12 @@ program
   });
 
 program
-  .command('server')
+  .command('server [dir]')
   .description('运行node服务器，测试直出环境')
   .option('-p, --port <port>', '配置监听端口', 8081)
-  .action(options => {
-    require('../src/commands/build')(options);
+  .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
+  .action((dir, options) => {
+    require('../src/commands/server')(dir, options);
   });
 
 program

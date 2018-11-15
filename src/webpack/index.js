@@ -1,6 +1,6 @@
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const { DEV, PROD } = require('../const');
+const { DEV, PROD, SSR } = require('../const');
 
 const smp = new SpeedMeasurePlugin();
 
@@ -17,17 +17,21 @@ const smp = new SpeedMeasurePlugin();
  * @param {ConfigOptions} options
  */
 module.exports = options => {
-  const { analyzer, useSmp } = options;
+  const { analyzer, useSmp, type } = options;
 
   let config;
-  switch (process.env.NODE_ENV) {
+  switch (type) {
     case DEV:
       config = require('./dev.config')(options);
       break;
     case PROD:
       config = require('./prod.config')(options);
       break;
+    case SSR:
+      config = require('./server.config')(options);
+      break;
     default:
+      break;
   }
 
   if (analyzer) {

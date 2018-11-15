@@ -9,14 +9,14 @@ const fs = require('fs-extra');
 
 const ReportStatusPlugin = require('./plugins/report-status-plugin');
 
-const { DEV, PROD } = require('../const');
+const { DEV, PROD, SSR } = require('../const');
 
 const { resolve } = require;
 const { env } = process;
 
 const PAGES_DIR = './src/pages';
 
-function configureCssLoader({ projectDir, sourceMap, publicPath }) {
+function configureCssLoader({ projectDir, sourceMap, publicPath, type }) {
   const loaders = [
     {
       loader: resolve('css-loader'),
@@ -52,7 +52,7 @@ function configureCssLoader({ projectDir, sourceMap, publicPath }) {
     },
     resolve('sass-loader'),
   ];
-  if (env.NODE_ENV === DEV) {
+  if (type === DEV) {
     loaders.unshift({
       loader: resolve('style-loader'),
       options: {
@@ -72,7 +72,7 @@ function configureCssLoader({ projectDir, sourceMap, publicPath }) {
   }
   return {
     test: /\.(scss|css)$/,
-    use: loaders,
+    use: type === SSR ? resolve('ignore-loader') : loaders,
   };
 }
 // Configure Manifest
@@ -105,9 +105,12 @@ const getPages = options => {
   });
 };
 const configureEntries = options => {
-  const { mode = [] } = options;
-
+  const { mode = [], type } = options;
   const entry = {};
+
+  if (type === SSR) {
+    return entry;
+  }
   if (mode === 'single') {
     entry.index = './src/index';
   } else {
@@ -131,7 +134,6 @@ const configureBabelLoader = options => {
           // cacheDirectory 缓存babel编译结果加快重新编译速度
           cacheDirectory: path.resolve(options.cacheDir, 'babel-loader'),
           presets: [require('babel-preset-imt')],
-          // plugins: [env.NODE_ENV === DEV && resolve('react-hot-loader/babel')].filter(Boolean),
         },
       },
     ],
@@ -139,21 +141,21 @@ const configureBabelLoader = options => {
     include: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules/@tencent')],
   };
 };
-const configureHtmlLoader = ({ mini, projectDir }) => {
+const configureHtmlLoader = ({ mini, projectDir, type }) => {
   return {
     test: /\.(html|njk|nunjucks)$/,
     use: [
       {
         loader: resolve('html-loader'),
         options: {
-          minimize: mini && env.NODE_ENV === PROD,
+          minimize: mini && type === PROD,
         },
       },
       // 自动处理html中的相对路径引用 css/js文件
       {
         loader: resolve('html-inline-assets-loader'),
         options: {
-          minimize: mini && env.NODE_ENV === PROD,
+          minimize: mini && type === PROD,
         },
       },
       {
@@ -168,9 +170,10 @@ const configureHtmlLoader = ({ mini, projectDir }) => {
     ],
   };
 };
+
 module.exports = options => {
   const { projectDir, mode } = options;
-
+  const isSSR = options.type === SSR;
   const config = {
     entry: configureEntries(options),
     output: {
@@ -193,8 +196,8 @@ module.exports = options => {
       rules: [
         configureBabelLoader(options),
         configureCssLoader(options),
-        configureHtmlLoader(options),
-        {
+        !isSSR && configureHtmlLoader(options),
+        !isSSR && {
           // svg 直接inline
           test: /\.svg$/,
           use: {
@@ -205,7 +208,7 @@ module.exports = options => {
           },
           include: [path.resolve(projectDir, 'src')],
         },
-        {
+        !isSSR && {
           // 项目外svg 直接拷贝过来
           test: /.svg$/,
           use: {
@@ -216,7 +219,7 @@ module.exports = options => {
           },
           exclude: [path.resolve(projectDir, 'src')],
         },
-        {
+        !isSSR && {
           // 其它文件直接拷贝
           test: /\.(gif|png|jpe?g|eot|woff|ttf|pdf)$/,
           use: {
@@ -224,7 +227,7 @@ module.exports = options => {
             options: { name: '[name]_[hash].[ext]' },
           },
         },
-      ],
+      ].filter(Boolean),
     },
     plugins: [
       new WebpackBar({
@@ -239,41 +242,43 @@ module.exports = options => {
     ],
   };
 
-  if (mode === 'single') {
+  // 服务器渲染 js 不需要构建 html
+  if (options.type !== SSR) {
+    if (mode === 'single') {
+      config.plugins.push(
+        new HtmlWebpackPlugin({
+          // https://github.com/jantimon/html-webpack-plugin/issues/870
+          // html-webpack-plugin@next or chunksSortMode: 'none',
+          filename: 'index.html',
+          template: './src/index.html',
+        })
+      );
+    }
+    if (mode === 'multi') {
+      const files = getPages(options);
+      // const names = files.map(i => path.basename(i));
+      files.forEach(file => {
+        const name = path.basename(file);
+        file = `${PAGES_DIR}/${file}/index.html`;
+        const chunks = ['react', 'antd', 'vender', 'common', `runtime~${name}`, name];
+        config.plugins.push(
+          new HtmlWebpackPlugin({
+            filename: `${name}.html`,
+            template: file,
+            chunks,
+          })
+        );
+      });
+    }
     config.plugins.push(
-      new HtmlWebpackPlugin({
-        // https://github.com/jantimon/html-webpack-plugin/issues/870
-        // html-webpack-plugin@next or chunksSortMode: 'none',
-        filename: 'index.html',
-        template: './src/index.html',
+      // 支持js资源完整性校验
+      // https://www.w3.org/TR/SRI/
+      new SriPlugin({
+        hashFuncNames: ['sha256', 'sha384'],
+        enabled: env.NODE_ENV === PROD,
       })
     );
   }
-  if (mode === 'multi') {
-    const files = getPages(options);
-    // const names = files.map(i => path.basename(i));
-    files.forEach(file => {
-      const name = path.basename(file);
-      file = `${PAGES_DIR}/${file}/index.html`;
-      const chunks = ['react', 'antd', 'vender', 'common', `runtime~${name}`, name];
-      config.plugins.push(
-        new HtmlWebpackPlugin({
-          filename: `${name}.html`,
-          template: file,
-          chunks,
-        })
-      );
-    });
-  }
-
-  config.plugins.push(
-    // 支持js资源完整性校验
-    // https://www.w3.org/TR/SRI/
-    new SriPlugin({
-      hashFuncNames: ['sha256', 'sha384'],
-      enabled: env.NODE_ENV === PROD,
-    })
-  );
 
   return config;
 };
