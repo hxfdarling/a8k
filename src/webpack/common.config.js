@@ -148,6 +148,7 @@ const configureHtmlLoader = ({ mini, projectDir, type }) => {
       {
         loader: resolve('html-loader'),
         options: {
+          removeComments: false,
           minimize: mini && type === PROD,
         },
       },
@@ -249,6 +250,7 @@ module.exports = options => {
         new HtmlWebpackPlugin({
           // https://github.com/jantimon/html-webpack-plugin/issues/870
           // html-webpack-plugin@next or chunksSortMode: 'none',
+          minify: false,
           filename: 'index.html',
           template: './src/index.html',
         })
@@ -263,6 +265,7 @@ module.exports = options => {
         const chunks = ['react', 'antd', 'vender', 'common', `runtime~${name}`, name];
         config.plugins.push(
           new HtmlWebpackPlugin({
+            minify: false,
             filename: `${name}.html`,
             template: file,
             chunks,
