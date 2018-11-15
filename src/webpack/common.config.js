@@ -40,7 +40,7 @@ function configureCssLoader({ projectDir, sourceMap, publicPath, type }) {
           // require('postcss-nested'),
           // require('postcss-hexrgba'),
           // require('autoprefixer'),
-          require('postcss-flexbugs-fixes'),
+          // require('postcss-flexbugs-fixes'),
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
@@ -50,7 +50,12 @@ function configureCssLoader({ projectDir, sourceMap, publicPath, type }) {
         ],
       },
     },
-    resolve('sass-loader'),
+    {
+      loader: resolve('sass-loader'),
+      options: {
+        sourceMap,
+      },
+    },
   ];
   if (type === DEV) {
     loaders.unshift({
