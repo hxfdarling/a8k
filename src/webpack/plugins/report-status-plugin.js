@@ -25,6 +25,7 @@ class ReportStatusPlugin {
   }
 
   apply(compiler) {
+    let state = 0;
     compiler.hooks.done.tap('report-status', async stats => {
       if (stats.hasErrors()) {
         console.log(chalk.red.bold('Failed to compile:\n'));
@@ -46,7 +47,8 @@ class ReportStatusPlugin {
 
       console.log(chalk.green.bold(`Built successfully in ${prettyMs(stats.endTime - stats.startTime)}!`));
 
-      if (this.options.mode === 'development' && this.options) {
+      if (this.options.mode === 'development' && this.options && !state) {
+        state = 1;
         const { host, port, https } = this.options.devServer;
         const protocol = https ? 'https://' : 'http://';
         const isAnyHost = host === '0.0.0.0';
