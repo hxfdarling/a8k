@@ -53,6 +53,16 @@ program
   .action((mode, options) => {
     require('../src/commands/release')(mode, options);
   });
+program
+  .command('check')
+  .description('检测代码是否合并主干')
+  .action(options => {
+    require('../src/commands/check.js')(options);
+  });
+program
+  .command('pack')
+  .description('打包')
+  .action(() => {});
 
 program.parse(process.argv);
 
