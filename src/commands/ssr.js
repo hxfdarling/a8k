@@ -9,7 +9,7 @@ const { PROD, SSR } = require('../const');
 
 process.env.NODE_ENV = PROD;
 class Build extends Service {
-  _init() {
+  init() {
     this.options.ssrConfig = Object.assign(
       {
         // js存放地址

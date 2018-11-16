@@ -9,7 +9,7 @@ const fs = require('fs-extra');
 
 const ReportStatusPlugin = require('./plugins/report-status-plugin');
 
-const { DEV, PROD, SSR } = require('../const');
+const { DEV, PROD, SSR } = require('../../const');
 
 const { resolve } = require;
 const { env } = process;

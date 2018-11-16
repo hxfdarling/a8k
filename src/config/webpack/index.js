@@ -1,6 +1,6 @@
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const { DEV, PROD, SSR } = require('../const');
+const { DEV, PROD, SSR } = require('../../const');
 
 const smp = new SpeedMeasurePlugin();
 

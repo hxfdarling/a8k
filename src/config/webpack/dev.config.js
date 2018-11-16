@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const getBaseConfig = require('./common.config');
-const { DEV } = require('../const');
+const { DEV } = require('../../const');
 
 module.exports = options => {
   const { distDir, projectDir } = options;

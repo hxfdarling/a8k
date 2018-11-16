@@ -5,7 +5,7 @@ const prettyBytes = require('pretty-bytes');
 const textTable = require('text-table');
 const getIp = require('internal-ip');
 const prettyMs = require('pretty-ms');
-const formatWebpackMessages = require('../../utils/formatWebpackMessages');
+const formatWebpackMessages = require('../../../utils/formatWebpackMessages');
 
 /**
  * @typedef {Object} Options

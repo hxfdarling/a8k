@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const path = require('path');
 
-const getConfig = require('./webpack');
+const getWebpackConfig = require('./config/webpack');
 
 const Imt = require('.');
 const { DEV } = require('./const');
@@ -39,14 +39,11 @@ class Service extends Imt {
     this.options.distDir = path.resolve(dir, this.imtrc.dist || options.dist || 'dist');
 
     Object.assign(this.options, this.imtrc);
-    this.options.devServer = this.getServerConfig();
+    this.init();
     this.getWebpackConfig();
   }
 
-  // 在dev模式下面需要
-  getServerConfig() {
-    return {};
-  }
+  init() {}
 
   getWebpackConfig() {
     const { sourceMap } = this.options;
@@ -55,7 +52,7 @@ class Service extends Imt {
       // 开发模式需要sourceMap
       sourceMap: sourceMap || process.env.NODE_ENV === DEV,
     };
-    this.webpackConfig = getConfig(configOptions);
+    this.webpackConfig = getWebpackConfig(configOptions);
     const { webpackOverride } = this.imtrc;
     if (webpackOverride) {
       const temp = webpackOverride(this.webpackConfig, this);

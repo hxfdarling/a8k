@@ -12,7 +12,7 @@ const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const RetryPlugin = require('webpack-retry-load-plugin');
 // config
 const getBaseConfig = require('./common.config');
-const { PROD } = require('../const');
+const { PROD } = require('../../const');
 
 const configureCleanWebpack = ({ distDir: root }) => {
   return {

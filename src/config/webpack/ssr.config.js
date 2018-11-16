@@ -1,7 +1,7 @@
 const webpackMerge = require('webpack-merge');
 
 const getBaseConfig = require('./common.config');
-const { PROD } = require('../const');
+const { PROD } = require('../../const');
 
 module.exports = options => {
   const { sourceMap, publicPath, ssrConfig } = options;
