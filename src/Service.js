@@ -39,11 +39,14 @@ class Service extends Imt {
     this.options.distDir = path.resolve(dir, this.imtrc.dist || options.dist || 'dist');
 
     Object.assign(this.options, this.imtrc);
-    this._init();
+    this.options.devServer = this.getServerConfig();
     this.getWebpackConfig();
   }
 
-  _init() {}
+  // 在dev模式下面需要
+  getServerConfig() {
+    return {};
+  }
 
   getWebpackConfig() {
     const { sourceMap } = this.options;

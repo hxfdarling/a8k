@@ -29,10 +29,6 @@ const prependEntry = entry => {
 };
 
 class DevServer extends Service {
-  _init() {
-    this.options.devServer = this.getServerConfig();
-  }
-
   getServerConfig() {
     const {
       options,
@@ -98,6 +94,5 @@ class DevServer extends Service {
 
 module.exports = (dir, options) => {
   options.type = DEV;
-  process.env.IMT_SOURCE_MAP = true;
   return new DevServer(dir, options).start();
 };

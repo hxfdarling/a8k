@@ -1,0 +1,34 @@
+// @remove-on-eject-begin
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+// @remove-on-eject-end
+
+const path = require('path');
+
+module.exports = {
+  process(src, filename) {
+    const assetFilename = JSON.stringify(path.basename(filename));
+
+    if (filename.match(/\.svg$/)) {
+      return `module.exports = {
+        __esModule: true,
+        default: ${assetFilename},
+        ReactComponent: (props) => ({
+          $$typeof: Symbol.for('react.element'),
+          type: 'svg',
+          ref: null,
+          key: null,
+          props: Object.assign({}, props, {
+            children: ${assetFilename}
+          })
+        }),
+      };`;
+    }
+
+    return `module.exports = ${assetFilename};`;
+  },
+};

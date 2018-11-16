@@ -45,6 +45,12 @@ program
   .action((dir, options) => {
     require('../src/commands/ssr')(dir, options);
   });
+program
+  .command('test [dir]')
+  .description('运行 jest 测试')
+  .action((dir, options) => {
+    require('../src/commands/test')(dir, options);
+  });
 
 program
   .command('release [mode]')
