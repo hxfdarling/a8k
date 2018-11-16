@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const webpack = require('webpack');
 const path = require('path');
+const chalk = require('chalk');
 const Service = require('../Service');
 
 // const { logWithSpinner, stopSpinner } = require('../utils/spinner');
@@ -20,6 +21,11 @@ class Build extends Service {
       this.options.ssrConfig
     );
     const { ssrConfig, projectDir } = this.options;
+    if (!ssrConfig.entry || !Object.keys(ssrConfig.entry).length) {
+      console.log(chalk.red('not found ssrConfig.entry in .imtrc.js'));
+      process.exit(1);
+    }
+
     ssrConfig.distDir = path.resolve(projectDir, ssrConfig.distDir);
     ssrConfig.viewDir = path.resolve(projectDir, ssrConfig.viewDir);
   }
