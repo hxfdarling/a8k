@@ -7,14 +7,13 @@ class Imt {
   constructor(options = {}) {
     this.initHooks();
     this.options = options;
-    this.proxy = options.proxy;
-    if (this.proxy) {
-      shell.exec(`export http_proxy=${this.proxy};export https_proxy=${this.proxy};`);
+    let { proxy, defaultProxy } = options.parent;
+    if (defaultProxy) {
+      proxy = 'http://web-proxy.tencent.com:8080';
     }
-    if (options.defaultProxy) {
-      shell.exec(
-        'export http_proxy=http://web-proxy.tencent.com:8080;export https_proxy=http://web-proxy.tencent.com:8080;'
-      );
+    if (proxy) {
+      const cmd = require('os').platform() === 'win32' ? 'set' : 'export';
+      shell.exec(`${cmd} http_proxy=${proxy};${cmd} https_proxy=${proxy};`);
     }
     this.plugins = [...buildInPlugins, ...(options.plugins || [])];
     this.plugins.forEach(plugin => {
