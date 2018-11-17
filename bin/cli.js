@@ -42,7 +42,7 @@ program
   });
 
 program
-  .command('ssr ')
+  .command('ssr')
   .description('构建直出JS包，以及拷贝HTML文件')
   .option('-p, --port <port>', '配置监听端口', 8081)
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
