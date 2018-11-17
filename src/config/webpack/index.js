@@ -17,6 +17,11 @@ const smp = new SpeedMeasurePlugin();
  * @param {ConfigOptions} options
  */
 module.exports = options => {
+  // 开发模式需要sourceMap
+  if (process.env.NODE_ENV === DEV) {
+    options.sourceMap = true;
+  }
+
   const { analyzer, useSmp, type } = options;
 
   let config;
@@ -37,8 +42,18 @@ module.exports = options => {
   if (analyzer) {
     config.plugins.push(new BundleAnalyzerPlugin());
   }
+
   if (useSmp) {
-    return smp.wrap(config);
+    config = smp.wrap(config);
   }
+
+  const { webpackOverride } = options;
+  if (webpackOverride) {
+    const temp = webpackOverride(config, options);
+    if (temp !== undefined) {
+      config = temp;
+    }
+  }
+
   return config;
 };

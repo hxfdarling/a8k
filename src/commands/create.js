@@ -14,7 +14,7 @@ const Imt = require('../');
 // 内置模板，提供选择
 const defaultTemplates = [{ name: 'React应用', value: 'hxfdarling/imt-react-template' }];
 class ImtCreate extends Imt {
-  constructor(template, dir, options) {
+  constructor(dir, template, options) {
     super(options);
 
     this.template = template;
@@ -24,6 +24,7 @@ class ImtCreate extends Imt {
     } else {
       dir = path.join(cwd, dir);
     }
+
     fs.ensureDir(dir);
 
     this.projectDir = dir;
@@ -117,6 +118,6 @@ class ImtCreate extends Imt {
   }
 }
 
-module.exports = (template, dir, options) => {
-  new ImtCreate(template, dir, options).create();
+module.exports = (dir, template, argv) => {
+  new ImtCreate(dir, template, argv).create();
 };

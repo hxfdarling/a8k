@@ -9,23 +9,23 @@ program
   .option('-x, --defaultProxy', '使用内网代理', false);
 
 program
-  .command('create [template] [dir]')
+  .command('create [dir] [template] ')
   .description('初始化项目')
-  .action((template, dir, options) => {
-    require('../src/commands/create')(template, dir, options);
+  .action((dir, template, options) => {
+    require('../src/commands/create')(dir, template, options);
   });
 
 program
-  .command('dev [dir]')
+  .command('dev')
   .description('启动开发者模式')
   .option('-p, --port <port>', '配置开发者服务器监听端口')
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
-  .action((dir, options) => {
-    require('../src/commands/dev')(dir, options);
+  .action(options => {
+    require('../src/commands/dev')(options);
   });
 
 program
-  .command('build [dir]')
+  .command('build')
   .description('构建生产包')
   .option('-d, --dist <dist>', '配置构建文件生成目标目录', 'dist')
   .option('--no-mini', '禁用压缩代码')
@@ -33,23 +33,26 @@ program
   .option('-m, --use-smp', '分析构建耗时', false)
   .option('-s, --source-map', '是否生成source-map,默认false', false)
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
-  .action((dir, options) => {
-    require('../src/commands/build')(dir, options);
+  .action(options => {
+    require('../src/commands/build')(options);
   });
 
 program
-  .command('ssr [dir]')
+  .command('ssr ')
   .description('构建直出JS包，以及拷贝HTML文件')
   .option('-p, --port <port>', '配置监听端口', 8081)
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
-  .action((dir, options) => {
-    require('../src/commands/ssr')(dir, options);
+  .action(options => {
+    require('../src/commands/ssr')(options);
   });
 program
-  .command('test [dir]')
+  .command('test')
   .description('运行 jest 测试')
-  .action((dir, options) => {
-    require('../src/commands/test')(dir, options);
+  .option('--coverage', 'coverage')
+  .option('--watchAll', 'watch')
+  .option('--env', 'environment')
+  .action(options => {
+    require('../src/commands/test')(options);
   });
 
 program
