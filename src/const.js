@@ -1,5 +1,6 @@
-const DEV = 'development';
-const PROD = 'production';
-const SSR = 'ssr';
-
-module.exports = { DEV, PROD, SSR };
+module.exports = {
+  DEV: 'development',
+  PROD: 'production',
+  SSR: 'ssr',
+  TEST: 'test',
+};

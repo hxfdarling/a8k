@@ -8,7 +8,11 @@ module.exports = (resolve, rootDir) => {
     resolver: require.resolve('jest-pnp-resolver'),
     setupFiles: [require.resolve('./jsdom')],
 
-    testMatch: ['<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}', '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}'],
+    testMatch: [
+      '<rootDir>/test/**/*.{js,jsx,ts,tsx}',
+      '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+      '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}',
+    ],
     testEnvironment: 'jsdom',
     testURL: 'http://localhost',
     transform: {

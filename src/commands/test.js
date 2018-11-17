@@ -4,16 +4,15 @@ const resolve = require('resolve');
 const { execSync } = require('child_process');
 const jest = require('jest');
 
-const Service = require('../Service');
 const createJestConfig = require('../utils/createJestConfig');
 const { TEST } = require('../const');
+const Imt = require('../index');
+
+const cwd = process.cwd();
 
 process.env.NODE_ENV = TEST;
 process.env.BABEL_ENV = TEST;
 
-process.on('unhandledRejection', err => {
-  throw err;
-});
 function isInGitRepository() {
   try {
     execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
@@ -42,55 +41,52 @@ function resolveJestDefaultEnvironment(name) {
     basedir: jestConfigDir,
   });
 }
-class Test extends Service {
-  async start() {
-    const { options } = this;
-    await new Promise(resolve => {
-      this.hooks.beforeDev.callAsync(this, resolve);
-    });
 
-    const argv = [];
+module.exports = async options => {
+  options.type = TEST;
+  options.projectDir = cwd;
 
-    if (!process.env.CI && !options.coverage && !options.watchAll) {
-      const hasSourceControl = isInGitRepository();
-      argv.push(hasSourceControl ? '--watch' : '--watchAll');
-    }
+  const imt = new Imt(options);
+  const { hooks } = imt;
+  await new Promise(resolve => {
+    hooks.beforeDev.callAsync(imt, resolve);
+  });
 
-    argv.push(
-      '--config',
-      JSON.stringify(createJestConfig(relativePath => path.resolve(__dirname, '..', relativePath), options.projectDir))
-    );
+  const argv = [];
 
-    const env = options.env || 'jsdom';
+  if (!process.env.CI && !options.coverage && !options.watchAll) {
+    const hasSourceControl = isInGitRepository();
+    argv.push(hasSourceControl ? '--watch' : '--watchAll');
+  }
 
-    let resolvedEnv;
+  argv.push(
+    '--config',
+    JSON.stringify(createJestConfig(relativePath => path.resolve(__dirname, '..', relativePath), options.projectDir))
+  );
+
+  const env = options.env || 'jsdom';
+
+  let resolvedEnv;
+  try {
+    resolvedEnv = resolveJestDefaultEnvironment(`jest-environment-${env}`);
+  } catch (e) {
+    // ignore
+  }
+  if (!resolvedEnv) {
     try {
-      resolvedEnv = resolveJestDefaultEnvironment(`jest-environment-${env}`);
+      resolvedEnv = resolveJestDefaultEnvironment(env);
     } catch (e) {
       // ignore
     }
-    if (!resolvedEnv) {
-      try {
-        resolvedEnv = resolveJestDefaultEnvironment(env);
-      } catch (e) {
-        // ignore
-      }
-    }
-    const testEnvironment = resolvedEnv || env;
-    argv.push('--env', testEnvironment);
-
-    jest.run(argv);
-
-    await new Promise(resolve => {
-      this.hooks.afterDev.callAsync(this, async () => {
-        resolve();
-      });
-    });
   }
-}
+  const testEnvironment = resolvedEnv || env;
+  argv.push('--env', testEnvironment);
 
-module.exports = (dir, options) => {
-  options.type = TEST;
-  console.log('​dir, options', dir, options);
-  return new Test(dir, options).start();
+  jest.run(argv);
+
+  await new Promise(resolve => {
+    hooks.afterDev.callAsync(imt, async () => {
+      resolve();
+    });
+  });
 };

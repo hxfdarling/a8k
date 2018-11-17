@@ -3,6 +3,10 @@
 const program = require('commander');
 const pkg = require('../package.json');
 
+process.on('unhandledRejection', err => {
+  throw err;
+});
+
 program
   .version(pkg.version)
   .option('-P, --proxy <proxy>', '设置代理')
