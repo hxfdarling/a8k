@@ -84,10 +84,11 @@ program
   .description('打包')
   .action(() => {});
 
+program.command('*').action(() => {
+  program.outputHelp();
+});
 program.parse(process.argv);
 
 if (!process.argv.slice(2).length) {
   program.outputHelp();
-} else if (program.proxy) {
-  process.env.proxy = program.proxy;
 }
