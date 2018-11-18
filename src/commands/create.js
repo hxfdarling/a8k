@@ -100,7 +100,7 @@ class ImtCreate extends Imt {
         npmCmd = 'tnpm';
       }
 
-      await util.promisify(shell.exec)(`${npmCmd} i`, { silent: true });
+      await util.promisify(shell.exec)(`${npmCmd} i --production`, { silent: true });
 
       spinner.succeed('模板初始化完毕');
       const main = require(`${templateDir}/package.json`).main || 'index.js';
