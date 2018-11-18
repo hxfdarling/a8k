@@ -6,6 +6,7 @@ const Imt = require('../index.js');
 const { DEV } = require('../const');
 const getOptions = require('../utils/getOptions');
 const getWebpackConfig = require('../config/webpack');
+const { done, info, error } = require('../utils/logger');
 
 const DEFAULT_HOST = '127.0.0.1';
 const DEFAULT_PORT = 8080;
@@ -48,6 +49,7 @@ function getServerConfig(options) {
 }
 
 module.exports = async argv => {
+  info('starting dev server.');
   const options = getOptions(argv);
   options.type = DEV;
   options.devServer = getServerConfig(options);
@@ -68,7 +70,7 @@ module.exports = async argv => {
       // Launch WebpackDevServer.
       server.listen(devServer.port, devServer.host, err => {
         if (err) {
-          console.error(err);
+          error(err);
           process.exit(1);
         }
         resolve();
@@ -81,10 +83,8 @@ module.exports = async argv => {
         });
       });
     } catch (err) {
-      console.log(chalk.red('Failed to compile.'));
-      console.log();
-      console.log(err.message || err);
-      console.log();
+      info(chalk.red('Failed to compile.'));
+      error(err.message || err);
       process.exit(1);
     }
   });
@@ -94,4 +94,5 @@ module.exports = async argv => {
       resolve();
     });
   });
+  done('dev server started.');
 };
