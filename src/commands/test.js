@@ -49,7 +49,7 @@ module.exports = async options => {
   const imt = new Imt(options);
   const { hooks } = imt;
   await new Promise(resolve => {
-    hooks.beforeDev.callAsync(imt, resolve);
+    hooks.beforeTest.callAsync(imt, resolve);
   });
 
   const argv = [];
@@ -85,7 +85,7 @@ module.exports = async options => {
   jest.run(argv);
 
   await new Promise(resolve => {
-    hooks.afterDev.callAsync(imt, async () => {
+    hooks.afterTest.callAsync(imt, async () => {
       resolve();
     });
   });
