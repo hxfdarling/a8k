@@ -64,6 +64,9 @@ program
   .description('发布项目，[mode]发布模块，支持static、node, 默认static')
   .option('-e, --env <env>', '选择部署环境', /^(nohost|test|preview|public)$/i, 'nohost')
   .action((mode, options) => {
+    if (!mode) {
+      mode = 'static';
+    }
     require('../src/commands/release')(mode, options);
   });
 program
