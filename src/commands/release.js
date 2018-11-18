@@ -3,6 +3,7 @@ const Imt = require('../index.js');
 const { done, info } = require('../utils/logger');
 const { PROD } = require('../const');
 const getOptions = require('../utils/getOptions');
+const login = require('../utils/login');
 
 process.env.NODE_ENV = PROD;
 
@@ -18,6 +19,7 @@ module.exports = async (mode, argv) => {
   fs.emptyDirSync(options.distDir);
   await new Promise(resolve => {
     info('coming soon');
+    login();
     resolve();
   });
 

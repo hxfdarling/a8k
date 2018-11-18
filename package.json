@@ -41,6 +41,7 @@
     "babel-jest": "^23.6.0",
     "babel-preset-imt": "0.0.3",
     "chalk": "^2.4.1",
+    "chrome-remote-interface": "^0.26.1",
     "clean-css": "^4.2.1",
     "clean-webpack-plugin": "^1.0.0",
     "commander": "^2.19.0",
