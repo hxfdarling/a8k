@@ -67,6 +67,10 @@ program
     if (!mode) {
       mode = 'static';
     }
+    if (!['static', 'node'].find(i => i === mode)) {
+      options.outputHelp();
+      process.exit(1);
+    }
     require('../src/commands/release')(mode, options);
   });
 program
