@@ -22,7 +22,8 @@ module.exports = async argv => {
   await new Promise(resolve => {
     imt.hooks.beforeBuild.callAsync(imt, resolve);
   });
-  info('clean dist dir.');
+  spinner.info('clean dist dir.');
+  spinner.start();
   fs.emptyDirSync(options.distDir);
   await new Promise(resolve => {
     const webpackConfig = getWebpackConfig(options);
