@@ -1,8 +1,11 @@
 {
   "name": "imt-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
-  "repository": "https://github.com/hxfdarling/imt.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hxfdarling/imt.git"
+  },
   "author": "zman <hxfdarling@hotmail.com>",
   "license": "MIT",
   "bin": {
@@ -41,7 +44,6 @@
     "babel-jest": "^23.6.0",
     "babel-preset-imt": "0.0.3",
     "chalk": "^2.4.1",
-    "chrome-remote-interface": "^0.26.1",
     "clean-css": "^4.2.1",
     "clean-webpack-plugin": "^1.0.0",
     "commander": "^2.19.0",
@@ -122,5 +124,13 @@
     "cz-customizable": {
       "config": "node_modules/commitlint-config-imt/cz-config.js"
     }
+  },
+  "description": "imt",
+  "bugs": {
+    "url": "https://github.com/hxfdarling/imt/issues"
+  },
+  "homepage": "https://github.com/hxfdarling/imt#readme",
+  "directories": {
+    "doc": "docs"
   }
 }
