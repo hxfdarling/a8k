@@ -1,17 +1,18 @@
 const fs = require('fs-extra');
 const webpack = require('webpack');
 const path = require('path');
-const chalk = require('chalk');
 const Imt = require('../index.js');
 const getOptions = require('../utils/getOptions');
 const getWebpackConfig = require('../config/webpack');
 
-// const { logWithSpinner, stopSpinner } = require('../utils/spinner');
-const { done } = require('../utils/logger');
+const { logWithSpinner, stopSpinner } = require('../utils/spinner');
+const { error } = require('../utils/logger');
 const { PROD, SSR } = require('../const');
 
 process.env.NODE_ENV = PROD;
 module.exports = async argv => {
+  logWithSpinner('ssr building.');
+  const start = Date.now();
   const options = getOptions(argv);
   options.type = SSR;
   options.ssrConfig = Object.assign(
@@ -28,7 +29,7 @@ module.exports = async argv => {
   ssrConfig.viewDir = path.resolve(projectDir, ssrConfig.viewDir);
 
   if (!ssrConfig.entry || !Object.keys(ssrConfig.entry).length) {
-    console.log(chalk.red('not found ssrConfig.entry in .imtrc.js'));
+    error('not found ssrConfig.entry in .imtrc.js');
     process.exit(1);
   }
 
@@ -51,7 +52,6 @@ module.exports = async argv => {
         process.exit(1);
       }
 
-      done('Build complete.');
       resolve();
     });
   });
@@ -61,4 +61,6 @@ module.exports = async argv => {
       resolve();
     });
   });
+  logWithSpinner(`ssr build complete in ${parseInt(Date.now() - start, 10) / 1000}s.`);
+  stopSpinner();
 };

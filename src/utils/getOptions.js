@@ -1,5 +1,5 @@
-const chalk = require('chalk').default;
 const path = require('path');
+const { error } = require('./logger');
 
 const cwd = process.cwd();
 
@@ -28,8 +28,8 @@ module.exports = options => {
     /** @type ImtConfig */
     imtrc = Object.assign({ publicPath: '' }, require(path.join(cwd, '.imtrc.js')));
   } catch (e) {
-    console.log(chalk.red('项目目录找不到`.imtrc.js`配置文件，请确认已经正确初始化.imtrc.js'));
-    console.error(e);
+    error('项目目录找不到`.imtrc.js`配置文件，请确认已经正确初始化.imtrc.js');
+    error(e);
     process.exit(1);
   }
   options.distDir = path.resolve(cwd, imtrc.dist || options.dist || 'dist');
