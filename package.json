@@ -42,6 +42,7 @@
     "autoprefixer": "^9.3.1",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.4",
     "babel-preset-imt": "0.0.3",
     "chalk": "^2.4.1",
     "clean-css": "^4.2.1",
