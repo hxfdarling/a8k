@@ -1,7 +1,9 @@
 const fs = require('fs-extra');
 const webpack = require('webpack');
+const chalk = require('chalk').default;
+const ora = require('ora');
 const Imt = require('../index.js');
-const { done, info, error } = require('../utils/logger');
+const { info, error } = require('../utils/logger');
 const { PROD } = require('../const');
 const getOptions = require('../utils/getOptions');
 const getWebpackConfig = require('../config/webpack/index.js');
@@ -10,6 +12,8 @@ process.env.NODE_ENV = PROD;
 
 module.exports = async argv => {
   info('start building.');
+  const spinner = ora('building').start();
+  const start = Date.now();
   const options = getOptions(argv);
   options.type = PROD;
 
@@ -39,5 +43,5 @@ module.exports = async argv => {
       resolve();
     });
   });
-  done('Build complete.');
+  spinner.succeed(chalk.green(`Build complete in ${parseInt((Date.now() - start) / 1000, 10)}s`));
 };
