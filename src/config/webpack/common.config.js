@@ -227,7 +227,7 @@ module.exports = options => {
         },
         !isSSR && {
           // 其它文件直接拷贝
-          test: /\.(gif|png|jpe?g|eot|woff|ttf|pdf)$/,
+          test: /\.(gif|png|jpe?g|eot|woff|ttf|ogg|mp3|pdf|path\.json)$/,
           use: {
             loader: resolve('file-loader'),
             options: { name: '[name]_[hash].[ext]' },
