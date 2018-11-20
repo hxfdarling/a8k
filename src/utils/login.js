@@ -34,9 +34,8 @@ async function login() {
   let page = await browser.newPage();
   await page.goto(url);
   const btn = await page.$('#btn_smartlogin');
-
   if (btn) {
-    await btn.click();
+    await page.evaluate(() => document.querySelector('#btn_smartlogin').click());
   } else {
     browser.close();
     browser = await launch({
