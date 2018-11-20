@@ -60,18 +60,10 @@ async function loginAndCheck(url) {
   const cookies = await db.get(`cookies:${url}`).value();
   try {
     if (cookies && (await checkLoginStatus(url, cookies))) {
-      return;
+      return true;
     }
   } catch (e) {}
   await login(url);
+  return true;
 }
 module.exports = { login, loginAndCheck };
-// async function test() {
-//   await loginAndCheck(JB_URL);
-//   console.log(JB_URL, '登录成功');
-//   await loginAndCheck(ZY_URL);
-//   console.log(ZY_URL, '登录成功');
-//   await loginAndCheck(ARS_URL);
-//   console.log(ARS_URL, '登录成功');
-// }
-// test();
