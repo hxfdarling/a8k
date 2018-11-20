@@ -19,7 +19,7 @@ const getCookies = page => {
   return new Promise(async resolve => {
     const cookies = await page.cookies();
     if (cookies.find(({ name }) => name === 'TCOA_TICKET')) {
-      const str = cookies.map(({ name, value }) => `${name}=${value}`).join('; ');
+      const str = cookies.map(({ name, value }) => `${name}=${value}`).join(';');
       resolve(str);
     } else {
       setTimeout(async () => {
@@ -33,8 +33,14 @@ async function login() {
   let browser = await launch();
   let page = await browser.newPage();
   await page.goto(url);
-  const btn = await page.$('#btn_smartlogin');
-  if (btn) {
+  const supportAutoLogin = await page.evaluate(() => {
+    const ioaloign = document.querySelector('#div_ioalogin');
+    if (ioaloign.style.display === 'none') {
+      return false;
+    }
+    return true;
+  });
+  if (supportAutoLogin) {
     await page.evaluate(() => document.querySelector('#btn_smartlogin').click());
   } else {
     browser.close();
