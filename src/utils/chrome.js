@@ -55,18 +55,12 @@ async function detectChrome() {
 process.on('unhandledRejection', err => {
   throw err;
 });
-async function start() {
-  const executablePath = await detectChrome();
-  console.log('​executablePath', executablePath);
-  const browser = await puppeteer.launch({
-    headless: false,
-    executablePath,
-  });
-  const page = await browser.newPage();
-  await page.goto('https://www.qq.com');
-  console.log(await page.cookies());
 
-  // other actions...
-  // await browser.close();
-}
-start();
+exports.launch = async (options = {}) => {
+  const executablePath = await detectChrome();
+  const browser = await puppeteer.launch({
+    executablePath,
+    ...options,
+  });
+  return browser;
+};
