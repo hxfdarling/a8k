@@ -1,7 +1,3 @@
-/**
- * 基础类 Base
- */
-
 const request = require('request');
 const querystring = require('querystring');
 const { parseString } = require('xml2js');

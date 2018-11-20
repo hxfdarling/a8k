@@ -1,5 +1,5 @@
 const { launch } = require('../utils/chrome');
-const Request = require('./request');
+const Request = require('../utils/request');
 const logger = require('../utils/logger');
 const db = require('../utils/db');
 
