@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
-const WebpackBar = require('webpackbar');
+// const WebpackBar = require('webpackbar');
 const fs = require('fs-extra');
 
 const ReportStatusPlugin = require('./plugins/report-status-plugin');
@@ -238,9 +238,9 @@ module.exports = options => {
       ].filter(Boolean),
     },
     plugins: [
-      new WebpackBar({
-        profile: options.analyzer,
-      }),
+      // new WebpackBar({
+      //   profile: options.analyzer,
+      // }),
       new ReportStatusPlugin({
         mode: env.NODE_ENV,
         showFileStats: true,

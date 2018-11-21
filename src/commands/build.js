@@ -6,7 +6,7 @@ const { info, error } = require('../utils/logger');
 const { PROD } = require('../const');
 const getOptions = require('../utils/getOptions');
 const getWebpackConfig = require('../config/webpack/index.js');
-// const { logWithSpinner, stopSpinner } = require('../utils/spinner');
+const { logWithSpinner, stopSpinner } = require('../utils/spinner');
 
 process.env.NODE_ENV = PROD;
 
@@ -22,9 +22,9 @@ module.exports = async argv => {
   await new Promise(resolve => {
     imt.hooks.beforeBuild.callAsync(imt, resolve);
   });
-  info('clean dist dir.');
+  logWithSpinner('clean dist dir.');
   fs.emptyDirSync(options.distDir);
-  info('webpack completing.');
+  logWithSpinner('webpack completing.');
   await new Promise(resolve => {
     const webpackConfig = getWebpackConfig(options);
     webpack(webpackConfig, (err, stats) => {
@@ -44,6 +44,6 @@ module.exports = async argv => {
       resolve();
     });
   });
-  info(chalk.green(`Build complete in ${parseInt((Date.now() - start) / 1000, 10)}s`));
-  // stopSpinner();
+  logWithSpinner(chalk.green(`Build complete in ${parseInt((Date.now() - start) / 1000, 10)}s`));
+  stopSpinner();
 };
