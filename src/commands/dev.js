@@ -6,7 +6,7 @@ const Imt = require('../index.js');
 const { DEV } = require('../const');
 const getOptions = require('../utils/getOptions');
 const getWebpackConfig = require('../config/webpack');
-const { done, info, error } = require('../utils/logger');
+const { info, error } = require('../utils/logger');
 
 const DEFAULT_HOST = '127.0.0.1';
 const DEFAULT_PORT = 8080;
@@ -94,6 +94,6 @@ module.exports = async argv => {
       resolve();
     });
   });
-  done('dev server started.');
-  info('building...');
+  // done('dev server started.');
+  // info('building...');
 };
