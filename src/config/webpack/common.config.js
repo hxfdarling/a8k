@@ -36,17 +36,20 @@ function configureCssLoader({ projectDir, cacheDir, sourceMap, publicPath, type 
       options: {
         sourceMap,
         plugins: () => [
-          require('postcss-import')({
-            path: path.resolve(projectDir, 'src'),
-          }),
-          require('postcss-advanced-variables'),
+          // 下面两个插件有bug，将导致 import 的文件中存在相对路径url处理错误
+          // require('postcss-import')({
+          //   path: path.resolve(projectDir, 'src'),
+          // }),
+          // require('postcss-advanced-variables'),
+
+          // 这些插件不需要，使用 node-sass 够用了，避免造成构建速度太慢
           // require('postcss-extend'),
           // require('postcss-simple-vars'),
           // require('postcss-nested-ancestors'),
           // require('postcss-nested'),
           // require('postcss-hexrgba'),
-          // require('autoprefixer'),
           // require('postcss-flexbugs-fixes'),
+
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',

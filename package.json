@@ -36,12 +36,11 @@
   "devDependencies": {
     "commitlint-config-imt": "0.0.4",
     "eslint-config-zman": "0.0.9",
-    "lint-staged": "^8.0.5",
+    "lint-staged": "^8.1.0",
     "prettier": "^1.15.2",
     "standard-version": "^4.4.0"
   },
   "dependencies": {
-    "autoprefixer": "^9.3.1",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
@@ -116,8 +115,7 @@
     "terser-webpack-plugin": "^1.1.0",
     "text-table": "^0.2.0",
     "url": "^0.11.0",
-    "web-webpack-plugin": "^4.0.1",
-    "webpack": "^4.25.1",
+    "webpack": "^4.26.0",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10",
