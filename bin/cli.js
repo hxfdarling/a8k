@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
 const program = require('commander');
+const fs = require('fs-extra');
 const pkg = require('../package.json');
+const getOptions = require('../src/utils/getOptions');
+const spinner = require('../src/utils/spinner');
 
 process.on('unhandledRejection', err => {
   throw err;
@@ -78,6 +81,15 @@ program
   .description('检测代码是否合并主干')
   .action(options => {
     require('../src/commands/check.js')(options);
+  });
+program
+  .command('clean')
+  .description('清理缓存文件')
+  .action(async () => {
+    spinner.logWithSpinner('清理缓存');
+    const options = getOptions({});
+    await fs.emptyDir(options.cacheDir);
+    spinner.stopSpinner();
   });
 program
   .command('pack')
