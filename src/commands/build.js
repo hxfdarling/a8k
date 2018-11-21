@@ -23,8 +23,10 @@ module.exports = async argv => {
     imt.hooks.beforeBuild.callAsync(imt, resolve);
   });
   logWithSpinner('clean dist dir.');
+  stopSpinner();
+
   fs.emptyDirSync(options.distDir);
-  logWithSpinner('webpack completing.');
+  // logWithSpinner('webpack completing.');
   await new Promise(resolve => {
     const webpackConfig = getWebpackConfig(options);
     webpack(webpackConfig, (err, stats) => {

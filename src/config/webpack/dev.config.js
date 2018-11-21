@@ -1,8 +1,6 @@
 const webpackMerge = require('webpack-merge');
 const webpack = require('webpack');
 const path = require('path');
-// const WebpackBar = require('webpackbar');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const getBaseConfig = require('./common.config');
 const { DEV } = require('../../const');
@@ -40,11 +38,7 @@ module.exports = options => {
         },
       ],
     },
-    plugins: [
-      // new WebpackBar({ profile: options.analyzer }),
-      new ProgressBarPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
-    ],
+    plugins: [new webpack.HotModuleReplacementPlugin()],
   });
 
   return config;

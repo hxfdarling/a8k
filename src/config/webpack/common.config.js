@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 // const WebpackBar = require('webpackbar');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+
 const fs = require('fs-extra');
 
 const ReportStatusPlugin = require('./plugins/report-status-plugin');
@@ -247,6 +249,7 @@ module.exports = options => {
       ].filter(Boolean),
     },
     plugins: [
+      new ProgressBarPlugin(),
       // new WebpackBar({
       //   profile: options.analyzer,
       // }),

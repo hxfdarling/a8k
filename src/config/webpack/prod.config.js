@@ -10,6 +10,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const LodashPlugin = require('lodash-webpack-plugin');
 // const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const RetryPlugin = require('webpack-retry-load-plugin');
+
 // config
 const getBaseConfig = require('./common.config');
 const { PROD } = require('../../const');
@@ -17,7 +18,7 @@ const { PROD } = require('../../const');
 const configureCleanWebpack = ({ distDir: root }) => {
   return {
     root,
-    verbose: true,
+    verbose: false,
     dry: false,
   };
 };
@@ -81,12 +82,11 @@ const configOptimization = options => {
           priority: 10,
           reuseExistingChunk: true,
         },
-        default: {
-          name: 'common',
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
+        // default: {
+        //   minChunks: 2,
+        //   priority: -20,
+        //   reuseExistingChunk: true,
+        // },
       },
     },
     // Keep the runtime chunk seperated to enable long term caching
