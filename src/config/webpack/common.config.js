@@ -57,6 +57,10 @@ function configureCssLoader({ projectDir, cacheDir, sourceMap, publicPath, type 
     {
       loader: resolve('sass-loader'),
       options: {
+        includePaths: [
+          // 支持绝对路径查找
+          path.resolve(projectDir, 'src'),
+        ],
         sourceMap,
       },
     },
