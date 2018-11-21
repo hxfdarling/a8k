@@ -95,4 +95,5 @@ module.exports = async argv => {
     });
   });
   done('dev server started.');
+  info('building...');
 };
