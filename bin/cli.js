@@ -26,7 +26,7 @@ program
   .command('dev')
   .description('启动开发者模式')
   .option('-p, --port <port>', '配置开发者服务器监听端口')
-  .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
+  .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
   .action(options => {
     require('../src/commands/dev')(options);
   });
@@ -39,7 +39,7 @@ program
   .option('-a, --analyzer', '开启构建分析', false)
   .option('-m, --use-smp', '分析构建耗时', false)
   .option('-s, --source-map', '是否生成source-map,默认false', false)
-  .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
+  .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
   .action(options => {
     require('../src/commands/build')(options);
   });
@@ -48,7 +48,7 @@ program
   .command('ssr')
   .description('构建直出JS包，以及拷贝HTML文件')
   .option('-p, --port <port>', '配置监听端口', 8081)
-  .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译', 'node_modules/.cache/')
+  .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
   .action(options => {
     require('../src/commands/ssr')(options);
   });

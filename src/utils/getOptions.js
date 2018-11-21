@@ -33,9 +33,7 @@ module.exports = options => {
     process.exit(1);
   }
   options.distDir = path.resolve(cwd, imtrc.dist || options.dist || 'dist');
-  if (options.cacheDir) {
-    options.cacheDir = path.resolve(options.cacheDir);
-  }
+  options.cacheDir = path.resolve(options.cacheDir || 'node_modules/.cache');
   Object.assign(options, imtrc);
   return options;
 };
