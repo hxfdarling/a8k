@@ -5,7 +5,7 @@
 安装
 
 ```shell
-tnpm i -g @tencent/imt
+tnpm i -g imt-cli
 ```
 
 生成模板

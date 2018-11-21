@@ -1,5 +1,5 @@
 {
-  "name": "@tencent/imt",
+  "name": "imt-cli",
   "version": "0.1.2",
   "main": "index.js",
   "repository": {
