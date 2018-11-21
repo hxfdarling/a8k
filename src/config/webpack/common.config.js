@@ -120,11 +120,11 @@ const getPages = options => {
   });
 };
 const configureEntries = options => {
-  const { mode = [], type } = options;
-  const entry = {};
+  const { mode = [], type, entry = {} } = options;
 
   if (type === SSR) {
-    return entry;
+    // 服务器渲染没有其它入口文件
+    return {};
   }
   if (mode === 'single') {
     entry.index = './src/index';
@@ -281,7 +281,7 @@ module.exports = options => {
       files.forEach(file => {
         const name = path.basename(file);
         file = `${PAGES_DIR}/${file}/index.html`;
-        const chunks = ['react', 'antd', 'vender', 'common', `runtime~${name}`, name];
+        const chunks = [`runtime~${name}`, name];
         config.plugins.push(
           new HtmlWebpackPlugin({
             minify: false,
