@@ -10,7 +10,6 @@ const getWebpackConfig = require('../config/webpack/index.js');
 const { logWithSpinner, stopSpinner } = require('../utils/spinner');
 
 process.env.NODE_ENV = PROD;
-
 async function buildSSR(options, imt) {
   logWithSpinner('ssr building');
   const start = Date.now();
@@ -64,6 +63,9 @@ module.exports = async argv => {
   options.type = PROD;
   const imt = new Imt(options);
   const { silent } = options;
+  if (silent) {
+    process.noDeprecation = true;
+  }
   await new Promise(resolve => {
     imt.hooks.beforeBuild.callAsync(imt, resolve);
   });
