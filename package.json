@@ -46,6 +46,7 @@
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-preset-imt": "0.0.5",
+    "cache-loader": "^1.2.5",
     "chalk": "^2.4.1",
     "chrome": "^0.1.0",
     "chrome-finder": "^1.0.5",

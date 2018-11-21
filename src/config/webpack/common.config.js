@@ -16,8 +16,12 @@ const { env } = process;
 
 const PAGES_DIR = './src/pages';
 
-function configureCssLoader({ projectDir, sourceMap, publicPath, type }) {
+function configureCssLoader({ projectDir, cacheDir, sourceMap, publicPath, type }) {
   const loaders = [
+    {
+      loader: resolve('cache-loader'),
+      options: { cacheDirectory: path.join(cacheDir, 'cache-loader') },
+    },
     {
       loader: resolve('css-loader'),
       options: {
@@ -136,6 +140,7 @@ const configureBabelLoader = options => {
         loader: resolve('babel-loader'),
         options: {
           babelrc: false,
+          // cacheCompression:false,
           // cacheDirectory 缓存babel编译结果加快重新编译速度
           cacheDirectory: path.resolve(options.cacheDir, 'babel-loader'),
           presets: [require('babel-preset-imt')],
