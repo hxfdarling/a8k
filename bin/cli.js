@@ -35,23 +35,25 @@ program
   .command('build')
   .description('构建生产包')
   .option('-d, --dist <dist>', '配置构建文件生成目标目录', 'dist')
-  .option('--no-mini', '禁用压缩代码')
   .option('-a, --analyzer', '开启构建分析', false)
   .option('-m, --use-smp', '分析构建耗时', false)
   .option('-s, --source-map', '是否生成source-map,默认false', false)
+  .option('--no-mini', '禁用压缩代码')
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
+  .option('--no-silent', '输出日志')
   .action(options => {
     require('../src/commands/build')(options);
   });
 
-program
-  .command('ssr')
-  .description('构建直出JS包，以及拷贝HTML文件')
-  .option('-p, --port <port>', '配置监听端口', 8081)
-  .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
-  .action(options => {
-    require('../src/commands/ssr')(options);
-  });
+// program
+//   .command('ssr')
+//   .description('构建直出JS包，以及拷贝HTML文件')
+//   .option('-p, --port <port>', '配置监听端口', 8081)
+//   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
+//   .action(options => {
+//     require('../src/commands/ssr')(options);
+//   });
+
 program
   .command('test')
   .description('运行 jest 测试')

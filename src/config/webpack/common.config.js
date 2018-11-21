@@ -252,17 +252,18 @@ module.exports = options => {
       ].filter(Boolean),
     },
     plugins: [
-      new ProgressBarPlugin(),
+      !options.silent && new ProgressBarPlugin(),
       // new WebpackBar({
       //   profile: options.analyzer,
       // }),
-      new ReportStatusPlugin({
-        mode: env.NODE_ENV,
-        showFileStats: true,
-        devServer: options.devServer,
-      }),
+      !options.silent
+        && new ReportStatusPlugin({
+          mode: env.NODE_ENV,
+          showFileStats: true,
+          devServer: options.devServer,
+        }),
       new ManifestPlugin(configureManifest('manifest-legacy.json', options)),
-    ],
+    ].filter(Boolean),
   };
 
   // 服务器渲染 js 不需要构建 html
