@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
-// const WebpackBar = require('webpackbar');
+const WebpackBar = require('webpackbar');
 const fs = require('fs-extra');
 
 const ReportStatusPlugin = require('./plugins/report-status-plugin');
@@ -144,6 +144,8 @@ const configureBabelLoader = options => {
     ],
     // 只命中 src 目录里的jsx?文件，加快webpack搜索速度
     include: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules/@tencent')],
+    // 忽略哪些压缩的文件
+    exclude: [/(.|_)min\.js$/],
   };
 };
 const configureHtmlLoader = ({ mini, projectDir, type }) => {
@@ -236,9 +238,9 @@ module.exports = options => {
       ].filter(Boolean),
     },
     plugins: [
-      // new WebpackBar({
-      //   profile: options.analyzer,
-      // }),
+      new WebpackBar({
+        profile: options.analyzer,
+      }),
       new ReportStatusPlugin({
         mode: env.NODE_ENV,
         showFileStats: true,
