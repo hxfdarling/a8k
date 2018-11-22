@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+
+# [0.2.0](https://github.com/hxfdarling/imt/compare/v0.1.2...v0.2.0) (2018-11-22)
+
+### Bug Fixes
+
+- 修复自动填入 chunk ([268a9bf](https://github.com/hxfdarling/imt/commit/268a9bf))
+- 修复 common entry 没有引入的 bug ([265a4dd](https://github.com/hxfdarling/imt/commit/265a4dd))
+- 修复 css 中 import bug ([709d69c](https://github.com/hxfdarling/imt/commit/709d69c))
+- 选择性支持 postcss-import ([1f7a625](https://github.com/hxfdarling/imt/commit/1f7a625))
+- 在静默模式下不处理 Deprecation 提示 ([6b9dd46](https://github.com/hxfdarling/imt/commit/6b9dd46))
+- 支持 sass-loader 绝对路径查找 ([7fa4e6e](https://github.com/hxfdarling/imt/commit/7fa4e6e))
+- ssr 构建异常 ([1090142](https://github.com/hxfdarling/imt/commit/1090142))
+
+### Features
+
+- 更新 babel-preset-imt,支持 flow ([e6728ad](https://github.com/hxfdarling/imt/commit/e6728ad))
+- 提高 dev 模式性能 ([35ce8c1](https://github.com/hxfdarling/imt/commit/35ce8c1))
+- 添加进度条 ([cb5f419](https://github.com/hxfdarling/imt/commit/cb5f419))
+- dev 模式添加进度条 ([ee76176](https://github.com/hxfdarling/imt/commit/ee76176))
+
 <a name="0.1.2"></a>
 
 ## [0.1.2](https://github.com/hxfdarling/imt/compare/v0.1.1...v0.1.2) (2018-11-21)
