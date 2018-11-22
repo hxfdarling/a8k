@@ -110,8 +110,8 @@ const initChoices = [
   { name: '添加 commit msg规范检测', value: 'commit' },
 ];
 program
-  .command('init [type]')
-  .description('初始化项目配置,支持:lint,commit')
+  .command('add [type]')
+  .description('添加项目配置,支持:lint,commit')
   .action(async (type, options) => {
     if (!type) {
       ({ type } = await inquirer.prompt([
