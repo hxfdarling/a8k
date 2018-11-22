@@ -7,7 +7,7 @@ const getBaseConfig = require('./common.config');
 const { DEV } = require('../../const');
 
 module.exports = options => {
-  const { distDir, projectDir } = options;
+  const { distDir, projectDir, eslint } = options;
 
   const config = webpackMerge(getBaseConfig(options), {
     mode: DEV,
@@ -17,7 +17,7 @@ module.exports = options => {
     },
     module: {
       rules: [
-        {
+        eslint && {
           test: /\.(js|mjs|jsx)$/,
           enforce: 'pre',
           use: [
@@ -37,7 +37,7 @@ module.exports = options => {
           ],
           include: [path.resolve(projectDir, 'src')],
         },
-      ],
+      ].filter(Boolean),
     },
     plugins: [
       // new WebpackBar({
