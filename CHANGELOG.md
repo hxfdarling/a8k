@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+
+# [0.3.0](https://github.com/hxfdarling/imt/compare/v0.2.0...v0.3.0) (2018-11-22)
+
+### Bug Fixes
+
+- 修复没有提供 entry 选项导致异常 ([98722e7](https://github.com/hxfdarling/imt/commit/98722e7))
+
+### Features
+
+- 提供 dev 模式下禁用 eslint ([d24262c](https://github.com/hxfdarling/imt/commit/d24262c))
+- 添加 commit 初始化 ([6dc4260](https://github.com/hxfdarling/imt/commit/6dc4260))
+- 添加 lint 初始化命令 ([16522c6](https://github.com/hxfdarling/imt/commit/16522c6))
+
 <a name="0.2.0"></a>
 
 # [0.2.0](https://github.com/hxfdarling/imt/compare/v0.1.2...v0.2.0) (2018-11-22)
