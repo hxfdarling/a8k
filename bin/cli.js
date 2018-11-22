@@ -2,10 +2,19 @@
 
 const program = require('commander');
 const fs = require('fs-extra');
+const path = require('path');
+const inquirer = require('inquirer');
+const shell = require('shelljs');
+const util = require('util');
+const commandExists = require('command-exists').sync;
+
 const pkg = require('../package.json');
 const getOptions = require('../src/utils/getOptions');
 const spinner = require('../src/utils/spinner');
+const { logWithSpinner, stopSpinner } = require('../src/utils/spinner');
 const { error } = require('../src/utils/logger');
+
+const cwd = process.cwd();
 
 process.on('unhandledRejection', err => {
   throw err;
@@ -66,20 +75,21 @@ program
     require('../src/commands/test')(options);
   });
 
-program
-  .command('release [mode]')
-  .description('发布项目，[mode]发布模块，支持static、node, 默认static')
-  .option('-e, --env <env>', '选择部署环境', /^(nohost|test|preview|public)$/i, 'nohost')
-  .action((mode, options) => {
-    if (!mode) {
-      mode = 'static';
-    }
-    if (!['static', 'node'].find(i => i === mode)) {
-      options.outputHelp();
-      process.exit(1);
-    }
-    require('../src/commands/release')(mode, options);
-  });
+// program
+//   .command('release [mode]')
+//   .description('发布项目，[mode]发布模块，支持static、node, 默认static')
+//   .option('-e, --env <env>', '选择部署环境', /^(nohost|test|preview|public)$/i, 'nohost')
+//   .action((mode, options) => {
+//     if (!mode) {
+//       mode = 'static';
+//     }
+//     if (!['static', 'node'].find(i => i === mode)) {
+//       options.outputHelp();
+//       process.exit(1);
+//     }
+//     require('../src/commands/release')(mode, options);
+//   });
+
 program
   .command('check')
   .description('检测代码是否合并主干')
@@ -95,10 +105,57 @@ program
     await fs.emptyDir(options.cacheDir);
     spinner.stopSpinner();
   });
+const initChoices = [
+  { name: '添加 提交前 lint 和 prettier', value: 'lint' },
+  { name: '添加 commit msg规范检测', value: 'commit' },
+];
 program
-  .command('pack')
-  .description('打包')
-  .action(() => {});
+  .command('init [type]')
+  .description('初始化项目配置,支持:lint,commit')
+  .action(async (type, options) => {
+    if (!type) {
+      ({ type } = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'type',
+          message: '选择初始化内容！',
+          choices: initChoices,
+        },
+      ]));
+    }
+    const choice = initChoices.find(i => i.value === type);
+    if (choice) {
+      const pkgFile = path.join(cwd, 'package.json');
+      const pPkg = require(pkgFile);
+      shell.cd(cwd);
+      let npmCmd = 'npm';
+      if (commandExists('tnpm')) {
+        npmCmd = 'tnpm';
+      }
+      switch (type) {
+        case 'lint':
+          pPkg['lint-staged'] = {
+            '*.{json,css,scss,md}': ['prettier --write', 'git add'],
+            '*.{jsx,js}': ['prettier --write', 'eslint --fix', 'git add'],
+          };
+          pPkg.husky = pPkg.husky || {};
+          pPkg.husky.hooks = pPkg.husky.hooks || {};
+          pPkg.husky.hooks['pre-commit'] = 'lint-staged';
+          logWithSpinner('添加配置信息');
+          fs.writeFileSync(pkgFile, JSON.stringify(pPkg, null, 2));
+          logWithSpinner('安装依赖：husky,prettier,lint-staged');
+          await util.promisify(shell.exec)(`${npmCmd} i husky prettier lint-staged -D`, { silent: true });
+          stopSpinner();
+          break;
+        case 'commit':
+          break;
+        default:
+      }
+    } else {
+      error(`不支持该选项: ${type}`);
+      options.outputHelp();
+    }
+  });
 
 program.command('*').action(options => {
   error(`找不到命令: ${options}`);

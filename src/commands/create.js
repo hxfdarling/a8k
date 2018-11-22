@@ -6,6 +6,7 @@ const ora = require('ora');
 const shell = require('shelljs');
 const util = require('util');
 const { spawnSync } = require('child_process');
+const commandExists = require('command-exists').sync;
 
 const cwd = process.cwd();
 
@@ -96,7 +97,7 @@ class ImtCreate extends Imt {
       shell.cd(templateDir);
       let npmCmd = 'npm';
 
-      if (!shell.exec('tnpm -v', { silent: true }).stderr) {
+      if (commandExists('tnpm')) {
         npmCmd = 'tnpm';
       }
 
