@@ -7,7 +7,7 @@ const inquirer = require('inquirer');
 const shell = require('shelljs');
 const util = require('util');
 const commandExists = require('command-exists').sync;
-
+const os = require('os');
 const pkg = require('../package.json');
 const getOptions = require('../src/utils/getOptions');
 const spinner = require('../src/utils/spinner');
@@ -147,8 +147,15 @@ program
           await util.promisify(shell.exec)(`${npmCmd} i husky prettier lint-staged -D`, { silent: true });
           stopSpinner();
           break;
-        case 'commit':
+        case 'commit': {
+          logWithSpinner('安装依赖：commitlint-config-imt');
+          await util.promisify(shell.exec)(`${npmCmd} i commitlint-config-imt -D`, { silent: true });
+          logWithSpinner('初始化commit配置');
+          const cmd = `./node_modules/.bin/imt-commit${os.platform() === 'win32' ? '.cmd' : ''}`;
+          await util.promisify(shell.exec)(cmd, { silent: true });
+          stopSpinner();
           break;
+        }
         default:
       }
     } else {
