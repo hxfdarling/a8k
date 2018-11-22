@@ -125,18 +125,30 @@ const getPages = options => {
   });
 };
 const configureEntries = options => {
-  const { mode = [], type, entry = {} } = options;
+  const { mode = [], type } = options;
 
+  const entry = {};
   if (type === SSR) {
     // 服务器渲染没有其它入口文件
     return {};
   }
+  // 处理公共entry
+  const initEntry = Object.keys(options.entry).reduce((result, key) => {
+    const temp = options.entry[key];
+    if (Array.isArray(temp)) {
+      result = result.concat(temp);
+    } else {
+      result.push(temp);
+    }
+    return result;
+  }, []);
+
   if (mode === 'single') {
-    entry.index = './src/index';
+    entry.index = [...initEntry, './src/index'];
   } else {
     getPages(options).forEach(file => {
       const name = path.basename(file);
-      entry[name] = `${PAGES_DIR}/${file}/index`;
+      entry[name] = [...initEntry, `${PAGES_DIR}/${file}/index`];
     });
   }
   return entry;

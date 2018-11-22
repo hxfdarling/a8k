@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const pkg = require('../package.json');
 const getOptions = require('../src/utils/getOptions');
 const spinner = require('../src/utils/spinner');
+const { error } = require('../src/utils/logger');
 
 process.on('unhandledRejection', err => {
   throw err;
@@ -98,7 +99,8 @@ program
   .description('打包')
   .action(() => {});
 
-program.command('*').action(() => {
+program.command('*').action(options => {
+  error(`找不到命令: ${options}`);
   program.outputHelp();
 });
 program.parse(process.argv);
