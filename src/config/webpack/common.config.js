@@ -20,7 +20,7 @@ const { env } = process;
 
 const PAGES_DIR = './src/pages';
 
-function configureCssLoader({ projectDir, cacheDir, sourceMap, publicPath, type }) {
+function configureCssLoader({ projectDir, cacheDir, possCssImport, sourceMap, publicPath, type }) {
   const loaders = [
     {
       loader: resolve('cache-loader'),
@@ -39,10 +39,12 @@ function configureCssLoader({ projectDir, cacheDir, sourceMap, publicPath, type 
         sourceMap,
         plugins: () => [
           // 下面两个插件有bug，将导致 import 的文件中存在相对路径url处理错误
-          // require('postcss-import')({
-          //   path: path.resolve(projectDir, 'src'),
-          // }),
-          // require('postcss-advanced-variables'),
+          // 但是坑爹的是pc项目里面使用了这个东西，需要支持
+          possCssImport
+              && require('postcss-import')({
+                path: path.resolve(projectDir, 'src'),
+              }),
+          possCssImport && require('postcss-advanced-variables'),
 
           // 这些插件不需要，使用 node-sass 够用了，避免造成构建速度太慢
           // require('postcss-extend'),
@@ -58,7 +60,7 @@ function configureCssLoader({ projectDir, cacheDir, sourceMap, publicPath, type 
             },
             stage: 3,
           }),
-        ],
+        ].filter(Boolean),
       },
     },
     {
