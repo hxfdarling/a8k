@@ -36,12 +36,12 @@ class ReportStatusPlugin {
         for (const error of messages.errors) {
           console.log(error);
         }
-        if (!this.options.silent) {
-          // eslint-disable-next-line
-          for (const warning of messages.warnings) {
-            console.log(warning);
-          }
-        }
+        // if (!this.options.silent) {
+        //   // eslint-disable-next-line
+        //   for (const warning of messages.warnings) {
+        //     console.log(warning);
+        //   }
+        // }
       }
 
       if (this.options.mode === 'development' && this.options && !state) {

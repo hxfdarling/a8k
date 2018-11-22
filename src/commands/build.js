@@ -13,6 +13,9 @@ const { logWithSpinner, stopSpinner } = require('../utils/spinner');
 process.env.NODE_ENV = PROD;
 async function buildSSR(options, imt) {
   logWithSpinner('ssr building');
+  if (!options.silent) {
+    stopSpinner();
+  }
   const start = Date.now();
   options.type = SSR;
   options.ssrConfig = Object.assign(
