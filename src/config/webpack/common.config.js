@@ -6,6 +6,8 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 // const WebpackBar = require('webpackbar');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const fs = require('fs-extra');
 
@@ -22,7 +24,7 @@ function configureCssLoader({ projectDir, cacheDir, sourceMap, publicPath, type 
   const loaders = [
     {
       loader: resolve('cache-loader'),
-      options: { cacheDirectory: path.join(cacheDir, 'cache-loader') },
+      options: { cacheDirectory: path.join(cacheDir, 'cache-loader-css') },
     },
     {
       loader: resolve('css-loader'),
@@ -162,10 +164,14 @@ const configureBabelLoader = options => {
     exclude: [/(.|_)min\.js$/],
   };
 };
-const configureHtmlLoader = ({ mini, projectDir, type }) => {
+const configureHtmlLoader = ({ mini, projectDir, type, cacheDir }) => {
   return {
     test: /\.(html|njk|nunjucks)$/,
     use: [
+      {
+        loader: resolve('cache-loader'),
+        options: { cacheDirectory: path.join(cacheDir, 'cache-loader-html') },
+      },
       {
         loader: resolve('html-loader'),
         options: {
@@ -192,7 +198,81 @@ const configureHtmlLoader = ({ mini, projectDir, type }) => {
     ],
   };
 };
+const configureTerser = ({ sourceMap, cacheDir }) => {
+  return {
+    cache: path.resolve(cacheDir, 'terser-webpack-plugin'),
+    parallel: true,
+    sourceMap,
+  };
+};
 
+const configureOptimizeCSS = ({ sourceMap }) => {
+  return {
+    cssProcessorOptions: {
+      map: sourceMap
+        ? {
+          inline: false,
+          annotation: true,
+        }
+        : false,
+      safe: true,
+      discardComments: true,
+    },
+  };
+};
+const configOptimization = options => {
+  const config = {
+    // Automatically split vendor and commons
+    // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
+    splitChunks: {
+      chunks: 'all',
+      minSize: 30000,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        react: {
+          test({ resource }) {
+            return /[\\/]node_modules[\\/](react|redux)/.test(resource);
+          },
+          name: 'react',
+          priority: 20,
+          reuseExistingChunk: true,
+        },
+        antd: {
+          test: /[\\/]node_modules[\\/]antd/,
+          name: 'antd',
+          priority: 15,
+          reuseExistingChunk: true,
+        },
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          priority: 10,
+          reuseExistingChunk: true,
+        },
+        // default: {
+        //   minChunks: 2,
+        //   priority: -20,
+        //   reuseExistingChunk: true,
+        // },
+      },
+    },
+    // Keep the runtime chunk seperated to enable long term caching
+    runtimeChunk: true,
+    minimizer: [new TerserPlugin(configureTerser(options)), new OptimizeCSSAssetsPlugin(configureOptimizeCSS(options))],
+  };
+  if (!options.mini) {
+    config.minimizer = [];
+  }
+  if (options.type !== PROD) {
+    config.minimizer = [];
+  }
+  return config;
+};
 module.exports = options => {
   const { projectDir, mode } = options;
   const isSSR = options.type === SSR;
@@ -251,6 +331,7 @@ module.exports = options => {
         },
       ].filter(Boolean),
     },
+    optimization: configOptimization(options),
     plugins: [
       !options.silent && new ProgressBarPlugin(),
       // new WebpackBar({
