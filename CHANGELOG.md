@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.1"></a>
+
+## [0.3.1](https://github.com/hxfdarling/imt/compare/v0.3.0...v0.3.1) (2018-11-22)
+
+### Bug Fixes
+
+- 更新 html-inline-assets-loader|修复无法自动更新缓存问题 ([c55c5eb](https://github.com/hxfdarling/imt/commit/c55c5eb))
+- 修复 ssr 构建 svg 未排除 ([bd3e1e8](https://github.com/hxfdarling/imt/commit/bd3e1e8))
+
 <a name="0.3.0"></a>
 
 # [0.3.0](https://github.com/hxfdarling/imt/compare/v0.2.0...v0.3.0) (2018-11-22)
