@@ -19,7 +19,7 @@ module.exports = options => {
     module: {
       rules: [
         {
-          test: /\.(png|gif|pdf)$/,
+          test: /\.(gif|png|jpe?g|eot|woff|ttf|ogg|mp3|pdf)$/,
           loader: require.resolve('ignore-loader'),
         },
       ],
