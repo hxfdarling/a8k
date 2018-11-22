@@ -256,12 +256,11 @@ module.exports = options => {
       // new WebpackBar({
       //   profile: options.analyzer,
       // }),
-      !options.silent
-        && new ReportStatusPlugin({
-          mode: env.NODE_ENV,
-          showFileStats: true,
-          devServer: options.devServer,
-        }),
+      new ReportStatusPlugin({
+        mode: env.NODE_ENV,
+        silent: options.silent,
+        devServer: options.devServer,
+      }),
       new ManifestPlugin(configureManifest('manifest-legacy.json', options)),
     ].filter(Boolean),
   };

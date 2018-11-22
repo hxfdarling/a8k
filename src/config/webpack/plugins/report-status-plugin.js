@@ -1,10 +1,8 @@
-const path = require('path');
 const os = require('os');
 const chalk = require('chalk');
-const prettyBytes = require('pretty-bytes');
-const textTable = require('text-table');
+
 const getIp = require('internal-ip');
-const prettyMs = require('pretty-ms');
+
 const formatWebpackMessages = require('../../../utils/formatWebpackMessages');
 
 /**
@@ -38,14 +36,13 @@ class ReportStatusPlugin {
         for (const error of messages.errors) {
           console.log(error);
         }
-        // eslint-disable-next-line
-        for (const warning of messages.warnings) {
-          console.log(warning);
+        if (!this.options.silent) {
+          // eslint-disable-next-line
+          for (const warning of messages.warnings) {
+            console.log(warning);
+          }
         }
-        return;
       }
-
-      console.log(chalk.green.bold(`Built successfully in ${prettyMs(stats.endTime - stats.startTime)}!`));
 
       if (this.options.mode === 'development' && this.options && !state) {
         state = 1;
@@ -61,38 +58,6 @@ class ReportStatusPlugin {
           console.log(chalk.dim(`- On Your Network:    ${protocol}${ip}:${port}`));
         }
         console.log();
-      }
-
-      const outDir = path.relative(process.cwd(), compiler.options.output.path);
-
-      if (this.options.mode !== 'development') {
-        console.log();
-        const fileStats = textTable(
-          Object.keys(stats.compilation.assets)
-            .sort((a, b) => {
-              const delta = a.split('/').length - b.split('/').length;
-              if (delta > 0) {
-                return 1;
-              }
-              if (delta < 0) {
-                return -1;
-              }
-              return a > b ? 1 : -1;
-            })
-            .map(filename => {
-              const parsedPath = path.parse(path.join(outDir, filename));
-              const prettyPath = `${chalk.dim(parsedPath.dir ? `${parsedPath.dir}/` : '')}${chalk.bold(
-                parsedPath.base
-              )}`;
-              const file = stats.compilation.assets[filename];
-              const size = file.size();
-              return [prettyPath, chalk.green.bold(prettyBytes(size))];
-            }),
-          {
-            stringLength: require('string-width'),
-          }
-        );
-        console.log(fileStats);
       }
     });
 

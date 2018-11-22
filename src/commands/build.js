@@ -1,7 +1,8 @@
 const fs = require('fs-extra');
 const webpack = require('webpack');
-const chalk = require('chalk').default;
 const path = require('path');
+const prettyMs = require('pretty-ms');
+const chalk = require('chalk').default;
 const Imt = require('../index.js');
 const { error } = require('../utils/logger');
 const { PROD, SSR } = require('../const');
@@ -53,8 +54,8 @@ async function buildSSR(options, imt) {
       resolve();
     });
   });
-  logWithSpinner(chalk.green(`ssr build complete in ${parseInt(Date.now() - start, 10) / 1000}s.`));
   stopSpinner();
+  console.log(chalk.green.bold(`Built successfully in ${prettyMs(Date.now() - start)}!`));
 }
 
 module.exports = async argv => {
@@ -97,8 +98,8 @@ module.exports = async argv => {
       resolve();
     });
   });
-  logWithSpinner(chalk.green(`Build complete in ${parseInt((Date.now() - start) / 1000, 10)}s`));
   stopSpinner();
+  console.log(chalk.green.bold(`Built successfully in ${prettyMs(Date.now() - start)}!`));
 
   if (options.ssrConfig) {
     await buildSSR(options, imt);
