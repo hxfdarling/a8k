@@ -135,7 +135,7 @@ const configureEntries = options => {
     return {};
   }
   // 处理公共entry
-  const initEntry = Object.keys(options.entry).reduce((result, key) => {
+  const initEntry = Object.keys(options.entry || {}).reduce((result, key) => {
     const temp = options.entry[key];
     if (Array.isArray(temp)) {
       result = result.concat(temp);
