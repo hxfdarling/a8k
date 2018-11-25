@@ -2,12 +2,13 @@ const os = require('os');
 const chalk = require('chalk');
 
 const getIp = require('internal-ip');
+const { DEV } = require('../../../const');
 
 const formatWebpackMessages = require('../../../utils/formatWebpackMessages');
 
 /**
  * @typedef {Object} Options
- * @property {String} mode
+ * @property {String} type
  * @property {Object} devServer
  * @property {Boolean} showFileStats
  */
@@ -25,6 +26,7 @@ class ReportStatusPlugin {
   apply(compiler) {
     let state = 0;
     compiler.hooks.done.tap('report-status', async stats => {
+      const { options } = this;
       if (stats.hasErrors()) {
         console.log(chalk.red.bold('Failed to compile:\n'));
         process.exitCode = 1;
@@ -36,7 +38,7 @@ class ReportStatusPlugin {
         for (const error of messages.errors) {
           console.log(error);
         }
-        if (!this.options.silent) {
+        if (!options.silent) {
           // eslint-disable-next-line
           for (const warning of messages.warnings) {
             console.log(warning);
@@ -44,9 +46,9 @@ class ReportStatusPlugin {
         }
       }
 
-      if (this.options.mode === 'development' && this.options && !state) {
+      if (options.type === DEV && !state) {
         state = 1;
-        const { host, port, https } = this.options.devServer;
+        const { host, port, https } = options.devServer;
         const protocol = https ? 'https://' : 'http://';
         const isAnyHost = host === '0.0.0.0';
 

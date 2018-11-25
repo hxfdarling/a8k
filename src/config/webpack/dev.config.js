@@ -47,6 +47,7 @@ module.exports = options => {
       // new WebpackBar({
       //   profile: options.analyzer,
       // }),
+
       new webpack.HotModuleReplacementPlugin(),
     ],
   });

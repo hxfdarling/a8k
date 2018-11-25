@@ -3,7 +3,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk').default;
 const Imt = require('../index.js');
 
-const { DEV } = require('../const');
+const { DEV, SSR } = require('../const');
 const getOptions = require('../utils/getOptions');
 const getWebpackConfig = require('../config/webpack');
 const { info, error } = require('../utils/logger');
@@ -60,6 +60,23 @@ module.exports = async argv => {
   await new Promise(resolve => {
     hooks.beforeDev.callAsync(imt, resolve);
   });
+  if (options.ssr) {
+    info('starting ssr watch.');
+    await new Promise(resolve => {
+      const ssrOptions = Object.assign({}, options, { type: SSR, watch: true });
+      const webpackConfig = getWebpackConfig(ssrOptions);
+      webpack(webpackConfig, (err, stats) => {
+        if (err) {
+          error(err);
+          process.exit(1);
+        }
+        if (stats.hasErrors()) {
+          process.exit(1);
+        }
+        resolve();
+      });
+    });
+  }
   await new Promise(resolve => {
     try {
       const webpackConfig = getWebpackConfig(options);
@@ -88,12 +105,9 @@ module.exports = async argv => {
       process.exit(1);
     }
   });
-
   await new Promise(resolve => {
     hooks.afterDev.callAsync(imt, async () => {
       resolve();
     });
   });
-  // done('dev server started.');
-  // info('building...');
 };

@@ -1,6 +1,5 @@
 const fs = require('fs-extra');
 const webpack = require('webpack');
-const path = require('path');
 const prettyMs = require('pretty-ms');
 const chalk = require('chalk').default;
 const Imt = require('../index.js');
@@ -17,26 +16,16 @@ async function buildSSR(options, imt) {
     stopSpinner();
   }
   const start = Date.now();
+
   options.type = SSR;
-  options.ssrConfig = Object.assign(
-    {
-      // js存放地址
-      distDir: './node_modules/components',
-      // html存放地址
-      viewDir: './app/views',
-    },
-    options.ssrConfig
-  );
-  const { ssrConfig, projectDir } = options;
-  ssrConfig.distDir = path.resolve(projectDir, ssrConfig.distDir);
-  ssrConfig.viewDir = path.resolve(projectDir, ssrConfig.viewDir);
+
   const { hooks } = imt;
 
   await new Promise(resolve => {
     hooks.beforeSSRBuild.callAsync(imt, resolve);
   });
-  fs.emptyDirSync(ssrConfig.distDir);
-  fs.emptyDirSync(ssrConfig.viewDir);
+  fs.emptyDirSync(options.ssrConfig.distDir);
+  fs.emptyDirSync(options.ssrConfig.viewDir);
   await new Promise(resolve => {
     const webpackConfig = getWebpackConfig(options);
     webpack(webpackConfig, (err, stats) => {

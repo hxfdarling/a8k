@@ -35,5 +35,20 @@ module.exports = options => {
   options.distDir = path.resolve(cwd, imtrc.dist || options.dist || 'dist');
   options.cacheDir = path.resolve(options.cacheDir || 'node_modules/.cache');
   Object.assign(options, imtrc);
+
+  if (options.ssrConfig) {
+    options.ssrConfig = Object.assign(
+      {
+        // js存放地址
+        distDir: './node_modules/components',
+        // html存放地址
+        viewDir: './app/views',
+      },
+      options.ssrConfig
+    );
+    const { ssrConfig, projectDir } = options;
+    ssrConfig.distDir = path.resolve(projectDir, ssrConfig.distDir);
+    ssrConfig.viewDir = path.resolve(projectDir, ssrConfig.viewDir);
+  }
   return options;
 };

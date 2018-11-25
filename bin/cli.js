@@ -35,6 +35,7 @@ program
 program
   .command('dev')
   .description('启动开发者模式')
+  .option('-s, --ssr', '直出渲染构建')
   .option('-p, --port <port>', '配置开发者服务器监听端口')
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
   .option('--no-eslint', '禁用eslint检测代码')

@@ -250,8 +250,8 @@ const configOptimization = () => {
   return config;
 };
 module.exports = options => {
-  const { projectDir, mode } = options;
-  const isSSR = options.type === SSR;
+  const { projectDir, mode, type } = options;
+  const isSSR = type === SSR;
   const config = {
     entry: configureEntries(options),
     output: {
@@ -314,7 +314,7 @@ module.exports = options => {
       //   profile: options.analyzer,
       // }),
       new ReportStatusPlugin({
-        mode: env.NODE_ENV,
+        type,
         silent: options.silent,
         devServer: options.devServer,
       }),

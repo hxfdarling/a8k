@@ -11,6 +11,7 @@ module.exports = options => {
     mode: PROD,
     target: 'node',
     devtool: 'source-map',
+    watch: options.watch,
     output: {
       publicPath,
       path: ssrConfig.distDir,
