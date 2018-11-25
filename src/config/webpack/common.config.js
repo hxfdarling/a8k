@@ -220,7 +220,7 @@ const configOptimization = () => {
       maxSize: 0,
       minChunks: 1,
       maxAsyncRequests: 5,
-      maxInitialRequests: 3,
+      maxInitialRequests: 5,
       automaticNameDelimiter: '~',
       name: true,
       cacheGroups: {
