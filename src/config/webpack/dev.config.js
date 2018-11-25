@@ -41,7 +41,7 @@ module.exports = options => {
     },
     optimization: {
       minimizer: [],
-      runtimeChunk: false,
+      runtimeChunk: true,
     },
     plugins: [
       // new WebpackBar({
