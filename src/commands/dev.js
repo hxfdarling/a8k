@@ -65,14 +65,7 @@ module.exports = async argv => {
     await new Promise(resolve => {
       const ssrOptions = Object.assign({}, options, { type: SSR, watch: true });
       const webpackConfig = getWebpackConfig(ssrOptions);
-      webpack(webpackConfig, (err, stats) => {
-        if (err) {
-          error(err);
-          process.exit(1);
-        }
-        if (stats.hasErrors()) {
-          process.exit(1);
-        }
+      webpack(webpackConfig, () => {
         resolve();
       });
     });

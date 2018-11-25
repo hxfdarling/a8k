@@ -154,8 +154,8 @@ const configureEntries = options => {
   return entry;
 };
 const configureBabelLoader = options => {
-  const { projectDir } = options;
-
+  const { projectDir, type } = options;
+  const isSSR = type === SSR;
   return {
     test: /\.jsx?$/,
     use: [
@@ -166,7 +166,7 @@ const configureBabelLoader = options => {
           // cacheCompression:false,
           // cacheDirectory 缓存babel编译结果加快重新编译速度
           cacheDirectory: path.resolve(options.cache, 'babel-loader'),
-          presets: [require('babel-preset-imt')],
+          presets: [[require('babel-preset-imt'), { isSSR }]],
         },
       },
     ],
