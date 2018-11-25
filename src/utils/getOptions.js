@@ -32,9 +32,9 @@ module.exports = options => {
     error(e);
     process.exit(1);
   }
-  options.dist = path.resolve(cwd, imtrc.dist || options.dist || 'dist');
-  options.cache = path.resolve(options.cache || 'node_modules/.cache');
   Object.assign(options, imtrc);
+  options.dist = path.resolve(cwd, options.dist || 'dist');
+  options.cache = path.resolve(options.cache || 'node_modules/.cache');
 
   if (options.ssrConfig) {
     options.ssrConfig = Object.assign(
