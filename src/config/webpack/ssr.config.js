@@ -19,7 +19,13 @@ module.exports = options => {
       libraryTarget: 'commonjs2',
     },
     entry: ssrConfig.entry,
-    externals: [nodeExternals()],
+    externals: [
+      nodeExternals({
+        // 注意如果存在src下面其他目录的绝对引用，都需要添加到这里
+        whitelist: [/^components/, /^assets/, /^pages/],
+        // modulesFromFile:true
+      }),
+    ],
     module: {
       rules: [
         {
