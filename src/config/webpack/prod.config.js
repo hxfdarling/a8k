@@ -1,6 +1,6 @@
 const webpackMerge = require('webpack-merge');
 const webpack = require('webpack');
-
+const path = require('path');
 // plugins
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -8,6 +8,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const LodashPlugin = require('lodash-webpack-plugin');
 // const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const RetryPlugin = require('webpack-retry-load-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 // config
 const getBaseConfig = require('./common.config');
@@ -24,6 +26,29 @@ const configureCleanWebpack = ({ distDir: root }) => {
 //   return { cache: path.resolve(cacheDir, 'webapp-webpack-plugin'), ...webappConfig };
 // };
 
+const configureTerser = ({ sourceMap, cacheDir }) => {
+  return {
+    cache: path.resolve(cacheDir, 'terser-webpack-plugin'),
+    parallel: true,
+    sourceMap,
+  };
+};
+
+const configureOptimizeCSS = ({ sourceMap }) => {
+  return {
+    cssProcessorOptions: {
+      map: sourceMap
+        ? {
+          inline: false,
+          annotation: true,
+        }
+        : false,
+      safe: true,
+      discardComments: true,
+    },
+  };
+};
+
 module.exports = options => {
   const { sourceMap, publicPath, distDir } = options;
   const config = webpackMerge(getBaseConfig(options), {
@@ -33,6 +58,13 @@ module.exports = options => {
       publicPath,
       path: distDir,
       filename: '[name]_[chunkhash].js',
+    },
+    optimization: {
+      // Keep the runtime chunk seperated to enable long term caching
+      runtimeChunk: true,
+      minimizer: options.mini
+        ? [new TerserPlugin(configureTerser(options)), new OptimizeCSSAssetsPlugin(configureOptimizeCSS(options))]
+        : [],
     },
     plugins: [
       options.retry && new RetryPlugin(options.retry),

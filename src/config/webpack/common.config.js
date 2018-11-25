@@ -6,8 +6,6 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 // const WebpackBar = require('webpackbar');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 
 const fs = require('fs-extra');
 
@@ -212,29 +210,7 @@ const configureHtmlLoader = ({ mini, projectDir, type, cacheDir }) => {
     ],
   };
 };
-const configureTerser = ({ sourceMap, cacheDir }) => {
-  return {
-    cache: path.resolve(cacheDir, 'terser-webpack-plugin'),
-    parallel: true,
-    sourceMap,
-  };
-};
-
-const configureOptimizeCSS = ({ sourceMap }) => {
-  return {
-    cssProcessorOptions: {
-      map: sourceMap
-        ? {
-          inline: false,
-          annotation: true,
-        }
-        : false,
-      safe: true,
-      discardComments: true,
-    },
-  };
-};
-const configOptimization = options => {
+const configOptimization = () => {
   const config = {
     // Automatically split vendor and commons
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
@@ -275,16 +251,7 @@ const configOptimization = options => {
         // },
       },
     },
-    // Keep the runtime chunk seperated to enable long term caching
-    runtimeChunk: true,
-    minimizer: [new TerserPlugin(configureTerser(options)), new OptimizeCSSAssetsPlugin(configureOptimizeCSS(options))],
   };
-  if (!options.mini) {
-    config.minimizer = [];
-  }
-  if (options.type !== PROD) {
-    config.minimizer = [];
-  }
   return config;
 };
 module.exports = options => {

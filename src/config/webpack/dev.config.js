@@ -39,6 +39,10 @@ module.exports = options => {
         },
       ].filter(Boolean),
     },
+    optimization: {
+      minimizer: [],
+      runtimeChunk: false,
+    },
     plugins: [
       // new WebpackBar({
       //   profile: options.analyzer,

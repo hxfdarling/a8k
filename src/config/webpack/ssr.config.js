@@ -1,14 +1,16 @@
 const webpackMerge = require('webpack-merge');
+const nodeExternals = require('webpack-node-externals');
 
 const getBaseConfig = require('./common.config');
 const { PROD } = require('../../const');
 
 module.exports = options => {
-  const { sourceMap, publicPath, ssrConfig } = options;
+  const { publicPath, ssrConfig } = options;
 
   const config = webpackMerge(getBaseConfig(options), {
     mode: PROD,
-    devtool: sourceMap ? 'source-map' : 'none',
+    target: 'node',
+    devtool: 'source-map',
     output: {
       publicPath,
       path: ssrConfig.distDir,
@@ -16,6 +18,7 @@ module.exports = options => {
       libraryTarget: 'commonjs2',
     },
     entry: ssrConfig.entry,
+    externals: [nodeExternals()],
     module: {
       rules: [
         {
@@ -26,6 +29,7 @@ module.exports = options => {
     },
     optimization: {
       minimizer: [],
+      runtimeChunk: false,
     },
     plugins: [],
   });
