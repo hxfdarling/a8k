@@ -5,7 +5,7 @@
 安装
 
 ```shell
-tnpm i -g imt-cli
+npm i -g imt-cli
 ```
 
 生成模板
@@ -20,16 +20,16 @@ imt create [projectName]
 imt dev
 ```
 
+dev 调试直出模式
+
+```shell
+imt dev -s
+```
+
 构建前端代码
 
 ```shell
 imt build
-```
-
-构建 SSR 代码
-
-```shell
-imt ssr
 ```
 
 运行 jest 测试
@@ -48,9 +48,11 @@ const publicPath = '//7.url.cn/fudao/pc/';
 module.exports = {
   // 标示是多页面还是单页面应用:single/multi
   mode: 'multi',
+  // dist 目录
   dist: 'public/cdn',
   // 加快热构建的缓存目录
-  cacheDir: '/tmp/fudao_qq_com_pc',
+  cache: '/tmp/fudao_qq_com_pc',
+  // webpack-dev-server配置
   devServer: {
     port: 7475,
   },
@@ -63,14 +65,22 @@ module.exports = {
   },
   // 服务器直出页面
   ssrConfig: {
+    // js存放目录
+    // dist:'',// 默认：'node_modules/components'
+    // html存放目录
+    // view:'',//默认: 'app/views'
+    // 入口文件
     entry: {
       providerDiscover: './src/pages/discover/ProviderDiscover',
       providerCourse: './src/pages/course/ProviderCourse',
       providerSearch: './src/pages/search/ProviderSearch',
     },
   },
+  // cdn部署路径
   publicPath,
+  // pages目录下需要忽略的文件夹（不作为页面处理）
   ignorePages: ['action_creators', 'action_types', 'reducers'],
+  // 修改webpack配置
   webpackOverride(config, options) {
     // 修改webpack配置
     return config;

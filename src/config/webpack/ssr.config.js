@@ -14,7 +14,7 @@ module.exports = options => {
     watch: options.watch,
     output: {
       publicPath,
-      path: ssrConfig.distDir,
+      path: ssrConfig.dist,
       filename: '[name].js',
       libraryTarget: 'commonjs2',
     },

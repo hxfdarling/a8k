@@ -15,20 +15,20 @@ const TerserPlugin = require('terser-webpack-plugin');
 const getBaseConfig = require('./common.config');
 const { PROD } = require('../../const');
 
-const configureCleanWebpack = ({ distDir: root }) => {
+const configureCleanWebpack = ({ dist: root }) => {
   return {
     root,
     verbose: false,
     dry: false,
   };
 };
-// const configureWebapp = ({ cacheDir, webappConfig }) => {
-//   return { cache: path.resolve(cacheDir, 'webapp-webpack-plugin'), ...webappConfig };
+// const configureWebapp = ({ cache, webappConfig }) => {
+//   return { cache: path.resolve(cache, 'webapp-webpack-plugin'), ...webappConfig };
 // };
 
-const configureTerser = ({ sourceMap, cacheDir }) => {
+const configureTerser = ({ sourceMap, cache }) => {
   return {
-    cache: path.resolve(cacheDir, 'terser-webpack-plugin'),
+    cache: path.resolve(cache, 'terser-webpack-plugin'),
     parallel: true,
     sourceMap,
   };
@@ -50,13 +50,13 @@ const configureOptimizeCSS = ({ sourceMap }) => {
 };
 
 module.exports = options => {
-  const { sourceMap, publicPath, distDir } = options;
+  const { sourceMap, publicPath, dist } = options;
   const config = webpackMerge(getBaseConfig(options), {
     mode: PROD,
     devtool: sourceMap ? 'source-map' : 'none',
     output: {
       publicPath,
-      path: distDir,
+      path: dist,
       filename: '[name]_[chunkhash].js',
     },
     optimization: {

@@ -8,12 +8,12 @@ const { DEV } = require('../../const');
 const SSRPlugin = require('./plugins/ssr-plugin');
 
 module.exports = options => {
-  const { distDir, projectDir, eslint, ssr } = options;
+  const { dist, projectDir, eslint, ssr } = options;
 
   const config = webpackMerge(getBaseConfig(options), {
     mode: DEV,
     output: {
-      path: distDir,
+      path: dist,
       filename: '[name].js',
     },
     module: {
@@ -28,7 +28,7 @@ module.exports = options => {
                 failOnError: false,
                 failOnWarning: false,
                 quit: true,
-                cache: path.resolve(options.cacheDir, 'eslint-loader'),
+                cache: path.resolve(options.cache, 'eslint-loader'),
                 formatter: require.resolve('eslint-friendly-formatter'),
                 // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
                 eslintPath: path.resolve(projectDir, 'node_modules', 'eslint'),

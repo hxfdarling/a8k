@@ -35,7 +35,7 @@ program
 program
   .command('dev')
   .description('启动开发者模式')
-  .option('-s, --ssr', '直出渲染构建')
+  .option('-s, --ssr', '服务端渲染开发调试')
   .option('-p, --port <port>', '配置开发者服务器监听端口')
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
   .option('--no-eslint', '禁用eslint检测代码')
@@ -103,7 +103,7 @@ program
   .action(async () => {
     spinner.logWithSpinner('清理缓存');
     const options = getOptions({});
-    await fs.emptyDir(options.cacheDir);
+    await fs.emptyDir(options.cache);
     spinner.stopSpinner();
   });
 const initChoices = [

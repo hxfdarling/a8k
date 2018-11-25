@@ -9,7 +9,7 @@ const smp = new SpeedMeasurePlugin();
  * @property {String} projectDir
  * @property {Boolean} sourceMap
  * @property {String} publicPath
- * @property {String} distDir
+ * @property {String} dist
  * @property {String} mode
  * @property {Boolean} analyzer
  */

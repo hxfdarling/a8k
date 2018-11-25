@@ -18,11 +18,11 @@ const { env } = process;
 
 const PAGES_DIR = './src/pages';
 
-function configureCssLoader({ projectDir, cacheDir, possCssImport, sourceMap, publicPath, type }) {
+function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publicPath, type }) {
   const loaders = [
     {
       loader: resolve('cache-loader'),
-      options: { cacheDirectory: path.join(cacheDir, 'cache-loader-css') },
+      options: { cacheDirectory: path.join(cache, 'cache-loader-css') },
     },
     {
       loader: resolve('css-loader'),
@@ -96,10 +96,10 @@ function configureCssLoader({ projectDir, cacheDir, possCssImport, sourceMap, pu
   };
 }
 // Configure Manifest
-const configureManifest = (fileName, { distDir }) => {
+const configureManifest = (fileName, { dist }) => {
   return {
     fileName,
-    basePath: distDir,
+    basePath: dist,
     map: file => {
       file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
       return file;
@@ -165,7 +165,7 @@ const configureBabelLoader = options => {
           babelrc: false,
           // cacheCompression:false,
           // cacheDirectory 缓存babel编译结果加快重新编译速度
-          cacheDirectory: path.resolve(options.cacheDir, 'babel-loader'),
+          cacheDirectory: path.resolve(options.cache, 'babel-loader'),
           presets: [require('babel-preset-imt')],
         },
       },
@@ -176,13 +176,13 @@ const configureBabelLoader = options => {
     exclude: [/(.|_)min\.js$/],
   };
 };
-const configureHtmlLoader = ({ mini, projectDir, type, cacheDir }) => {
+const configureHtmlLoader = ({ mini, projectDir, type, cache }) => {
   return {
     test: /\.(html|njk|nunjucks)$/,
     use: [
       {
         loader: resolve('cache-loader'),
-        options: { cacheDirectory: path.join(cacheDir, 'cache-loader-html') },
+        options: { cacheDirectory: path.join(cache, 'cache-loader-html') },
       },
       {
         loader: resolve('html-loader'),

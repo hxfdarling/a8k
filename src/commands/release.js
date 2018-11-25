@@ -16,7 +16,7 @@ module.exports = async (mode, argv) => {
   await new Promise(resolve => {
     imt.hooks.beforeRelease.callAsync(imt, resolve);
   });
-  fs.emptyDirSync(options.distDir);
+  fs.emptyDirSync(options.dist);
   await new Promise(resolve => {
     info('coming soon');
     login();

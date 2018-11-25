@@ -31,14 +31,14 @@ window.__devServer__={
     compiler.hooks.done.tap('ssr-output', async () => {
       const { outputFileSystem } = compiler;
       const {
-        ssrConfig: { entry, viewDir },
-        distDir,
+        ssrConfig: { entry, view },
+        dist,
       } = this.options;
       Object.keys(entry).forEach(key => {
         const pageName = entry[key].split('/');
         const file = `${pageName[pageName.length - 2]}.html`;
-        const srcFile = path.join(distDir, file);
-        const targetFile = path.join(viewDir, file);
+        const srcFile = path.join(dist, file);
+        const targetFile = path.join(view, file);
         if (outputFileSystem.existsSync(srcFile)) {
           let data = deleteLoading(outputFileSystem.readFileSync(srcFile).toString());
           data = data.replace(/<head>/, code);

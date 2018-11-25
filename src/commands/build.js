@@ -24,8 +24,8 @@ async function buildSSR(options, imt) {
   await new Promise(resolve => {
     hooks.beforeSSRBuild.callAsync(imt, resolve);
   });
-  fs.emptyDirSync(options.ssrConfig.distDir);
-  fs.emptyDirSync(options.ssrConfig.viewDir);
+  fs.emptyDirSync(options.ssrConfig.dist);
+  fs.emptyDirSync(options.ssrConfig.view);
   await new Promise(resolve => {
     const webpackConfig = getWebpackConfig(options);
     webpack(webpackConfig, (err, stats) => {
@@ -67,7 +67,7 @@ module.exports = async argv => {
     stopSpinner();
   }
 
-  fs.emptyDirSync(options.distDir);
+  fs.emptyDirSync(options.dist);
   if (silent) {
     logWithSpinner('completing.');
   }

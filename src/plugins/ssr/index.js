@@ -10,15 +10,15 @@ class SSR {
   apply(imt) {
     imt.hooks.afterSSRBuild.tapAsync('ssr', (context, callback) => {
       const {
-        ssrConfig: { entry, viewDir },
-        distDir,
+        ssrConfig: { entry, view },
+        dist,
       } = context.options;
 
       Object.keys(entry).forEach(key => {
         const pageName = entry[key].split('/');
         const file = `${pageName[pageName.length - 2]}.html`;
-        const srcFile = path.join(distDir, file);
-        const targetFile = path.join(viewDir, file);
+        const srcFile = path.join(dist, file);
+        const targetFile = path.join(view, file);
         if (fs.existsSync(srcFile)) {
           const data = deleteLoading(fs.readFileSync(srcFile).toString());
           fs.writeFileSync(targetFile, data);
