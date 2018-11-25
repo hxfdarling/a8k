@@ -216,7 +216,7 @@ const configOptimization = () => {
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
     splitChunks: {
       chunks: 'all',
-      minSize: 30000,
+      minSize: 10000, // 提高缓存利用率，这需要在http2/spdy
       maxSize: 0,
       minChunks: 1,
       maxAsyncRequests: 5,
@@ -244,11 +244,6 @@ const configOptimization = () => {
           priority: 10,
           reuseExistingChunk: true,
         },
-        // default: {
-        //   minChunks: 2,
-        //   priority: -20,
-        //   reuseExistingChunk: true,
-        // },
       },
     },
   };
