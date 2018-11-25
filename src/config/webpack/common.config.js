@@ -309,7 +309,7 @@ module.exports = options => {
     },
     optimization: configOptimization(options),
     plugins: [
-      !options.silent && new ProgressBarPlugin(),
+      !options.silent && !isSSR && new ProgressBarPlugin(),
       // new WebpackBar({
       //   profile: options.analyzer,
       // }),
@@ -323,7 +323,7 @@ module.exports = options => {
   };
 
   // 服务器渲染 js 不需要构建 html
-  if (options.type !== SSR) {
+  if (!isSSR) {
     if (mode === 'single') {
       config.plugins.push(
         new HtmlWebpackPlugin({

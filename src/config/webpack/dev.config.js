@@ -5,9 +5,10 @@ const path = require('path');
 
 const getBaseConfig = require('./common.config');
 const { DEV } = require('../../const');
+const SSRPlugin = require('./plugins/ssr-plugin');
 
 module.exports = options => {
-  const { distDir, projectDir, eslint } = options;
+  const { distDir, projectDir, eslint, ssr } = options;
 
   const config = webpackMerge(getBaseConfig(options), {
     mode: DEV,
@@ -47,9 +48,9 @@ module.exports = options => {
       // new WebpackBar({
       //   profile: options.analyzer,
       // }),
-
+      ssr && new SSRPlugin(options),
       new webpack.HotModuleReplacementPlugin(),
-    ],
+    ].filter(Boolean),
   });
 
   return config;

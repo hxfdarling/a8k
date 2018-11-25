@@ -54,16 +54,22 @@ if (module.hot && typeof module.hot.dispose === 'function') {
     ErrorOverlay.stopReportingRuntimeErrors();
   });
 }
-
+const devServer = window.__devServer__ || {
+  protocol: window.location.protocol,
+  hostname: window.location.hostname,
+  port: window.location.port,
+};
 // Connect to WebpackDevServer via a socket.
 const connection = new SockJS(
-  url.format({
-    protocol: window.location.protocol,
-    hostname: window.location.hostname,
-    port: window.location.port,
-    // Hardcoded in WebpackDevServer
-    pathname: '/sockjs-node',
-  })
+  url.format(
+    Object.assign(
+      {
+        // Hardcoded in WebpackDevServer
+        pathname: '/sockjs-node',
+      },
+      devServer
+    )
+  )
 );
 
 // Unlike WebpackDevServer client, we won't try to reconnect
