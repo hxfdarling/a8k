@@ -59,6 +59,8 @@ const devServer = window.__devServer__ || {
   hostname: window.location.hostname,
   port: window.location.port,
 };
+// fix http in https not support
+devServer.protocol = window.location.protocol;
 // Connect to WebpackDevServer via a socket.
 const connection = new SockJS(
   url.format(
