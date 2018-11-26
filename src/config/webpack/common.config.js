@@ -354,14 +354,16 @@ module.exports = options => {
         );
       });
     }
-    config.plugins.push(
-      // 支持js资源完整性校验
-      // https://www.w3.org/TR/SRI/
-      new SriPlugin({
-        hashFuncNames: ['sha256', 'sha384'],
-        enabled: env.NODE_ENV === PROD,
-      })
-    );
+    if (options.sri) {
+      config.plugins.push(
+        // 支持js资源完整性校验
+        // https://www.w3.org/TR/SRI/
+        new SriPlugin({
+          hashFuncNames: ['sha256'],
+          enabled: env.NODE_ENV === PROD,
+        })
+      );
+    }
   }
 
   return config;
