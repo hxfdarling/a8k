@@ -176,14 +176,14 @@ const configureBabelLoader = options => {
     exclude: [/(.|_)min\.js$/],
   };
 };
-const configureHtmlLoader = ({ mini, projectDir, type, cache }) => {
+const configureHtmlLoader = ({ mini, projectDir, type }) => {
   return {
     test: /\.(html|njk|nunjucks)$/,
     use: [
-      {
-        loader: resolve('cache-loader'),
-        options: { cacheDirectory: path.join(cache, 'cache-loader-html') },
-      },
+      // {
+      //   loader: resolve('cache-loader'),
+      //   options: { cacheDirectory: path.join(cache, 'cache-loader-html') },
+      // },
       {
         loader: resolve('html-loader'),
         options: {
