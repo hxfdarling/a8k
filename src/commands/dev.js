@@ -62,13 +62,9 @@ module.exports = async argv => {
   });
   if (options.ssr) {
     info('starting ssr watch.');
-    await new Promise(resolve => {
-      const ssrOptions = Object.assign({}, options, { type: SSR, watch: true });
-      const webpackConfig = getWebpackConfig(ssrOptions);
-      webpack(webpackConfig, () => {
-        resolve();
-      });
-    });
+    const ssrOptions = Object.assign({}, options, { type: SSR, watch: true });
+    const webpackConfig = getWebpackConfig(ssrOptions);
+    webpack(webpackConfig, () => {});
   }
   await new Promise(resolve => {
     try {

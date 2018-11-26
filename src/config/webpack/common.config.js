@@ -4,8 +4,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
-// const WebpackBar = require('webpackbar');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const WebpackBar = require('webpackbar');
+// const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const fs = require('fs-extra');
 
@@ -309,10 +309,12 @@ module.exports = options => {
     },
     optimization: configOptimization(options),
     plugins: [
-      !options.silent && !isSSR && new ProgressBarPlugin(),
-      // new WebpackBar({
-      //   profile: options.analyzer,
-      // }),
+      // !options.silent && !isSSR && new ProgressBarPlugin(),
+      !options.silent
+        && new WebpackBar({
+          name: type.toLowerCase(),
+          profile: options.analyzer,
+        }),
       new ReportStatusPlugin({
         type,
         silent: options.silent,
