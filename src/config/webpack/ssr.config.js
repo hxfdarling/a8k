@@ -22,7 +22,7 @@ module.exports = options => {
     externals: [
       nodeExternals({
         // 注意如果存在src下面其他目录的绝对引用，都需要添加到这里
-        whitelist: [/^components/, /^assets/, /^pages/, /^@tencent/],
+        whitelist: [/^components/, /^assets/, /^pages/, /^@tencent/, /\.(scss|css)$/],
         // modulesFromFile:true
       }),
     ],
