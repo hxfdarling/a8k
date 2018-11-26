@@ -17,7 +17,7 @@ class SSRPlugin {
     const protocol = https ? 'https://' : 'http://';
     const isAnyHost = host === '0.0.0.0';
     const reallyHost = isAnyHost ? 'localhost' : host;
-    const baseUrl = `${protocol}${reallyHost}:${port}`;
+    const baseUrl = `//${reallyHost}:${port}`;
     const code = `<head>
 <base href="${baseUrl}"/>
 <script>
@@ -28,7 +28,7 @@ window.__devServer__={
 }
 </script>
 `;
-    compiler.hooks.done.tap('ssr-output', async () => {
+    compiler.hooks.done.tap('xxxxx', async () => {
       const { outputFileSystem } = compiler;
       const {
         ssrConfig: { entry, view },
