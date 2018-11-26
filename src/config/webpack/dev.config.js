@@ -9,10 +9,13 @@ const SSRPlugin = require('./plugins/ssr-plugin');
 
 module.exports = options => {
   const { dist, projectDir, eslint, ssr } = options;
+  const { host, port } = options.devServer;
 
   const config = webpackMerge(getBaseConfig(options), {
     mode: DEV,
     output: {
+      // 调试直出时，需要设置静态资源绝对路径
+      publicPath: ssr ? `//${host}:${port}/` : '',
       path: dist,
       filename: '[name].js',
     },

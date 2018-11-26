@@ -17,9 +17,7 @@ class SSRPlugin {
     const protocol = https ? 'https://' : 'http://';
     const isAnyHost = host === '0.0.0.0';
     const reallyHost = isAnyHost ? 'localhost' : host;
-    const baseUrl = `//${reallyHost}:${port}`;
     const code = `<head>
-<base href="${baseUrl}"/>
 <script>
 window.__devServer__={
   protocol: "${protocol.replace('://', '')}",
