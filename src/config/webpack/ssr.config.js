@@ -35,6 +35,7 @@ module.exports = options => {
       ],
     },
     optimization: {
+      splitChunks: false,
       minimizer: [],
       runtimeChunk: false,
     },
