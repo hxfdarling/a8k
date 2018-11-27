@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+
+# [0.4.0](https://github.com/hxfdarling/imt/compare/v0.3.1...v0.4.0) (2018-11-27)
+
+### Bug Fixes
+
+- 开发模式调试直出页面导致 xhr 请求异常 ([ce8dc73](https://github.com/hxfdarling/imt/commit/ce8dc73))
+- 热调试 xhr 请求异常 ([0744436](https://github.com/hxfdarling/imt/commit/0744436))
+- 修复直出环境下引入 css 错误 ([8581d8d](https://github.com/hxfdarling/imt/commit/8581d8d))
+- 修复直出模块导入异常 ([09d7af1](https://github.com/hxfdarling/imt/commit/09d7af1))
+- 修复 dev 模式下缓存 html 导致 html 中依赖不能正确解析 ([a234697](https://github.com/hxfdarling/imt/commit/a234697))
+- 修复 dev 模式下热更新异常 ([b3d717e](https://github.com/hxfdarling/imt/commit/b3d717e))
+- 修复 dist 目录错误 ([cf9ace2](https://github.com/hxfdarling/imt/commit/cf9ace2))
+- 修复 node_modules 直出模式下未编译 ([d2b708a](https://github.com/hxfdarling/imt/commit/d2b708a))
+- 修复 publicPatch 处理异常 ([861fa46](https://github.com/hxfdarling/imt/commit/861fa46))
+- ssr boundle 不分包 ([e64c85a](https://github.com/hxfdarling/imt/commit/e64c85a))
+
+### Features
+
+- 添加 dev 模式下调试 ssr 代码 ([ece80b3](https://github.com/hxfdarling/imt/commit/ece80b3))
+- 添加 ssr watch 模式 ([12a5ba3](https://github.com/hxfdarling/imt/commit/12a5ba3))
+- 支持特定环境下引入 ([24c1bb7](https://github.com/hxfdarling/imt/commit/24c1bb7))
+- sri 支持可选开启 ([f724273](https://github.com/hxfdarling/imt/commit/f724273))
+- ssr bundle 不打入 node_modules ([e034660](https://github.com/hxfdarling/imt/commit/e034660))
+
 <a name="0.3.1"></a>
 
 ## [0.3.1](https://github.com/hxfdarling/imt/compare/v0.3.0...v0.3.1) (2018-11-22)
