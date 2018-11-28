@@ -65,7 +65,7 @@ module.exports = options => {
         : [],
     },
     plugins: [
-      options.retry && new RetryPlugin(options.retry),
+      options.retry && new RetryPlugin(Object.assign(options.retry, { minimize: options.mini })),
       // 支持lodash包 按需引用
       new LodashPlugin(),
       new CleanWebpackPlugin('*', configureCleanWebpack(options)),
