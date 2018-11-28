@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.3"></a>
+
+## [0.4.3](https://github.com/hxfdarling/imt/compare/v0.4.2...v0.4.3) (2018-11-28)
+
+### Bug Fixes
+
+- 主域重试修复|暂时这么写硬代码，后续优化 ([fb7819d](https://github.com/hxfdarling/imt/commit/fb7819d))
+
 <a name="0.4.2"></a>
 
 ## [0.4.2](https://github.com/hxfdarling/imt/compare/v0.4.1...v0.4.2) (2018-11-28)
