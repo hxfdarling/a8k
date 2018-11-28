@@ -246,6 +246,8 @@ const configOptimization = () => {
         },
       },
     },
+    // Keep the runtime chunk seperated to enable long term caching
+    runtimeChunk: 'single',
   };
   return config;
 };

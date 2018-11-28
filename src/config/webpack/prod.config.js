@@ -60,8 +60,6 @@ module.exports = options => {
       filename: '[name]_[chunkhash].js',
     },
     optimization: {
-      // Keep the runtime chunk seperated to enable long term caching
-      runtimeChunk: true,
       minimizer: options.mini
         ? [new TerserPlugin(configureTerser(options)), new OptimizeCSSAssetsPlugin(configureOptimizeCSS(options))]
         : [],
