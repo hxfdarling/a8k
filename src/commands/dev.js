@@ -37,7 +37,8 @@ function getServerConfig(options) {
     // Enable gzip compression of generated files.
     compress: true,
     hot: true,
-    quiet: true,
+    // quiet: true,
+    stats: 'errors-only',
     host: options.host || DEFAULT_HOST,
     port: options.port || DEFAULT_PORT,
     https: options.https || false,
@@ -66,6 +67,7 @@ module.exports = async argv => {
     const webpackConfig = getWebpackConfig(ssrOptions);
     webpack(webpackConfig, () => {});
   }
+
   await new Promise(resolve => {
     try {
       const webpackConfig = getWebpackConfig(options);
