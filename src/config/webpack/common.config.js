@@ -299,6 +299,15 @@ module.exports = options => {
           },
           exclude: [path.resolve(projectDir, 'src')],
         },
+        // 部分文件只需要使用路径
+        !isSSR && {
+          test: /\.(path\.json)$/,
+          use: {
+            loader: resolve('file-loader'),
+            options: { name: '[name]_[hash].[ext]' },
+          },
+          type: 'javascript/auto',
+        },
         !isSSR && {
           // 其它文件直接拷贝
           test: /\.(gif|png|jpe?g|eot|woff|ttf|ogg|mp3|pdf)$/,
