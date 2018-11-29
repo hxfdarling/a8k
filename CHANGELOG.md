@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.5"></a>
+
+## [0.4.5](https://github.com/hxfdarling/imt/compare/v0.4.4...v0.4.5) (2018-11-29)
+
+### Bug Fixes
+
+- 修复构建出错无法抛出错误,优化构建过程 ([0cde19f](https://github.com/hxfdarling/imt/commit/0cde19f))
+- 修复 json path 引用不支持 ([c48481c](https://github.com/hxfdarling/imt/commit/c48481c))
+- not emit error ([f75bb12](https://github.com/hxfdarling/imt/commit/f75bb12))
+
 <a name="0.4.4"></a>
 
 ## [0.4.4](https://github.com/hxfdarling/imt/compare/v0.4.3...v0.4.4) (2018-11-28)
