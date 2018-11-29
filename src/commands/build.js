@@ -1,9 +1,7 @@
 const fs = require('fs-extra');
 const webpack = require('webpack');
-const prettyMs = require('pretty-ms');
-const chalk = require('chalk').default;
 const Imt = require('../index.js');
-const { error } = require('../utils/logger');
+const { error, info } = require('../utils/logger');
 const { PROD, SSR } = require('../const');
 const getOptions = require('../utils/getOptions');
 const getWebpackConfig = require('../config/webpack/index.js');
@@ -11,11 +9,7 @@ const { logWithSpinner, stopSpinner } = require('../utils/spinner');
 
 process.env.NODE_ENV = PROD;
 async function buildSSR(options, imt) {
-  logWithSpinner('ssr building');
-  if (!options.silent) {
-    stopSpinner();
-  }
-  const start = Date.now();
+  info('build ssr');
 
   options.type = SSR;
 
@@ -26,6 +20,8 @@ async function buildSSR(options, imt) {
   });
   fs.emptyDirSync(options.ssrConfig.dist);
   fs.emptyDirSync(options.ssrConfig.view);
+  logWithSpinner('clean ssr dist dir.');
+  stopSpinner();
   await new Promise(resolve => {
     const webpackConfig = getWebpackConfig(options);
     webpack(webpackConfig, (err, stats) => {
@@ -46,12 +42,10 @@ async function buildSSR(options, imt) {
       resolve();
     });
   });
-  stopSpinner();
-  console.log(chalk.green.bold(`Built successfully in ${prettyMs(Date.now() - start)}!`));
 }
 
 module.exports = async argv => {
-  const start = Date.now();
+  info('build frontend');
   const options = getOptions(argv);
   options.type = PROD;
   const imt = new Imt(options);
@@ -62,15 +56,10 @@ module.exports = async argv => {
   await new Promise(resolve => {
     imt.hooks.beforeBuild.callAsync(imt, resolve);
   });
-  logWithSpinner('clean dist dir.');
-  if (!silent) {
-    stopSpinner();
-  }
+  logWithSpinner('clean frontend dist dir.');
+  stopSpinner();
 
   fs.emptyDirSync(options.dist);
-  if (silent) {
-    logWithSpinner('completing.');
-  }
   await new Promise(resolve => {
     const webpackConfig = getWebpackConfig(options);
     webpack(webpackConfig, (err, stats) => {
@@ -90,8 +79,6 @@ module.exports = async argv => {
       resolve();
     });
   });
-  stopSpinner();
-  console.log(chalk.green.bold(`Built successfully in ${prettyMs(Date.now() - start)}!`));
 
   if (options.ssrConfig) {
     await buildSSR(options, imt);

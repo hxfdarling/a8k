@@ -11,6 +11,8 @@ const RetryPlugin = require('webpack-retry-load-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
+const ReportStatusPlugin = require('./plugins/report-status-plugin');
+
 // config
 const getBaseConfig = require('./common.config');
 const { PROD } = require('../../const');
@@ -65,6 +67,9 @@ module.exports = options => {
         : [],
     },
     plugins: [
+      new ReportStatusPlugin({
+        silent: options.silent,
+      }),
       options.retry && new RetryPlugin(Object.assign(options.retry, { minimize: options.mini })),
       // 支持lodash包 按需引用
       new LodashPlugin(),

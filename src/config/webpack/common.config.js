@@ -1,15 +1,12 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const { WebPlugin } = require('web-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
-const WebpackBar = require('webpackbar');
-// const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+// const WebpackBar = require('webpackbar');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const fs = require('fs-extra');
-
-const ReportStatusPlugin = require('./plugins/report-status-plugin');
 
 const { DEV, PROD, SSR } = require('../../const');
 
@@ -259,8 +256,6 @@ module.exports = options => {
     output: {
       crossOriginLoading: 'anonymous',
     },
-    // 出错不继续编译
-    bail: true,
     resolve: {
       // 加快搜索速度
       modules: ['node_modules', path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules')],
@@ -320,17 +315,12 @@ module.exports = options => {
     },
     optimization: configOptimization(options),
     plugins: [
-      // !options.silent && !isSSR && new ProgressBarPlugin(),
-      !options.silent
-        && new WebpackBar({
-          name: type.toLowerCase(),
-          profile: options.analyzer,
-        }),
-      new ReportStatusPlugin({
-        type,
-        silent: options.silent,
-        devServer: options.devServer,
-      }),
+      new ProgressBarPlugin(),
+      // !options.silent
+      //   && new WebpackBar({
+      //     name: type.toLowerCase(),
+      //     profile: options.analyzer,
+      //   }),
       new ManifestPlugin(configureManifest('manifest-legacy.json', options)),
     ].filter(Boolean),
   };

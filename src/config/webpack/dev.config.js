@@ -1,7 +1,6 @@
 const webpackMerge = require('webpack-merge');
 const webpack = require('webpack');
 const path = require('path');
-// const WebpackBar = require('webpackbar');
 
 const getBaseConfig = require('./common.config');
 const { DEV } = require('../../const');
@@ -46,13 +45,7 @@ module.exports = options => {
     optimization: {
       minimizer: [],
     },
-    plugins: [
-      // new WebpackBar({
-      //   profile: options.analyzer,
-      // }),
-      ssr && new SSRPlugin(options),
-      new webpack.HotModuleReplacementPlugin(),
-    ].filter(Boolean),
+    plugins: [ssr && new SSRPlugin(options), new webpack.HotModuleReplacementPlugin()].filter(Boolean),
   });
 
   return config;

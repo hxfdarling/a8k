@@ -1,5 +1,4 @@
 const chalk = require('chalk');
-const readline = require('readline');
 const padStart = require('string.prototype.padstart');
 const EventEmitter = require('events');
 
@@ -55,14 +54,6 @@ exports.error = (msg, tag = null) => {
   }
 };
 
-exports.clearConsole = title => {
-  if (process.stdout.isTTY) {
-    const blank = '\n'.repeat(process.stdout.rows);
-    console.log(blank);
-    readline.cursorTo(process.stdout, 0, 0);
-    readline.clearScreenDown(process.stdout);
-    if (title) {
-      console.log(title);
-    }
-  }
+exports.clearConsole = () => {
+  process.stdout.write(process.platform === 'win32' ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H');
 };
