@@ -89,7 +89,7 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
   }
   return {
     test: /\.(scss|css)$/,
-    use: type === SSR ? resolve('ignore-loader') : loaders,
+    use: resolve('ignore-loader'),
   };
 }
 // Configure Manifest
@@ -270,9 +270,9 @@ module.exports = options => {
       noParse: /node_modules\/(moment|chart\.js)/,
       rules: [
         configureBabelLoader(options),
-        configureCssLoader(options),
+        !isSSR && configureCssLoader(options),
         !isSSR && configureHtmlLoader(options),
-        !isSSR && {
+        {
           // svg 直接inline
           test: /\.svg$/,
           use: {
@@ -283,7 +283,7 @@ module.exports = options => {
           },
           include: [path.resolve(projectDir, 'src')],
         },
-        !isSSR && {
+        {
           // 项目外svg 直接拷贝过来
           test: /.svg$/,
           use: {
@@ -295,7 +295,7 @@ module.exports = options => {
           exclude: [path.resolve(projectDir, 'src')],
         },
         // 部分文件只需要使用路径
-        !isSSR && {
+        {
           test: /\.(path\.json)$/,
           use: {
             loader: resolve('file-loader'),
@@ -303,7 +303,7 @@ module.exports = options => {
           },
           type: 'javascript/auto',
         },
-        !isSSR && {
+        {
           // 其它文件直接拷贝
           test: /\.(gif|png|jpe?g|eot|woff|ttf|ogg|mp3|pdf)$/,
           use: {

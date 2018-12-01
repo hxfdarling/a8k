@@ -92,7 +92,7 @@ module.exports = async argv => {
   const options = getOptions(argv);
   options.type = DEV;
   const devServer = getServerConfig(options);
-
+  options.devServer = devServer;
   const imt = new Imt(options);
   const { hooks } = imt;
 

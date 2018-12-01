@@ -29,8 +29,8 @@ module.exports = options => {
     module: {
       rules: [
         {
-          test: /\.(svg|gif|png|jpe?g|eot|woff|ttf|ogg|mp3|pdf)$/,
-          loader: require.resolve('ignore-loader'),
+          test: /\.(scss|css)$/,
+          use: require.resolve('ignore-loader'),
         },
       ],
     },
