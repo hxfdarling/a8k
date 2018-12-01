@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.7"></a>
+
+## [0.4.7](https://github.com/hxfdarling/imt/compare/v0.4.6...v0.4.7) (2018-12-01)
+
+### Bug Fixes
+
+- 修复服务端渲染导致图片没有路径问题 ([0ce28c7](https://github.com/hxfdarling/imt/commit/0ce28c7))
+
 <a name="0.4.6"></a>
 
 ## [0.4.6](https://github.com/hxfdarling/imt/compare/v0.4.5...v0.4.6) (2018-11-30)

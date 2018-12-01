@@ -1,6 +1,6 @@
 {
   "name": "imt-cli",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "main": "index.js",
   "repository": {
     "type": "git",
