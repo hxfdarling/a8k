@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.8"></a>
+
+## [0.4.8](https://github.com/hxfdarling/imt/compare/v0.4.7...v0.4.8) (2018-12-01)
+
+### Bug Fixes
+
+- 优化调试直出体验，修复直出 view 目录不存在的情况 ([8191471](https://github.com/hxfdarling/imt/commit/8191471))
+
 <a name="0.4.7"></a>
 
 ## [0.4.7](https://github.com/hxfdarling/imt/compare/v0.4.6...v0.4.7) (2018-12-01)
