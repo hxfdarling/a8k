@@ -48,12 +48,16 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
           // require('postcss-nested'),
           // require('postcss-hexrgba'),
           // require('postcss-flexbugs-fixes'),
-
+          require('postcss-atroot'),
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
             },
-            stage: 3,
+            stage: 1,
+            browsers: ['last 5 versions', '> 5%', 'ie >= 9'],
+          }),
+          require('postcss-cssnext')({
+            browsers: ['last 5 versions', '> 5%', 'ie >= 9'],
           }),
         ].filter(Boolean),
       },
