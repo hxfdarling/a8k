@@ -26,12 +26,13 @@ window.__devServer__={
 }
 </script>
 `;
-    compiler.hooks.done.tap('xxxxx', async () => {
+    compiler.hooks.done.tap('ssr', async () => {
       const { outputFileSystem } = compiler;
       const {
         ssrConfig: { entry, view },
         dist,
       } = this.options;
+      fs.ensureDirSync(view);
       Object.keys(entry).forEach(key => {
         const pageName = entry[key].split('/');
         const file = `${pageName[pageName.length - 2]}.html`;
