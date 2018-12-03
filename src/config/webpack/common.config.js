@@ -93,7 +93,7 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
   }
   return {
     test: /\.(scss|css)$/,
-    use: resolve('ignore-loader'),
+    use: loaders,
   };
 }
 // Configure Manifest
