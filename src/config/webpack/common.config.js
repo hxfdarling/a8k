@@ -171,8 +171,12 @@ const configureBabelLoader = options => {
         },
       },
     ],
-    // 只命中 src 目录里的jsx?文件，加快webpack搜索速度
-    include: [path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules/@tencent')],
+    include: [
+      // 热重载插件需要被编译
+      /webpackHotDevClient|strip-ansi|formatWebpackMessages|chalk|ansi-styles/,
+      path.resolve(projectDir, 'src'),
+      path.resolve(projectDir, 'node_modules/@tencent'),
+    ].filter(Boolean),
     // 忽略哪些压缩的文件
     exclude: [/(.|_)min\.js$/],
   };
@@ -225,6 +229,23 @@ const configOptimization = () => {
       automaticNameDelimiter: '~',
       name: true,
       cacheGroups: {
+        vendor: {
+          test: module => {
+            if (module.resource) {
+              const include = [/[\\/]node_modules[\\/]/].every(reg => {
+                return reg.test(module.resource);
+              });
+              const exclude = [/[\\/]node_modules[\\/](react|redux|antd)/].some(reg => {
+                return reg.test(module.resource);
+              });
+              return include && !exclude;
+            }
+            return false;
+          },
+          name: 'vendor',
+          priority: 50,
+          reuseExistingChunk: true,
+        },
         react: {
           test({ resource }) {
             return /[\\/]node_modules[\\/](react|redux)/.test(resource);
@@ -237,12 +258,6 @@ const configOptimization = () => {
           test: /[\\/]node_modules[\\/]antd/,
           name: 'antd',
           priority: 15,
-          reuseExistingChunk: true,
-        },
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          priority: 10,
           reuseExistingChunk: true,
         },
       },

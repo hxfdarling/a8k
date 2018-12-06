@@ -63,15 +63,11 @@ const devServer = window.__devServer__ || {
 devServer.protocol = window.location.protocol;
 // Connect to WebpackDevServer via a socket.
 const connection = new SockJS(
-  url.format(
-    Object.assign(
-      {
-        // Hardcoded in WebpackDevServer
-        pathname: '/sockjs-node',
-      },
-      devServer
-    )
-  )
+  url.format({
+    // Hardcoded in WebpackDevServer
+    pathname: '/sockjs-node',
+    ...devServer,
+  })
 );
 
 // Unlike WebpackDevServer client, we won't try to reconnect
