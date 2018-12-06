@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.10"></a>
+
+## [0.4.10](https://github.com/hxfdarling/imt/compare/v0.4.9...v0.4.10) (2018-12-06)
+
+### Bug Fixes
+
+- 修复 vendor.js 没有优先执行|修复 dev 模式不支持 ie 问题 ([964b895](https://github.com/hxfdarling/imt/commit/964b895))
+
 <a name="0.4.9"></a>
 
 ## [0.4.9](https://github.com/hxfdarling/imt/compare/v0.4.8...v0.4.9) (2018-12-03)
