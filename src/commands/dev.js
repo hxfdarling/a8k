@@ -60,9 +60,10 @@ const prependEntry = entry => {
 
 function getServerConfig(options) {
   const { devServer } = options;
+  const { host, port, ...reset } = devServer;
   return {
-    host: options.host || DEFAULT_HOST,
-    port: options.port || DEFAULT_PORT,
+    host: options.host || host || DEFAULT_HOST,
+    port: options.port || port || DEFAULT_PORT,
     https: options.https || false,
     // Enable gzip compression of generated files.
     compress: true,
@@ -83,7 +84,7 @@ function getServerConfig(options) {
       // Paths with dots should still use the history fallback.
       disableDotRule: true,
     },
-    ...devServer,
+    ...reset,
   };
 }
 
