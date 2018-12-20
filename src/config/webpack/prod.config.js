@@ -33,6 +33,12 @@ const configureTerser = ({ sourceMap, cache }) => {
     cache: path.resolve(cache, 'terser-webpack-plugin'),
     parallel: true,
     sourceMap,
+    terserOptions: {
+      compress: {
+        // 删除所有的 `console` 语句
+        drop_console: true,
+      },
+    },
   };
 };
 
