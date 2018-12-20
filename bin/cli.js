@@ -53,6 +53,7 @@ program
   .option('--no-mini', '禁用压缩代码')
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
   .option('--no-silent', '输出日志')
+  .option('--dev', '环境变量使用development')
   .action(options => {
     require('../src/commands/build')(options);
   });

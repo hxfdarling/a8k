@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const webpack = require('webpack');
 const Imt = require('../index.js');
 const { error, info } = require('../utils/logger');
-const { PROD, SSR } = require('../const');
+const { PROD, SSR, DEV } = require('../const');
 const getOptions = require('../utils/getOptions');
 const getWebpackConfig = require('../config/webpack/index.js');
 const { logWithSpinner, stopSpinner } = require('../utils/spinner');
@@ -47,6 +47,9 @@ async function buildSSR(options, imt) {
 module.exports = async argv => {
   info('build frontend');
   const options = getOptions(argv);
+  if (options.dev) {
+    process.env.NODE_ENV = DEV;
+  }
   options.type = PROD;
   const imt = new Imt(options);
   const { silent } = options;

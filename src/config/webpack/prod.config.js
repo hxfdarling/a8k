@@ -15,7 +15,7 @@ const ReportStatusPlugin = require('./plugins/report-status-plugin');
 
 // config
 const getBaseConfig = require('./common.config');
-const { PROD } = require('../../const');
+const { PROD, DEV } = require('../../const');
 
 const configureCleanWebpack = ({ dist: root }) => {
   return {
@@ -58,9 +58,9 @@ const configureOptimizeCSS = ({ sourceMap }) => {
 };
 
 module.exports = options => {
-  const { sourceMap, publicPath, dist } = options;
+  const { sourceMap, publicPath, dist, dev } = options;
   const config = webpackMerge(getBaseConfig(options), {
-    mode: PROD,
+    mode: dev ? DEV : PROD,
     devtool: sourceMap ? 'source-map' : 'none',
     output: {
       publicPath,
