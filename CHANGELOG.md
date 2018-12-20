@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.11"></a>
+
+## [0.4.11](https://github.com/hxfdarling/imt/compare/v0.4.10...v0.4.11) (2018-12-20)
+
+### Bug Fixes
+
+- 删除生产模式删除 console ([b33d194](https://github.com/hxfdarling/imt/commit/b33d194))
+
 <a name="0.4.10"></a>
 
 ## [0.4.10](https://github.com/hxfdarling/imt/compare/v0.4.9...v0.4.10) (2018-12-06)
