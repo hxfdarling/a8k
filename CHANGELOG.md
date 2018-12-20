@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.12"></a>
+
+## [0.4.12](https://github.com/hxfdarling/imt/compare/v0.4.11...v0.4.12) (2018-12-20)
+
+### Bug Fixes
+
+- 添加一个 dev 构建模式 ([dfd8f51](https://github.com/hxfdarling/imt/commit/dfd8f51))
+- 修复 dev 模式无法重写监听端口 ([ed241b8](https://github.com/hxfdarling/imt/commit/ed241b8))
+
 <a name="0.4.11"></a>
 
 ## [0.4.11](https://github.com/hxfdarling/imt/compare/v0.4.10...v0.4.11) (2018-12-20)
