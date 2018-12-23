@@ -3,9 +3,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
-// const WebpackBar = require('webpackbar');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-
+// const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const webpack = require('webpack');
 const fs = require('fs-extra');
 
 const { DEV, PROD, SSR } = require('../../const');
@@ -336,12 +335,8 @@ module.exports = options => {
     },
     optimization: configOptimization(options),
     plugins: [
-      new ProgressBarPlugin(),
-      // !options.silent
-      //   && new WebpackBar({
-      //     name: type.toLowerCase(),
-      //     profile: options.analyzer,
-      //   }),
+      new webpack.ProgressPlugin(),
+      // new ProgressBarPlugin(),
       new ManifestPlugin(configureManifest('manifest-legacy.json', options)),
     ].filter(Boolean),
   };
