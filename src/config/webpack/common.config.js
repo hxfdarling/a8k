@@ -6,7 +6,7 @@ const SriPlugin = require('webpack-subresource-integrity');
 // const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const webpack = require('webpack');
 const fs = require('fs-extra');
-
+const BuildTime = require('./plugins/build-time');
 const { DEV, PROD, SSR } = require('../../const');
 
 const { resolve } = require;
@@ -337,6 +337,7 @@ module.exports = options => {
     plugins: [
       new webpack.ProgressPlugin(),
       // new ProgressBarPlugin(),
+      new BuildTime(),
       new ManifestPlugin(configureManifest('manifest-legacy.json', options)),
     ].filter(Boolean),
   };

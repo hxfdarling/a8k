@@ -84,7 +84,6 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.4.0",
     "pretty-ms": "^4.0.0",
-    "progress-bar-webpack-plugin": "^1.11.0",
     "query-parse": "^2.0.0",
     "react-error-overlay": "^5.1.0",
     "resolve": "^1.8.1",
