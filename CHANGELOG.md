@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.16"></a>
+
+## [0.4.16](https://github.com/hxfdarling/imt/compare/v0.4.15...v0.4.16) (2018-12-23)
+
+### Bug Fixes
+
+- 修复在 CI 系统中报告进度 ([28d0447](https://github.com/hxfdarling/imt/commit/28d0447))
+- 修复构建结束没有报告耗时 ([798846c](https://github.com/hxfdarling/imt/commit/798846c))
+
 <a name="0.4.15"></a>
 
 ## [0.4.15](https://github.com/hxfdarling/imt/compare/v0.4.14...v0.4.15) (2018-12-23)
