@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [0.4.15](https://github.com/hxfdarling/imt/compare/v0.4.14...v0.4.15) (2018-12-23)
 
+### Bug Fixes
+
+- 删除  不需要的包，减少依赖
+
 <a name="0.4.14"></a>
 
 ## [0.4.14](https://github.com/hxfdarling/imt/compare/v0.4.13...v0.4.14) (2018-12-23)
