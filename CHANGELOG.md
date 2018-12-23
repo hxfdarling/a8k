@@ -2,9 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.15"></a>
+
+## [0.4.15](https://github.com/hxfdarling/imt/compare/v0.4.14...v0.4.15) (2018-12-23)
+
 <a name="0.4.14"></a>
 
 ## [0.4.14](https://github.com/hxfdarling/imt/compare/v0.4.13...v0.4.14) (2018-12-23)
+
+### Bug Fixes
+
+- 使用 node-sass 替换为 sass
 
 <a name="0.4.13"></a>
 
