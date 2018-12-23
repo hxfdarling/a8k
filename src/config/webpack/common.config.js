@@ -335,7 +335,8 @@ module.exports = options => {
     },
     optimization: configOptimization(options),
     plugins: [
-      new webpack.ProgressPlugin(),
+      // 只有命令行中才显示进度，CI系统日志不需要
+      process.stderr.isTTY && new webpack.ProgressPlugin(),
       // new ProgressBarPlugin(),
       new BuildTime(),
       new ManifestPlugin(configureManifest('manifest-legacy.json', options)),
