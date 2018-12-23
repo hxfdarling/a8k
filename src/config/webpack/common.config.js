@@ -33,7 +33,8 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
       options: {
         sourceMap,
         plugins: () => [
-          // 下面两个插件有bug，将导致 import 的文件中存在相对路径url处理错误
+          // 下面两个插件有bug，将导致 import
+          // 的文件中存在相对路径url处理错误
           // 但是坑爹的是pc项目里面使用了这个东西，需要支持
           possCssImport
               && require('postcss-import')({
@@ -41,8 +42,8 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
               }),
           possCssImport && require('postcss-advanced-variables'),
 
-          // 这些插件不需要，使用 node-sass 够用了，避免造成构建速度太慢
-          // require('postcss-extend'),
+          // 这些插件不需要，使用 node-sass
+          // 够用了，避免造成构建速度太慢 require('postcss-extend'),
           // require('postcss-simple-vars'),
           // require('postcss-nested-ancestors'),
           // require('postcss-nested'),
@@ -65,6 +66,7 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
     {
       loader: resolve('sass-loader'),
       options: {
+        implementation: require('sass'),
         includePaths: [
           // 支持绝对路径查找
           path.resolve(projectDir, 'src'),
