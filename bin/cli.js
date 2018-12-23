@@ -77,21 +77,6 @@ program
     require('../src/commands/test')(options);
   });
 
-// program
-//   .command('release [mode]')
-//   .description('发布项目，[mode]发布模块，支持static、node, 默认static')
-//   .option('-e, --env <env>', '选择部署环境', /^(nohost|test|preview|public)$/i, 'nohost')
-//   .action((mode, options) => {
-//     if (!mode) {
-//       mode = 'static';
-//     }
-//     if (!['static', 'node'].find(i => i === mode)) {
-//       options.outputHelp();
-//       process.exit(1);
-//     }
-//     require('../src/commands/release')(mode, options);
-//   });
-
 program
   .command('check')
   .description('检测代码是否合并主干')
