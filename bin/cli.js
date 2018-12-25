@@ -13,6 +13,7 @@ const getOptions = require('../src/utils/getOptions');
 const spinner = require('../src/utils/spinner');
 const { logWithSpinner, stopSpinner } = require('../src/utils/spinner');
 const { error } = require('../src/utils/logger');
+const cache = require('../src/scripts/cache');
 
 const cwd = process.cwd();
 
@@ -91,6 +92,13 @@ program
     const options = getOptions({});
     await fs.emptyDir(options.cache);
     spinner.stopSpinner();
+  });
+program
+  .command('cache <cmd>')
+  .description('缓存node_modules加速构建,使用方法：imt cache [cmd]. cmd 是配置的 npm scripts key')
+  .action(async cmd => {
+    const options = getOptions({});
+    cache({ cmd, cache: options.cache });
   });
 const initChoices = [
   { name: '添加 提交前 lint 和 prettier', value: 'lint' },
