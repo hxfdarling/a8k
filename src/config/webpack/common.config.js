@@ -31,35 +31,29 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
       loader: resolve('postcss-loader'),
       options: {
         sourceMap,
-        plugins: () => [
+        plugins: [
           // 下面两个插件有bug，将导致 import
           // 的文件中存在相对路径url处理错误
           // 但是坑爹的是pc项目里面使用了这个东西，需要支持
           possCssImport
-              && require('postcss-import')({
-                path: path.resolve(projectDir, 'src'),
-              }),
+            && require('postcss-import')({
+              path: path.resolve(projectDir, 'src'),
+            }),
           possCssImport && require('postcss-advanced-variables'),
 
-          // 这些插件不需要，使用 node-sass
-          // 够用了，避免造成构建速度太慢 require('postcss-extend'),
-          // require('postcss-simple-vars'),
-          // require('postcss-nested-ancestors'),
-          // require('postcss-nested'),
-          // require('postcss-hexrgba'),
-          // require('postcss-flexbugs-fixes'),
           require('postcss-atroot'),
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
             },
-            stage: 1,
+            stage: 3,
+            features: {
+              'custom-properties': false,
+            },
             browsers: ['last 5 versions', '> 5%', 'ie >= 9'],
           }),
-          // TODO：需要移除这个插件
-          require('postcss-cssnext')({
-            browsers: ['last 5 versions', '> 5%', 'ie >= 9'],
-          }),
+          // preset-env 中的无法支持外链的 var
+          require('postcss-custom-properties'),
         ].filter(Boolean),
       },
     },
