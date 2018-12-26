@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+
+# [0.5.0](https://github.com/hxfdarling/imt/compare/v0.4.17...v0.5.0) (2018-12-26)
+
+### Features
+
+- 添加 node_modules 缓存能力 ([df20c9d](https://github.com/hxfdarling/imt/commit/df20c9d))
+
 <a name="0.4.17"></a>
 
 ## [0.4.17](https://github.com/hxfdarling/imt/compare/v0.4.16...v0.4.17) (2018-12-24)
