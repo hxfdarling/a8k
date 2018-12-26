@@ -40,8 +40,6 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
               path: path.resolve(projectDir, 'src'),
             }),
           possCssImport && require('postcss-advanced-variables'),
-
-          require('postcss-atroot'),
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
