@@ -56,6 +56,7 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
             stage: 1,
             browsers: ['last 5 versions', '> 5%', 'ie >= 9'],
           }),
+          // TODO：需要移除这个插件
           require('postcss-cssnext')({
             browsers: ['last 5 versions', '> 5%', 'ie >= 9'],
           }),
