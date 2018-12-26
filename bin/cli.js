@@ -40,6 +40,7 @@ program
   .option('-p, --port <port>', '配置开发者服务器监听端口')
   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
   .option('--no-eslint', '禁用eslint检测代码')
+  .option('-c, --css-source-map', '使用cssSourceMap ，但会导致开发模式 FOUC')
   .action(options => {
     require('../src/commands/dev')(options);
   });

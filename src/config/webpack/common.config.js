@@ -14,7 +14,7 @@ const { env } = process;
 
 const PAGES_DIR = './src/pages';
 
-function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publicPath, type }) {
+function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publicPath, type, cssSourceMap = false }) {
   const loaders = [
     {
       loader: resolve('cache-loader'),
@@ -72,7 +72,7 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
       loader: resolve('style-loader'),
       options: {
         // https://github.com/webpack-contrib/style-loader/issues/107
-        singleton: true,
+        singleton: !cssSourceMap,
         sourceMap,
       },
     });
