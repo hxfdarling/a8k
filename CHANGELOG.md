@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+
+# [0.6.0](https://github.com/hxfdarling/imt/compare/v0.5.0...v0.6.0) (2018-12-27)
+
+### Bug Fixes
+
+- 修复服务器渲染调试问题 ([ded9348](https://github.com/hxfdarling/imt/commit/ded9348))
+- 修复直出调试不支持 0.0.0.0ip 地址 ([2abdb6e](https://github.com/hxfdarling/imt/commit/2abdb6e))
+
+### Features
+
+- 添加自动获取直出页面，增强直出页面调试能力 ([bc6c533](https://github.com/hxfdarling/imt/commit/bc6c533))
+- 添加自动检测新版本 ([f61df71](https://github.com/hxfdarling/imt/commit/f61df71))
+- 添加 css sourceMap 可选项 ([3b24c33](https://github.com/hxfdarling/imt/commit/3b24c33))
+
 <a name="0.5.0"></a>
 
 # [0.5.0](https://github.com/hxfdarling/imt/compare/v0.4.17...v0.5.0) (2018-12-26)
