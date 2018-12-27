@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk').default;
+const httpProxyMiddleware = require('http-proxy-middleware');
 
 const getIp = require('internal-ip');
 const os = require('os');
@@ -58,11 +59,79 @@ const prependEntry = entry => {
 
   return entries.concat(entry);
 };
+function setProxy(app, proxy) {
+  if (!Array.isArray(proxy)) {
+    proxy = Object.keys(proxy).map(context => {
+      let proxyOptions;
+      // For backwards compatibility reasons.
+      const correctedContext = context.replace(/^\*$/, '**').replace(/\/\*$/, '');
 
+      if (typeof proxy[context] === 'string') {
+        proxyOptions = {
+          context: correctedContext,
+          target: proxy[context],
+        };
+      } else {
+        proxyOptions = Object.assign({}, proxy[context]);
+        proxyOptions.context = correctedContext;
+      }
+
+      proxyOptions.logLevel = proxyOptions.logLevel || 'warn';
+
+      return proxyOptions;
+    });
+  }
+
+  const getProxyMiddleware = proxyConfig => {
+    const context = proxyConfig.context || proxyConfig.path;
+    // It is possible to use the `bypass` method without a `target`.
+    // However, the proxy middleware has no use in this case, and will fail to instantiate.
+    if (proxyConfig.target) {
+      return httpProxyMiddleware(context, proxyConfig);
+    }
+  };
+  proxy.forEach(proxyConfigOrCallback => {
+    let proxyConfig;
+    let proxyMiddleware;
+
+    if (typeof proxyConfigOrCallback === 'function') {
+      proxyConfig = proxyConfigOrCallback();
+    } else {
+      proxyConfig = proxyConfigOrCallback;
+    }
+
+    proxyMiddleware = getProxyMiddleware(proxyConfig);
+
+    app.use((req, res, next) => {
+      if (typeof proxyConfigOrCallback === 'function') {
+        const newProxyConfig = proxyConfigOrCallback();
+
+        if (newProxyConfig !== proxyConfig) {
+          proxyConfig = newProxyConfig;
+          proxyMiddleware = getProxyMiddleware(proxyConfig);
+        }
+      }
+
+      const bypass = typeof proxyConfig.bypass === 'function';
+
+      const bypassUrl = (bypass && proxyConfig.bypass(req, res, proxyConfig)) || false;
+
+      if (bypassUrl) {
+        req.url = bypassUrl;
+
+        next();
+      } else if (proxyMiddleware) {
+        return proxyMiddleware(req, res, next);
+      } else {
+        next();
+      }
+    });
+  });
+}
 function getServerConfig(options) {
-  const { devServer } = options;
+  const { devServer, ssrDevServer = {} } = options;
   const { host, port, ...reset } = devServer;
-  return {
+  const config = {
     host: options.host || host || DEFAULT_HOST,
     port: options.port || port || DEFAULT_PORT,
     https: options.https || false,
@@ -87,6 +156,33 @@ function getServerConfig(options) {
     },
     ...reset,
   };
+  if (options.ssr) {
+    // eslint-disable-next-line no-shadow
+    const { contentBase, https, port, host = DEFAULT_HOST } = ssrDevServer;
+    if (!port) {
+      error('如需要调试直出，请在.imtrc.js中配置 ssrDevServer:{port:xxx} 端口信息');
+      process.exit(-1);
+    }
+    const {
+      ssrConfig: { entry },
+    } = options;
+    config.before = app => {
+      const protocol = https ? 'https://' : 'http://';
+      const ssrHost = host === '0.0.0.0' ? 'localhost' : host;
+      const proxy = {};
+      Object.keys(entry).forEach(key => {
+        const pageName = entry[key].split('/');
+        const file = `/${pageName[pageName.length - 2]}.html`;
+        proxy[file] = {
+          target: `${protocol + ssrHost}:${port}${contentBase || ''}`,
+          secure: false,
+        };
+      });
+      setProxy(app, proxy);
+    };
+  }
+
+  return config;
 }
 
 module.exports = async argv => {
