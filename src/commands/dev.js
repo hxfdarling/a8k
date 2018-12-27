@@ -150,6 +150,9 @@ function getServerConfig(options) {
     // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
     quiet: true,
     overlay: false,
+    headers: {
+      'access-control-allow-origin': '*',
+    },
     historyApiFallback: {
       // Paths with dots should still use the history fallback.
       disableDotRule: true,
