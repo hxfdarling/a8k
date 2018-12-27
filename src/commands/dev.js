@@ -15,7 +15,7 @@ const getOptions = require('../utils/getOptions');
 const getWebpackConfig = require('../config/webpack');
 const { info, error } = require('../utils/logger');
 
-const DEFAULT_HOST = '0.0.0.0';
+const DEFAULT_HOST = '127.0.0.1';
 
 const DEFAULT_PORT = 8080;
 process.env.NODE_ENV = DEV;
