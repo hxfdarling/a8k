@@ -13,7 +13,6 @@ const getOptions = require('../src/utils/getOptions');
 const spinner = require('../src/utils/spinner');
 const { logWithSpinner, stopSpinner } = require('../src/utils/spinner');
 const { error } = require('../src/utils/logger');
-const cache = require('../src/scripts/cache');
 
 const cwd = process.cwd();
 
@@ -99,6 +98,7 @@ program
   .description('缓存node_modules加速构建,使用方法：imt cache [cmd]. cmd 是配置的 npm scripts key')
   .action(async cmd => {
     const options = getOptions({});
+    const cache = require('../src/scripts/cache');
     cache({ cmd, cache: options.cache });
   });
 const initChoices = [
