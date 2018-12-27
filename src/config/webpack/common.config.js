@@ -14,7 +14,16 @@ const { env } = process;
 
 const PAGES_DIR = './src/pages';
 
-function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publicPath, type, cssSourceMap = false }) {
+function configureCssLoader({
+  projectDir,
+  cache,
+  possCssImport,
+  sourceMap,
+  publicPath,
+  type,
+  cssSourceMap = false,
+  ssr,
+}) {
   const loaders = [
     {
       loader: resolve('cache-loader'),
@@ -67,7 +76,9 @@ function configureCssLoader({ projectDir, cache, possCssImport, sourceMap, publi
       },
     },
   ];
-  if (type === DEV) {
+  const needExtraCss = ssr || type === PROD;
+
+  if (!needExtraCss && type === DEV) {
     loaders.unshift({
       loader: resolve('style-loader'),
       options: {
@@ -262,8 +273,9 @@ const configOptimization = () => {
   return config;
 };
 module.exports = options => {
-  const { projectDir, mode, type } = options;
+  const { projectDir, mode, type, ssr } = options;
   const isSSR = type === SSR;
+  const needExtraCss = ssr || type === PROD;
   const config = {
     entry: configureEntries(options),
     output: {
@@ -333,6 +345,10 @@ module.exports = options => {
       // new ProgressBarPlugin(),
       new BuildTime(),
       new ManifestPlugin(configureManifest('manifest-legacy.json', options)),
+      needExtraCss
+        && new MiniCssExtractPlugin({
+          filename: '[name]_[contenthash].css',
+        }),
     ].filter(Boolean),
   };
 

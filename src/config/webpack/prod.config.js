@@ -2,7 +2,6 @@ const webpackMerge = require('webpack-merge');
 const webpack = require('webpack');
 const path = require('path');
 // plugins
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const LodashPlugin = require('lodash-webpack-plugin');
@@ -80,9 +79,6 @@ module.exports = options => {
       // 支持lodash包 按需引用
       new LodashPlugin(),
       new CleanWebpackPlugin('*', configureCleanWebpack(options)),
-      new MiniCssExtractPlugin({
-        filename: '[name]_[contenthash].css',
-      }),
       new webpack.HashedModuleIdsPlugin({
         hashDigestLength: 6,
       }),
