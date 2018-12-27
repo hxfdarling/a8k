@@ -167,5 +167,6 @@ program.command('*').action(options => {
 program.parse(process.argv);
 
 if (!process.argv.slice(2).length) {
+  require('../src/scripts/check_latest');
   program.outputHelp();
 }
