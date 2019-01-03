@@ -11,18 +11,13 @@ const cwd = process.cwd();
  * @property {Function<config,context>} webpackOverride 允许项目修改webpack配置
  */
 
-function clearPrototype(obj) {
-  const newOjb = {};
-  Object.keys(obj).forEach(key => {
-    newOjb[key] = obj[key];
-  });
-  obj = newOjb;
-  return obj;
-}
-
 module.exports = options => {
-  options = clearPrototype(options);
+  let { proxy, defaultProxy } = options.parent;
+  if (defaultProxy) {
+    proxy = 'http://web-proxy.tencent.com:8080';
+  }
   options.projectDir = cwd;
+  options.proxy = proxy;
   let imtrc = {};
   try {
     /** @type ImtConfig */
