@@ -12,7 +12,7 @@ const cwd = process.cwd();
  */
 
 module.exports = options => {
-  let { proxy, defaultProxy } = options.parent;
+  let { proxy, defaultProxy } = options.parent || {};
   if (defaultProxy) {
     proxy = 'http://web-proxy.tencent.com:8080';
   }
