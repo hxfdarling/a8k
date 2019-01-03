@@ -29,7 +29,7 @@ function copyCacheModules(dir) {
       const zipFile = path.join(dir, 'node_modules.zip');
       fs.accessSync(zipFile);
       console.log(`开始复制缓存文件: ${zipFile}`);
-      spawnSync('unzip', [`${dir}node_modules.zip`, '-d', './'], { cwd });
+      spawnSync('unzip', [zipFile, '-d', './'], { cwd });
       const time = (Date.now() - startCp) / 1000;
       console.log(`文件复制结束, 耗时${time}`);
       fs.writeFile(installMarkFile, `install at ${getFormatTime(new Date())}`, err => {
