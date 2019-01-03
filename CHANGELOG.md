@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.3"></a>
+
+## [0.6.3](https://github.com/hxfdarling/imt/compare/v0.6.2...v0.6.3) (2019-01-03)
+
+### Bug Fixes
+
+- 修复资源跨域问题 ([ebd92c0](https://github.com/hxfdarling/imt/commit/ebd92c0))
+- 修复 options 获取异常 ([a95e0c4](https://github.com/hxfdarling/imt/commit/a95e0c4))
+
 <a name="0.6.2"></a>
 
 ## [0.6.2](https://github.com/hxfdarling/imt/compare/v0.6.1...v0.6.2) (2019-01-03)
