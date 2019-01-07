@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.4"></a>
+
+## [0.6.4](https://github.com/hxfdarling/imt/compare/v0.6.3...v0.6.4) (2019-01-07)
+
+### Bug Fixes
+
+- 添加 postcss-color-function 插件 ([bf69285](https://github.com/hxfdarling/imt/commit/bf69285))
+- 添加 postcss-extend-rule 插件 ([c9c8c88](https://github.com/hxfdarling/imt/commit/c9c8c88))
+
 <a name="0.6.3"></a>
 
 ## [0.6.3](https://github.com/hxfdarling/imt/compare/v0.6.2...v0.6.3) (2019-01-03)
