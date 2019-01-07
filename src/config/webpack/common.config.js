@@ -61,8 +61,9 @@ function configureCssLoader({
           }),
           // preset-env 外部的var参数无法正确处理
           require('postcss-custom-properties'),
-          // stone-ui 中有用到 color-function 功能
+          // stone-ui 中有用到
           require('postcss-color-function'),
+          require('postcss-extend-rule'),
         ].filter(Boolean),
       },
     },
