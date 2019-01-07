@@ -59,8 +59,10 @@ function configureCssLoader({
             },
             browsers: ['last 5 versions', '> 5%', 'ie >= 9'],
           }),
-          // preset-env 中的无法支持外链的 var
+          // preset-env 外部的var参数无法正确处理
           require('postcss-custom-properties'),
+          // stone-ui 中有用到 color-function 功能
+          require('postcss-color-function'),
         ].filter(Boolean),
       },
     },
