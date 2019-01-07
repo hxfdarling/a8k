@@ -55,11 +55,11 @@ function configureCssLoader({
             },
             stage: 3,
             features: {
+              // --primary: var(--customPrimary, var(--green)); 语法处理存在bug
               'custom-properties': false,
             },
             browsers: ['last 5 versions', '> 5%', 'ie >= 9'],
           }),
-          // preset-env 外部的var参数无法正确处理
           require('postcss-custom-properties'),
           // stone-ui 中有用到
           require('postcss-color-function'),
