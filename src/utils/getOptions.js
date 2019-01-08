@@ -30,6 +30,7 @@ module.exports = options => {
   Object.assign(options, imtrc);
   options.dist = path.resolve(cwd, options.dist || 'dist');
   options.cache = path.resolve(options.cache || 'node_modules/.cache');
+  options.imtPath = path.resolve(__dirname, '../../');
 
   if (options.ssrConfig) {
     options.ssrConfig = Object.assign(

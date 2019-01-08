@@ -147,6 +147,7 @@ const configureEntries = options => {
 const configureBabelLoader = options => {
   const { projectDir, type } = options;
   const isSSR = type === SSR;
+  // const isDev = type === DEV;
   return {
     test: /\.jsx?$/,
     use: [
@@ -158,6 +159,7 @@ const configureBabelLoader = options => {
           // cacheDirectory 缓存babel编译结果加快重新编译速度
           cacheDirectory: path.resolve(options.cache, 'babel-loader'),
           presets: [[require('babel-preset-imt'), { isSSR }]],
+          // plugins: [isDev && require('react-hot-loader/babel')].filter(Boolean),
         },
       },
     ],
@@ -211,7 +213,7 @@ const configOptimization = () => {
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
     splitChunks: {
       chunks: 'all',
-      minSize: 10000, // 提高缓存利用率，这需要在http2/spdy
+      minSize: 30000, // 提高缓存利用率，这需要在http2/spdy
       maxSize: 0,
       minChunks: 3,
       maxAsyncRequests: 5,
@@ -234,6 +236,7 @@ const configOptimization = () => {
           },
           name: 'vendor',
           priority: 50,
+          minChunks: 2,
           reuseExistingChunk: true,
         },
         react: {
@@ -242,12 +245,14 @@ const configOptimization = () => {
           },
           name: 'react',
           priority: 20,
+          minChunks: 1,
           reuseExistingChunk: true,
         },
         antd: {
           test: /[\\/]node_modules[\\/]antd/,
           name: 'antd',
           priority: 15,
+          minChunks: 1,
           reuseExistingChunk: true,
         },
       },
@@ -258,7 +263,7 @@ const configOptimization = () => {
   return config;
 };
 module.exports = options => {
-  const { projectDir, mode, type, ssr } = options;
+  const { projectDir, mode, type, ssr, imtPath } = options;
   const isSSR = type === SSR;
   const needExtraCss = ssr || type === PROD;
   const config = {
@@ -268,7 +273,11 @@ module.exports = options => {
     },
     resolve: {
       // 加快搜索速度
-      modules: ['node_modules', path.resolve(projectDir, 'src'), path.resolve(projectDir, 'node_modules')],
+      modules: [
+        path.resolve(imtPath, 'node_modules'),
+        path.resolve(projectDir, 'src'),
+        path.resolve(projectDir, 'node_modules'),
+      ],
       // es tree-shaking
       mainFields: ['jsnext:main', 'browser', 'main'],
       // 加快编译速度
