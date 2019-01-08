@@ -147,7 +147,7 @@ const configureEntries = options => {
 const configureBabelLoader = options => {
   const { projectDir, type } = options;
   const isSSR = type === SSR;
-  // const isDev = type === DEV;
+  const isDev = type === DEV;
   return {
     test: /\.jsx?$/,
     use: [
@@ -159,7 +159,7 @@ const configureBabelLoader = options => {
           // cacheDirectory 缓存babel编译结果加快重新编译速度
           cacheDirectory: path.resolve(options.cache, 'babel-loader'),
           presets: [[require('babel-preset-imt'), { isSSR }]],
-          // plugins: [isDev && require('react-hot-loader/babel')].filter(Boolean),
+          plugins: [isDev && require('react-hot-loader/babel')].filter(Boolean),
         },
       },
     ],
