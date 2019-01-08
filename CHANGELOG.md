@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.6"></a>
+
+## [0.6.6](https://github.com/hxfdarling/imt/compare/v0.6.5...v0.6.6) (2019-01-08)
+
+### Bug Fixes
+
+- 修复公共 chunk 配置问题 ([d84e6e9](https://github.com/hxfdarling/imt/commit/d84e6e9))
+
 <a name="0.6.5"></a>
 
 ## [0.6.5](https://github.com/hxfdarling/imt/compare/v0.6.4...v0.6.5) (2019-01-08)
