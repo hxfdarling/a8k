@@ -213,7 +213,7 @@ const configOptimization = () => {
       chunks: 'all',
       minSize: 10000, // 提高缓存利用率，这需要在http2/spdy
       maxSize: 0,
-      minChunks: 1,
+      minChunks: 3,
       maxAsyncRequests: 5,
       maxInitialRequests: 5,
       automaticNameDelimiter: '~',
