@@ -14,16 +14,7 @@ const { env } = process;
 
 const PAGES_DIR = './src/pages';
 
-function configureCssLoader({
-  projectDir,
-  cache,
-  possCssImport,
-  sourceMap,
-  publicPath,
-  type,
-  cssSourceMap = false,
-  ssr,
-}) {
+function configureCssLoader({ projectDir, cache, sourceMap, publicPath, type, cssSourceMap = false, ssr }) {
   const loaders = [
     {
       loader: resolve('cache-loader'),
@@ -41,14 +32,6 @@ function configureCssLoader({
       options: {
         sourceMap,
         plugins: [
-          // 下面两个插件有bug，将导致 import
-          // 的文件中存在相对路径url处理错误
-          // 但是坑爹的是pc项目里面使用了这个东西，需要支持
-          possCssImport
-            && require('postcss-import')({
-              path: path.resolve(projectDir, 'src'),
-            }),
-          possCssImport && require('postcss-advanced-variables'),
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
@@ -63,7 +46,6 @@ function configureCssLoader({
           require('postcss-custom-properties'),
           // stone-ui 中有用到
           require('postcss-color-function'),
-          require('postcss-extend-rule'),
         ].filter(Boolean),
       },
     },
