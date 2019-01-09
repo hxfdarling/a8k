@@ -2,7 +2,9 @@ dist: trusty
 
 language: node_js
 node_js:
-  - '8'
+  - '10'
+
+cache: npm
 
 env:
   - CI_ENV=travis
