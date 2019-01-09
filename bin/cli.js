@@ -162,6 +162,18 @@ program
     }
   });
 
+// 发布命令
+program
+  .command('release [type]')
+  .option()
+  .option('-t --test', '用于创建普通ars单')
+  .option('-nt --notest', '用于创建免测ars单')
+  .description('用于触发oci构建，创建ars、zhiyun等操作')
+  .action(async (type, options) => {
+    console.log(type);
+    console.log(options);
+  });
+
 program.command('*').action(options => {
   error(`找不到命令: ${options}`);
   program.outputHelp();
