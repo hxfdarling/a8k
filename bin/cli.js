@@ -173,25 +173,17 @@ const releaseConfig = [
   { name: '版本ars zhiyun', value: 'release_test_ars_zy' },
 ];
 program
-  .command('release [type]')
-  .option('-nh --nohost', '部署到nohost')
-  .option('-nhz --nohostz', '部署nohost 直出')
-  .option('-t --test', '用于创建普通ars单')
-  .option('-tz --testz', '用于创建普通ars单 zhiyun')
-  .option('-nt --notest', '用于创建免测ars单')
-  .option('-ntz --notestz', '用于创建免测ars单 zhiyun')
+  .command('release')
   .description('用于触发oci构建，创建ars、zhiyun等操作')
   .action(async (type, options) => {
-    if (!type) {
-      ({ type } = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'type',
-          message: '选择发布方式',
-          choices: releaseConfig,
-        },
-      ]));
-    }
+    ({ type } = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'type',
+        message: '选择发布方式',
+        choices: releaseConfig,
+      },
+    ]));
     const choice = releaseConfig.find(i => i.value === type);
     if (choice) {
       const { stdout: pwd } = shell.pwd();
