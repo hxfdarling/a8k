@@ -15,7 +15,7 @@
     "test": "jest",
     "test:w": "jest --watch",
     "lint": "eslint --cache \"{lib,bin,src}/**/*.js\"",
-    "prepublish": "standard-version && git push --follow-tags origin master"
+    "prepublishOnly": "standard-version && git push --follow-tags origin master"
   },
   "husky": {
     "hooks": {
@@ -105,7 +105,7 @@
     "url": "^0.11.0",
     "webpack": "^4.26.1",
     "webpack-bundle-analyzer": "^3.0.3",
-    "webpack-dev-server": "^3.1.10",
+    "webpack-dev-server": "^3.1.14",
     "webpack-manifest-plugin": "^2.0.4",
     "webpack-merge": "^4.1.4",
     "webpack-node-externals": "^1.7.2",
