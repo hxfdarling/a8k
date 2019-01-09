@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.0"></a>
+
+# [0.8.0](https://github.com/hxfdarling/imt/compare/v0.7.0...v0.8.0) (2019-01-09)
+
+### Features
+
+- 添加 GIT 支持 ([bbcdb8a](https://github.com/hxfdarling/imt/commit/bbcdb8a))
+
 <a name="0.7.0"></a>
 
 # [0.7.0](https://github.com/hxfdarling/imt/compare/v0.6.6...v0.7.0) (2019-01-09)
