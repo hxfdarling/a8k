@@ -15,6 +15,7 @@
     "test": "jest",
     "test:w": "jest --watch",
     "commitlint": "commitlint --color",
+    "lint": "eslint --cache \"{lib,bin,src}/**/*.js\"",
     "prepublish": "standard-version && git push --follow-tags origin master"
   },
   "husky": {

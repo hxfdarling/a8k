@@ -1,0 +1,16 @@
+dist: trusty
+
+language: node_js
+node_js:
+  - '8'
+
+env:
+  - CI_ENV=travis
+
+install:
+  - npm install
+
+script:
+  - npm run commitlint
+  - npm run lint
+  - npm test
