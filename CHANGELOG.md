@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+
+# [0.7.0](https://github.com/hxfdarling/imt/compare/v0.6.6...v0.7.0) (2019-01-09)
+
+### Bug Fixes
+
+- 优化 options 默认逻辑，优化版本检测逻辑 ([b44b4eb](https://github.com/hxfdarling/imt/commit/b44b4eb))
+
+### Features
+
+- 添加 react-hot-loader 能力 ([b381ffc](https://github.com/hxfdarling/imt/commit/b381ffc))
+
 <a name="0.6.6"></a>
 
 ## [0.6.6](https://github.com/hxfdarling/imt/compare/v0.6.5...v0.6.6) (2019-01-08)
