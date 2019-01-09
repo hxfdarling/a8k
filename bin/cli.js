@@ -11,6 +11,7 @@ const os = require('os');
 const pkg = require('../package.json');
 const getOptions = require('../src/utils/getOptions');
 const spinner = require('../src/utils/spinner');
+const { start } = require('../src/utils/oci');
 const { logWithSpinner, stopSpinner } = require('../src/utils/spinner');
 const { error } = require('../src/utils/logger');
 
@@ -163,15 +164,42 @@ program
   });
 
 // 发布命令
+const releaseConfig = [
+  { name: '部署到nohost', value: 'nohost' },
+  { name: '部署到nohost和直出包', value: 'nohost_zy' },
+  { name: '免测ars', value: 'release_ars' },
+  { name: '免测ars zhiyun', value: 'release_ars_zy' },
+  { name: '版本ars', value: 'release_test_ars' },
+  { name: '版本ars zhiyun', value: 'release_test_ars_zy' },
+];
 program
   .command('release [type]')
-  .option()
+  .option('-nh --nohost', '部署到nohost')
+  .option('-nhz --nohostz', '部署nohost 直出')
   .option('-t --test', '用于创建普通ars单')
+  .option('-tz --testz', '用于创建普通ars单 zhiyun')
   .option('-nt --notest', '用于创建免测ars单')
+  .option('-ntz --notestz', '用于创建免测ars单 zhiyun')
   .description('用于触发oci构建，创建ars、zhiyun等操作')
   .action(async (type, options) => {
-    console.log(type);
-    console.log(options);
+    if (!type) {
+      ({ type } = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'type',
+          message: '选择发布方式',
+          choices: releaseConfig,
+        },
+      ]));
+    }
+    const choice = releaseConfig.find(i => i.value === type);
+    if (choice) {
+      const { stdout: pwd } = shell.pwd();
+      start(pwd, type);
+    } else {
+      error(`不支持该选项: ${type}`);
+      options.outputHelp();
+    }
   });
 
 program.command('*').action(options => {
