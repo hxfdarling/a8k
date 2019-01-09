@@ -14,9 +14,8 @@
   "scripts": {
     "test": "jest",
     "test:w": "jest --watch",
-    "release": "standard-version",
     "commitlint": "commitlint --color",
-    "prepublish": "release && git push --follow-tags origin master"
+    "prepublish": "standard-version && git push --follow-tags origin master"
   },
   "husky": {
     "hooks": {
