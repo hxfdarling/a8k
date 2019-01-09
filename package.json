@@ -14,7 +14,6 @@
   "scripts": {
     "test": "jest",
     "test:w": "jest --watch",
-    "commitlint": "commitlint --color",
     "lint": "eslint --cache \"{lib,bin,src}/**/*.js\""
   },
   "husky": {
