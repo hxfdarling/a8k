@@ -175,7 +175,7 @@ const releaseConfig = [
 program
   .command('release')
   .description('用于触发oci构建，创建ars、zhiyun等操作')
-  .action(async (type, options) => {
+  .action(async type => {
     ({ type } = await inquirer.prompt([
       {
         type: 'list',
@@ -184,14 +184,9 @@ program
         choices: releaseConfig,
       },
     ]));
-    const choice = releaseConfig.find(i => i.value === type);
-    if (choice) {
-      const { stdout: pwd } = shell.pwd();
-      start(pwd, type);
-    } else {
-      error(`不支持该选项: ${type}`);
-      options.outputHelp();
-    }
+    // const choice = releaseConfig.find(i => i.value === type);
+    const { stdout: pwd } = shell.pwd();
+    start(pwd, type);
   });
 
 program.command('*').action(options => {
