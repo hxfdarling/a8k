@@ -15,6 +15,8 @@ const { logWithSpinner, stopSpinner } = require('../src/utils/spinner');
 const { error } = require('../src/utils/logger');
 
 const cwd = process.cwd();
+// 自动版本检测
+require('../src/scripts/check_latest');
 
 process.on('unhandledRejection', err => {
   throw err;
@@ -47,7 +49,7 @@ program
 program
   .command('build')
   .description('构建生产包')
-  .option('-d, --dist <dist>', '配置构建文件生成目标目录', 'dist')
+  .option('-d, --dist <dist>', '配置构建文件生成目标目录')
   .option('-a, --analyzer', '开启构建分析', false)
   .option('-m, --use-smp', '分析构建耗时', false)
   .option('-s, --source-map', '是否生成source-map,默认false', false)
@@ -167,6 +169,5 @@ program.command('*').action(options => {
 program.parse(process.argv);
 
 if (!process.argv.slice(2).length) {
-  require('../src/scripts/check_latest');
   program.outputHelp();
 }

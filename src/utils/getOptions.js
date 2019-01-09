@@ -1,7 +1,13 @@
 const path = require('path');
-const { error } = require('./logger');
+const { error, warn } = require('./logger');
 
 const cwd = process.cwd();
+
+const defaultOptions = {
+  dist: 'dist',
+  cache: 'node_modules/.cache',
+  publicPath: '',
+};
 
 /**
  * @typedef {Object} ImtConfig
@@ -20,16 +26,23 @@ module.exports = options => {
   options.proxy = proxy;
   let imtrc = {};
   try {
-    /** @type ImtConfig */
-    imtrc = Object.assign({ publicPath: '' }, require(path.join(cwd, '.imtrc.js')));
+    try {
+      imtrc = require(path.join(cwd, 'imtrc.js'));
+    } catch (e) {
+      imtrc = require(path.join(cwd, '.imtrc.js'));
+      warn('.imtrc.js文件命名被移除，请重命名为imtrc.js');
+    }
   } catch (e) {
-    error('项目目录找不到`.imtrc.js`配置文件，请确认已经正确初始化.imtrc.js');
+    error('项目目录找不到`imtrc.js`配置文件，请确认已经正确初始化imtrc.js');
     error(e);
     process.exit(1);
   }
-  Object.assign(options, imtrc);
-  options.dist = path.resolve(cwd, options.dist || 'dist');
-  options.cache = path.resolve(options.cache || 'node_modules/.cache');
+
+  options = Object.assign({}, defaultOptions, imtrc, options);
+
+  options.dist = path.resolve(cwd, options.dist);
+  options.cache = path.resolve(options.cache);
+
   options.imtPath = path.resolve(__dirname, '../../');
 
   if (options.ssrConfig) {

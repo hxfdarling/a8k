@@ -38,6 +38,7 @@ const needUpdate = semver.neq(latestVersion, version);
 if (needUpdate) {
   console.log(`目前最新版本的 ${name} 为：${latestVersion.green}, 你的当前版本为：${version.red}`);
   console.log(`升级命令：\`$ ${`${cmd} install -g ${name}`.green}\``);
+  console.log();
 }
 config.updateDate = todayStr;
 config.needUpdate = needUpdate;
