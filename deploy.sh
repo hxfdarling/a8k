@@ -11,7 +11,7 @@ cd docs/.vuepress/dist
 
 
 git init
-git add -A
+git add .
 git commit -m 'chore: deploy'
 
 
