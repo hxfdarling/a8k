@@ -12,8 +12,14 @@ env:
 install:
   - npm install
 
-script:
-  - commitlint-travis
-  - npm run lint
-  - npm test
-  - ./deploy.sh
+jobs:
+  include:
+    - stage: lint
+      script:
+        - commitlint-travis
+        - npm run lint
+    - stage: test
+      script: npm test
+    - stage: docs
+      if: branch = master
+      script: ./deploy.sh
