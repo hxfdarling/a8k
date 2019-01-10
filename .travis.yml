@@ -16,8 +16,4 @@ script:
   - commitlint-travis
   - npm run lint
   - npm test
-deploy:
-  - provider: script
-    script: deploy.sh
-    on:
-      branch: master
+  - deploy.sh
