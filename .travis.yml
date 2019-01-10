@@ -14,12 +14,11 @@ install:
 
 jobs:
   include:
-    - stage: lint
+    - stage: lint & test
       script:
         - commitlint-travis
         - npm run lint
-    - stage: test
-      script: npm test
-    - stage: docs
+        - npm test
+    - stage: deploy docs
       if: branch = master
       script: ./deploy.sh
