@@ -12,6 +12,8 @@
     "imt": "./bin/cli.js"
   },
   "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
     "test": "jest",
     "test:w": "jest --watch",
     "lint": "eslint --cache \"{lib,bin,src}/**/*.js\"",
@@ -40,7 +42,8 @@
     "eslint-config-zman": "^0.2.1",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.2",
-    "standard-version": "^4.4.0"
+    "standard-version": "^4.4.0",
+    "vuepress": "^0.14.8"
   },
   "dependencies": {
     "@babel/runtime": "^7.2.0",
@@ -123,7 +126,7 @@
       "config": "node_modules/commitlint-config-imt/cz-config.js"
     }
   },
-  "description": "imt",
+  "description": "集成 webpack 的 react 项目最佳实践配置的构建工具",
   "bugs": {
     "url": "https://github.com/hxfdarling/imt/issues"
   },
