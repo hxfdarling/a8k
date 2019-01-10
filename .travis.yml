@@ -4,7 +4,9 @@ language: node_js
 node_js:
   - '10'
 
-cache: npm
+cache:
+  directories:
+    - 'node_modules'
 
 env:
   - CI_ENV=travis
@@ -16,8 +18,16 @@ script:
   - commitlint-travis
   - npm run lint
   - npm test
+  - npm run docs:build
+
 deploy:
-  - provider: script
-    script: deploy.sh
-    on:
-      branch: docs
+  provider: pages
+  skip-cleanup: true
+  local_dir: docs/.vuepress/dist
+  # Set in the settings page of your repository, as a secure variable
+  github-token: $GITHUB_TOKEN
+  repo: hxfdarling/imt
+  keep-history: true
+  target-branch: master
+  on:
+    branch: master
