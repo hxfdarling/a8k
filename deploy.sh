@@ -15,6 +15,6 @@ git add -A
 git commit -m 'chore: deploy'
 
 
-git push -f git@github.com:hxfarling/imt.git master:gh-pages
+git push -f git@github.com:hxfdarling/imt.git master:gh-pages
 
 cd -
