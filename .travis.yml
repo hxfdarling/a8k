@@ -16,5 +16,5 @@ script:
   - commitlint-travis
   - npm run lint
   - npm test
-  if: branch == master
+  if: branch == test
     - deploy.sh
