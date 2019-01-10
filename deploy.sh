@@ -11,10 +11,10 @@ cd docs/.vuepress/dist
 
 
 git init
-git add .
+git add -A
 git commit -m 'chore: deploy'
 
 
-git push -f git@github.com:hxfdarling/imt.git master:gh-pages
+git push -f https://${GITHUB_TOKEN}@github.com/hxfdarling/imt.git master:gh-pages
 
 cd -
