@@ -13,5 +13,6 @@ install:
   - npm install
 
 script:
+  - commitlint-travis
   - npm run lint
   - npm test
