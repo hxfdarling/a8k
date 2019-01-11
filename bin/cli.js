@@ -167,19 +167,19 @@ program
 const releaseConfig = [
   { name: '部署到nohost', value: 'nohost' },
   { name: '部署到nohost和直出包', value: 'nohost_zy' },
-  { name: '免测ars', value: 'release_ars' },
-  { name: '免测ars zhiyun', value: 'release_ars_zy' },
-  { name: '版本ars', value: 'release_test_ars' },
-  { name: '版本ars zhiyun', value: 'release_test_ars_zy' },
+  { name: '正式发布，免测ars', value: 'release_ars' },
+  { name: '正式发布，免测ars zhiyun', value: 'release_ars_zy' },
+  { name: '正式发布，版本ars', value: 'release_test_ars' },
+  { name: '正式发布，版本ars zhiyun', value: 'release_test_ars_zy' },
 ];
 program
   .command('release')
   .option('-n, --nohost', '部署到nohost')
   .option('-N, --nohost-zy', '部署到nohost和直出包')
-  .option('-a, --ars', '免测ars')
-  .option('-A, --ars-zy', '免测ars+zhiyun')
-  .option('-t, --test-ars', '版本ars')
-  .option('-T, --test-ars-zy', '版本ars + zhiyun')
+  .option('-a, --ars', '正式发布，免测ars')
+  .option('-A, --ars-zy', '正式发布，免测ars+zhiyun')
+  .option('-t, --test-ars', '正式发布，版本ars')
+  .option('-T, --test-ars-zy', '正式发布，版本ars + zhiyun')
   .description('用于触发oci构建，创建ars、zhiyun等操作')
   .action(async options => {
     let type = '';
