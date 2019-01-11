@@ -15,13 +15,15 @@ env:
 install:
   - npm install
 
-jobs:
-  include:
-    - stage: lint & test
-      script:
-        - commitlint-travis
-        - npm run lint
-        - npm test
-    - stage: deploy docs
-      if: branch = master
-      script: ./deploy.sh
+script:
+  - commitlint-travis
+  - npm run lint
+  - npm test
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: ./deploy.sh
+  keep_history: true
+  on:
+    branch: master
