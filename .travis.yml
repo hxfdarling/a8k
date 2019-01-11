@@ -24,5 +24,6 @@ deploy:
   provider: script
   skip_cleanup: true
   script: ./deploy.sh
+  keep_history: true
   on:
     branch: master
