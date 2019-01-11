@@ -174,17 +174,50 @@ const releaseConfig = [
 ];
 program
   .command('release')
+  .option('-n, --nohost', '部署到nohost')
+  .option('-N, --nohost-zy', '部署到nohost和直出包')
+  .option('-a, --ars', '免测ars')
+  .option('-A, --ars-zy', '免测ars+zhiyun')
+  .option('-t, --test-ars', '版本ars')
+  .option('-T, --test-ars-zy', '版本ars + zhiyun')
   .description('用于触发oci构建，创建ars、zhiyun等操作')
-  .action(async type => {
-    ({ type } = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'type',
-        message: '选择发布方式',
-        choices: releaseConfig,
-      },
-    ]));
-    // const choice = releaseConfig.find(i => i.value === type);
+  .action(async options => {
+    let type = '';
+    if (options.nohost) {
+      type = 'nohost';
+    }
+
+    if (options.nohostZy) {
+      type = 'nohost_zy';
+    }
+
+    if (options.ars) {
+      type = 'release_ars';
+    }
+
+    if (options.arsZy) {
+      type = 'release_ars_zy';
+    }
+
+    if (options.testArs) {
+      type = 'release_test_ars';
+    }
+
+    if (options.testArsZy) {
+      type = 'release_test_ars_zy';
+    }
+
+    if (!type) {
+      type = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'type',
+          message: '选择发布方式',
+          choices: releaseConfig,
+        },
+      ]);
+    }
+
     const { stdout: pwd } = shell.pwd();
     start(pwd, type);
   });
