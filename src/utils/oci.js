@@ -22,9 +22,15 @@ const EVENT_TYPE = {
  * @returns {string} 返回 CI 构建生成的 ID
  */
 async function start(projectPath, type) {
-  const token = readFileSync(resolve(projectPath, '.orange-ci.token'))
-    .toString()
-    .trim();
+  let token = null;
+  try {
+    token = readFileSync(resolve(projectPath, '.orange-ci.token'))
+      .toString()
+      .trim();
+  } catch (e) {
+    console.error('.orange-ci.token 文件不存在');
+    return null;
+  }
   const branch = await git.getBranchName(projectPath);
   const remoteUrl = await git.getStoreAddress(projectPath);
   const slug = url.parse(remoteUrl).path.substr(1);
@@ -63,5 +69,5 @@ function getStatus(id) {
 module.exports = { EVENT_TYPE, start, getStatus };
 
 // TODO: 测试代码
-const projectPath = '/Users/liuhua/work/code/pc';
-start(projectPath, EVENT_TYPE.NOHOST);
+// const projectPath = '/Users/liuhua/work/code/pc';
+// start(projectPath, EVENT_TYPE.NOHOST);

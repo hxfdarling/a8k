@@ -11,6 +11,7 @@ const os = require('os');
 const pkg = require('../package.json');
 const getOptions = require('../src/utils/getOptions');
 const spinner = require('../src/utils/spinner');
+const { start } = require('../src/utils/oci');
 const { logWithSpinner, stopSpinner } = require('../src/utils/spinner');
 const { error } = require('../src/utils/logger');
 
@@ -160,6 +161,65 @@ program
       error(`不支持该选项: ${type}`);
       options.outputHelp();
     }
+  });
+
+// 发布命令
+const releaseConfig = [
+  { name: '部署到nohost', value: 'nohost' },
+  { name: '部署到nohost和直出包', value: 'nohost_zy' },
+  { name: '正式发布，免测ars', value: 'release_ars' },
+  { name: '正式发布，免测ars zhiyun', value: 'release_ars_zy' },
+  { name: '正式发布，版本ars', value: 'release_test_ars' },
+  { name: '正式发布，版本ars zhiyun', value: 'release_test_ars_zy' },
+];
+program
+  .command('release')
+  .option('-n, --nohost', '部署到nohost')
+  .option('-N, --nohost-zy', '部署到nohost和直出包')
+  .option('-a, --ars', '正式发布，免测ars')
+  .option('-A, --ars-zy', '正式发布，免测ars+zhiyun')
+  .option('-t, --test-ars', '正式发布，版本ars')
+  .option('-T, --test-ars-zy', '正式发布，版本ars + zhiyun')
+  .description('用于触发oci构建，创建ars、zhiyun等操作')
+  .action(async options => {
+    let type = '';
+    if (options.nohost) {
+      type = 'nohost';
+    }
+
+    if (options.nohostZy) {
+      type = 'nohost_zy';
+    }
+
+    if (options.ars) {
+      type = 'release_ars';
+    }
+
+    if (options.arsZy) {
+      type = 'release_ars_zy';
+    }
+
+    if (options.testArs) {
+      type = 'release_test_ars';
+    }
+
+    if (options.testArsZy) {
+      type = 'release_test_ars_zy';
+    }
+
+    if (!type) {
+      type = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'type',
+          message: '选择发布方式',
+          choices: releaseConfig,
+        },
+      ]);
+    }
+
+    const { stdout: pwd } = shell.pwd();
+    start(pwd, type);
   });
 
 program.command('*').action(options => {
