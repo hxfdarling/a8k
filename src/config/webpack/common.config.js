@@ -276,9 +276,9 @@ module.exports = options => {
     resolve: {
       // 加快搜索速度
       modules: [
-        path.resolve(imtPath, 'node_modules'),
         path.resolve(projectDir, 'src'),
         path.resolve(projectDir, 'node_modules'),
+        path.resolve(imtPath, 'node_modules'),
       ],
       // es tree-shaking
       mainFields: ['jsnext:main', 'browser', 'main'],
