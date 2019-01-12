@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.0"></a>
+
+# [0.9.0](https://github.com/hxfdarling/imt/compare/v0.8.0...v0.9.0) (2019-01-12)
+
+### Bug Fixes
+
+- 修复资源查找异常 ([010d74d](https://github.com/hxfdarling/imt/commit/010d74d))
+- 支持 babel 自定义 include ([f55bf6b](https://github.com/hxfdarling/imt/commit/f55bf6b))
+
+### Features
+
+- merge master ([84d9342](https://github.com/hxfdarling/imt/commit/84d9342))
+- merge master ([84a95bb](https://github.com/hxfdarling/imt/commit/84a95bb))
+- release 命令删除 option ([e828fa4](https://github.com/hxfdarling/imt/commit/e828fa4))
+- release 命令删除 options ([f499984](https://github.com/hxfdarling/imt/commit/f499984))
+- 增加 release ([b7d1827](https://github.com/hxfdarling/imt/commit/b7d1827))
+- 增加发布命令 ([322ef4a](https://github.com/hxfdarling/imt/commit/322ef4a))
+- 增加发布命令 ([5f7f050](https://github.com/hxfdarling/imt/commit/5f7f050))
+
 <a name="0.8.0"></a>
 
 # [0.8.0](https://github.com/hxfdarling/imt/compare/v0.7.0...v0.8.0) (2019-01-09)
