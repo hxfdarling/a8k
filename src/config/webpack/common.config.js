@@ -145,7 +145,7 @@ const configureEntries = options => {
   return entry;
 };
 const configureBabelLoader = options => {
-  const { projectDir, type } = options;
+  const { projectDir, type, babel = {} } = options;
   const isSSR = type === SSR;
   const isDev = type === DEV;
   return {
@@ -164,6 +164,8 @@ const configureBabelLoader = options => {
       },
     ],
     include: [
+      // 自定义babel处理内容
+      ...(babel.include || []),
       // 热重载插件需要被编译
       /webpackHotDevClient|strip-ansi|formatWebpackMessages|chalk|ansi-styles/,
       path.resolve(projectDir, 'src'),
