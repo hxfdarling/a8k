@@ -76,7 +76,7 @@ module.exports = options => {
       new ReportStatusPlugin({
         silent: options.silent,
       }),
-      new CrossOriginLoadingPlugin(),
+      options.crossOrigin && new CrossOriginLoadingPlugin(),
       options.retry && new RetryPlugin(Object.assign(options.retry, { minimize: options.mini })),
       // 支持lodash包 按需引用
       new LodashPlugin(),
