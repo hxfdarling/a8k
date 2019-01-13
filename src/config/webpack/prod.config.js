@@ -11,6 +11,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const ReportStatusPlugin = require('./plugins/report-status-plugin');
+const CrossOriginLoadingPlugin = require('./plugins/cross-origin-loading');
 
 // config
 const getBaseConfig = require('./common.config');
@@ -75,6 +76,7 @@ module.exports = options => {
       new ReportStatusPlugin({
         silent: options.silent,
       }),
+      new CrossOriginLoadingPlugin(),
       options.retry && new RetryPlugin(Object.assign(options.retry, { minimize: options.mini })),
       // 支持lodash包 按需引用
       new LodashPlugin(),
