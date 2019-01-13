@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.2"></a>
+
+## [0.9.2](https://github.com/hxfdarling/imt/compare/v0.9.1...v0.9.2) (2019-01-13)
+
+### Bug Fixes
+
+- 修复没有正确的 js 执行结束埋点 ([4ff722f](https://github.com/hxfdarling/imt/commit/4ff722f))
+
 <a name="0.9.1"></a>
 
 ## [0.9.1](https://github.com/hxfdarling/imt/compare/v0.9.0...v0.9.1) (2019-01-13)
