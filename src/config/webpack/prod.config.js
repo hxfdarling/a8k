@@ -12,6 +12,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const ReportStatusPlugin = require('./plugins/report-status-plugin');
 const CrossOriginLoadingPlugin = require('./plugins/cross-origin-loading');
+const MarkTimePlugin = require('./plugins/mark-time-plugin');
 
 // config
 const getBaseConfig = require('./common.config');
@@ -25,7 +26,8 @@ const configureCleanWebpack = ({ dist: root }) => {
   };
 };
 // const configureWebapp = ({ cache, webappConfig }) => {
-//   return { cache: path.resolve(cache, 'webapp-webpack-plugin'), ...webappConfig };
+//   return { cache: path.resolve(cache, 'webapp-webpack-plugin'),
+//   ...webappConfig };
 // };
 
 const configureTerser = ({ sourceMap, cache }) => {
@@ -77,6 +79,8 @@ module.exports = options => {
         silent: options.silent,
       }),
       options.crossOrigin && new CrossOriginLoadingPlugin(),
+      // html 最后插入js解析完成时间节点
+      new MarkTimePlugin(),
       options.retry && new RetryPlugin(Object.assign(options.retry, { minimize: options.mini })),
       // 支持lodash包 按需引用
       new LodashPlugin(),
@@ -95,11 +99,12 @@ module.exports = options => {
   //       compiler.hooks.make.tapAsync('A', (compilation, callback) => {
   //         // 修复分析模式没有该hooks
   //         compilation.hooks.webappWebpackPluginBeforeEmit
-  //           && compilation.hooks.webappWebpackPluginBeforeEmit.tapAsync('B', (result, _callback) => {
+  //           && compilation.hooks.webappWebpackPluginBeforeEmit.tapAsync('B',
+  //           (result, _callback) => {
   //             const { html } = result;
-  //             const reg = /<link rel="apple-touch-icon" sizes="152x152" href="([^"]*)">/;
-  //             const url = html.match(reg)[1];
-  //             result.html = `<meta itemprop="image" content="${url}" />${result.html}`;
+  //             const reg = /<link rel="apple-touch-icon" sizes="152x152"
+  //             href="([^"]*)">/; const url = html.match(reg)[1]; result.html =
+  //             `<meta itemprop="image" content="${url}" />${result.html}`;
   //             return _callback(null, result);
   //           });
   //         return callback();
