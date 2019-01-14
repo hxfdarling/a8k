@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.3"></a>
+
+## [0.9.3](https://github.com/hxfdarling/imt/compare/v0.9.2...v0.9.3) (2019-01-14)
+
+### Bug Fixes
+
+- 修复非外链 script 添加重试问题 ([ce49512](https://github.com/hxfdarling/imt/commit/ce49512))
+- 修复主域重试和 markTime 插件同时使用异常问题 ([c7ea57d](https://github.com/hxfdarling/imt/commit/c7ea57d))
+
 <a name="0.9.2"></a>
 
 ## [0.9.2](https://github.com/hxfdarling/imt/compare/v0.9.1...v0.9.2) (2019-01-13)

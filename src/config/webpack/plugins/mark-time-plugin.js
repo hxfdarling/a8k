@@ -13,6 +13,7 @@ class MarkTimePlugin {
           data.assetTags.scripts.push({
             tagName: 'script',
             voidTag: false,
+            attributes: {},
             innerHTML: code,
           });
         }
