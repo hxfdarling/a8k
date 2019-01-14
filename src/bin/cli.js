@@ -1,23 +1,21 @@
 #!/usr/bin/env node
-
-const program = require('commander');
-const fs = require('fs-extra');
-const path = require('path');
-const inquirer = require('inquirer');
-const shell = require('shelljs');
-const util = require('util');
-const commandExists = require('command-exists').sync;
-const os = require('os');
-const pkg = require('../package.json');
-const getOptions = require('../src/utils/getOptions');
-const spinner = require('../src/utils/spinner');
-const { start } = require('../src/utils/oci');
-const { logWithSpinner, stopSpinner } = require('../src/utils/spinner');
-const { error } = require('../src/utils/logger');
+import program from 'commander';
+import fs from 'fs-extra';
+import path from 'path';
+import inquirer from 'inquirer';
+import shell from 'shelljs';
+import util from 'util';
+import { sync as commandExists } from 'command-exists';
+import os from 'os';
+import pkg from '../../package.json';
+import getOptions from '../utils/getOptions';
+import { start } from '../utils/oci';
+import spinner, { logWithSpinner, stopSpinner } from '../utils/spinner';
+import { error } from '../utils/logger';
 
 const cwd = process.cwd();
 // 自动版本检测
-require('../src/scripts/check_latest');
+require('../scripts/check_latest');
 
 process.on('unhandledRejection', err => {
   throw err;
@@ -32,7 +30,7 @@ program
   .command('create [dir] [template] ')
   .description('初始化项目')
   .action((dir, template, options) => {
-    require('../src/commands/create')(dir, template, options);
+    require('../commands/create')(dir, template, options);
   });
 
 program
@@ -44,7 +42,7 @@ program
   .option('--no-eslint', '禁用eslint检测代码')
   .option('-c, --css-source-map', '使用cssSourceMap ，但会导致开发模式 FOUC')
   .action(options => {
-    require('../src/commands/dev')(options);
+    require('../commands/dev')(options);
   });
 
 program
@@ -59,17 +57,8 @@ program
   .option('--no-silent', '输出日志')
   .option('--dev', '环境变量使用development')
   .action(options => {
-    require('../src/commands/build')(options);
+    require('../commands/build').default(options);
   });
-
-// program
-//   .command('ssr')
-//   .description('构建直出JS包，以及拷贝HTML文件')
-//   .option('-p, --port <port>', '配置监听端口', 8081)
-//   .option('--cache-dir <dir>', '编译阶段缓存目录,加速二次编译')
-//   .action(options => {
-//     require('../src/commands/ssr')(options);
-//   });
 
 program
   .command('test')
@@ -78,14 +67,14 @@ program
   .option('--watchAll', 'watch')
   .option('--env', 'environment')
   .action(options => {
-    require('../src/commands/test')(options);
+    require('../commands/test')(options);
   });
 
 program
   .command('check')
   .description('检测代码是否合并主干')
   .action(options => {
-    require('../src/commands/check.js')(options);
+    require('../commands/check.js')(options);
   });
 program
   .command('clean')
@@ -101,7 +90,7 @@ program
   .description('缓存node_modules加速构建,使用方法：imt cache [cmd]. cmd 是配置的 npm scripts key')
   .action(async cmd => {
     const options = getOptions({});
-    const cache = require('../src/scripts/cache');
+    const cache = require('../scripts/cache');
     cache({ cmd, cache: options.cache });
   });
 const initChoices = [
