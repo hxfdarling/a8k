@@ -185,7 +185,6 @@ program
   .action(async options => {
     const res = releaseConfig.find(({ value }) => options[toCamelCase(value)]);
     let type = res && res.value;
-    console.log(type);
     if (!type) {
       type = await inquirer.prompt([
         {
