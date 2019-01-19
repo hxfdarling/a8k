@@ -12,7 +12,7 @@ import getOptions from '../utils/getOptions';
 import { start } from '../utils/oci';
 import spinner, { logWithSpinner, stopSpinner } from '../utils/spinner';
 import { error } from '../utils/logger';
-import { toCamelCase } from '../src/utils';
+import { toCamelCase } from '../utils';
 
 const cwd = process.cwd();
 // 自动版本检测
