@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.0"></a>
+
+# [0.10.0](https://github.com/hxfdarling/imt/compare/v0.9.3...v0.10.0) (2019-01-19)
+
+### Features
+
+- 优化 release 代码 ([a012786](https://github.com/hxfdarling/imt/commit/a012786))
+- 更新 babel 依赖 ([d6d8668](https://github.com/hxfdarling/imt/commit/d6d8668))
+
 <a name="0.9.3"></a>
 
 ## [0.9.3](https://github.com/hxfdarling/imt/compare/v0.9.2...v0.9.3) (2019-01-14)
