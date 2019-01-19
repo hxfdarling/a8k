@@ -4,8 +4,7 @@
     "outDir": "./lib",
     "allowJs": true,
     "target": "es6",
-    "esModuleInterop": true,
-    "types": ["node"]
+    "esModuleInterop": true
   },
   "compileOnSave": true,
   "include": ["./src/**/*"]
