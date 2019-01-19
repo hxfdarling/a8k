@@ -9,16 +9,21 @@
   "author": "zman <hxfdarling@hotmail.com>",
   "license": "MIT",
   "bin": {
-    "imt": "./bin/cli.js"
+    "imt": "./lib/bin/cli.js"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
+    "dev": "tsc -w -sourceMap",
+    "build": "rm -rf lib && tsc",
     "test": "jest",
     "test:w": "jest --watch",
     "lint": "eslint --cache \"{lib,bin,src}/**/*.js\"",
-    "release": "standard-version && git push --follow-tags origin master"
+    "release": "npm run build && standard-version && git push --follow-tags origin master"
   },
+  "files": [
+    "lib"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
@@ -38,13 +43,19 @@
   },
   "devDependencies": {
     "@commitlint/travis-cli": "^7.2.1",
+    "@types/jest": "^23.3.12",
+    "@types/node": "^10.12.18",
     "@vuepress/plugin-back-to-top": "^1.0.0-alpha.0",
     "@vuepress/plugin-pwa": "^1.0.0-alpha.0",
     "commitlint-config-imt": "0.0.4",
     "eslint-config-zman": "^0.2.1",
+    "jest-extended": "^0.11.0",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.2",
+    "rimraf": "^2.6.3",
     "standard-version": "^4.4.0",
+    "ts-jest": "^23.10.5",
+    "typescript": "^3.2.2",
     "vuepress": "^0.14.8"
   },
   "dependencies": {
@@ -135,11 +146,5 @@
   "homepage": "https://github.com/hxfdarling/imt#readme",
   "directories": {
     "doc": "docs"
-  },
-  "jest": {
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.(spec|test).{js,jsx,ts,tsx}"
-    ]
   }
 }

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "./lib",
+    "allowJs": true,
+    "target": "es6",
+    "esModuleInterop": true
+  },
+  "compileOnSave": true,
+  "include": ["./src/**/*"]
+}
