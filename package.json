@@ -22,7 +22,8 @@
     "release": "npm run build && standard-version && git push --follow-tags origin master"
   },
   "files": [
-    "lib"
+    "lib",
+    "package-lock.json"
   ],
   "husky": {
     "hooks": {
