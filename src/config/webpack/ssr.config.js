@@ -7,17 +7,17 @@ const { PROD } = require('../../const');
 module.exports = options => {
   const { publicPath, ssrConfig } = options;
   const isDevMode = options.watch;
-  const { host, port } = options.devServer;
-  const isAnyHost = host === '0.0.0.0';
-  const reallyHost = isAnyHost ? 'localhost' : host;
-  const devSrcUrl = `//${reallyHost}:${port}/`;
+  // const { host, port } = options.devServer;
+  // const isAnyHost = host === '0.0.0.0';
+  // const reallyHost = isAnyHost ? 'localhost' : host;
+  // const devSrcUrl = `//${reallyHost}:${port}/`;
   const config = webpackMerge(getBaseConfig(options), {
     mode: PROD,
     target: 'node',
     devtool: 'source-map',
     watch: options.watch,
     output: {
-      publicPath: isDevMode ? devSrcUrl : publicPath,
+      publicPath: isDevMode ? '' : publicPath,
       path: ssrConfig.dist,
       filename: '[name].js',
       libraryTarget: 'commonjs2',

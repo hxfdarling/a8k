@@ -54,19 +54,15 @@ if (module.hot && typeof module.hot.dispose === 'function') {
     ErrorOverlay.stopReportingRuntimeErrors();
   });
 }
-const devServer = window.__devServer__ || {
-  protocol: window.location.protocol,
-  hostname: window.location.hostname,
-  port: window.location.port,
-};
 // fix http in https not support
-devServer.protocol = window.location.protocol;
 // Connect to WebpackDevServer via a socket.
+// Hardcoded in WebpackDevServer
 const connection = new SockJS(
   url.format({
-    // Hardcoded in WebpackDevServer
     pathname: '/sockjs-node',
-    ...devServer,
+    protocol: window.location.protocol,
+    hostname: window.location.hostname,
+    port: window.location.port,
   })
 );
 

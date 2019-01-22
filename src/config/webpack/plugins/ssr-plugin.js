@@ -13,19 +13,6 @@ class SSRPlugin {
   }
 
   apply(compiler) {
-    const { host, port, https } = this.options.devServer;
-    const protocol = https ? 'https://' : 'http://';
-    const isAnyHost = host === '0.0.0.0';
-    const reallyHost = isAnyHost ? 'localhost' : host;
-    const code = `<head>
-<script>
-window.__devServer__={
-  protocol: "${protocol.replace('://', '')}",
-  hostname: "${reallyHost}",
-  port: ${port},
-}
-</script>
-`;
     compiler.hooks.done.tap('ssr', async () => {
       const { outputFileSystem } = compiler;
       const {
@@ -39,8 +26,7 @@ window.__devServer__={
         const srcFile = path.join(dist, file);
         const targetFile = path.join(view, file);
         if (outputFileSystem.existsSync(srcFile)) {
-          let data = deleteLoading(outputFileSystem.readFileSync(srcFile).toString());
-          data = data.replace(/<head>/, code);
+          const data = deleteLoading(outputFileSystem.readFileSync(srcFile).toString());
           fs.writeFileSync(targetFile, data);
         } else {
           console.log();
