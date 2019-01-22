@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.1"></a>
+
+## [0.10.1](https://github.com/hxfdarling/imt/compare/v0.10.0...v0.10.1) (2019-01-22)
+
+### Bug Fixes
+
+- 添加锁定版本文件 ([25abc8f](https://github.com/hxfdarling/imt/commit/25abc8f))
+- 修复热调试监听端口问题 ([79f64b0](https://github.com/hxfdarling/imt/commit/79f64b0))
+
 <a name="0.10.0"></a>
 
 # [0.10.0](https://github.com/hxfdarling/imt/compare/v0.9.3...v0.10.0) (2019-01-19)
