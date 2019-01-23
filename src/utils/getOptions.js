@@ -7,6 +7,8 @@ const defaultOptions = {
   dist: 'dist',
   cache: 'node_modules/.cache',
   publicPath: '',
+  devServer: {},
+  ssrDevServer: {},
 };
 
 /**

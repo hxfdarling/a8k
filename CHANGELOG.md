@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.4"></a>
+
+## [0.10.4](https://github.com/hxfdarling/imt/compare/v0.10.3...v0.10.4) (2019-01-23)
+
+### Bug Fixes
+
+- 修复没有配置 dev 无法启动 dev 调试 ([a9f879e](https://github.com/hxfdarling/imt/commit/a9f879e))
+
+<a name="0.10.3"></a>
+
+## [0.10.3](https://github.com/hxfdarling/imt/compare/v0.10.2...v0.10.3) (2019-01-23)
+
+### Bug Fixes
+
+- lock webpack 4.28.4 to fix import error ([ee9d8cb](https://github.com/hxfdarling/imt/commit/ee9d8cb))
+
+<a name="0.10.2"></a>
+
+## [0.10.2](https://github.com/hxfdarling/imt/compare/v0.10.1...v0.10.2) (2019-01-23)
+
+### Bug Fixes
+
+- 锁定 webpack 版本，因为 4.29 存在 import 异常,同时更新其他依赖包 ([1125bb3](https://github.com/hxfdarling/imt/commit/1125bb3))
+- 优化 ssr 构建，不输出图片等资源 ([40fad81](https://github.com/hxfdarling/imt/commit/40fad81))
+
 <a name="0.10.1"></a>
 
 ## [0.10.1](https://github.com/hxfdarling/imt/compare/v0.10.0...v0.10.1) (2019-01-22)
