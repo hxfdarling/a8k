@@ -310,6 +310,7 @@ module.exports = options => {
           use: {
             loader: resolve('file-loader'),
             options: {
+              emitFile: !isSSR,
               name: '[name]_[hash].[ext]',
             },
           },
@@ -320,7 +321,10 @@ module.exports = options => {
           test: /\.(path\.json)$/,
           use: {
             loader: resolve('file-loader'),
-            options: { name: '[name]_[hash].[ext]' },
+            options: {
+              emitFile: !isSSR,
+              name: '[name]_[hash].[ext]',
+            },
           },
           type: 'javascript/auto',
         },
@@ -329,7 +333,10 @@ module.exports = options => {
           test: /\.(gif|png|jpe?g|eot|woff|ttf|ogg|mp3|pdf)$/,
           use: {
             loader: resolve('file-loader'),
-            options: { name: '[name]_[hash].[ext]' },
+            options: {
+              emitFile: !isSSR,
+              name: '[name]_[hash].[ext]',
+            },
           },
         },
       ].filter(Boolean),
