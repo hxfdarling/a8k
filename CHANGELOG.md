@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.4"></a>
+
+## [0.10.4](https://github.com/hxfdarling/imt/compare/v0.10.3...v0.10.4) (2019-01-23)
+
+### Bug Fixes
+
+- 修复没有配置 dev 无法启动 dev 调试 ([a9f879e](https://github.com/hxfdarling/imt/commit/a9f879e))
+
 <a name="0.10.3"></a>
 
 ## [0.10.3](https://github.com/hxfdarling/imt/compare/v0.10.2...v0.10.3) (2019-01-23)
