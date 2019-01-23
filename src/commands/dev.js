@@ -129,7 +129,7 @@ function setProxy(app, proxy) {
   });
 }
 function getServerConfig(options) {
-  const { devServer, ssrDevServer = {} } = options;
+  const { devServer, ssrDevServer } = options;
   const { host, port, ...reset } = devServer;
   const config = {
     host: options.host || host || DEFAULT_HOST,
