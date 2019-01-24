@@ -3,7 +3,7 @@
     "module": "commonjs",
     "outDir": "./lib",
     "allowJs": true,
-    "target": "es6",
+    "target": "ES2017",
     "esModuleInterop": true
   },
   "compileOnSave": true,
