@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.5"></a>
+
+## [0.10.5](https://github.com/hxfdarling/imt/compare/v0.10.4...v0.10.5) (2019-01-24)
+
+### Bug Fixes
+
+- 修复 css 重试错误 ([ffa50e8](https://github.com/hxfdarling/imt/commit/ffa50e8))
+
 <a name="0.10.4"></a>
 
 ## [0.10.4](https://github.com/hxfdarling/imt/compare/v0.10.3...v0.10.4) (2019-01-23)
