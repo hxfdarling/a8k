@@ -172,7 +172,11 @@ const configureBabelLoader = options => {
       path.resolve(projectDir, 'node_modules/@tencent'),
     ].filter(Boolean),
     // 忽略哪些压缩的文件
-    exclude: [/(.|_)min\.js$/],
+    exclude: [
+      /(.|_)min\.js$/,
+      // imui 使用 comment-require-loader 加载处理
+      path.resolve(projectDir, 'node_modules/imui'),
+    ],
   };
 };
 const configureHtmlLoader = ({ mini, projectDir, type }) => {
@@ -291,6 +295,12 @@ module.exports = options => {
       noParse: /node_modules\/(moment|chart\.js)/,
       rules: [
         configureBabelLoader(options),
+        // 加载 imui 里的 // @require '.css'
+        {
+          test: /\.js$/,
+          loaders: resolve('comment-require-loader'),
+          include: [path.resolve(projectDir, 'node_modules/imui')],
+        },
         !isSSR && configureCssLoader(options),
         !isSSR && configureHtmlLoader(options),
         {
