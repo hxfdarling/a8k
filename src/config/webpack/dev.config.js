@@ -12,6 +12,7 @@ module.exports = options => {
   // const isAnyHost = host === '0.0.0.0';
   const config = webpackMerge(getBaseConfig(options), {
     mode: DEV,
+    devtool: 'cheap-module-eval-source-map',
     output: {
       publicPath: '', // ssr ? `//${isAnyHost ? 'localhost' : host}:${port}/` : '',
       path: dist,
