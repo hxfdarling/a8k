@@ -172,11 +172,7 @@ const configureBabelLoader = options => {
       path.resolve(projectDir, 'node_modules/@tencent'),
     ].filter(Boolean),
     // 忽略哪些压缩的文件
-    exclude: [
-      /(.|_)min\.js$/,
-      // imui 使用 comment-require-loader 加载处理
-      path.resolve(projectDir, 'node_modules/imui'),
-    ],
+    exclude: [/(.|_)min\.js$/],
   };
 };
 const configureHtmlLoader = ({ mini, projectDir, type }) => {
