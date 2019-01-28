@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.0"></a>
+
+# [0.11.0](https://github.com/hxfdarling/imt/compare/v0.10.5...v0.11.0) (2019-01-28)
+
+### Bug Fixes
+
+- 修复直出调试静态资源加载问题 ([e3a7a0d](https://github.com/hxfdarling/imt/commit/e3a7a0d))
+- sourceMap 使用源代码调试 ([4893bac](https://github.com/hxfdarling/imt/commit/4893bac))
+
+### Features
+
+- support imui ([26035c9](https://github.com/hxfdarling/imt/commit/26035c9))
+
 <a name="0.10.5"></a>
 
 ## [0.10.5](https://github.com/hxfdarling/imt/compare/v0.10.4...v0.10.5) (2019-01-24)
