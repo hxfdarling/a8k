@@ -9,10 +9,8 @@ import { sync as commandExists } from 'command-exists';
 import os from 'os';
 import pkg from '../../package.json';
 import getOptions from '../utils/getOptions';
-import { start } from '../utils/oci';
 import spinner, { logWithSpinner, stopSpinner } from '../utils/spinner';
 import { error } from '../utils/logger';
-import { toCamelCase } from '../utils';
 
 const cwd = process.cwd();
 // 自动版本检测
@@ -151,41 +149,6 @@ program
       error(`不支持该选项: ${type}`);
       options.outputHelp();
     }
-  });
-
-// 发布命令
-const releaseConfig = [
-  { name: '部署到nohost', value: 'nohost' },
-  { name: '部署到nohost和直出包', value: 'nohost_zy' },
-  { name: '正式发布，免测ars', value: 'release_ars' },
-  { name: '正式发布，免测ars zhiyun', value: 'release_ars_zy' },
-  { name: '正式发布，版本ars', value: 'release_test_ars' },
-  { name: '正式发布，版本ars zhiyun', value: 'release_test_ars_zy' },
-];
-program
-  .command('release')
-  .option('-n, --nohost', '部署到nohost')
-  .option('-a, --release-ars', '正式发布，免测ars')
-  .option('-A, --release-ars-zy', '正式发布，免测ars+zhiyun')
-  .option('-t, --release-test-ars', '正式发布，版本ars')
-  .option('-T, --release-test-ars-zy', '正式发布，版本ars + zhiyun')
-  .description('用于触发oci构建，创建ars、zhiyun等操作')
-  .action(async options => {
-    const res = releaseConfig.find(({ value }) => options[toCamelCase(value)]);
-    let type = res && res.value;
-    if (!type) {
-      type = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'type',
-          message: '选择发布方式',
-          choices: releaseConfig,
-        },
-      ]);
-    }
-
-    const { stdout: pwd } = shell.pwd();
-    start(pwd, type);
   });
 
 program.command('*').action(options => {
