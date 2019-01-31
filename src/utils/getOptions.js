@@ -30,8 +30,12 @@ module.exports = options => {
   try {
     try {
       imtrc = require(path.join(cwd, 'imtrc.js'));
-    } catch (e) {
-      imtrc = require(path.join(cwd, '.imtrc.js'));
+    } catch (err) {
+      try {
+        imtrc = require(path.join(cwd, '.imtrc.js'));
+      } catch (e) {
+        throw err;
+      }
       warn('.imtrc.js文件命名被移除，请重命名为imtrc.js');
     }
   } catch (e) {
