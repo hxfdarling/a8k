@@ -26,10 +26,10 @@ program
   .option('-x, --defaultProxy', '使用内网代理', false);
 
 program
-  .command('create [dir] [template] ')
+  .command('create [dir]')
   .description('初始化项目')
-  .action((dir, template, options) => {
-    require('../commands/create')(dir, template, options);
+  .action((dir, options) => {
+    require('../commands/create')(dir, options);
   });
 
 program

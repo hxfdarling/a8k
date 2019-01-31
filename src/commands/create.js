@@ -1,4 +1,3 @@
-const download = require('download-git-repo');
 const fs = require('fs-extra');
 const path = require('path');
 const inquirer = require('inquirer');
@@ -13,41 +12,15 @@ const cwd = process.cwd();
 const Imt = require('../');
 
 // 内置模板，提供选择
-const defaultTemplates = [{ name: 'React应用', value: 'hxfdarling/imt-react-template' }];
 class ImtCreate extends Imt {
-  constructor(dir, template, options) {
+  constructor(dir, options) {
     super(options);
 
-    this.template = template;
-
-    if (!dir) {
-      dir = cwd;
-    } else {
-      dir = path.join(cwd, dir);
-    }
-
-    fs.ensureDir(dir);
+    dir = path.join(cwd, dir || '');
 
     this.projectDir = dir;
     this.projectName = path.basename(dir);
-    this.templateDir = path.join(this.projectDir, '.template');
-  }
-
-  downloadTemplate() {
-    const { template } = this;
-    const spinner = ora('模板下载中').start();
-    return new Promise(resolve => {
-      download(template, this.templateDir, {}, error => {
-        if (error) {
-          spinner.fail(`下载模板失败:${template},请确认网络是否正常`);
-          console.error(error);
-          process.exit(1);
-        } else {
-          spinner.succeed('模板下载成功');
-          resolve();
-        }
-      });
-    });
+    this.templateDir = path.join(__dirname, '../../templates/');
   }
 
   async confirmDir() {
@@ -67,50 +40,20 @@ class ImtCreate extends Imt {
     }
   }
 
-  async getTemplate() {
-    let { template } = this;
-    if (!template) {
-      ({ template } = await inquirer.prompt([
-        {
-          name: 'template',
-          message: '选择内置模板',
-          type: 'list',
-          choices: defaultTemplates,
-        },
-      ]));
-    }
-    if (/\.zip$/.test(template)) {
-      template = `direct:${template}`;
-    }
-    this.template = template;
-  }
-
   create() {
-    const { templateDir } = this;
+    fs.ensureDir(this.projectDir);
     this.hooks.beforeCreate.callAsync(this, async () => {
       await this.confirmDir();
-      await this.getTemplate();
-      await this.downloadTemplate();
 
-      const spinner = ora('初始化模板').start();
-
-      shell.cd(templateDir);
-      let npmCmd = 'npm';
-
-      if (commandExists('tnpm')) {
-        npmCmd = 'tnpm';
-      }
-
-      await util.promisify(shell.exec)(`${npmCmd} i --production`, { silent: true });
-
-      spinner.succeed('模板初始化完毕');
-      const main = require(`${templateDir}/package.json`).main || 'index.js';
-      spawnSync('node', [`.template/${main}`], {
+      spawnSync('node', [path.join(this.templateDir, 'index.js')], {
         cwd: this.projectDir,
         stdio: 'inherit',
       });
-      fs.emptyDirSync(templateDir);
-      fs.removeSync(templateDir);
+      const spinner = ora('安装依赖').start();
+      const npmCmd = commandExists('tnpm') ? 'tnpm' : 'npm';
+      shell.cd(this.projectDir);
+      await util.promisify(shell.exec)(`${npmCmd} i`, { silent: true });
+      spinner.succeed('安装依赖完毕');
 
       this.hooks.afterCreate.callAsync(this, async () => {
         spinner.succeed('项目创建完毕');

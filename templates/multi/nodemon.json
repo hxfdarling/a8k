@@ -1,0 +1,4 @@
+{
+  "watch": ["app", "lib", "node_modules/components"],
+  "ignoreRoot": [".git"]
+}

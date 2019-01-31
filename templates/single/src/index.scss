@@ -1,0 +1,30 @@
+$footerHeight: 80px;
+.crm-wrap {
+  min-height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  min-width: 1024px;
+}
+
+.side-menu {
+  background-color: #001529;
+  width: 256px;
+}
+
+.crm-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.ant-notification-notice-description {
+  word-break: break-all;
+}
+
+.crm-container {
+  bottom: $footerHeight;
+  background: rgb(240, 243, 245);
+  padding: 16px 16px 0 16px;
+  width: 100%;
+  flex-grow: 1;
+}
