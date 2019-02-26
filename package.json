@@ -51,14 +51,14 @@
     "@vuepress/plugin-pwa": "^1.0.0-alpha.0",
     "commitlint-config-imt": "0.0.4",
     "eslint-config-zman": "^0.2.1",
-    "jest-extended": "^0.11.0",
+    "jest-extended": "^0.11.1",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.2",
     "rimraf": "^2.6.3",
     "standard-version": "^4.4.0",
     "ts-jest": "^23.10.5",
     "typescript": "^3.2.2",
-    "vuepress": "^0.14.8"
+    "vuepress": "^0.14.9"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
