@@ -1,3 +1,5 @@
+import pkg from '../../package.json';
+
 const path = require('path');
 const { error, warn } = require('./logger');
 
@@ -47,7 +49,7 @@ module.exports = options => {
   options = Object.assign({}, defaultOptions, imtrc, options);
 
   options.dist = path.resolve(cwd, options.dist);
-  options.cache = path.resolve(options.cache);
+  options.cache = path.resolve(options.cache, `v-${pkg.version}`);
 
   options.imtPath = path.resolve(__dirname, '../../');
 
