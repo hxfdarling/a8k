@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.12.0"></a>
+
+# [0.12.0](https://github.com/hxfdarling/imt/compare/v0.11.1...v0.12.0) (2019-02-27)
+
+### Bug Fixes
+
+- 修复不支持-webkit-box 语法 ([8648eb3](https://github.com/hxfdarling/imt/commit/8648eb3))
+- 修复依赖问题 ([664bf7c](https://github.com/hxfdarling/imt/commit/664bf7c))
+- 优化提示 ([c6da9fa](https://github.com/hxfdarling/imt/commit/c6da9fa))
+
+### Features
+
+- 缓存目录根据 imt 版本定义，防止配置更改，但是没有使用最新缓存 ([d981602](https://github.com/hxfdarling/imt/commit/d981602))
+- 添加模板项目功能 ([7868e1e](https://github.com/hxfdarling/imt/commit/7868e1e))
+
 <a name="0.11.1"></a>
 
 ## [0.11.1](https://github.com/hxfdarling/imt/compare/v0.11.0...v0.11.1) (2019-01-31)
