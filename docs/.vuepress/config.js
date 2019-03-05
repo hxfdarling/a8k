@@ -1,10 +1,10 @@
 module.exports = {
-  base: '/imt/',
+  base: '/onepack/',
   host: '127.0.0.1',
   locales: {
     '/': {
       lang: 'zh-CN',
-      title: 'IMT',
+      title: 'onepack',
       description: '集成 webpack + react 的最佳实践配置的构建工具',
     },
   },
