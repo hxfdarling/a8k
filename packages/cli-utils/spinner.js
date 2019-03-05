@@ -1,5 +1,5 @@
 const ora = require('ora');
-const chalk = require('chalk');
+const { success } = require('./icon');
 
 const spinner = ora();
 let lastMsg = null;
@@ -7,7 +7,7 @@ let lastMsg = null;
 exports.logWithSpinner = (symbol, msg) => {
   if (!msg) {
     msg = symbol;
-    symbol = chalk.green('✔');
+    symbol = success;
   }
   if (lastMsg) {
     spinner.stopAndPersist({

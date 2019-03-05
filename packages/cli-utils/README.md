@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-const cliUtils = require('cli-utils');
+const cliUtils = require('@onepack/cli-utils');
 
 // TODO: DEMONSTRATE API
 ```

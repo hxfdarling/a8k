@@ -35,7 +35,10 @@ function formatMessage(message, isError) {
 
   message = lines.join('\n');
   // Smoosh syntax errors (commonly found in CSS)
-  message = message.replace(/SyntaxError\s+\((\d+):(\d+)\)\s*(.+?)\n/g, `${friendlySyntaxErrorLabel} $3 ($1:$2)\n`);
+  message = message.replace(
+    /SyntaxError\s+\((\d+):(\d+)\)\s*(.+?)\n/g,
+    `${friendlySyntaxErrorLabel} $3 ($1:$2)\n`
+  );
   // Remove columns from ESLint formatter output (we added these for more
   // accurate syntax errors)
   message = message.replace(/Line (\d+):\d+:/g, 'Line $1:');
@@ -65,7 +68,9 @@ function formatMessage(message, isError) {
   if (lines[1] && lines[1].indexOf('Module not found: ') === 0) {
     lines = [
       lines[0],
-      lines[1].replace('Error: ', '').replace('Module not found: Cannot find file:', 'Cannot find file:'),
+      lines[1]
+        .replace('Error: ', '')
+        .replace('Module not found: Cannot find file:', 'Cannot find file:'),
     ];
   }
 

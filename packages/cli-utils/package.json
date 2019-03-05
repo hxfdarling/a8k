@@ -3,24 +3,26 @@
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "edenhliu <edenhliu@tencent.com>",
-  "homepage": "https://github.com/hxfdarling/imt/tree/master/packages/cli-utils#readme",
+  "homepage": "https://github.com/hxfdarling/onepack/tree/master/packages/cli-utils#readme",
   "license": "ISC",
-  "main": "lib/cli-utils.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
-  "files": [
-    "lib"
-  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hxfdarling/imt.git"
+    "url": "git+https://github.com/hxfdarling/onepack.git"
   },
   "scripts": {
+    "dev": "echo \"ok\"",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
-    "url": "https://github.com/hxfdarling/imt/issues"
+    "url": "https://github.com/hxfdarling/onepack/issues"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "ora": "^3.2.0",
+    "string.prototype.padstart": "^3.0.0"
   }
 }

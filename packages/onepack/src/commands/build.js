@@ -1,12 +1,12 @@
 import fs from 'fs-extra';
 import webpack from 'webpack';
 
+import { logWithSpinner, stopSpinner } from '@onepack/cli-utils/spinner';
 import getWebpackConfig from '../config/webpack/index.js';
 import { DEV, PROD, SSR } from '../const';
 import Imt from '../index.js';
-import getOptions from '../utils/getOptions';
+import getOptions from '../utils/load-config';
 import { error, info } from '../utils/logger';
-import { logWithSpinner, stopSpinner } from '../utils/spinner';
 
 process.env.NODE_ENV = PROD;
 async function buildSSR(options, imt) {

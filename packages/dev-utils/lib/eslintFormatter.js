@@ -44,7 +44,13 @@ function formatter(results) {
         line += `:${message.column}`;
       }
       const position = chalk.bold(`Line ${line}:`);
-      return ['', position, messageType, message.message.replace(/\.$/, ''), chalk.underline(message.ruleId || '')];
+      return [
+        '',
+        position,
+        messageType,
+        message.message.replace(/\.$/, ''),
+        chalk.underline(message.ruleId || ''),
+      ];
     });
 
     // if there are error messages, we want to show only errors
@@ -76,7 +82,9 @@ function formatter(results) {
     // it here because we always show at most one error, and
     // we can only be sure it's an ESLint error before exiting
     // this function.
-    output += `Search for the ${chalk.underline(chalk.red('keywords'))} to learn more about each error.`;
+    output += `Search for the ${chalk.underline(
+      chalk.red('keywords')
+    )} to learn more about each error.`;
   }
 
   return output;

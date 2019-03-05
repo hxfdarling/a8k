@@ -20,7 +20,10 @@ module.exports = (resolve, rootDir) => {
       '^.+\\.css$': resolve('config/jest/cssTransform.js'),
       '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': resolve('config/jest/fileTransform.js'),
     },
-    transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$', '^.+\\.module\\.(css|sass|scss)$'],
+    transformIgnorePatterns: [
+      '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$',
+      '^.+\\.module\\.(css|sass|scss)$',
+    ],
     moduleNameMapper: {
       '^react-native$': 'react-native-web',
       '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
@@ -51,7 +54,9 @@ module.exports = (resolve, rootDir) => {
       console.error(
         chalk.red(
           `${'\nOut of the box, Create React App only supports overriding '
-            + 'these Jest options:\n\n'}${supportedKeys.map(key => chalk.bold(`  \u2022 ${key}`)).join('\n')}.\n\n`
+            + 'these Jest options:\n\n'}${supportedKeys
+            .map(key => chalk.bold(`  \u2022 ${key}`))
+            .join('\n')}.\n\n`
             + 'These options in your package.json Jest configuration '
             + `are not currently supported by Create React App:\n\n${unsupportedKeys
               .map(key => chalk.bold(`  \u2022 ${key}`))

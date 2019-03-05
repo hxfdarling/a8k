@@ -28,9 +28,9 @@ ErrorOverlay.setEditorHandler(errorLocation => {
   fetch(
     `${launchEditorEndpoint}?fileName=${window.encodeURIComponent(
       errorLocation.fileName
-    )}&lineNumber=${window.encodeURIComponent(errorLocation.lineNumber || 1)}&colNumber=${window.encodeURIComponent(
-      errorLocation.colNumber || 1
-    )}`
+    )}&lineNumber=${window.encodeURIComponent(
+      errorLocation.lineNumber || 1
+    )}&colNumber=${window.encodeURIComponent(errorLocation.colNumber || 1)}`
   );
 });
 
@@ -125,7 +125,10 @@ function handleWarnings(warnings) {
     if (typeof console !== 'undefined' && typeof console.warn === 'function') {
       for (let i = 0; i < formatted.warnings.length; i++) {
         if (i === 5) {
-          console.warn('There were more warnings in other files.\n', 'You can find a complete log in the terminal.');
+          console.warn(
+            'There were more warnings in other files.\n',
+            'You can find a complete log in the terminal.'
+          );
           break;
         }
         console.warn(stripAnsi(formatted.warnings[i]));

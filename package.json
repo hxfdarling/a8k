@@ -63,5 +63,8 @@
   "homepage": "https://github.com/hxfdarling/onepack#readme",
   "directories": {
     "doc": "docs"
+  },
+  "dependencies": {
+    "resolve-from": "^4.0.0"
   }
 }

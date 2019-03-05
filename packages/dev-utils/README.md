@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-const devUtils = require('dev-utils');
+const devUtils = require('@onepack/dev-utils');
 
 // TODO: DEMONSTRATE API
 ```

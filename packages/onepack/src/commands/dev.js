@@ -12,7 +12,7 @@ const formatWebpackMessages = require('../utils/formatWebpackMessages');
 const Imt = require('../index.js');
 
 const { DEV, SSR } = require('../const');
-const getOptions = require('../utils/getOptions');
+const getOptions = require('../utils/load-config');
 const getWebpackConfig = require('../config/webpack');
 const { info, error } = require('../utils/logger');
 
@@ -239,10 +239,14 @@ module.exports = async argv => {
         if (isInteractive) {
           clearConsole();
         }
-        const messages = formatWebpackMessages(stats.toJson({ all: false, warnings: true, errors: true }));
+        const messages = formatWebpackMessages(
+          stats.toJson({ all: false, warnings: true, errors: true })
+        );
         const isSuccessful = !messages.errors.length && !messages.warnings.length;
         if (isSuccessful) {
-          console.log(chalk.green(`Compiled successfully in ${prettyMs(Date.now() - startCompilerTime)}`));
+          console.log(
+            chalk.green(`Compiled successfully in ${prettyMs(Date.now() - startCompilerTime)}`)
+          );
         }
         if (isSuccessful && isFirstCompile) {
           printInstructions(devServer);
@@ -268,9 +272,13 @@ module.exports = async argv => {
 
           // Teach some ESLint tricks.
           console.log(
-            `\nSearch for the ${chalk.underline(chalk.yellow('keywords'))} to learn more about each warning.`
+            `\nSearch for the ${chalk.underline(
+              chalk.yellow('keywords')
+            )} to learn more about each warning.`
           );
-          console.log(`To ignore, add ${chalk.cyan('// eslint-disable-next-line')} to the line before.\n`);
+          console.log(
+            `To ignore, add ${chalk.cyan('// eslint-disable-next-line')} to the line before.\n`
+          );
         }
       });
 
