@@ -4,7 +4,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hxfdarling/imt.git"
+    "url": "git+https://github.com/hxfdarling/onepack.git"
   },
   "author": "zman <hxfdarling@hotmail.com>",
   "license": "MIT",
@@ -144,9 +144,9 @@
   },
   "description": "集成 webpack 的 react 项目最佳实践配置的构建工具",
   "bugs": {
-    "url": "https://github.com/hxfdarling/imt/issues"
+    "url": "https://github.com/hxfdarling/onepack/issues"
   },
-  "homepage": "https://github.com/hxfdarling/imt#readme",
+  "homepage": "https://github.com/hxfdarling/onepack#readme",
   "directories": {
     "doc": "docs"
   }
