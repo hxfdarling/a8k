@@ -1,0 +1,9 @@
+0 silly argv { _: [ 'add' ],
+0 silly argv   globs: [],
+0 silly argv   lernaVersion: '3.13.1',
+0 silly argv   '$0': '/usr/local/bin/lerna',
+0 silly argv   pkg: 'plugin-react' }
+1 notice cli v3.13.1
+2 verbose rootPath /Users/liuhua/github/imt
+3 error Error: 404 Not Found - GET https://registry.npmjs.org/plugin-react - Not found
+3 error     at res.buffer.catch.then.body (/Users/liuhua/github/imt/node_modules/npm-registry-fetch/check-response.js:104:15)

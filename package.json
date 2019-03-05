@@ -41,6 +41,7 @@
     "commitlint-config-imt": "0.0.4",
     "eslint": "^5.15.1",
     "eslint-config-zman": "^0.2.1",
+    "lerna": "^3.13.1",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.2",
     "standard-version": "^4.4.0",

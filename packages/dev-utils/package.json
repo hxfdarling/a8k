@@ -1,0 +1,26 @@
+{
+  "name": "@onepack/dev-utils",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "edenhliu <edenhliu@tencent.com>",
+  "homepage": "https://github.com/hxfdarling/imt/tree/master/packages/dev-utils#readme",
+  "license": "ISC",
+  "main": "lib/dev-utils.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hxfdarling/imt.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/hxfdarling/imt/issues"
+  }
+}
