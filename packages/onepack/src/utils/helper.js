@@ -1,9 +1,6 @@
-import logger from '@onepack/cli-utils/logger';
 import chalk from 'chalk';
 import httpProxyMiddleware from 'http-proxy-middleware';
 import getIp from 'internal-ip';
-
-const DEFAULT_HOST = '0.0.0.0';
 
 async function printInstructions(devServer) {
   const { host, port, https } = devServer;
@@ -93,61 +90,4 @@ function setProxy(app, proxy) {
   });
 }
 
-function getServerConfig(context, options) {
-  const { devServer, ssrDevServer } = context.config;
-  const { host, port, ...reset } = devServer;
-  const config = {
-    https: false,
-    // Enable gzip compression of generated files.
-    compress: true,
-    // Silence WebpackDevServer's own logs since they're generally not useful.
-    // It will still show compile warnings and errors with this setting.
-    clientLogLevel: 'none',
-    // Enable hot reloading server. It will provide /sockjs-node/ endpoint
-    // for the WebpackDevServer client so it can learn when the files were
-    // updated. The WebpackDevServer client is included as an entry point
-    // in the Webpack development configuration. Note that only changes
-    // to CSS are currently hot reloaded. JS changes will refresh the browser.
-    hot: true,
-    // WebpackDevServer is noisy by default so we emit custom message instead
-    // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
-    quiet: true,
-    overlay: false,
-    headers: {
-      'access-control-allow-origin': '*',
-    },
-    historyApiFallback: {
-      // Paths with dots should still use the history fallback.
-      disableDotRule: true,
-    },
-    ...reset,
-  };
-  if (options.ssr) {
-    // eslint-disable-next-line no-shadow
-    const { contentBase, https, port, host = DEFAULT_HOST } = ssrDevServer;
-    if (!port) {
-      logger.error('如需要调试直出，请配置 ssrDevServer:{port:xxx} 端口信息');
-      process.exit(-1);
-    }
-    const {
-      ssrConfig: { entry },
-    } = options;
-    config.before = app => {
-      const protocol = https ? 'https://' : 'http://';
-      const ssrHost = host === '0.0.0.0' ? 'localhost' : host;
-      const proxy = {};
-      Object.keys(entry).forEach(key => {
-        const pageName = entry[key].split('/');
-        const file = `/${pageName[pageName.length - 2]}.html`;
-        proxy[file] = {
-          target: `${protocol + ssrHost}:${port}${contentBase || ''}`,
-          secure: false,
-        };
-      });
-      setProxy(app, proxy);
-    };
-  }
-
-  return config;
-}
-export { printInstructions, getServerConfig };
+export { printInstructions, setProxy };

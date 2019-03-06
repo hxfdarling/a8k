@@ -12,7 +12,7 @@ function deleteLoading(str) {
 
 class SSRPlugin {
   constructor(options) {
-    this.options = Object.assign({}, options);
+    this.options = options;
   }
 
   apply(compiler) {

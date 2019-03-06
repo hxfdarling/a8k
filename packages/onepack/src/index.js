@@ -15,8 +15,34 @@ import pkg from '../package.json';
 const defaultConfig = {
   cache: 'node_modules/.cache',
   publicPath: '',
-  devServer: {},
-  ssrDevServer: {},
+  devServer: {
+    https: false,
+    // Enable gzip compression of generated files.
+    compress: true,
+    // Silence WebpackDevServer's own logs since they're generally not useful.
+    // It will still show compile warnings and errors with this setting.
+    clientLogLevel: 'none',
+    // Enable hot reloading server. It will provide /sockjs-node/ endpoint
+    // for the WebpackDevServer client so it can learn when the files were
+    // updated. The WebpackDevServer client is included as an entry point
+    // in the Webpack development configuration. Note that only changes
+    // to CSS are currently hot reloaded. JS changes will refresh the browser.
+    hot: true,
+    // WebpackDevServer is noisy by default so we emit custom message instead
+    // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
+    quiet: true,
+    overlay: false,
+    headers: {
+      'access-control-allow-origin': '*',
+    },
+    historyApiFallback: {
+      // Paths with dots should still use the history fallback.
+      disableDotRule: true,
+    },
+  },
+  ssrDevServer: {
+    host: 'localhost',
+  },
 };
 
 program.version(require('../package.json').version);
@@ -70,7 +96,7 @@ class OnePack extends Event {
     } else {
       logger.debug('Onepack is not using any config file');
     }
-    this.config = { ...defaultConfig, ...this.config };
+    this.config = merge(defaultConfig, this.config);
 
     // 构建输出文件根目录
     this.config.dist = this.resolve(config.dist || 'dist');
@@ -99,6 +125,7 @@ class OnePack extends Event {
     if (this.config.chainWebpack) {
       this.hooks.add('chainWebpack', this.config.chainWebpack);
     }
+    console.log('TCL: OnePack -> constructor -> this.config\n', this.config);
 
     // Merge envs with this.config.envs
     // Allow to embed these env variables in app code

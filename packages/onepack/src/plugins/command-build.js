@@ -4,6 +4,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import { ENV_PROD, TYPE_CLIENT, TYPE_SERVER } from '../const';
 
+process.env.NODE_ENV = ENV_PROD;
+
 export default {
   apply: context => {
     const {
@@ -27,7 +29,6 @@ export default {
           context.options.inspectWebpack = inspectWebpack;
 
           context.config.webpackMode = ENV_PROD;
-          process.env.NODE_ENV = ENV_PROD;
 
           if (silent) {
             process.noDeprecation = true;
@@ -69,6 +70,7 @@ export default {
               type: TYPE_SERVER,
             });
             await context.runWebpack(webpackConfigSSR);
+            await context.hooks.invokePromise('afterSSRBuild', context);
           }
         }
       )

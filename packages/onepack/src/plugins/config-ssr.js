@@ -53,7 +53,7 @@ exports.apply = context => {
     const {
       ssrConfig: { entry, view },
       dist,
-    } = context.options;
+    } = context.config;
     // 拷贝 html 文件到 node 直出服务目录
     Object.keys(entry).forEach(key => {
       const pageName = entry[key].split('/');

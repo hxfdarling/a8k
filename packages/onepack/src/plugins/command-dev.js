@@ -2,12 +2,10 @@ import logger from '@onepack/cli-utils/logger';
 import formatWebpackMessages from '@onepack/dev-utils/formatWebpackMessages';
 import chalk from 'chalk';
 import os from 'os';
-import path from 'path';
 import prettyMs from 'pretty-ms';
-import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { ENV_DEV, TYPE_CLIENT, TYPE_SERVER } from '../const';
-import { getServerConfig, printInstructions } from '../utils/helper';
+import { printInstructions, setProxy } from '../utils/helper';
 
 process.env.NODE_ENV = ENV_DEV;
 
@@ -15,56 +13,47 @@ const isInteractive = process.stdout.isTTY;
 
 export default {
   apply: context => {
-    context.chainWebpack((config, options) => {
-      const { eslint, ssr } = options;
-      config.mode(ENV_DEV);
-      if (eslint) {
-        config.module
-          .rule('eslint')
-          .test(/\.(js|mjs|jsx)$/)
-          .pre()
-          .include.add(context.resolve('src'))
-          .end()
-          .use('eslint')
-          .loader('eslint-loader')
-          .options({
-            options: {
-              emitError: false,
-              failOnError: false,
-              failOnWarning: false,
-              quit: true,
-              cache: path.resolve(context.config.cache, 'eslint-loader'),
-              formatter: require.resolve('eslint-friendly-formatter'),
-              // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
-              eslintPath: context.resolve('node_modules', 'eslint'),
-            },
-          });
-      }
-
-      // 支持调试直出代码
-      if (ssr) {
-        const SSRPlugin = require('../webpack/plugins/ssr-plugin');
-        config.plugin('ssr-plugin').use(SSRPlugin, [options]);
-      }
-      config.plugin('HotModuleReplacementPlugin').use(webpack.HotModuleReplacementPlugin);
-    });
-
     context
       .registerCommand(
         'dev',
         '启动开发者模式',
         async ({ ssr, port, eslint, cssSourceMap, inspectWebpack }) => {
-          const options = { ssr, port, eslint, cssSourceMap, inspectWebpack };
-          // TODO: 处理参数
+          context.options.inspectWebpack = inspectWebpack;
+          context.config.webpackMode = ENV_DEV;
+
+          const options = { ssr, port, eslint, cssSourceMap };
+          const { devServer, ssrDevServer, ssrConfig } = context.config;
+
+          if (ssr) {
+            // eslint-disable-next-line no-shadow
+            const { contentBase, https, port, host } = ssrDevServer;
+            if (!port) {
+              logger.error('如需要调试直出，请配置 ssrDevServer:{port:xxx} 端口信息');
+              process.exit(-1);
+            }
+            devServer.before = app => {
+              const protocol = https ? 'https://' : 'http://';
+              const proxy = {};
+              Object.keys(ssrConfig.entry).forEach(key => {
+                const pageName = ssrConfig.entry[key].split('/');
+                const file = `/${pageName[pageName.length - 2]}.html`;
+                proxy[file] = {
+                  target: `${protocol + host}:${port}${contentBase || ''}`,
+                  secure: false,
+                };
+              });
+              setProxy(app, proxy);
+            };
+          }
           try {
-            const devServer = getServerConfig(context, options);
             const webpackConfig = context.resolveWebpackConfig({
               ...options,
               type: TYPE_CLIENT,
             });
 
-            const compiler = context.createWebpackCompiler(webpackConfig);
             let startCompilerTime = Date.now();
+
+            const compiler = context.createWebpackCompiler(webpackConfig);
 
             compiler.hooks.invalid.tap('invalid', (filename, ctime) => {
               startCompilerTime = Date.now();
@@ -89,7 +78,7 @@ export default {
             // Whether or not you have warnings or errors, you will get this event.
             compiler.hooks.done.tap('done', stats => {
               if (isInteractive) {
-                logger.clearConsole();
+                // logger.clearConsole();
               }
               const messages = formatWebpackMessages(
                 stats.toJson({ all: false, warnings: true, errors: true })
