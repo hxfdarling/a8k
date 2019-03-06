@@ -1,6 +1,6 @@
 {
   "name": "@onepack/plugin-react",
-  "version": "0.0.1-alpha.0",
+  "version": "1.0.0-alpha.0",
   "description": "> TODO: description",
   "author": "edenhliu <edenhliu@tencent.com>",
   "homepage": "https://github.com/hxfdarling/imt/tree/master/packages/plugin-react#readme",
@@ -24,7 +24,7 @@
     "url": "https://github.com/hxfdarling/imt/issues"
   },
   "dependencies": {
-    "@onepack/cli-utils": "^0.0.1-alpha.0",
+    "@onepack/cli-utils": "^1.0.0-alpha.0",
     "chalk": "^2.4.2",
     "fs-extra": "^7.0.1",
     "inquirer": "^6.2.2",

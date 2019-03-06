@@ -1,6 +1,6 @@
 {
   "name": "onepack",
-  "version": "0.0.1-alpha.0",
+  "version": "1.0.0-alpha.0",
   "bin": {
     "onepack": "./lib/bin/cli.js"
   },
@@ -25,9 +25,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "@onepack/cli-utils": "^0.0.1-alpha.0",
-    "@onepack/dev-utils": "^0.0.1-alpha.0",
-    "@onepack/plugin-react": "^0.0.1-alpha.0",
+    "@onepack/cli-utils": "^1.0.0-alpha.0",
+    "@onepack/dev-utils": "^1.0.0-alpha.0",
+    "@onepack/plugin-react": "^1.0.0-alpha.0",
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
