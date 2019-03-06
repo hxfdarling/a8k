@@ -51,16 +51,14 @@ exports.apply = context => {
             .use('eslint')
             .loader('eslint-loader')
             .options({
-              options: {
-                emitError: false,
-                failOnError: false,
-                failOnWarning: false,
-                quit: true,
-                cache: path.resolve(context.config.cache, 'eslint-loader'),
-                formatter: require.resolve('eslint-friendly-formatter'),
-                // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
-                eslintPath: context.resolve('node_modules', 'eslint'),
-              },
+              emitError: false,
+              failOnError: false,
+              failOnWarning: false,
+              quit: true,
+              cache: path.resolve(context.config.cache, 'eslint-loader'),
+              formatter: require.resolve('eslint-friendly-formatter'),
+              // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
+              eslintPath: context.resolve('node_modules', 'eslint'),
             });
         }
 
