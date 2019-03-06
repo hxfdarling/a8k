@@ -3,7 +3,7 @@ import logger from '@onepack/cli-utils/logger';
 import path from 'path';
 import { ENV_PROD, TYPE_SERVER } from '../../const';
 
-module.exports = (config, context, { type, cssSourceMap, sourceMap }, filename) => {
+module.exports = (config, context, { type, ssr, cssSourceMap, sourceMap }, filename) => {
   if (type === TYPE_SERVER) {
     // 服务端渲染，直接忽略css
     config.module
@@ -92,7 +92,8 @@ module.exports = (config, context, { type, cssSourceMap, sourceMap }, filename) 
     })
     .end();
 
-  const needExtraCss = context.config.webpackMode === ENV_PROD;
+  // 生产模式和服务器渲染调试时，开启这个模式防止样式抖动
+  const needExtraCss = context.config.webpackMode === ENV_PROD || ssr;
 
   if (!needExtraCss) {
     rule
