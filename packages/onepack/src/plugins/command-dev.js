@@ -160,7 +160,7 @@ export default {
       )
       .option('-s, --ssr', '服务端渲染开发调试')
       .option('-p, --port <port>', '配置开发者服务器监听端口')
-      .option('--no-eslint', '禁用eslint检测代码')
+      .option('--eslint', '禁用eslint检测代码', false)
       .option('-c, --css-source-map', '使用cssSourceMap ，但会导致开发模式 FOUC')
       .option('--inspectWebpack', '输出webpack配置信息');
   },

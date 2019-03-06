@@ -59,7 +59,6 @@ export default class Plugin {
   }
 
   resolveWebpackConfig(opts) {
-    console.log('TCL: Plugin -> resolveWebpackConfig -> opts', opts);
     return this.context.resolveWebpackConfig(opts);
   }
 

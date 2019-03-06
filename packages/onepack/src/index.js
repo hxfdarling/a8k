@@ -125,7 +125,6 @@ class OnePack extends Event {
     if (this.config.chainWebpack) {
       this.hooks.add('chainWebpack', this.config.chainWebpack);
     }
-    console.log('TCL: OnePack -> constructor -> this.config\n', this.config);
 
     // Merge envs with this.config.envs
     // Allow to embed these env variables in app code

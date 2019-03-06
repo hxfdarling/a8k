@@ -1,7 +1,6 @@
 import { TYPE_SERVER } from '../../const';
 
 module.exports = (config, context, { type }, filename) => {
-  console.log('TCL: filename', filename);
   const isSSR = type === TYPE_SERVER;
   config.module
     .rule('image')
