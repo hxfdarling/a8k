@@ -56,7 +56,7 @@ program.on('command:*', () => {
 });
 
 class OnePack extends Event {
-  constructor(options = {}, config = {}) {
+  constructor(options = {}, config_ = {}) {
     super();
     this.options = {
       ...options,
@@ -66,7 +66,7 @@ class OnePack extends Event {
     };
     const { baseDir, debug, configFile } = this.options;
     this.hooks = new Hooks();
-    this.config = { ...config };
+    this.config = { ...config_ };
     this.internals = {};
     this.buildId = Math.random()
       .toString(36)
@@ -99,7 +99,7 @@ class OnePack extends Event {
     this.config = merge(defaultConfig, this.config);
 
     // 构建输出文件根目录
-    this.config.dist = this.resolve(config.dist || 'dist');
+    this.config.dist = this.resolve(this.config.dist || 'dist');
     // 缓存版本标记
     this.config.cache = path.resolve(this.config.cache, `v-${pkg.version}`);
     // 如果有ssr配置
