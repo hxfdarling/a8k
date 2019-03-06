@@ -1,15 +1,15 @@
-require('colors');
+import 'colors';
+import getNpmCommand from '@onepack/cli-utils/npm';
 
 const { execSync } = require('child_process');
 const semver = require('semver');
 const fs = require('fs');
 const moment = require('moment');
-const commandExists = require('command-exists').sync;
 const { imtconfig } = require('../helper');
 
 const { name, version } = require('../../package.json');
 
-const cmd = commandExists('tnpm') ? 'tnpm' : 'npm';
+const cmd = getNpmCommand();
 const args = [];
 if (cmd === 'tnpm') {
   args.push('--nochecklatest');

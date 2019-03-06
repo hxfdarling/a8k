@@ -1,13 +1,16 @@
-import path from 'path';
+import loadConfig from '@onepack/cli-utils/load-config';
+import logger from '@onepack/cli-utils/logger';
+import program from 'commander';
 import fs from 'fs-extra';
 import { merge } from 'lodash';
-import logger from '@onepack/cli-utils/logger';
-import JoyCon from 'joycon';
-import program from 'commander';
+import path from 'path';
+import Event from 'events';
+import { TYPE_CLIENT } from './const';
 import Hooks from './hooks';
-import loadPlugins from './utils/load-plugins';
 import Plugin from './plugin';
 import loadPkg from './utils/load-pkg';
+import loadPlugins from './utils/load-plugins';
+import pkg from '../package.json';
 
 const defaultConfig = {
   cache: 'node_modules/.cache',
@@ -26,10 +29,12 @@ program.on('command:*', () => {
   process.exit(1);
 });
 
-class OnePack {
+class OnePack extends Event {
   constructor(options = {}, config = {}) {
+    super();
     this.options = {
       ...options,
+      cliPath: path.resolve(__dirname, '../'),
       cliArgs: options.cliArgs || process.argv,
       baseDir: path.resolve(options.baseDir || '.'),
     };
@@ -49,16 +54,11 @@ class OnePack {
 
     // Load .env file before loading config file
     const envs = this.loadEnvs();
-
-    const loader = new JoyCon({
-      // Only read up to current working directory
-      stopDir: path.dirname(process.cwd()),
-    });
-    const res = loader.loadSync({
+    const res = loadConfig.loadSync({
       files:
         typeof configFile === 'string'
           ? [configFile]
-          : ['imtrc.js', 'onepack.config.js', 'package.json'],
+          : ['.imtrc.js', 'imtrc.js', 'onepack.config.js', 'package.json'],
       cwd: baseDir,
       packageKey: 'onepack',
     });
@@ -73,11 +73,9 @@ class OnePack {
     this.config = { ...defaultConfig, ...this.config };
 
     // 构建输出文件根目录
-    this.config.dist = path.resolve(baseDir, config.dist || 'dist');
+    this.config.dist = this.resolve(config.dist || 'dist');
     // 缓存版本标记
-    this.config.cache = path.resolve(this.config.cache, `v-${this.pkg.version}`);
-    // 工具根目录
-    this.config.cliPath = path.resolve(__dirname, '../../');
+    this.config.cache = path.resolve(this.config.cache, `v-${pkg.version}`);
     // 如果有ssr配置
     if (this.config.ssrConfig) {
       this.config.ssrConfig = {
@@ -85,11 +83,11 @@ class OnePack {
         dist: './node_modules/components',
         // html存放地址
         view: './app/views',
-        ...config.ssrConfig,
+        ...this.config.ssrConfig,
       };
       const { ssrConfig } = this.config;
-      ssrConfig.dist = path.resolve(baseDir, ssrConfig.dist);
-      ssrConfig.view = path.resolve(baseDir, ssrConfig.view);
+      ssrConfig.dist = this.resolve(ssrConfig.dist);
+      ssrConfig.view = this.resolve(ssrConfig.view);
     }
 
     this.config.devServer = {
@@ -97,6 +95,10 @@ class OnePack {
       port: this.config.port || process.env.PORT || 8899,
       ...this.config.devServer,
     };
+    // 客户端定制webpack配置
+    if (this.config.chainWebpack) {
+      this.hooks.add('chainWebpack', this.config.chainWebpack);
+    }
 
     // Merge envs with this.config.envs
     // Allow to embed these env variables in app code
@@ -111,6 +113,10 @@ class OnePack {
 
   resolve(...args) {
     return path.resolve(this.options.baseDir, ...args);
+  }
+
+  rootResolve(...args) {
+    return path.resolve(this.options.cliPath, ...args);
   }
 
   // 准备工作
@@ -172,12 +178,16 @@ class OnePack {
 
   applyPlugins() {
     const plugins = [
-      require.resolve('./plugins/command-base'),
+      require.resolve('@onepack/plugin-react'),
+      require.resolve('./plugins/config-base'),
+      require.resolve('./plugins/config-html'),
+      require.resolve('./plugins/config-ssr'),
+
+      require.resolve('./plugins/command-build'),
+      require.resolve('./plugins/command-dev'),
+      require.resolve('./plugins/command-test'),
+      require.resolve('./plugins/command-utils'),
       require.resolve('./plugins/command-add'),
-      // require.resolve('./plugins/config-html'),
-      // require.resolve('./plugins/command-build'),
-      // require.resolve('./plugins/command-dev'),
-      // require.resolve('./plugins/command-test'),
       ...(this.config.plugins || []),
     ];
 
@@ -194,38 +204,34 @@ class OnePack {
   async run() {
     this.prepare();
     await this.hooks.invokePromise('beforeRun');
-    return new Promise(resolve => {
-      this.cli.parse(this.options.cliArgs);
-      this.cli.on('executed', () => {
-        resolve();
-      });
-      if (!this.options.cliArgs.slice(2).length) {
-        program.outputHelp();
-      }
-    });
+    this.cli.parse(this.options.cliArgs);
+    if (!this.options.cliArgs.slice(2).length) {
+      program.outputHelp();
+    }
   }
 
-  resolveWebpackConfig(opts) {
+  resolveWebpackConfig(options) {
     const WebpackChain = require('webpack-chain');
     const config = new WebpackChain();
 
-    opts = Object.assign({ type: 'client' }, opts);
+    options = { type: TYPE_CLIENT, ...options };
 
-    this.hooks.invoke('chainWebpack', config, opts);
+    this.hooks.invoke('chainWebpack', config, options);
 
     if (this.config.chainWebpack) {
-      this.config.chainWebpack(config, opts);
+      this.config.chainWebpack(config, options);
     }
 
     if (this.options.inspectWebpack) {
       this._inspectWebpackConfigPath = path.join(
         require('os').tmpdir(),
-        `poi-inspect-webpack-config-${this.buildId}.js`
+        `onepack-inspect-webpack-config-${options.type}-${this.buildId}.js`
       );
       fs.appendFileSync(
         this._inspectWebpackConfigPath,
-        `//${JSON.stringify(opts)}\nconst ${opts.type} = ${config.toString()}\n`
+        `//${JSON.stringify(options)}\nconst ${options.type} = ${config.toString()}\n`
       );
+      require('opn')(this._inspectWebpackConfigPath);
     }
 
     return config.toConfig();
@@ -235,17 +241,16 @@ class OnePack {
     return require('webpack')(webpackConfig);
   }
 
-  runWebpack(webpackConfig) {
+  async runWebpack(webpackConfig) {
     const compiler = this.createWebpackCompiler(webpackConfig);
-    return require('@poi/dev-utils/runCompiler')(compiler);
-  }
-
-  async bundle() {
-    const webpackConfig = this.resolveWebpackConfig();
-    if (this.options.cleanOutDir) {
-      await fs.remove(webpackConfig.output.path);
-    }
-    return this.runWebpack(webpackConfig);
+    await new Promise((resolve, reject) => {
+      compiler.run((err, stats) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(stats);
+      });
+    });
   }
 
   hasDependency(name, type = 'all') {

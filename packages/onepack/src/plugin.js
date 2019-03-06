@@ -26,10 +26,6 @@ export default class Plugin {
     return this.context.plugins;
   }
 
-  get command() {
-    return this.context.options.command;
-  }
-
   hook(...args) {
     return this.context.hook(...args);
   }
@@ -45,11 +41,10 @@ export default class Plugin {
       );
     }
     this.commands.set(command, this._name);
-    const program = this.context.cli
+    return this.context.cli
       .command(command)
       .description(desc)
       .action(handler);
-    return program;
   }
 
   hasPlugin(name) {
@@ -64,6 +59,7 @@ export default class Plugin {
   }
 
   resolveWebpackConfig(opts) {
+    console.log('TCL: Plugin -> resolveWebpackConfig -> opts', opts);
     return this.context.resolveWebpackConfig(opts);
   }
 
@@ -79,6 +75,10 @@ export default class Plugin {
     return this.context.resolve(...args);
   }
 
+  rootResolve(...args) {
+    return this.context.rootResolve(...args);
+  }
+
   chainWebpack(fn) {
     this.hooks.add('chainWebpack', fn);
     return this;
@@ -87,10 +87,6 @@ export default class Plugin {
   configureDevServer(fn) {
     this.hooks.add('configureDevServer', fn);
     return this;
-  }
-
-  bundle() {
-    return this.context.bundle();
   }
 
   setAppEnvs(envs) {

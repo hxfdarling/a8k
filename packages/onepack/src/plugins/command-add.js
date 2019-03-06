@@ -1,6 +1,6 @@
 import logger from '@onepack/cli-utils/logger';
+import getNpmCommand from '@onepack/cli-utils/npm';
 import { logWithSpinner, stopSpinner } from '@onepack/cli-utils/spinner';
-import { sync as commandExists } from 'command-exists';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
 import os from 'os';
@@ -16,7 +16,7 @@ export default {
   apply: context => {
     context.registerCommand(
       'add [type]',
-      '添加项目配置,支持:lint,commitBuild your app as SPA',
+      '添加项目配置,支持:lint,commit',
       async (type, options) => {
         if (!type) {
           ({ type } = await inquirer.prompt([
@@ -34,18 +34,7 @@ export default {
           const pkgFile = path.join(cwd, 'package.json');
           const pPkg = require(pkgFile);
           shell.cd(cwd);
-          let npmCmd = 'npm';
-          if (commandExists('tnpm')) {
-            npmCmd = 'tnpm';
-            try {
-              await util.promisify(shell.exec)(`${npmCmd} info tnpm`, {
-                silent: true,
-              });
-            } catch (e) {
-              logger.warn('tnpm 服务无法访问,将使用npm执行');
-              npmCmd = 'npm';
-            }
-          }
+          const npmCmd = getNpmCommand();
           switch (type) {
             case 'lint':
               pPkg['lint-staged'] = {

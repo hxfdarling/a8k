@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// 自动版本检测
 import 'source-map-support/register';
 
+// 自动版本检测
 require('../scripts/check_latest');
 
 process.on('unhandledRejection', err => {
