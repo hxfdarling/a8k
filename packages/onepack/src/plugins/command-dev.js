@@ -20,6 +20,7 @@ export default {
         async ({ ssr, port, eslint, cssSourceMap, inspectWebpack }) => {
           context.options.inspectWebpack = inspectWebpack;
           context.config.webpackMode = ENV_DEV;
+          context.config.publicPath = ''; // 开发模式下面不用publicPath
 
           const options = { ssr, port, eslint, cssSourceMap };
           const { devServer, ssrDevServer, ssrConfig } = context.config;
