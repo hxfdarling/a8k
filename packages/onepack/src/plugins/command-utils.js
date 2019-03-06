@@ -5,14 +5,16 @@ import { execSync } from 'child_process';
 
 export default {
   apply: context => {
-    context.registerCommand('clean', '清理缓存文件', async () => {
-      logWithSpinner('清理缓存');
+    context.registerCommand('clean', '清理缓存文件和构建结果文件', async () => {
       if (context.config.cache) {
+        logWithSpinner('清理缓存文件');
         await fs.emptyDir(context.config.cache);
-        stopSpinner();
       } else {
         logger.warn('没有指定缓存目录');
       }
+      logWithSpinner('清理构建结果文件');
+      await fs.emptyDir(context.config.dist);
+      stopSpinner();
     });
 
     context.registerCommand('check', '检测代码是否合并主干', async () => {
