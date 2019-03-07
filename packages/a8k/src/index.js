@@ -49,8 +49,7 @@ program.version(require('../package.json').version);
 
 program.on('command:*', () => {
   logger.error(
-    'Invalid command: %s\nSee --help for a list of available commands.',
-    program.args.join(' ')
+    `Invalid command: ${program.args.join(' ')}\nSee --help for a list of available commands.`
   );
   process.exit(1);
 });

@@ -9,7 +9,7 @@ exports.apply = context => {
       filenames: context.config.filenames,
       webpackMode: context.config.webpackMode,
     });
-    const { type, eslint, ssr, analyzer, watch, sourceMap } = options;
+    const { type, eslint, ssr, analyzer, watch } = options;
 
     config.watch(watch);
     config.merge({
@@ -23,12 +23,16 @@ exports.apply = context => {
       if (context.config.webpackMode === ENV_DEV) {
         devtool = 'cheap-module-eval-source-map';
       }
-      if (sourceMap) {
+      if (options.sourceMap) {
         devtool = 'source-map';
       }
       if (typeof config.sourceMap === 'string') {
         devtool = config.sourceMap;
       }
+
+      // 更新选项
+      options.sourceMap = !!devtool;
+
       config.mode(context.config.webpackMode);
       config.devtool(devtool);
 

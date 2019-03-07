@@ -24,6 +24,7 @@ export default {
             analyzer,
             dev,
           };
+
           logger.info('build frontend');
 
           context.options.inspectWebpack = inspectWebpack;

@@ -21,14 +21,15 @@ export default {
           context.options.inspectWebpack = inspectWebpack;
           context.config.webpackMode = ENV_DEV;
           context.config.publicPath = ''; // 开发模式下面不用publicPath
-
-          const options = { ssr, port, eslint, cssSourceMap };
+          if (port) {
+            context.config.devServer.port = port;
+          }
+          const options = { ssr, eslint, cssSourceMap };
           const { devServer, ssrDevServer, ssrConfig } = context.config;
 
           if (ssr) {
-            // eslint-disable-next-line no-shadow
-            const { contentBase, https, port, host } = ssrDevServer;
-            if (!port) {
+            const { contentBase, https, port: ssrPort, host } = ssrDevServer;
+            if (!ssrPort) {
               logger.error('如需要调试直出，请配置 ssrDevServer:{port:xxx} 端口信息');
               process.exit(-1);
             }
@@ -39,7 +40,7 @@ export default {
                 const pageName = ssrConfig.entry[key].split('/');
                 const file = `/${pageName[pageName.length - 2]}.html`;
                 proxy[file] = {
-                  target: `${protocol + host}:${port}${contentBase || ''}`,
+                  target: `${protocol + host}:${ssrPort}${contentBase || ''}`,
                   secure: false,
                 };
               });
