@@ -9,9 +9,7 @@
   "license": "MIT",
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "lint": "eslint --cache \"{lib,bin,src}/**/*.js\"",
-    "release": "npm run build && standard-version && git push --follow-tags origin"
+    "docs:build": "vuepress build docs"
   },
   "workspaces": [
     "packages/*"
