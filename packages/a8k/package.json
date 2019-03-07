@@ -9,13 +9,12 @@
   "scripts": {
     "dev": "tsc -w -sourceMap",
     "build": "rm -rf lib && tsc",
+    "prepublishOnly": "npm build",
     "test": "jest",
     "test:w": "jest --watch"
   },
   "files": [
-    "lib",
-    "templates",
-    "package-lock.json"
+    "lib"
   ],
   "devDependencies": {
     "@types/jest": "^23.3.12",
