@@ -1,6 +1,6 @@
 {
   "name": "a8k",
-  "version": "1.0.5-alpha.0",
+  "version": "1.0.6-alpha.0",
   "bin": {
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js",
@@ -26,9 +26,9 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "@a8k/cli-utils": "^1.0.5-alpha.0",
+    "@a8k/cli-utils": "^1.0.6-alpha.0",
     "@a8k/dev-utils": "^1.0.5-alpha.0",
-    "@a8k/plugin-react": "^1.0.5-alpha.0",
+    "@a8k/plugin-react": "^1.0.6-alpha.0",
     "@babel/runtime": "^7.3.1",
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
