@@ -6,11 +6,11 @@ module.exports = () => {
   let npmCmd = 'npm';
   if (commandExists('tnpm')) {
     npmCmd = 'tnpm';
-    try {
-      shell.execSync(`${npmCmd} info tnpm`, {
+    if (
+      shell.exec(`${npmCmd} info tnpm`, {
         silent: true,
-      });
-    } catch (e) {
+      }).stderr
+    ) {
       logger.warn('tnpm 服务无法访问,将使用npm执行');
       npmCmd = 'npm';
     }

@@ -9,11 +9,7 @@ const { configPath } = require('../const');
 
 const { name, version } = require('../../package.json');
 
-const cmd = getNpmCommand();
 const args = [];
-if (cmd === 'tnpm') {
-  args.push('--nochecklatest');
-}
 const todayStr = moment().format('YYYY-MM-DD');
 
 // START 检查是否需要检查更新
@@ -30,6 +26,7 @@ try {
 config = config || {};
 // END 检查是否需要检查更新
 
+const cmd = getNpmCommand();
 const latestVersion = execSync(`${cmd} info ${name} version ${args.join(' ')}`)
   .toString()
   .trim();
