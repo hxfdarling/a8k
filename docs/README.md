@@ -8,7 +8,7 @@ features:
   - title: Webpack驱动
     details: 享受 React + webpack 的极致开发体验。
   - title: 高性能
-    details: IMT集成最佳构建实践，你只需关心你的代码，无需关心构建。
+    details: a8k 集成最佳构建实践，你只需关心你的代码，无需关心构建。
 footer: MIT Licensed | Copyright © 2019-present zman
 ---
 
@@ -16,17 +16,17 @@ footer: MIT Licensed | Copyright © 2019-present zman
 
 ```bash
 # 安装
-yarn global add imt-cli
-# 或者：npm install -g imt-cli
+yarn global add a8k
+# 或者：npm install -g a8k
 
 # 新建一个 项目 文件
-imt create test
+k create test
 
 # 开始开发
-imt dev
+k dev
 
 # 构建发布文件
-imt build
+k build
 ```
 
 ::: warning 注意
