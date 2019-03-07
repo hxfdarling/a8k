@@ -2,7 +2,7 @@ import { throttle } from 'lodash';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
-import { HashRouter, Redirect, Route, Switch, Link } from 'react-router-dom';
+import { HashRouter, Route, Switch, Link } from 'react-router-dom';
 import action from './action_creator';
 import './index.scss';
 import routers, { menus } from './routers';
@@ -39,7 +39,6 @@ class App extends Component {
           </ul>
           <div className="crm-content">
             <Switch>
-              <Redirect exact from="/" to={routers[0].page} />
               {routers.map(({ component, page }) => {
                 return <Route key={page} exact path={page.toLowerCase()} component={component} />;
               })}
