@@ -5,6 +5,9 @@
   "author": "edenhliu <edenhliu@tencent.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/cli-utils#readme",
   "license": "ISC",
+  "files":[
+    "*.js"
+  ],
   "directories": {
     "lib": "lib",
     "test": "__tests__"
