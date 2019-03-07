@@ -45,7 +45,7 @@ exports.apply = context => {
         .map(i => context.resolve(i));
 
       if (context.config.webpackMode === ENV_DEV) {
-        initEntry.unshift(require.resolve('@a8k/dev-utils/webpackHotDevClient'));
+        initEntry.push(require.resolve('@a8k/dev-utils/webpackHotDevClient'));
       }
 
       if (context.config.mode === 'single') {
