@@ -5,6 +5,7 @@
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js"
   },
+  "main":"./lib/index.js",
   "scripts": {
     "dev": "tsc -w -sourceMap",
     "build": "rm -rf lib && tsc",
