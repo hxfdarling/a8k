@@ -61,7 +61,12 @@ module.exports = async options => {
 
   argv.push(
     '--config',
-    JSON.stringify(createJestConfig(relativePath => path.resolve(__dirname, '..', relativePath), options.projectDir))
+    JSON.stringify(
+      createJestConfig(
+        relativePath => path.resolve(__dirname, '..', relativePath),
+        options.projectDir
+      )
+    )
   );
 
   const env = options.env || 'jsdom';

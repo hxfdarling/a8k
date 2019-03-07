@@ -8,9 +8,9 @@ process.on('unhandledRejection', err => {
   throw err;
 });
 
-const onepack = require('../index').default;
+const a8k = require('../index').default;
 
-const app = onepack();
+const app = a8k();
 app.run().catch(err => {
   console.error(err.stack);
   process.exit(1);

@@ -3,7 +3,7 @@ const chalk = require('chalk');
 
 const Generator = require('yeoman-generator');
 const { basename } = require('path');
-const logger = require('@onepack/cli-utils/logger');
+const logger = require('@a8k/cli-utils/logger');
 
 // debug.enabled = true;
 

@@ -1,4 +1,4 @@
-import logger from '@onepack/cli-utils/logger';
+import logger from '@a8k/cli-utils/logger';
 import fs from 'fs-extra';
 import path from 'path';
 

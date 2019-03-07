@@ -1,6 +1,6 @@
 import path from 'path';
 import chokidar from 'chokidar';
-import logger from '@onepack/cli-utils/logger';
+import logger from '@a8k/cli-utils/logger';
 import JoyCon from 'joycon';
 
 export default ({ cwd = process.cwd() } = {}) => {

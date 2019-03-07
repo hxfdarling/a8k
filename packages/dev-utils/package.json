@@ -1,9 +1,9 @@
 {
-  "name": "@onepack/dev-utils",
+  "name": "@a8k/dev-utils",
   "version": "1.0.0-alpha.0",
   "description": "> TODO: description",
   "author": "edenhliu <edenhliu@tencent.com>",
-  "homepage": "https://github.com/hxfdarling/onepack/tree/master/packages/dev-utils#readme",
+  "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/dev-utils#readme",
   "license": "ISC",
   "directories": {
     "lib": "lib",
@@ -14,13 +14,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hxfdarling/onepack.git"
+    "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
     "dev": "echo \"ok\"",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
-    "url": "https://github.com/hxfdarling/onepack/issues"
-  }
+    "url": "https://github.com/hxfdarling/a8k/issues"
+  },
+  "gitHead": "6976f28511b86a6532003b78257be77b0e3e5a13"
 }

@@ -1,10 +1,10 @@
 module.exports = {
-  base: '/onepack/',
+  base: '/a8k/',
   host: '127.0.0.1',
   locales: {
     '/': {
       lang: 'zh-CN',
-      title: 'onepack',
+      title: 'a8k',
       description: '集成 webpack + react 的最佳实践配置的构建工具',
     },
   },
@@ -16,5 +16,8 @@ module.exports = {
       },
     },
   },
-  plugins: [['@vuepress/back-to-top', true], ['@vuepress/pwa', { serviceWorker: true, updatePopup: true }]],
+  plugins: [
+    ['@vuepress/back-to-top', true],
+    ['@vuepress/pwa', { serviceWorker: true, updatePopup: true }],
+  ],
 };

@@ -1,6 +1,6 @@
-import logger from '@onepack/cli-utils/logger';
-import getNpmCommand from '@onepack/cli-utils/npm';
-import { logWithSpinner, stopSpinner } from '@onepack/cli-utils/spinner';
+import logger from '@a8k/cli-utils/logger';
+import getNpmCommand from '@a8k/cli-utils/npm';
+import { logWithSpinner, stopSpinner } from '@a8k/cli-utils/spinner';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
 import os from 'os';

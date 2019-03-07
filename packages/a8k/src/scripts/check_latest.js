@@ -1,5 +1,5 @@
 import 'colors';
-import getNpmCommand from '@onepack/cli-utils/npm';
+import getNpmCommand from '@a8k/cli-utils/npm';
 
 const { execSync } = require('child_process');
 const semver = require('semver');

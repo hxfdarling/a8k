@@ -1,4 +1,4 @@
-import formatWebpackMessages from '@onepack/dev-utils/formatWebpackMessages';
+import formatWebpackMessages from '@a8k/dev-utils/formatWebpackMessages';
 import chalk from 'chalk';
 
 /**

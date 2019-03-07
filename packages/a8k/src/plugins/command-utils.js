@@ -1,5 +1,5 @@
-import logger from '@onepack/cli-utils/logger';
-import { logWithSpinner, stopSpinner } from '@onepack/cli-utils/spinner';
+import logger from '@a8k/cli-utils/logger';
+import { logWithSpinner, stopSpinner } from '@a8k/cli-utils/spinner';
 import fs from 'fs-extra';
 import { execSync } from 'child_process';
 

@@ -13,4 +13,4 @@ if (process.platform === 'win32') {
   root = process.env.HOME || process.env.TMPDIR || '/tmp';
 }
 
-export const configPath = path.join(root, '.onepack.config.json');
+export const configPath = path.join(root, '.a8k.config.json');

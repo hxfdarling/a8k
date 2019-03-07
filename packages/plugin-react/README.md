@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-const pluginReact = require('@onepack/plugin-react');
+const pluginReact = require('@a8k/plugin-react');
 
 // TODO: DEMONSTRATE API
 ```

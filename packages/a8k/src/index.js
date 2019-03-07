@@ -1,5 +1,5 @@
-import loadConfig from '@onepack/cli-utils/load-config';
-import logger from '@onepack/cli-utils/logger';
+import loadConfig from '@a8k/cli-utils/load-config';
+import logger from '@a8k/cli-utils/logger';
 import program from 'commander';
 import fs from 'fs-extra';
 import { merge } from 'lodash';
@@ -55,7 +55,7 @@ program.on('command:*', () => {
   process.exit(1);
 });
 
-class OnePack extends Event {
+class A8k extends Event {
   constructor(options = {}, config_ = {}) {
     super();
     this.options = {
@@ -84,17 +84,17 @@ class OnePack extends Event {
       files:
         typeof configFile === 'string'
           ? [configFile]
-          : ['.imtrc.js', 'imtrc.js', 'onepack.config.js', 'package.json'],
+          : ['.imtrc.js', 'imtrc.js', 'a8k.config.js', 'package.json'],
       cwd: baseDir,
-      packageKey: 'onepack',
+      packageKey: 'a8k',
     });
 
     if (res.path) {
       this.configFilePath = res.path;
       this.config = merge(res.data, this.config);
-      logger.debug(`Onepack config file: ${this.configFilePath}`);
+      logger.debug(`a8k config file: ${this.configFilePath}`);
     } else {
-      logger.debug('Onepack is not using any config file');
+      logger.debug('a8k is not using any config file');
     }
     this.config = merge(defaultConfig, this.config);
 
@@ -179,9 +179,9 @@ class OnePack extends Event {
       }
     });
 
-    // Collect those temp envs starting with ONEPACK_ too
+    // Collect those temp envs starting with a8k_ too
     for (const name of Object.keys(process.env)) {
-      if (name.startsWith('ONEPACK_')) {
+      if (name.startsWith('a8k_')) {
         envs[name] = process.env[name];
       }
     }
@@ -204,7 +204,7 @@ class OnePack extends Event {
 
   applyPlugins() {
     const plugins = [
-      require.resolve('@onepack/plugin-react'),
+      require.resolve('@a8k/plugin-react'),
       require.resolve('./plugins/config-base'),
       require.resolve('./plugins/config-html'),
       require.resolve('./plugins/config-ssr'),
@@ -251,7 +251,7 @@ class OnePack extends Event {
     if (this.options.inspectWebpack) {
       this._inspectWebpackConfigPath = path.join(
         require('os').tmpdir(),
-        `onepack-inspect-webpack-config-${options.type}-${this.buildId}.js`
+        `a8k-inspect-webpack-config-${options.type}-${this.buildId}.js`
       );
       fs.appendFileSync(
         this._inspectWebpackConfigPath,
@@ -295,4 +295,4 @@ class OnePack extends Event {
   }
 }
 
-export default (...args) => new OnePack(...args);
+export default (...args) => new A8k(...args);

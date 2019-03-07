@@ -1,5 +1,5 @@
-import logger from '@onepack/cli-utils/logger';
-import formatWebpackMessages from '@onepack/dev-utils/formatWebpackMessages';
+import logger from '@a8k/cli-utils/logger';
+import formatWebpackMessages from '@a8k/dev-utils/formatWebpackMessages';
 import chalk from 'chalk';
 import os from 'os';
 import prettyMs from 'pretty-ms';

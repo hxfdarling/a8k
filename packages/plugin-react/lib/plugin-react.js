@@ -1,4 +1,4 @@
-const getNpmCommand = require('@onepack/cli-utils/npm');
+const getNpmCommand = require('@a8k/cli-utils/npm');
 const { spawnSync } = require('child_process');
 const fs = require('fs-extra');
 const inquirer = require('inquirer');

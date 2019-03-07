@@ -77,7 +77,8 @@ module.exports = options => {
   }
   if (!cmd) {
     throw Error(
-      `not found "${options.cmd || ' command '}" command, example: imt cache build, build is a npm scripts key`
+      `not found "${options.cmd
+        || ' command '}" command, example: imt cache build, build is a npm scripts key`
     );
   }
   const copyTime = copyCacheModules(cache);

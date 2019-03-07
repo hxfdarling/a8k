@@ -1,24 +1,24 @@
 const resolveFrom = require('resolve-from');
-const logger = require('@onepack/cli-utils/logger');
+const logger = require('@a8k/cli-utils/logger');
 
 export default class Plugin {
   /**
    * Creates an instance of Plugin.
-   * @param {*} onepack Root API
+   * @param {*} a8k Root API
    * @param {string} name Plugin name
    */
-  constructor(onepack, name) {
+  constructor(a8k, name) {
     this._name = name;
-    this.context = onepack;
+    this.context = a8k;
 
-    onepack._commands = onepack._commands || new Map();
+    a8k._commands = a8k._commands || new Map();
 
     // Exposed
-    this.commands = onepack._commands;
-    this.hooks = onepack.hooks;
-    this.pkg = onepack.pkg;
-    this.config = onepack.config;
-    this.options = onepack.options;
+    this.commands = a8k._commands;
+    this.hooks = a8k.hooks;
+    this.pkg = a8k.pkg;
+    this.config = a8k.config;
+    this.options = a8k.options;
     this.logger = logger;
   }
 

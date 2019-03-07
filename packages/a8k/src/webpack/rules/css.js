@@ -1,5 +1,5 @@
-import loadConfig from '@onepack/cli-utils/load-config';
-import logger from '@onepack/cli-utils/logger';
+import loadConfig from '@a8k/cli-utils/load-config';
+import logger from '@a8k/cli-utils/logger';
 import path from 'path';
 import { ENV_PROD, TYPE_SERVER } from '../../const';
 
