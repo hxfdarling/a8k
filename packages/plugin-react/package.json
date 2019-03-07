@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-react",
-  "version": "1.0.2-alpha.0",
+  "version": "1.0.3-alpha.0",
   "description": "> TODO: description",
   "author": "edenhliu <edenhliu@tencent.com>",
   "license": "ISC",
@@ -13,7 +13,8 @@
     "access": "public"
   },
   "files": [
-    "lib","templates"
+    "lib",
+    "templates"
   ],
   "repository": {
     "type": "git",
