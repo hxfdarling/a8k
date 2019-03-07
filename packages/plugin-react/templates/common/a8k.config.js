@@ -43,7 +43,7 @@ module.exports = {
   <% } %>
   // 配置额外的入口文件，会在每一个page中引用
   entry:{
-    vendor:['./src/assets/vendor.js','./src/assets/polyfill.js'],
+    vendor:['./src/assets/polyfill.js','./src/assets/vendor.js'],
   },
   <% if(ssr) { %>
   // 服务器直出页面
@@ -59,9 +59,7 @@ module.exports = {
   },
   <% } %>
   // 修改webpack配置文件
-  webpackOverride(config) {
-    return config;
+  chainWebpack(config) {
   },
-  // 添加imt插件
   plugins: [],
 };

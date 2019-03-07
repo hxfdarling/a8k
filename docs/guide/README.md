@@ -64,15 +64,6 @@ module.exports = {
     retryPublicPath: '//fudao.qq.com/pc/',
     // 排除非我们自己控制的JS
     exclude: [/\/\/sqimg\.qq\.com/],
-    // 自定义上报
-    JS_SUCC_MSID: '', // JS成功
-    JS_FAIL_MSID: '', //  JS失败
-    CSS_SUCC_MSID: '', //  CSS成功
-    CSS_FAIL_MSID: '', //  CSS失败
-    JS_RETRY_SUCC_MSID: '', //  JS重试成功
-    JS_RETRY_FAIL_MSID: '', //  JS重试失败
-    CSS_RETRY_SUCC_MSID: '', //  CSS重试成功
-    CSS_RETRY_FAIL_MSID: '', //  CSS重试失败
   },
   // 服务器直出页面
   ssrConfig: {
