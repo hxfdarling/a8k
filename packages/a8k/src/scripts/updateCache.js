@@ -1,15 +1,13 @@
+import getNpmCommand from '@a8k/cli-utils/npm';
+
 const { spawnSync } = require('child_process');
-const commandExists = require('command-exists').sync;
 
 const dir = process.argv[2];
 
 if (!dir) {
   throw Error('没有指定缓存目录,无法进行缓存');
 }
-let npmCmd = 'npm';
-if (commandExists('tnpm')) {
-  npmCmd = 'tnpm';
-}
+const npmCmd = getNpmCommand();
 console.log('工作目录', dir);
 function spawnSyncX(...args) {
   const result = spawnSync(...args);
