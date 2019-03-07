@@ -1,0 +1,74 @@
+{
+  "name": "<%= name %>",
+  "version": "1.0.0",
+  "description": "",
+  <% if(ssr) {%>
+  "main": "app/index.js",
+  <% } %>
+  "scripts": {
+    "dev": "k dev",
+    "build": "k build",
+    <% if(ssr) {%>
+    "dev:s":"k dev -s & npm run server",
+    "server":"nodemon app/index.js",
+    <% } %>
+    "clean": "rimraf -rf public/ && rimraf -rf pack/"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{jsx,js}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.6.2",
+    "koa-router": "^7.4.0",
+    "classnames": "^2.2.1",
+    "lodash": "^4.17.11",
+    "process": "^0.11.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-loadable": "^5.5.0",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.1.2",
+    "react-router-dom": "^4.1.2",
+    "react-router-redux": "4.0.2",
+    "redux": "3.3.1",
+    "redux-logger": "2.6.1",
+    "redux-thunk": "2.3.0"
+  },
+  "devDependencies": {
+    <% if(ssr) {%>
+    "nodemon": "^1.18.6",
+    <% } %>
+    "commitlint-config-imt": "^0.0.4",
+    "eslint-config-imweb": "^0.2.11",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "lint-staged": "^8.0.4",
+    "prettier": "^1.15.1",
+    "rimraf": "^2.6.2",
+    "serialize-javascript": "^1.6.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "node_modules/commitlint-config-imt/cz-config.js"
+    }
+  }
+}

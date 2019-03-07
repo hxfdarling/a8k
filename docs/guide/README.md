@@ -1,46 +1,46 @@
-# IMT 文档
+# a8k 文档
 
 ## 使用方法
 
 安装
 
 ```shell
-npm i -g imt-cli
+npm i -g a8k
 ```
 
 生成模板
 
 ```shell
-imt create [projectName]
+k create [projectName]
 ```
 
 启动开发服务器
 
 ```shell
-imt dev
+k dev
 ```
 
 dev 调试直出模式
 
 ```shell
-imt dev -s
+k dev -s
 ```
 
 构建前端代码
 
 ```shell
-imt build
+k build
 ```
 
 运行 jest 测试
 
 ```shell
-imt test
+k test
 ```
 
 ## 现有项目如何接入？
 
-在项目根目录添加配置文件:`.imtrc.js`
+在项目根目录添加配置文件:`a8k.config.js`
 添加如下配置：
 
 ```js
@@ -104,5 +104,5 @@ module.exports = {
 ## 帮助
 
 ```shell
-imt -h
+k -h
 ```

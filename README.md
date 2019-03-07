@@ -1,4 +1,4 @@
-# imt
+# a8k
 
 集成 webpack 的 react 项目最佳实践配置的构建工具
 
@@ -7,35 +7,35 @@
 安装
 
 ```shell
-npm i -g imt-cli
+npm i -g a8k
 ```
 
 生成模板
 
 ```shell
-imt create [projectName]
+k create [projectName]
 ```
 
 启动开发服务器
 
 ```shell
-imt dev
+k dev
 ```
 
 dev 调试直出模式
 
 ```shell
-imt dev -s
+k dev -s
 ```
 
 构建前端代码
 
 ```shell
-imt build
+k build
 ```
 
 运行 jest 测试
 
 ```shell
-imt test
+k test
 ```

@@ -1,0 +1,34 @@
+{
+  "name": "@a8k/dev-utils",
+  "version": "1.0.2-alpha.0",
+  "description": "> TODO: description",
+  "author": "edenhliu <edenhliu@tencent.com>",
+  "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/dev-utils#readme",
+  "license": "ISC",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hxfdarling/a8k.git"
+  },
+  "scripts": {
+    "dev": "echo \"ok\"",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/hxfdarling/a8k/issues"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "strip-ansi": "^5.0.0",
+    "text-table": "^0.2.0"
+  }
+}

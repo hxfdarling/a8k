@@ -15,6 +15,6 @@ git add -A
 git commit -m 'chore: deploy'
 
 
-git push -f https://${GITHUB_TOKEN}@github.com/hxfdarling/onepack.git master:gh-pages
+git push -f https://${GITHUB_TOKEN}@github.com/hxfdarling/a8k.git master:gh-pages
 
 cd -

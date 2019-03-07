@@ -3,5 +3,5 @@
   "singleQuote": true,
   "jsxBracketSameLine": false,
   "trailingComma": "es5",
-  "printWidth": 120
+  "printWidth": 100
 }
