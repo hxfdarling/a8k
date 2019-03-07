@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { ENV_PROD, TYPE_CLIENT, ENV_DEV } from '../const';
+import { ENV_DEV, ENV_PROD, TYPE_CLIENT } from '../const';
 
 const DEFAULT_PAGES_DIR = './src/pages';
 
@@ -44,12 +44,17 @@ exports.apply = context => {
         }, [])
         .map(i => context.resolve(i));
 
-      if (context.config.webpackMode === ENV_DEV) {
-        initEntry.push(require.resolve('@a8k/dev-utils/webpackHotDevClient'));
-      }
+      const isDev = context.config.webpackMode === ENV_DEV;
+      const webpackHotDevClient = require.resolve('@a8k/dev-utils/webpackHotDevClient');
 
       if (context.config.mode === 'single') {
-        config.entry('index').merge([...initEntry, context.resolve('./src/index')]);
+        config
+          .entry('index')
+          .merge(
+            [...initEntry, context.resolve('./src/index'), isDev && webpackHotDevClient].filter(
+              Boolean
+            )
+          );
         config.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
           {
             // https://github.com/jantimon/html-webpack-plugin/issues/870
@@ -66,7 +71,9 @@ exports.apply = context => {
           const dir = context.resolve(`${pagesDir}/${file}`);
           file = `${dir}/index.html`;
 
-          config.entry(name).merge([...initEntry, `${dir}/index`]);
+          config
+            .entry(name)
+            .merge([...initEntry, `${dir}/index`, isDev && webpackHotDevClient].filter(Boolean));
 
           const chunks = [name];
           config.plugin(`html-webpack-plugin-${name}`).use(HtmlWebpackPlugin, [
@@ -81,6 +88,7 @@ exports.apply = context => {
       }
       if (config.sri) {
         const SriPlugin = require('webpack-subresource-integrity');
+        SriPlugin.__expression = "require('webpack-subresource-integrity')";
         // 支持js资源完整性校验
         // https://www.w3.org/TR/SRI/
         config.plugin('sri-plugin').use(SriPlugin, [
