@@ -11,8 +11,8 @@ module.exports = async (ctx, next) => {
   });
 
   const titleInfo = 'index';
-  const keywords = 'imt';
-  const description = 'imt react application';
+  const keywords = 'a8k';
+  const description = 'a8k react application';
 
   ctx.body = await render('index.html', providerSearch, state, {
     titleInfo,

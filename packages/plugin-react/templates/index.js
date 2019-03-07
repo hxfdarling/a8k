@@ -48,9 +48,9 @@ class AppGenerator extends Generator {
     ]);
     if (app === 'single') {
       let htmlConfig = {
-        keywords: 'react,imt',
-        title: 'imt application',
-        description: 'imt application',
+        keywords: 'react,a8k',
+        title: 'a8k application',
+        description: 'a8k application',
       };
 
       const { html } = await this.prompt([
@@ -128,7 +128,7 @@ class AppGenerator extends Generator {
 
     // tpl
     this._copyTpls([
-      ['common/imtrc.js', 'imtrc.js'],
+      ['common/a8k.config.js', 'a8k.config.js'],
       ['common/package', 'package.json'],
       ['common/README.md', 'README.md'],
     ]);

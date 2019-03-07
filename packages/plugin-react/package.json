@@ -3,7 +3,6 @@
   "version": "1.0.2-alpha.0",
   "description": "> TODO: description",
   "author": "edenhliu <edenhliu@tencent.com>",
-  "homepage": "https://github.com/hxfdarling/imt/tree/master/packages/plugin-react#readme",
   "license": "ISC",
   "main": "lib/plugin-react.js",
   "directories": {
@@ -14,17 +13,17 @@
     "access": "public"
   },
   "files": [
-    "lib"
+    "lib","templates"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hxfdarling/imt.git"
+    "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
-    "url": "https://github.com/hxfdarling/imt/issues"
+    "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
     "@a8k/cli-utils": "^1.0.2-alpha.0",

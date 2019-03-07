@@ -6,10 +6,10 @@
   "main": "app/index.js",
   <% } %>
   "scripts": {
-    "dev": "imt dev",
-    "build": "imt build",
+    "dev": "k dev",
+    "build": "k build",
     <% if(ssr) {%>
-    "dev:s":"imt dev -s & npm run server",
+    "dev:s":"k dev -s & npm run server",
     "server":"nodemon app/index.js",
     <% } %>
     "clean": "rimraf -rf public/ && rimraf -rf pack/"

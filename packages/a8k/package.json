@@ -3,7 +3,8 @@
   "version": "1.0.2-alpha.0",
   "bin": {
     "a8k": "./lib/bin/cli.js",
-    "k": "./lib/bin/cli.js"
+    "k": "./lib/bin/cli.js",
+    "imt": "./lib/bin/cli.js"
   },
   "main": "./lib/index.js",
   "scripts": {
@@ -104,7 +105,6 @@
     "webpack-node-externals": "^1.7.2",
     "webpack-retry-load-plugin": "^1.1.5",
     "webpack-subresource-integrity": "^1.3.1",
-    "whatwg-fetch": "^3.0.0",
-    "yeoman-generator": "^3.2.0"
+    "whatwg-fetch": "^3.0.0"
   }
 }

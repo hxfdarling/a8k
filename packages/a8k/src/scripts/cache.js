@@ -20,7 +20,7 @@ function getFormatTime(date, split = '-') {
 function copyCacheModules(dir) {
   // 复制缓存目录node_modules
   const startCp = Date.now();
-  const installMarkFile = path.join(cwd, './node_modules/imt-mark');
+  const installMarkFile = path.join(cwd, './node_modules/a8k-mark');
   try {
     try {
       fs.accessSync(installMarkFile);
@@ -49,7 +49,7 @@ function updateCacheModules(cachesDir) {
   console.log('启动缓存更新进程');
   // 异步任务日志记录
   fs.ensureDirSync(`${cachesDir}/log/`);
-  const logFileName = `${cachesDir}/log/imt_log_${getFormatTime(new Date())}.log`;
+  const logFileName = `${cachesDir}/log/a8k_log_${getFormatTime(new Date())}.log`;
   console.log(logFileName);
   const log = fs.openSync(logFileName, 'a');
   const subprocess = spawn('node', [`${__dirname}/updateCache.js`, cachesDir], {
@@ -78,7 +78,7 @@ module.exports = options => {
   if (!cmd) {
     throw Error(
       `not found "${options.cmd
-        || ' command '}" command, example: imt cache build, build is a npm scripts key`
+        || ' command '}" command, example: k cache build, build is a npm scripts key`
     );
   }
   const copyTime = copyCacheModules(cache);

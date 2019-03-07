@@ -2,7 +2,7 @@ export default {
   apply: context => {
     context
       .registerCommand('test', '运行 jest 测试', async () => {
-        //
+        console.log('即将推出');
       })
       .option('--coverage', 'coverage')
       .option('--watchAll', 'watch')

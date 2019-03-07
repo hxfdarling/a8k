@@ -18,7 +18,7 @@ module.exports = (config, context, { type }) => {
     .loader('comment-require-loader')
     .options({});
 
-  const rule = config.module
+  let rule = config.module
     .rule('js')
     .test(/\.(js|mjs|jsx)$/)
     .include // 热重载插件需要被编译
@@ -26,16 +26,16 @@ module.exports = (config, context, { type }) => {
     .add(context.resolve('node_modules/@tencent'));
 
   // 自定义babel处理内容
-  include.forEach(i => rule.add(i));
+  include.forEach(i => (rule = rule.add(i)));
   // 开发模式下需要处理这些资源
   if (context.config.webpackMode === ENV_DEV) {
-    rule.add(/webpackHotDevClient|strip-ansi|formatWebpackMessages|chalk|ansi-styles/);
+    rule = rule.add(/webpackHotDevClient|strip-ansi|formatWebpackMessages|chalk|ansi-styles/);
   }
 
-  rule.end();
-
-  // 忽略哪些压缩的文件
-  rule.exclude.add(/(.|_)min\.js$/)
+  rule
+    .end()
+    // 忽略哪些压缩的文件
+    .exclude.add(/(.|_)min\.js$/)
     .end()
     .use('babel-loader')
     .loader('babel-loader')
