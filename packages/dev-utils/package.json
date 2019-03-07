@@ -26,7 +26,6 @@
   "bugs": {
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
-  "gitHead": "6976f28511b86a6532003b78257be77b0e3e5a13",
   "dependencies": {
     "chalk": "^2.4.2",
     "strip-ansi": "^5.0.0",

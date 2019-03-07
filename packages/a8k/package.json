@@ -107,6 +107,5 @@
     "webpack-subresource-integrity": "^1.3.1",
     "whatwg-fetch": "^3.0.0",
     "yeoman-generator": "^3.2.0"
-  },
-  "gitHead": "6976f28511b86a6532003b78257be77b0e3e5a13"
+  }
 }

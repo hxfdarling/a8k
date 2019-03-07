@@ -35,6 +35,5 @@
     "semver": "^5.6.0",
     "shelljs": "^0.8.3",
     "yeoman-generator": "^3.2.0"
-  },
-  "gitHead": "6976f28511b86a6532003b78257be77b0e3e5a13"
+  }
 }
