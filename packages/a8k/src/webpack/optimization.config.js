@@ -60,7 +60,9 @@ module.exports = (config, context, { type, mini, sourceMap }) => {
       config.optimization.minimize(true);
     }
     const TerserPlugin = require('terser-webpack-plugin');
+    TerserPlugin.__expression = "require('terser-webpack-plugin'";
     const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+    OptimizeCSSAssetsPlugin.__expression = "require('optimize-css-assets-webpack-plugin')";
     config.optimization
       .minimizer('js')
       .use(TerserPlugin, [
