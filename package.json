@@ -10,7 +10,7 @@
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "lint":"eslint packages/*/src/**  --ext .js"
+    "lint": "eslint packages/*/src/**  --ext .js"
   },
   "workspaces": [
     "packages/*"

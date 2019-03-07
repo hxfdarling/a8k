@@ -18,7 +18,6 @@ install:
 script:
   - commitlint-travis
   - npm run lint
-  - npm test
 
 deploy:
   provider: script
