@@ -146,7 +146,7 @@ export default {
             });
           } catch (err) {
             logger.info(chalk.red('Failed to compile.'));
-            logger.error(err.message || err);
+            logger.error(err.stack);
             process.exit(1);
           }
           if (options.ssr) {

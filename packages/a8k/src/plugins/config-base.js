@@ -22,12 +22,9 @@ exports.apply = context => {
       let devtool = false;
       if (context.config.webpackMode === ENV_DEV) {
         devtool = 'cheap-module-eval-source-map';
-      }
-      if (options.sourceMap) {
+      } else if (options.sourceMap) {
+        // 其他模式可以选择开启
         devtool = 'source-map';
-      }
-      if (typeof config.sourceMap === 'string') {
-        devtool = config.sourceMap;
       }
 
       // 更新选项
@@ -65,7 +62,8 @@ exports.apply = context => {
               eslintPath: context.resolve('node_modules', 'eslint'),
             });
         }
-
+        const { HotModuleReplacementPlugin } = webpack;
+        HotModuleReplacementPlugin.__expression = "require('webpack').HotModuleReplacementPlugin";
         config.plugin('HotModuleReplacementPlugin').use(webpack.HotModuleReplacementPlugin);
 
         // 支持调试直出代码
@@ -97,8 +95,8 @@ exports.apply = context => {
     const projectModules = context.resolve('node_modules');
     config.resolve.modules
       .add(context.resolve('src'))
-      .add(ownModules)
       .add(projectModules)
+      .add(ownModules)
       .add('node_modules');
 
     config.resolveLoader.modules

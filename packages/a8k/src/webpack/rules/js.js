@@ -23,14 +23,14 @@ module.exports = (config, context, { type }) => {
     .test(/\.(js|mjs|jsx)$/)
     .include // 热重载插件需要被编译
     .add(context.resolve('src'))
-    .add(context.resolve('node_modules/@tencent'));
+    .add(context.resolve('node_modules/@tencent'))
+
+    // 开发模式注入的代码,需要编译，否则 ie 下面不支持const语法
+    .add(path.resolve(require.resolve('@a8k/dev-utils/webpackHotDevClient'), '../'))
+    .add(/strip-ansi|chalk|ansi-styles|ansi-regex/);
 
   // 自定义babel处理内容
   include.forEach(i => (rule = rule.add(i)));
-  // 开发模式下需要处理这些资源
-  if (context.config.webpackMode === ENV_DEV) {
-    rule = rule.add(/webpackHotDevClient|strip-ansi|formatWebpackMessages|chalk|ansi-styles/);
-  }
 
   rule
     .end()
