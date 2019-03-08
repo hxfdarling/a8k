@@ -106,5 +106,11 @@
     "webpack-retry-load-plugin": "^1.1.5",
     "webpack-subresource-integrity": "^1.3.1",
     "whatwg-fetch": "^3.0.0"
-  }
+  },
+  "description": "集成 webpack 的 react 项目最佳实践的构建工具",
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "zman",
+  "license": "ISC"
 }
