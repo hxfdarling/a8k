@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/hxfdarling/a8k/compare/v1.1.0...v1.1.1) (2019-03-08)
+
+### Bug Fixes
+
+- 修复环境变量错误，导致 babel 处理异常 ([f6e953d](https://github.com/hxfdarling/a8k/commit/f6e953d))
+
 # [1.1.0](https://github.com/hxfdarling/a8k/compare/v1.0.8-alpha.0...v1.1.0) (2019-03-08)
 
 ### Bug Fixes
