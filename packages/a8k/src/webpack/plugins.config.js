@@ -25,7 +25,7 @@ export default (config, context, { type, mini, silent }) => {
     },
   ]);
 
-  if (context.config.webpackMode === ENV_PROD && type === TYPE_CLIENT) {
+  if (context.internals.mode === ENV_PROD && type === TYPE_CLIENT) {
     const ReportStatusPlugin = require('./plugins/report-status-plugin');
     ReportStatusPlugin.__expression = "require('./plugins/report-status-plugin')";
     config.plugin('ReportStatusPlugin').use(ReportStatusPlugin, [

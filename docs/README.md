@@ -22,6 +22,9 @@ yarn global add a8k
 # 新建一个 项目 文件
 k create test
 
+# 进入项目目录
+cd test
+
 # 开始开发
 k dev
 

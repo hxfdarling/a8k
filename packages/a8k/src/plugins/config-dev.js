@@ -6,7 +6,7 @@ exports.apply = context => {
   context.chainWebpack((config, options) => {
     const { type, eslint, ssr } = options;
     // 只有客户端代码 开发模式才需要使用，构建服务器代码不需要
-    if (type === TYPE_CLIENT && context.config.webpackMode === ENV_DEV) {
+    if (type === TYPE_CLIENT && context.internals.mode === ENV_DEV) {
       // 开发模式
       if (eslint) {
         config.module

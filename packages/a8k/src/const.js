@@ -1,7 +1,7 @@
 import path from 'path';
 
 export const TYPE_CLIENT = 'client';
-export const TYPE_SERVER = 'node_server';
+export const TYPE_SERVER = 'server';
 export const ENV_DEV = 'development';
 export const ENV_PROD = 'production';
 export const ENV_TEST = 'test';

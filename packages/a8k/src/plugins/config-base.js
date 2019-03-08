@@ -5,7 +5,7 @@ exports.apply = context => {
   context.chainWebpack((config, options) => {
     const filenames = getFileNames({
       filenames: context.config.filenames,
-      webpackMode: context.config.webpackMode,
+      mode: context.internals.mode,
     });
     const { type, analyzer, watch } = options;
 
@@ -18,7 +18,7 @@ exports.apply = context => {
 
     if (type === TYPE_CLIENT) {
       let devtool = false;
-      if (context.config.webpackMode === ENV_DEV) {
+      if (context.internals.mode === ENV_DEV) {
         devtool = 'cheap-module-eval-source-map';
       } else if (options.sourceMap) {
         // 其他模式可以选择开启
@@ -28,7 +28,7 @@ exports.apply = context => {
       // css/optimization 配置中需要使用bool
       options.sourceMap = Boolean(devtool);
 
-      config.mode(context.config.webpackMode);
+      config.mode(context.internals.mode);
       config.devtool(devtool);
 
       const rule = config.output

@@ -22,7 +22,7 @@ export default {
       .action(async ({ ssr, port, eslint, cssSourceMap, inspectWebpack }) => {
         process.env.NODE_ENV = ENV_DEV;
         context.options.inspectWebpack = inspectWebpack;
-        context.config.webpackMode = ENV_DEV;
+        context.internals.mode = ENV_DEV;
         context.config.publicPath = ''; // 开发模式下面不用publicPath
         if (port) {
           context.config.devServer.port = port;

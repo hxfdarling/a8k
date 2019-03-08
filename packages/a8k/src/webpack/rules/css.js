@@ -93,7 +93,7 @@ module.exports = (config, context, { type, ssr, cssSourceMap, sourceMap }, filen
     .end();
 
   // 生产模式和服务器渲染调试时，开启这个模式防止样式抖动
-  const needExtraCss = context.config.webpackMode === ENV_PROD || ssr;
+  const needExtraCss = context.internals.mode === ENV_PROD || ssr;
 
   if (!needExtraCss) {
     rule

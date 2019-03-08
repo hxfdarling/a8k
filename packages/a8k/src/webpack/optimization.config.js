@@ -56,7 +56,7 @@ module.exports = (config, context, { type, mini, sourceMap }) => {
     // Keep the runtime chunk seperated to enable long term caching
     config.optimization.runtimeChunk('single');
 
-    if (context.config.webpackMode === ENV_PROD && mini) {
+    if (context.internals.mode === ENV_PROD && mini) {
       config.optimization.minimize(true);
     }
     const TerserPlugin = require('terser-webpack-plugin');

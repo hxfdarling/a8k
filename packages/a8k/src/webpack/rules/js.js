@@ -45,7 +45,7 @@ module.exports = (config, context, { type }) => {
       cacheDirectory: path.resolve(context.config.cache, 'babel-loader'),
       presets: [[require.resolve('babel-preset-imt'), { isSSR: type === TYPE_SERVER }]],
       plugins: [
-        context.config.webpackMode === ENV_DEV && require.resolve('react-hot-loader/babel'),
+        context.internals.mode === ENV_DEV && require.resolve('react-hot-loader/babel'),
       ].filter(Boolean),
     });
 };

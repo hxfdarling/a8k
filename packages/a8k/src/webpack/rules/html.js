@@ -12,13 +12,13 @@ module.exports = (config, context, { type, mini }) => {
     .loader('html-loader')
     .options({
       removeComments: false,
-      minimize: mini && context.config.webpackMode === ENV_PROD,
+      minimize: mini && context.internals.mode === ENV_PROD,
     })
     .end()
     .use('html-ineline-assets-loader')
     .loader('html-inline-assets-loader')
     .options({
-      minimize: mini && context.config.webpackMode === ENV_PROD,
+      minimize: mini && context.internals.mode === ENV_PROD,
     })
     .end()
     .use('imt-nunjucks-loader')

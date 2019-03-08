@@ -1,16 +1,16 @@
 import loadConfig from '@a8k/cli-utils/load-config';
 import logger from '@a8k/cli-utils/logger';
 import program from 'commander';
+import Event from 'events';
 import fs from 'fs-extra';
 import { merge } from 'lodash';
 import path from 'path';
-import Event from 'events';
-import { TYPE_CLIENT } from './const';
+import resolveFrom from 'resolve-from';
+import pkg from '../package.json';
+import { TYPE_CLIENT, ENV_DEV, ENV_PROD } from './const';
 import Hooks from './hooks';
-import Plugin from './plugin';
 import loadPkg from './utils/load-pkg';
 import loadPlugins from './utils/load-plugins';
-import pkg from '../package.json';
 
 const defaultConfig = {
   cache: 'node_modules/.cache',
@@ -55,7 +55,7 @@ program.on('command:*', () => {
 });
 
 class A8k extends Event {
-  constructor(options = {}, config_ = {}) {
+  constructor(options = {}, _config = {}) {
     super();
     this.options = {
       ...options,
@@ -64,18 +64,26 @@ class A8k extends Event {
       baseDir: path.resolve(options.baseDir || '.'),
     };
     const { baseDir, debug, configFile } = this.options;
+
     this.hooks = new Hooks();
-    this.config = { ...config_ };
-    this.internals = {};
+    this.config = { ..._config };
+    // Exposed
+    this.commands = new Map();
+    this.logger = logger;
+
+    this.internals = {
+      mode: ENV_DEV,
+    };
+
     this.buildId = Math.random()
       .toString(36)
       .substring(7);
+    this.pkg = loadPkg({ cwd: baseDir });
+    this.cli = program;
 
     logger.setOptions({
       debug,
     });
-
-    this.pkg = loadPkg({ cwd: baseDir });
 
     // Load .env file before loading config file
     const envs = this.loadEnvs();
@@ -122,14 +130,12 @@ class A8k extends Event {
     };
     // 客户端定制webpack配置
     if (this.config.chainWebpack) {
-      this.hooks.add('chainWebpack', this.config.chainWebpack);
+      this.hooks.add('chainWebpack', this.config.chainWebpack, this);
     }
 
     // Merge envs with this.config.envs
     // Allow to embed these env variables in app code
     this.setAppEnvs(envs);
-
-    this.cli = program;
   }
 
   hook(name, fn) {
@@ -191,7 +197,7 @@ class A8k extends Event {
   // Get envs that will be embed in app code
   getEnvs() {
     return Object.assign({}, this.config.envs, {
-      NODE_ENV: this.internals.mode === 'production' ? 'production' : 'development',
+      NODE_ENV: this.internals.mode === ENV_PROD ? ENV_PROD : ENV_DEV,
       PUBLIC_PATH: this.config.publicPath,
     });
   }
@@ -221,8 +227,7 @@ class A8k extends Event {
 
     for (const plugin of this.plugins) {
       const { resolve, options } = plugin;
-      const api = new Plugin(this, resolve.name);
-      resolve.apply(api, options);
+      resolve.apply(this, options);
     }
   }
 
@@ -240,7 +245,7 @@ class A8k extends Event {
     const WebpackChain = require('webpack-chain');
     const config = new WebpackChain();
 
-    options = { type: TYPE_CLIENT, ...options };
+    options = { type: TYPE_CLIENT, ...options, mode: this.internals.mode };
 
     this.hooks.invoke('chainWebpack', config, options);
 
@@ -292,6 +297,47 @@ class A8k extends Event {
       return devDeps.includes(name);
     }
     throw new Error(`Unknow dep type: ${type}`);
+  }
+
+  registerCommand(command) {
+    if (this.commands.has(command)) {
+      logger.debug(
+        `Plugin "${
+          this._name
+        }" overrided the command "${command}" that was previously added by plugin "${this.commands.get(
+          command
+        )}"`
+      );
+    }
+    this.commands.set(command, this._name);
+    return this.cli.command(command);
+  }
+
+  hasPlugin(name) {
+    return this.plugins && this.plugins.find(plugin => plugin.resolve.name === name);
+  }
+
+  removePlugin(name) {
+    this.plugins = this.plugins.filter(plugin => plugin.resolve.name !== name);
+    return this;
+  }
+
+  chainWebpack(fn) {
+    this.hooks.add('chainWebpack', fn);
+    return this;
+  }
+
+  localResolve(id, fallbackDir) {
+    let resolved = resolveFrom.silent(this.resolve(), id);
+    if (!resolved && fallbackDir) {
+      resolved = resolveFrom.silent(fallbackDir, id);
+    }
+    return resolved;
+  }
+
+  localRequire(...args) {
+    const resolved = this.localResolve(...args);
+    return resolved && require(resolved);
   }
 }
 

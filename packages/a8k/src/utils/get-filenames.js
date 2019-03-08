@@ -1,7 +1,7 @@
 import { ENV_PROD } from '../const';
 
-export default ({ filenames, webpackMode }) => {
-  const useHash = webpackMode === ENV_PROD;
+export default ({ filenames, mode }) => {
+  const useHash = mode === ENV_PROD;
   return {
     js: useHash ? 'assets/js/[name]_[chunkhash:8].js' : 'assets/js/[name].js',
     css: useHash ? 'assets/css/[name]_[contenthash:8].css' : 'assets/css/[name].css',

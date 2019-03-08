@@ -8,10 +8,12 @@
 npm i -g a8k
 ```
 
-生成模板
+创建项目
 
 ```shell
-k create [projectName]
+mkdir test && cd test
+
+k create
 ```
 
 启动开发服务器
@@ -20,7 +22,7 @@ k create [projectName]
 k dev
 ```
 
-dev 调试直出模式
+开发模式调试直出代码
 
 ```shell
 k dev -s
@@ -82,12 +84,24 @@ module.exports = {
   publicPath,
   // pages目录下需要忽略的文件夹（不作为页面处理）
   ignorePages: ['action_creators', 'action_types', 'reducers'],
-  // 修改webpack配置
-  webpackOverride(config, options) {
-    // options.type 值有ssr,development,production,
-    // 分别是：服务器直出代码，开发模式代码，生产模式代码
-    // 修改webpack配置
-    return config;
+  chainWebpack(config, { type, mode }) {
+    if (type === 'client') {
+      // 客户端代构建
+      if (mode === 'production') {
+        // 生产模式代码
+        config.plugin('pwa').use(require('xxx'), [params1, params2]);
+      } else {
+        // 开发模式代码
+      }
+    }
+    if (type === 'server') {
+      // 服务器代码构建
+      if (mode === 'production') {
+        // 生产模式代码
+      } else {
+        // 开发模式代码
+      }
+    }
   },
 };
 ```

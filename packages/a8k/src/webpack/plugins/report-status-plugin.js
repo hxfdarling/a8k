@@ -3,7 +3,7 @@ import chalk from 'chalk';
 
 /**
  * @typedef {Object} Options
- * @property {String} silent
+ * @property {Boolean} silent
  */
 
 class ReportStatusPlugin {
@@ -13,7 +13,7 @@ class ReportStatusPlugin {
    * @memberof ReportStatusPlugin
    */
   constructor(options) {
-    this.options = Object.assign({}, options);
+    this.options = { ...options };
   }
 
   apply(compiler) {

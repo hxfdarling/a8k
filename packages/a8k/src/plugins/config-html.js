@@ -44,7 +44,7 @@ exports.apply = context => {
         }, [])
         .map(i => context.resolve(i));
 
-      const isDev = context.config.webpackMode === ENV_DEV;
+      const isDev = context.internals.mode === ENV_DEV;
       const webpackHotDevClient = require.resolve('@a8k/dev-utils/webpackHotDevClient');
 
       if (context.config.mode === 'single') {
@@ -94,7 +94,7 @@ exports.apply = context => {
         config.plugin('sri-plugin').use(SriPlugin, [
           {
             hashFuncNames: ['sha256'],
-            enabled: context.config.webpackMode === ENV_PROD,
+            enabled: context.internals.mode === ENV_PROD,
           },
         ]);
       }
