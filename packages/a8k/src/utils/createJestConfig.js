@@ -1,7 +1,8 @@
 const chalk = require('chalk');
 const path = require('path');
 
-module.exports = rootDir => {
+module.exports = context => {
+  const rootDir = context.resolve();
   const config = {
     rootDir,
     collectCoverageFrom: ['src/**/*.{js,jsx,tsx}'],
@@ -27,8 +28,14 @@ module.exports = rootDir => {
       '^react-native$': 'react-native-web',
       '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
     },
+    moduleDirectories: [
+      context.resolve('src'),
+      context.resolve('node_modules'),
+      context.rootResolve('node_modules'),
+      'node_modules',
+    ],
   };
-  const overrides = Object.assign({}, require(path.join(rootDir, 'package.json')).jest);
+  const overrides = require(path.join(rootDir, 'package.json')).jest;
   const supportedKeys = [
     'collectCoverageFrom',
     'coverageReporters',
@@ -70,6 +77,5 @@ module.exports = rootDir => {
       process.exit(1);
     }
   }
-  console.log('TCL: config', JSON.stringify(config, null, 2));
   return config;
 };

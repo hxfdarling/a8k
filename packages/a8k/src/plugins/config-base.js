@@ -49,8 +49,6 @@ exports.apply = context => {
       .add('.tsx')
       .add('.json')
       .end()
-      .alias.set('@', context.resolve('src'))
-      .end()
       // es tree-shaking
       .mainFields.add('jsnext:main')
       .add('browser')

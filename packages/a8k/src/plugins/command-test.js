@@ -55,7 +55,7 @@ export default {
           argv.push(hasSourceControl ? '--watch' : '--watchAll');
         }
 
-        argv.push('--config', JSON.stringify(createJestConfig(context.resolve())));
+        argv.push('--config', JSON.stringify(createJestConfig(context, options)));
 
         let resolvedEnv;
         try {
