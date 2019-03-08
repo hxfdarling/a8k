@@ -57,9 +57,10 @@
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs",
     "lint": "eslint packages/*/src/**  --ext .js",
-    "release": "lerna version --conventional-commits"
+    "release": "lerna version --conventional-commits && lerna publish from-package"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {}
 }

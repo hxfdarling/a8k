@@ -58,7 +58,6 @@ export default (config, context, { type, mini, silent }) => {
     const CleanWebpackPlugin = require('clean-webpack-plugin');
     CleanWebpackPlugin.__expression = "require('clean-webpack-plugin')";
     config.plugin('CleanWebpackPlugin').use(CleanWebpackPlugin, [
-      '*',
       {
         root: context.config.dist,
         verbose: false,

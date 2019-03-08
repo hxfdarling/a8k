@@ -4,8 +4,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import { ENV_PROD, TYPE_CLIENT, TYPE_SERVER } from '../const';
 
-process.env.NODE_ENV = ENV_PROD;
-
 export default {
   apply: context => {
     const {
@@ -24,6 +22,7 @@ export default {
       .option('--dev', '环境变量使用development')
       .option('--inspectWebpack', '输出webpack配置信息')
       .action(async ({ dev, dist, analyzer, inspectWebpack, sourceMap, mini, silent }) => {
+        process.env.NODE_ENV = ENV_PROD;
         const options = {
           sourceMap,
           mini,

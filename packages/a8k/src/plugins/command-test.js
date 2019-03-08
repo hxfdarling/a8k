@@ -6,8 +6,6 @@ import createJestConfig from '../utils/createJestConfig';
 // import logger from '@a8k/cli-utils/logger';
 import { ENV_TEST } from '../const';
 
-process.env.NODE_ENV = ENV_TEST;
-process.env.BABEL_ENV = ENV_TEST;
 function isInGitRepository() {
   try {
     execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
@@ -46,6 +44,8 @@ export default {
       .option('--watchAll', 'watch')
       .option('--env [env]', 'environment', 'jsdom')
       .action(async ({ coverage, watchAll, env }) => {
+        process.env.NODE_ENV = ENV_TEST;
+        process.env.BABEL_ENV = ENV_TEST;
         const options = { coverage, watchAll, env };
         context.hooks.invokePromise('beforeTest', context);
         const argv = [];

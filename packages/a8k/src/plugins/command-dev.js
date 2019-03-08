@@ -7,8 +7,6 @@ import WebpackDevServer from 'webpack-dev-server';
 import { ENV_DEV, TYPE_CLIENT, TYPE_SERVER } from '../const';
 import { printInstructions, setProxy } from '../utils/helper';
 
-process.env.NODE_ENV = ENV_DEV;
-
 const isInteractive = process.stdout.isTTY;
 
 export default {
@@ -22,6 +20,7 @@ export default {
       .option('-c, --css-source-map', '使用cssSourceMap ，但会导致开发模式 FOUC')
       .option('--inspectWebpack', '输出webpack配置信息')
       .action(async ({ ssr, port, eslint, cssSourceMap, inspectWebpack }) => {
+        process.env.NODE_ENV = ENV_DEV;
         context.options.inspectWebpack = inspectWebpack;
         context.config.webpackMode = ENV_DEV;
         context.config.publicPath = ''; // 开发模式下面不用publicPath
