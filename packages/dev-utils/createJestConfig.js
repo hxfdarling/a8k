@@ -7,18 +7,18 @@ module.exports = (resolve, rootDir) => {
     collectCoverageFrom: ['src/**/*.{js,jsx,tsx}'],
     resolver: require.resolve('jest-pnp-resolver'),
     setupFiles: [require.resolve('./jsdom')],
-
     testMatch: [
       '<rootDir>/test/**/*.{js,jsx,ts,tsx}',
+      '<rootDir>/__test__/**/*.{js,jsx,ts,tsx}',
       '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
       '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}',
     ],
     testEnvironment: 'jsdom',
     testURL: 'http://localhost',
     transform: {
-      '^.+\\.(js|jsx|ts|tsx)$': resolve('config/jest/babelTransform.js'),
-      '^.+\\.css$': resolve('config/jest/cssTransform.js'),
-      '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': resolve('config/jest/fileTransform.js'),
+      '^.+\\.(js|jsx|ts|tsx)$': resolve('jest/babelTransform.js'),
+      '^.+\\.css$': resolve('jest/cssTransform.js'),
+      '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': resolve('jest/fileTransform.js'),
     },
     transformIgnorePatterns: [
       '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$',
