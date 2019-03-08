@@ -8,8 +8,8 @@ module.exports = context => {
     collectCoverageFrom: ['src/**/*.{js,jsx,tsx}'],
     setupFiles: [require.resolve('./jsdom')],
     testMatch: [
-      '<rootDir>/test/**/*.{js,jsx,ts,tsx}',
-      '<rootDir>/__test__/**/*.{js,jsx,ts,tsx}',
+      '<rootDir>/tests/**/*.{js,jsx,ts,tsx}',
+      '<rootDir>/__tests__/**/*.{js,jsx,ts,tsx}',
       '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
       '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}',
     ],
@@ -47,6 +47,7 @@ module.exports = context => {
     'snapshotSerializers',
     'watchPathIgnorePatterns',
     'setupFiles',
+    'testPathIgnorePatterns',
   ];
   if (overrides) {
     supportedKeys.forEach(key => {
