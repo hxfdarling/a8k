@@ -1,8 +1,8 @@
-import createJestConfig from '@a8k/dev-utils/createJestConfig';
 import { execSync } from 'child_process';
 import jest from 'jest';
 import path from 'path';
 import resolve from 'resolve';
+import createJestConfig from '../utils/createJestConfig';
 // import logger from '@a8k/cli-utils/logger';
 import { ENV_TEST } from '../const';
 
@@ -55,15 +55,7 @@ export default {
           argv.push(hasSourceControl ? '--watch' : '--watchAll');
         }
 
-        argv.push(
-          '--config',
-          JSON.stringify(
-            createJestConfig(
-              relativePath => path.resolve(__dirname, '..', relativePath),
-              context.resolve()
-            )
-          )
-        );
+        argv.push('--config', JSON.stringify(createJestConfig(context.resolve())));
 
         let resolvedEnv;
         try {
@@ -80,10 +72,7 @@ export default {
         }
         const testEnvironment = resolvedEnv || env;
         argv.push('--env', testEnvironment);
-
         jest.run(argv);
-
-        await context.hooks.invokePromise('afterTest', context);
       });
   },
   name: 'builtin:test',

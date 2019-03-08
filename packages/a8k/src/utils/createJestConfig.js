@@ -1,11 +1,10 @@
 const chalk = require('chalk');
 const path = require('path');
 
-module.exports = (resolve, rootDir) => {
+module.exports = rootDir => {
   const config = {
     rootDir,
     collectCoverageFrom: ['src/**/*.{js,jsx,tsx}'],
-    resolver: require.resolve('jest-pnp-resolver'),
     setupFiles: [require.resolve('./jsdom')],
     testMatch: [
       '<rootDir>/test/**/*.{js,jsx,ts,tsx}',
@@ -16,9 +15,9 @@ module.exports = (resolve, rootDir) => {
     testEnvironment: 'jsdom',
     testURL: 'http://localhost',
     transform: {
-      '^.+\\.(js|jsx|ts|tsx)$': resolve('jest/babelTransform.js'),
-      '^.+\\.css$': resolve('jest/cssTransform.js'),
-      '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': resolve('jest/fileTransform.js'),
+      '^.+\\.(js|jsx|ts|tsx)$': require.resolve('../jest/babelTransform.js'),
+      '^.+\\.css$': require.resolve('../jest/cssTransform.js'),
+      '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': require.resolve('../jest/fileTransform.js'),
     },
     transformIgnorePatterns: [
       '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$',
@@ -71,5 +70,6 @@ module.exports = (resolve, rootDir) => {
       process.exit(1);
     }
   }
+  console.log('TCL: config', JSON.stringify(config, null, 2));
   return config;
 };
