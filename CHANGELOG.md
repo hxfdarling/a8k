@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/hxfdarling/a8k/compare/v1.1.1...v1.1.2) (2019-03-08)
+
+### Bug Fixes
+
+- 修复 jest 运行异常 ([88ad00c](https://github.com/hxfdarling/a8k/commit/88ad00c))
+- 优化测试配置 ([99663c6](https://github.com/hxfdarling/a8k/commit/99663c6))
+- 支持覆盖 jest 的 setUp 设置 ([8102119](https://github.com/hxfdarling/a8k/commit/8102119))
+
 ## [1.1.1](https://github.com/hxfdarling/a8k/compare/v1.1.0...v1.1.1) (2019-03-08)
 
 ### Bug Fixes
