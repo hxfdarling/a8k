@@ -46,6 +46,7 @@ module.exports = context => {
     'resetModules',
     'snapshotSerializers',
     'watchPathIgnorePatterns',
+    'setupFiles',
   ];
   if (overrides) {
     supportedKeys.forEach(key => {
