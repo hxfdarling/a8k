@@ -30,7 +30,7 @@ export default class Plugin {
     return this.context.hook(...args);
   }
 
-  registerCommand(command, desc, handler) {
+  registerCommand(command) {
     if (this.commands.has(command)) {
       logger.debug(
         `Plugin "${
@@ -41,10 +41,7 @@ export default class Plugin {
       );
     }
     this.commands.set(command, this._name);
-    return this.context.cli
-      .command(command)
-      .description(desc)
-      .action(handler);
+    return this.context.cli.command(command);
   }
 
   hasPlugin(name) {
@@ -80,11 +77,6 @@ export default class Plugin {
 
   chainWebpack(fn) {
     this.hooks.add('chainWebpack', fn);
-    return this;
-  }
-
-  configureDevServer(fn) {
-    this.hooks.add('configureDevServer', fn);
     return this;
   }
 

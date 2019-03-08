@@ -205,6 +205,7 @@ class A8k extends Event {
     const plugins = [
       require.resolve('@a8k/plugin-react'),
       require.resolve('./plugins/config-base'),
+      require.resolve('./plugins/config-dev'),
       require.resolve('./plugins/config-html'),
       require.resolve('./plugins/config-ssr'),
 

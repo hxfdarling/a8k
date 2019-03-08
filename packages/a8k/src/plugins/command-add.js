@@ -14,10 +14,10 @@ const initChoices = [
 ];
 export default {
   apply: context => {
-    context.registerCommand(
-      'add [type]',
-      '添加项目配置,支持:lint,commit',
-      async (type, options) => {
+    context
+      .registerCommand('add [type]')
+      .description('添加项目配置,支持:lint,commit')
+      .action(async (type, options) => {
         if (!type) {
           ({ type } = await inquirer.prompt([
             {
@@ -73,8 +73,7 @@ export default {
           logger.error(`不支持该选项: ${type}`);
           options.outputHelp();
         }
-      }
-    );
+      });
   },
   name: 'builtin:add',
 };

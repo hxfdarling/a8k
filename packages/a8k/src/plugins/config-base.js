@@ -1,5 +1,3 @@
-import webpack from 'webpack';
-import path from 'path';
 import { ENV_DEV, TYPE_CLIENT } from '../const';
 import getFileNames from '../utils/get-filenames';
 
@@ -9,7 +7,7 @@ exports.apply = context => {
       filenames: context.config.filenames,
       webpackMode: context.config.webpackMode,
     });
-    const { type, eslint, ssr, analyzer, watch } = options;
+    const { type, analyzer, watch } = options;
 
     config.watch(watch);
     config.merge({
@@ -27,52 +25,20 @@ exports.apply = context => {
         devtool = 'source-map';
       }
 
-      // 更新选项
-      options.sourceMap = !!devtool;
+      // css/optimization 配置中需要使用bool
+      options.sourceMap = Boolean(devtool);
 
       config.mode(context.config.webpackMode);
       config.devtool(devtool);
 
-      config.output
+      const rule = config.output
         .path(context.config.dist)
         .filename(filenames.js)
         .publicPath(context.config.publicPath)
-        .chunkFilename(filenames.chunk)
-        .crossOriginLoading('anonymous');
-
-      if (context.config.webpackMode === ENV_DEV) {
-        // 开发模式
-        if (eslint) {
-          config.module
-            .rule('eslint')
-            .test(/\.(js|mjs|jsx)$/)
-            .pre()
-            .include.add(context.resolve('src'))
-            .end()
-            .use('eslint')
-            .loader('eslint-loader')
-            .options({
-              emitError: false,
-              failOnError: false,
-              failOnWarning: false,
-              quit: true,
-              cache: path.resolve(context.config.cache, 'eslint-loader'),
-              formatter: require.resolve('eslint-friendly-formatter'),
-              // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
-              eslintPath: context.resolve('node_modules', 'eslint'),
-            });
-        }
-        const { HotModuleReplacementPlugin } = webpack;
-        HotModuleReplacementPlugin.__expression = "require('webpack').HotModuleReplacementPlugin";
-        config.plugin('HotModuleReplacementPlugin').use(webpack.HotModuleReplacementPlugin);
-
-        // 支持调试直出代码
-        if (ssr && type === TYPE_CLIENT) {
-          const SSRPlugin = require('../webpack/plugins/ssr-plugin');
-          config
-            .plugin('ssr-plugin')
-            .use(SSRPlugin, [{ ssrConfig: context.config.ssrConfig, dist: context.config.dist }]);
-        }
+        .chunkFilename(filenames.chunk);
+      // 根据配置确定是否需要anonymous
+      if (context.config.crossOrigin) {
+        rule.crossOriginLoading('anonymous');
       }
     }
 

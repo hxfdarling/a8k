@@ -119,6 +119,7 @@ module.exports = (config, context, { type, ssr, cssSourceMap, sourceMap }, filen
       })
       .end();
 
+    MiniCssExtractPlugin.__expression = "require('mini-css-extract-plugin')";
     config.plugin('mini-css-extract-plugin').use(MiniCssExtractPlugin, [{ filename }]);
   }
 };
