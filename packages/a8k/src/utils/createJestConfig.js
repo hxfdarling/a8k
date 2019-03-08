@@ -21,7 +21,7 @@ module.exports = context => {
       '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': require.resolve('../jest/fileTransform.js'),
     },
     transformIgnorePatterns: [
-      '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$',
+      '[/\\\\]node_modules[/\\\\](?!@tencent[/\\\\]).+\\.(js|jsx|ts|tsx)$',
       '^.+\\.module\\.(css|sass|scss)$',
     ],
     moduleNameMapper: {

@@ -40,22 +40,25 @@ export default {
     context
       .registerCommand('test')
       .description('运行 jest 测试')
-      .option('--coverage', 'coverage')
-      .option('--watchAll', 'watch')
+      .option('-c, --coverage', 'coverage')
+      .option('-w, --watchAll', 'watch')
       .option('--env [env]', 'environment', 'jsdom')
       .action(async ({ coverage, watchAll, env }) => {
         process.env.NODE_ENV = ENV_TEST;
         process.env.BABEL_ENV = ENV_TEST;
-        const options = { coverage, watchAll, env };
         context.hooks.invokePromise('beforeTest', context);
         const argv = [];
 
-        if (!process.env.CI && !options.coverage && !options.watchAll) {
+        if (!process.env.CI && !coverage) {
           const hasSourceControl = isInGitRepository();
           argv.push(hasSourceControl ? '--watch' : '--watchAll');
         }
 
-        argv.push('--config', JSON.stringify(createJestConfig(context, options)));
+        if (watchAll) {
+          argv.push('--watchAll');
+        }
+
+        argv.push('--config', JSON.stringify(createJestConfig(context)));
 
         let resolvedEnv;
         try {
