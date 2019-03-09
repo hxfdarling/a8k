@@ -220,7 +220,7 @@ class A8k {
       require.resolve('./plugins/command-dev'),
       require.resolve('./plugins/command-test'),
       require.resolve('./plugins/command-utils'),
-      require.resolve('./plugins/command-add'),
+      require.resolve('./plugins/command-init'),
       ...(this.config.plugins || []),
     ];
 

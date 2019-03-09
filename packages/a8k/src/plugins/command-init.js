@@ -15,8 +15,8 @@ const initChoices = [
 export default {
   apply: context => {
     context
-      .registerCommand('add [type]')
-      .description('添加项目配置,支持:lint,commit')
+      .registerCommand('init [type]')
+      .description('给项目添加 eslint、commit message 校验,支持:lint,commit')
       .action(async (type, options) => {
         if (!type) {
           ({ type } = await inquirer.prompt([

@@ -7,47 +7,45 @@ const path = require('path');
 const shell = require('shelljs');
 const util = require('util');
 
-module.exports = {
-  apply: context => {
-    const { config, options } = context;
-    context
-      .registerCommand('create [dir] [type]')
-      .description('初始化项目')
-      .action(async (dir, type) => {
-        const projectDir = path.join(options.baseDir, dir || '');
-        const templateDir = path.join(__dirname, '../templates/');
+exports.apply = context => {
+  const { config, options } = context;
+  context
+    .registerCommand('create [dir] [type]')
+    .description('初始化项目')
+    .action(async (dir, type) => {
+      const projectDir = path.join(options.baseDir, dir || '');
+      const templateDir = path.join(__dirname, '../templates/');
 
-        config.createConfig = {
-          type,
-          projectName: path.basename(projectDir),
-        };
-        fs.ensureDir(projectDir);
-        const files = await fs.readdir(projectDir);
-        if (files.length) {
-          const answer = await inquirer.prompt([
-            {
-              type: 'confirm',
-              name: 'continue',
-              message: '初始化目录不为空, 是否继续?',
-              default: true,
-            },
-          ]);
-          if (!answer.continue) {
-            process.exit(0);
-          }
+      config.createConfig = {
+        type,
+        projectName: path.basename(projectDir),
+      };
+      fs.ensureDir(projectDir);
+      const files = await fs.readdir(projectDir);
+      if (files.length) {
+        const answer = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'continue',
+            message: '初始化目录不为空, 是否继续?',
+            default: true,
+          },
+        ]);
+        if (!answer.continue) {
+          process.exit(0);
         }
-        spawnSync('node', [path.join(templateDir, 'index.js')], {
-          cwd: projectDir,
-          stdio: 'inherit',
-        });
-        const spinner = ora('安装依赖').start();
-        const npmCmd = getNpmCommand();
-        shell.cd(projectDir);
-        await util.promisify(shell.exec)(`${npmCmd} i`, { silent: true });
-        spinner.succeed('安装依赖完毕');
-        await context.hooks.invokePromise(context);
-        spinner.succeed('项目创建完毕');
+      }
+      spawnSync('node', [path.join(templateDir, 'index.js')], {
+        cwd: projectDir,
+        stdio: 'inherit',
       });
-  },
-  name: 'builtin:react',
+      const spinner = ora('安装依赖').start();
+      const npmCmd = getNpmCommand();
+      shell.cd(projectDir);
+      await util.promisify(shell.exec)(`${npmCmd} i`, { silent: true });
+      spinner.succeed('安装依赖完毕');
+      await context.hooks.invokePromise(context);
+      spinner.succeed('项目创建完毕');
+    });
 };
+exports.name = 'builtin:react';

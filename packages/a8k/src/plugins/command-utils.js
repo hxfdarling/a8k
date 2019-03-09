@@ -1,7 +1,7 @@
 import logger from '@a8k/cli-utils/logger';
 import { logWithSpinner, stopSpinner } from '@a8k/cli-utils/spinner';
-import fs from 'fs-extra';
 import { execSync } from 'child_process';
+import fs from 'fs-extra';
 
 export default {
   apply: context => {
@@ -40,18 +40,6 @@ export default {
         } catch (e) {
           logger.error(e);
           process.exit(1);
-        }
-      });
-
-    context
-      .registerCommand('cache <cmd>')
-      .description('缓存node_modules加速构建, cmd 是配置的 npm scripts key')
-      .action(async cmd => {
-        if (context.config.cache) {
-          const cache = require('../scripts/cache');
-          cache({ cmd, cache: context.config.cache });
-        } else {
-          logger.warn('没有指定缓存目录');
         }
       });
   },
