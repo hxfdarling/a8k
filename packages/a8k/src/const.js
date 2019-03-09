@@ -6,6 +6,9 @@ export const ENV_DEV = 'development';
 export const ENV_PROD = 'production';
 export const ENV_TEST = 'test';
 
+export const PROJECT_MODE_SINGLE = 'single';
+export const PROJECT_MODE_MULTI = 'multi';
+
 let root;
 if (process.platform === 'win32') {
   root = process.env.USERPROFILE || process.env.APPDATA || process.env.TMP || process.env.TEMP;

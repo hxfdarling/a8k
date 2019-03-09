@@ -8,8 +8,10 @@
   },
   "main": "./lib/index.js",
   "scripts": {
+    "clean":"rm -rf lib",
     "dev": "tsc -w -sourceMap",
-    "build": "rm -rf lib && tsc",
+    "build": "npm run clean && tsc && npm run chmod",
+    "chmod":"chmod +x lib/bin/cli.js",
     "prepublishOnly": "npm build",
     "test": "jest",
     "test:w": "jest --watch"

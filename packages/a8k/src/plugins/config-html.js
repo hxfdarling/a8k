@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { ENV_DEV, ENV_PROD, TYPE_CLIENT } from '../const';
+import { ENV_DEV, ENV_PROD, TYPE_CLIENT, PROJECT_MODE_MULTI, PROJECT_MODE_SINGLE } from '../const';
 
 const DEFAULT_PAGES_DIR = './src/pages';
 
@@ -47,7 +47,7 @@ exports.apply = context => {
       const isDev = context.internals.mode === ENV_DEV;
       const webpackHotDevClient = require.resolve('@a8k/dev-utils/webpackHotDevClient');
 
-      if (context.config.mode === 'single') {
+      if (context.config.mode === PROJECT_MODE_SINGLE) {
         config
           .entry('index')
           .merge(
@@ -65,7 +65,7 @@ exports.apply = context => {
           },
         ]);
       }
-      if (context.config.mode === 'multi') {
+      if (context.config.mode === PROJECT_MODE_MULTI) {
         getPages(context).forEach(file => {
           const name = path.basename(file);
           const dir = context.resolve(`${pagesDir}/${file}`);
