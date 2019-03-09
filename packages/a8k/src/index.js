@@ -1,13 +1,14 @@
 import loadConfig from '@a8k/cli-utils/load-config';
 import logger from '@a8k/cli-utils/logger';
 import program from 'commander';
-import Event from 'events';
 import fs from 'fs-extra';
 import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
+
 import pkg from '../package.json';
-import { TYPE_CLIENT, ENV_DEV, ENV_PROD } from './const';
+
+import { ENV_DEV, ENV_PROD, TYPE_CLIENT } from './const';
 import Hooks from './hooks';
 import loadPkg from './utils/load-pkg';
 import loadPlugins from './utils/load-plugins';
@@ -29,7 +30,8 @@ const defaultConfig = {
     // to CSS are currently hot reloaded. JS changes will refresh the browser.
     hot: true,
     // WebpackDevServer is noisy by default so we emit custom message instead
-    // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
+    // by listening to the compiler events with `compiler.hooks[...].tap` calls
+    // above.
     quiet: true,
     overlay: false,
     headers: {
@@ -54,9 +56,8 @@ program.on('command:*', () => {
   process.exit(1);
 });
 
-class A8k extends Event {
+class A8k {
   constructor(options = {}, _config = {}) {
-    super();
     this.options = {
       ...options,
       cliPath: path.resolve(__dirname, '../'),
@@ -265,7 +266,12 @@ class A8k extends Event {
       require('opn')(this._inspectWebpackConfigPath);
     }
 
-    return config.toConfig();
+    let webpackConfig = config.toConfig();
+    if (this.config.webpackOverride) {
+      logger.warn('!!webpackOverride 已经废弃，请使用chainWebpack修改配置!!');
+      webpackConfig = this.config.webpackOverride(webpackConfig, options);
+    }
+    return webpackConfig;
   }
 
   createWebpackCompiler(webpackConfig) {
