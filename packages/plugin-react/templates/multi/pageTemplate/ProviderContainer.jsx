@@ -1,5 +1,5 @@
 import React from 'react';
-import { hot } from 'react-hot-loader';
+// import { hot } from 'react-hot-loader';
 import { connect, Provider } from 'react-redux';
 import action from './action_creators';
 import store from './store';
@@ -21,4 +21,4 @@ const ProviderContainer = (
   </Provider>
 );
 
-export default hot(module)(ProviderContainer);
+export default ProviderContainer;

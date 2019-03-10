@@ -135,7 +135,7 @@ class CreateGenerator extends Generator {
     });
   }
 
-  _createExamplePage(name = 'example') {
+  _createExamplePage(name = 'index') {
     const type = this.props.app;
     [
       [`${type}/pageTemplate/action_creators.js`, `src/pages/${name}/action_creators.js`],
