@@ -7,6 +7,7 @@ const shell = require('shelljs');
 const util = require('util');
 const { PROJECT_MODE_SINGLE, PROJECT_MODE_MULTI } = require('a8k/lib/const');
 const createGenerator = require('./create');
+const addComponent = require('./add-component');
 
 exports.apply = context => {
   const { config, options } = context;
@@ -68,14 +69,8 @@ exports.apply = context => {
     .alias('c')
     .description('新建组件')
     .action(async () => {
-      switch (config.mode) {
-        case PROJECT_MODE_MULTI:
-          break;
-        case PROJECT_MODE_SINGLE:
-          break;
-        default:
-          break;
-      }
+      // const { baseDir } = require(path.join(process.cwd(), './a8k.config.js'));
+      addComponent(path.resolve(process.cwd()));
     });
 };
 exports.name = 'builtin:react';
