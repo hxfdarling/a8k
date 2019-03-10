@@ -1,2 +1,0 @@
-// polyfill
-require('process/browser');

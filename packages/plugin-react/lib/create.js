@@ -174,6 +174,7 @@ class CreateGenerator extends Generator {
       ['common/package', 'package.json'],
       ['common/README.md', 'README.md'],
     ]);
+    this._copyFiles([['common/assets', 'src/assets']]);
   }
 
   _copyFiles(files = []) {
