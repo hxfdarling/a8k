@@ -1,8 +1,12 @@
 import React from 'react';
+import { hot } from 'react-hot-loader';
 import { connect, Provider } from 'react-redux';
 import action from './action_creators';
-import Container from './Container';
 import store from './store';
+
+function Container() {
+  return <div className="container">index</div>;
+}
 
 const App = connect(
   state => {
@@ -17,4 +21,4 @@ const ProviderContainer = (
   </Provider>
 );
 
-export default ProviderContainer;
+export default hot(module)(ProviderContainer);

@@ -2,7 +2,7 @@ const semver = require('semver');
 const chalk = require('chalk');
 
 const Generator = require('yeoman-generator');
-const { basename } = require('path');
+const { basename, join } = require('path');
 const logger = require('@a8k/cli-utils/logger');
 
 // debug.enabled = true;
@@ -12,12 +12,16 @@ if (!semver.satisfies(process.version, '>= 8.0.0')) {
   process.exit(1);
 }
 
-class AppGenerator extends Generator {
+const toArray = a => {
+  return Array.isArray(a) ? a : [a];
+};
+
+class CreateGenerator extends Generator {
   constructor(args, opts) {
     super(args, opts);
     this.name = basename(process.cwd());
     this.props = { ssr: false };
-    this.sourceRoot(__dirname);
+    this.sourceRoot(join(__dirname, '../templates/'));
   }
 
   async prompting() {
@@ -46,7 +50,18 @@ class AppGenerator extends Generator {
         default: false,
       },
     ]);
-    if (app === 'single') {
+    if (app === 'multi') {
+      // 暂无配置
+      const { ssr } = await this.prompt([
+        {
+          name: 'ssr',
+          message: '是否启用服务器渲染(直出)?',
+          type: 'confirm',
+          default: false,
+        },
+      ]);
+      this.props.ssr = ssr;
+    } else {
       let htmlConfig = {
         keywords: 'react,a8k',
         title: 'a8k application',
@@ -81,37 +96,64 @@ class AppGenerator extends Generator {
           },
         ]);
       }
-      Object.assign(this.props, { htmlConfig });
-    } else {
-      // 暂无配置
-      const { ssr } = await this.prompt([
-        {
-          name: 'ssr',
-          message: '是否启用服务器渲染(直出)?',
-          type: 'confirm',
-          default: false,
-        },
-      ]);
-      Object.assign(this.props, { ssr });
+      this.props = { ...this.props, htmlConfig };
     }
     this.props = { name: this.name, app, retry, rem, ...this.props };
   }
 
-  _singlePage() {
+  async _singlePage() {
     this._copyFiles([['single/src', 'src']]);
     this._copyTpls([['single/src/index.html', 'src/index.html']]);
+    this._createExampleComponent();
   }
 
-  _multiPages() {
-    const { ssr } = this.props;
+  async _multiPages() {
     const templateFile = 'src/assets/template.html';
     this._copyFiles([['multi/src', 'src']]);
     this._copyTpls([[`multi/${templateFile}`, templateFile]]);
-    if (ssr) {
+    if (this.props.ssr) {
       // 复制node相关文件
       this._copyFiles([['multi/app', 'app']]);
       this._copyTpls([['multi/nodemon.json', 'nodemon.json']]);
     }
+    this._createExampleComponent();
+    this._createExamplePage();
+  }
+
+  _createExampleComponent(name = 'Example') {
+    [
+      ['common/componentTemplate/index.jsx.tpl', `src/components/${name}/index.jsx`],
+      ['common/componentTemplate/index.scss.tpl', `src/components/${name}/index.scss`],
+    ].forEach(([src, dest]) => {
+      src = this.templatePath(...toArray(src));
+      dest = this.destinationPath(...toArray(dest));
+      this.fs.copyTpl(src, dest, {
+        name,
+        className: `x-component-${name.toLowerCase()}`,
+        useConnect: false,
+      });
+    });
+  }
+
+  _createExamplePage(name = 'example') {
+    const type = this.props.app;
+    [
+      [`${type}/pageTemplate/action_creators.js`, `src/pages/${name}/action_creators.js`],
+      [`${type}/pageTemplate/action_types.js`, `src/pages/${name}/action_types.js`],
+      [`${type}/pageTemplate/index.html`, `src/pages/${name}/index.html`],
+      [`${type}/pageTemplate/index.jsx`, `src/pages/${name}/index.jsx`],
+      [`${type}/pageTemplate/index.scss`, `src/pages/${name}/index.scss`],
+      [`${type}/pageTemplate/ProviderContainer.jsx`, `src/pages/${name}/ProviderContainer.jsx`],
+      [`${type}/pageTemplate/reducer.js`, `src/pages/${name}/reducer.js`],
+      [`${type}/pageTemplate/store.js`, `src/pages/${name}/store.js`],
+    ].forEach(([src, dest]) => {
+      src = toArray(src);
+      dest = toArray(dest);
+      this.fs.copyTpl(this.templatePath(...src), this.destinationPath(...dest), {
+        name,
+        className: `x-page-${name.toLowerCase()}`,
+      });
+    });
   }
 
   _commonFiles() {
@@ -135,9 +177,6 @@ class AppGenerator extends Generator {
   }
 
   _copyFiles(files = []) {
-    const toArray = a => {
-      return Array.isArray(a) ? a : [a];
-    };
     files.forEach(([src, dest]) => {
       src = toArray(src);
       dest = toArray(dest);
@@ -146,9 +185,6 @@ class AppGenerator extends Generator {
   }
 
   _copyTpls(files = []) {
-    const toArray = a => {
-      return Array.isArray(a) ? a : [a];
-    };
     files.forEach(([src, dest]) => {
       src = toArray(src);
       dest = toArray(dest);
@@ -167,13 +203,12 @@ class AppGenerator extends Generator {
   }
 }
 
-const generator = new AppGenerator(process.argv.slice(2), {
-  name: 'basic',
-  env: {
-    cwd: process.cwd(),
-  },
-  resolved: __filename,
-});
-generator.run(() => {
-  console.log('✨  File Generate Done');
-});
+module.exports = projectDir => {
+  return new Promise(resolve => {
+    new CreateGenerator({
+      name: 'basic',
+      env: { cwd: projectDir },
+      resolved: __filename,
+    }).run(resolve);
+  });
+};

@@ -1,5 +1,6 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+
 import reducer from './reducer';
 
 const isServer = typeof window === 'undefined';

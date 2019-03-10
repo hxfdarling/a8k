@@ -5,7 +5,3 @@ import ProviderContainer from './ProviderContainer';
 import './index.scss';
 
 ReactDOM.render(ProviderContainer, document.getElementById('react-body'));
-
-if (process.env.NODE_ENV !== 'production' && module.hot) {
-  module.hot.accept();
-}

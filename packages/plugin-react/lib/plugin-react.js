@@ -1,11 +1,12 @@
 const getNpmCommand = require('@a8k/cli-utils/npm');
-const { spawnSync } = require('child_process');
 const fs = require('fs-extra');
 const inquirer = require('inquirer');
 const ora = require('ora');
 const path = require('path');
 const shell = require('shelljs');
 const util = require('util');
+const { PROJECT_MODE_SINGLE, PROJECT_MODE_MULTI } = require('a8k/lib/const');
+const createGenerator = require('./create');
 
 exports.apply = context => {
   const { config, options } = context;
@@ -14,7 +15,6 @@ exports.apply = context => {
     .description('初始化项目')
     .action(async (dir, type) => {
       const projectDir = path.join(options.baseDir, dir || '');
-      const templateDir = path.join(__dirname, '../templates/');
 
       config.createConfig = {
         type,
@@ -35,10 +35,10 @@ exports.apply = context => {
           process.exit(0);
         }
       }
-      spawnSync('node', [path.join(templateDir, 'index.js')], {
-        cwd: projectDir,
-        stdio: 'inherit',
-      });
+
+      await createGenerator(projectDir);
+      console.log('✨  File Generate Done');
+
       const spinner = ora('安装依赖').start();
       const npmCmd = getNpmCommand();
       shell.cd(projectDir);
@@ -46,6 +46,36 @@ exports.apply = context => {
       spinner.succeed('安装依赖完毕');
       await context.hooks.invokePromise(context);
       spinner.succeed('项目创建完毕');
+    });
+
+  context
+    .registerCommand('page')
+    .alias('p')
+    .description('新建页面')
+    .action(async () => {
+      switch (config.mode) {
+        case PROJECT_MODE_MULTI:
+          break;
+        case PROJECT_MODE_SINGLE:
+          console.log('xxxx');
+          break;
+        default:
+          break;
+      }
+    });
+  context
+    .registerCommand('component')
+    .alias('c')
+    .description('新建组件')
+    .action(async () => {
+      switch (config.mode) {
+        case PROJECT_MODE_MULTI:
+          break;
+        case PROJECT_MODE_SINGLE:
+          break;
+        default:
+          break;
+      }
     });
 };
 exports.name = 'builtin:react';
