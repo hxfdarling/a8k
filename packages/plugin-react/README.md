@@ -1,6 +1,6 @@
 # `plugin-react`
 
-> TODO: description
+react 模板项目
 
 ## Usage
 

@@ -1,6 +1,6 @@
-export default function(state, { data, type }) {
-  switch (type) {
-    default:
-      return { ...state, ...data };
-  }
-}
+import { combineReducers } from 'redux';
+import index from './pages/index/reducer';
+
+export default combineReducers({
+  index,
+});

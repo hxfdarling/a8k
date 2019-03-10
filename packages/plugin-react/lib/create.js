@@ -105,6 +105,7 @@ class CreateGenerator extends Generator {
     this._copyFiles([['single/src', 'src']]);
     this._copyTpls([['single/src/index.html', 'src/index.html']]);
     this._createExampleComponent();
+    this._createSingleExamplePage();
   }
 
   async _multiPages() {
@@ -117,7 +118,7 @@ class CreateGenerator extends Generator {
       this._copyTpls([['multi/nodemon.json', 'nodemon.json']]);
     }
     this._createExampleComponent();
-    this._createExamplePage();
+    this._createMultiExamplePage();
   }
 
   _createExampleComponent(name = 'Example') {
@@ -135,17 +136,33 @@ class CreateGenerator extends Generator {
     });
   }
 
-  _createExamplePage(name = 'index') {
-    const type = this.props.app;
+  _createMultiExamplePage(name = 'index') {
     [
-      [`${type}/pageTemplate/action_creators.js`, `src/pages/${name}/action_creators.js`],
-      [`${type}/pageTemplate/action_types.js`, `src/pages/${name}/action_types.js`],
-      [`${type}/pageTemplate/index.html`, `src/pages/${name}/index.html`],
-      [`${type}/pageTemplate/index.jsx`, `src/pages/${name}/index.jsx`],
-      [`${type}/pageTemplate/index.scss`, `src/pages/${name}/index.scss`],
-      [`${type}/pageTemplate/ProviderContainer.jsx`, `src/pages/${name}/ProviderContainer.jsx`],
-      [`${type}/pageTemplate/reducer.js`, `src/pages/${name}/reducer.js`],
-      [`${type}/pageTemplate/store.js`, `src/pages/${name}/store.js`],
+      ['multi/pageTemplate/action_creators.js', `src/pages/${name}/action_creators.js`],
+      ['multi/pageTemplate/action_types.js', `src/pages/${name}/action_types.js`],
+      ['multi/pageTemplate/index.html', `src/pages/${name}/index.html`],
+      ['multi/pageTemplate/index.jsx', `src/pages/${name}/index.jsx`],
+      ['multi/pageTemplate/index.scss', `src/pages/${name}/index.scss`],
+      ['multi/pageTemplate/ProviderContainer.jsx', `src/pages/${name}/ProviderContainer.jsx`],
+      ['multi/pageTemplate/reducer.js', `src/pages/${name}/reducer.js`],
+      ['multi/pageTemplate/store.js', `src/pages/${name}/store.js`],
+    ].forEach(([src, dest]) => {
+      src = toArray(src);
+      dest = toArray(dest);
+      this.fs.copyTpl(this.templatePath(...src), this.destinationPath(...dest), {
+        name,
+        className: `x-page-${name.toLowerCase()}`,
+      });
+    });
+  }
+
+  _createSingleExamplePage(name = 'index') {
+    [
+      ['single/pageTemplate/action_creators.js', `src/pages/${name}/action_creators.js`],
+      ['single/pageTemplate/action_types.js', `src/pages/${name}/action_types.js`],
+      ['single/pageTemplate/index.jsx', `src/pages/${name}/index.jsx`],
+      ['single/pageTemplate/index.scss', `src/pages/${name}/index.scss`],
+      ['single/pageTemplate/reducer.js', `src/pages/${name}/reducer.js`],
     ].forEach(([src, dest]) => {
       src = toArray(src);
       dest = toArray(dest);

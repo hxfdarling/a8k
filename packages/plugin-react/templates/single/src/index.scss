@@ -1,5 +1,5 @@
 $footerHeight: 80px;
-.crm-wrap {
+.box {
   min-height: 100%;
   width: 100%;
   position: absolute;
@@ -12,16 +12,13 @@ $footerHeight: 80px;
   width: 256px;
 }
 
-.crm-content {
+.content {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.ant-notification-notice-description {
-  word-break: break-all;
-}
 
-.crm-container {
+.container {
   bottom: $footerHeight;
   background: rgb(240, 243, 245);
   padding: 16px 16px 0 16px;

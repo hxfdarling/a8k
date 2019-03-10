@@ -1,27 +1,14 @@
-import LoadingComponent from 'components/LoadingComponent';
 import React from 'react';
 import Loadable from 'react-loadable';
-import { connect, Provider } from 'react-redux';
-import action from './action_creator';
-import store from './store';
 
-const menus = [{ title: 'example page', page: 'example' }];
+const menus = [{ title: 'index page', page: 'index' }];
+
 function wrapComponent(page) {
-  const App = connect(
-    state => state,
-    action
-  )(
-    Loadable({
-      loader: () => import(/* webpackExclude: /components/ */
-        `./pages/${page}/index.jsx`),
-      loading: LoadingComponent,
-    })
-  );
-  return () => (
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
+  return Loadable({
+    loader: () => import(/* webpackExclude: /components/ */
+      `./pages/${page}/index.jsx`),
+    loading: () => <div>loading</div>,
+  });
 }
 const routers = [];
 

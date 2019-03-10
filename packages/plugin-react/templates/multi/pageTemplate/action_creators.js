@@ -1,9 +1,9 @@
-import { RECORD_UPDATE } from './action_types';
+import types from './action_types';
 
 function updateRecord(id, data) {
   return dispatch => {
     dispatch({
-      type: RECORD_UPDATE,
+      type: types.RECORD_UPDATE,
       data: {
         id,
         data,
