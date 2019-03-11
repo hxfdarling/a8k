@@ -27,10 +27,9 @@ config = config || {};
 // END 检查是否需要检查更新
 
 const cmd = getNpmCommand();
-const latestVersion = execSync(`${cmd} info ${name} version ${args.join(' ')}`)
+const latestVersion = execSync(`${cmd} info ${name} version ${args.join(' ')} --nochecklatest`)
   .toString()
   .trim();
-
 const needUpdate = semver.neq(latestVersion, version);
 if (needUpdate) {
   console.log(`目前最新版本的 ${name} 为：${latestVersion.green}, 你的当前版本为：${version.red}`);

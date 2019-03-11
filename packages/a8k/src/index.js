@@ -49,6 +49,8 @@ const defaultConfig = {
 
 program.version(require('../package.json').version);
 
+program.option('--nochecklatest', '不检测最新版本');
+
 program.on('command:*', () => {
   logger.error(
     `Invalid command: ${program.args.join(' ')}\nSee --help for a list of available commands.`
