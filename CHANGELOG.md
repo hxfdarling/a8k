@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/hxfdarling/a8k/compare/v1.1.4...v1.1.5) (2019-03-11)
+
+### Bug Fixes
+
+- 修复 webpackOveride 支持问题 ([7490967](https://github.com/hxfdarling/a8k/commit/7490967))
+
 ## [1.1.4](https://github.com/hxfdarling/a8k/compare/v1.1.3...v1.1.4) (2019-03-11)
 
 ### Bug Fixes
