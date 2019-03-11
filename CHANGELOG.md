@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/hxfdarling/a8k/compare/v1.1.3...v1.1.4) (2019-03-11)
+
+### Bug Fixes
+
+- 兼容旧版本 imt 修改 webpack 配置接口 ([c341989](https://github.com/hxfdarling/a8k/commit/c341989))
+- 修复版本检测问题 ([fd6aa58](https://github.com/hxfdarling/a8k/commit/fd6aa58))
+
 ## [1.1.3](https://github.com/hxfdarling/a8k/compare/v1.1.2...v1.1.3) (2019-03-08)
 
 **Note:** Version bump only for package a8k-packages
