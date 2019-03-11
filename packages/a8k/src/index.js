@@ -275,7 +275,10 @@ class A8k {
     let webpackConfig = config.toConfig();
     if (this.config.webpackOverride) {
       logger.warn('!!webpackOverride 已经废弃，请使用chainWebpack修改配置!!');
-      webpackConfig = this.config.webpackOverride(webpackConfig, options);
+      const modifyConfig = this.config.webpackOverride(webpackConfig, options);
+      if (modifyConfig) {
+        webpackConfig = modifyConfig;
+      }
     }
     return webpackConfig;
   }
