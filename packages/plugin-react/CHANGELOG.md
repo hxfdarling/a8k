@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/hxfdarling/a8k/compare/v1.1.5...v1.2.0) (2019-03-12)
+
+### Features
+
+- 添加创建组件能力 ([ea6ade0](https://github.com/hxfdarling/a8k/commit/ea6ade0))
+
 ## [1.1.5](https://github.com/hxfdarling/a8k/compare/v1.1.4...v1.1.5) (2019-03-11)
 
 **Note:** Version bump only for package @a8k/plugin-react
