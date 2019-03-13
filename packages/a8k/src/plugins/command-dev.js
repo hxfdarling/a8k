@@ -160,9 +160,13 @@ export default {
             watch: true,
           });
           const compiler = context.createWebpackCompiler(webpackConfigSSR);
-          // eslint-disable-next-line
-          new WebpackDevServer(compiler, {
-            quiet: true,
+          compiler.watch(webpackConfigSSR.watchOptions, err => {
+            if (err) {
+              context.log.error(err.stack || err);
+              if (err.details) {
+                context.log.error(err.details);
+              }
+            }
           });
         }
       });
