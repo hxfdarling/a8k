@@ -2,12 +2,27 @@ import logger from '@a8k/cli-utils/logger';
 import formatWebpackMessages from '@a8k/dev-utils/formatWebpackMessages';
 import chalk from 'chalk';
 import os from 'os';
-import prettyMs from 'pretty-ms';
 import WebpackDevServer from 'webpack-dev-server';
 import { ENV_DEV, TYPE_CLIENT, TYPE_SERVER } from '../const';
 import { printInstructions, setProxy } from '../utils/helper';
 
 const isInteractive = process.stdout.isTTY;
+
+const invalidHook = (filename, ctime) => {
+  if (isInteractive) {
+    logger.clearConsole();
+  }
+  const d = new Date(ctime);
+  const leftpad = v => (v > 9 ? v : `0${v}`);
+  const prettyPath = p => p.replace(os.homedir(), '~');
+  console.log(
+    chalk.cyan(
+      `[${leftpad(d.getHours())}:${leftpad(d.getMinutes())}:${leftpad(
+        d.getSeconds()
+      )}] Rebuilding due to changes made in ${prettyPath(filename)}`
+    )
+  );
+};
 
 export default {
   apply: context => {
@@ -60,26 +75,9 @@ export default {
             type: TYPE_CLIENT,
           });
 
-          let startCompilerTime = Date.now();
-
           const compiler = context.createWebpackCompiler(webpackConfig);
 
-          compiler.hooks.invalid.tap('invalid', (filename, ctime) => {
-            startCompilerTime = Date.now();
-            if (isInteractive) {
-              logger.clearConsole();
-            }
-            const d = new Date(ctime);
-            const leftpad = v => (v > 9 ? v : `0${v}`);
-            const prettyPath = p => p.replace(os.homedir(), '~');
-            console.log(
-              chalk.cyan(
-                `[${leftpad(d.getHours())}:${leftpad(d.getMinutes())}:${leftpad(
-                  d.getSeconds()
-                )}] Rebuilding due to changes made in ${prettyPath(filename)}`
-              )
-            );
-          });
+          compiler.hooks.invalid.tap('invalid', invalidHook);
 
           let isFirstCompile = true;
 
@@ -93,11 +91,6 @@ export default {
               stats.toJson({ all: false, warnings: true, errors: true })
             );
             const isSuccessful = !messages.errors.length && !messages.warnings.length;
-            if (isSuccessful) {
-              console.log(
-                chalk.green(`Compiled successfully in ${prettyMs(Date.now() - startCompilerTime)}`)
-              );
-            }
             if (isSuccessful && isFirstCompile) {
               printInstructions(devServer);
             }
