@@ -31,6 +31,7 @@ const createMultiExamplePage = (context, name) => {
     ['multi/pageTemplate/index.html', `src/pages/${name}/index.html`],
     ['multi/pageTemplate/index.jsx', `src/pages/${name}/index.jsx`],
     ['multi/pageTemplate/index.scss', `src/pages/${name}/index.scss`],
+    ['multi/pageTemplate/Container.jsx', `src/pages/${name}/Container.jsx`],
     ['multi/pageTemplate/ProviderContainer.jsx', `src/pages/${name}/ProviderContainer.jsx`],
     ['multi/pageTemplate/reducer.js', `src/pages/${name}/reducer.js`],
     ['multi/pageTemplate/store.js', `src/pages/${name}/store.js`],
