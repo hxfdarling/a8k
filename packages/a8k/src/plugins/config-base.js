@@ -16,7 +16,7 @@ exports.apply = context => {
       },
     });
 
-    // config.context(context.options.baseDir);
+    config.context(context.options.baseDir);
 
     if (type === TYPE_CLIENT) {
       let devtool = false;

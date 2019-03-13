@@ -5,11 +5,11 @@ export default (config, context, { type, mini, silent }) => {
   // 只有命令行中才显示进度，CI系统日志不需要
   if (process.stderr.isTTY) {
     const { ProgressPlugin } = webpack;
-    ProgressPlugin.__expression = 'webpack.ProgressPlugin';
+    ProgressPlugin.__expression = "require('webpack').ProgressPlugin";
     config.plugin('ProgressPlugin').use(ProgressPlugin);
   }
   const BuildTime = require('./plugins/build-time');
-  BuildTime.__expression = "require('./plugins/build-time')";
+  BuildTime.__expression = "require('a8k/lib/webpack/plugins/build-time')";
   config.plugin('buildTime').use(BuildTime, [{ name: type }]);
 
   const ManifestPlugin = require('webpack-manifest-plugin');
@@ -27,7 +27,7 @@ export default (config, context, { type, mini, silent }) => {
 
   if (context.internals.mode === ENV_PROD && type === TYPE_CLIENT) {
     const ReportStatusPlugin = require('./plugins/report-status-plugin');
-    ReportStatusPlugin.__expression = "require('./plugins/report-status-plugin')";
+    ReportStatusPlugin.__expression = "require('a8k/lib/webpack/plugins/report-status-plugin')";
     config.plugin('ReportStatusPlugin').use(ReportStatusPlugin, [
       {
         silent,
@@ -35,13 +35,13 @@ export default (config, context, { type, mini, silent }) => {
     ]);
     if (context.config.crossOrigin) {
       const CrossOriginLoadingPlugin = require('./plugins/cross-origin-loading');
-      CrossOriginLoadingPlugin.__expression = "require('./plugins/cross-origin-loading')";
+      CrossOriginLoadingPlugin.__expression = "require('a8k/lib/webpack/plugins/cross-origin-loading')";
       config.plugin('CrossOriginLoadingPlugin').use(CrossOriginLoadingPlugin);
     }
 
     // html 最后插入js解析完成时间节点
     const MarkTimePlugin = require('./plugins/mark-time-plugin');
-    MarkTimePlugin.__expression = "require('./plugins/mark-time-plugin')";
+    MarkTimePlugin.__expression = "require('a8k/lib/webpack/plugins/mark-time-plugin')";
     config.plugin('MarkTimePlugin').use(MarkTimePlugin);
 
     if (context.config.retry) {
@@ -65,7 +65,7 @@ export default (config, context, { type, mini, silent }) => {
       },
     ]);
     const { HashedModuleIdsPlugin } = webpack;
-    HashedModuleIdsPlugin.__expression = 'webpack.HashedModuleIdsPlugin';
+    HashedModuleIdsPlugin.__expression = "require('webpack').HashedModuleIdsPlugin";
     config.plugin('webpack.HashedModuleIdsPlugin').use(HashedModuleIdsPlugin, [
       {
         hashDigestLength: 6,

@@ -29,12 +29,12 @@ exports.apply = context => {
           });
       }
       const { HotModuleReplacementPlugin } = webpack;
-      HotModuleReplacementPlugin.__expression = 'webpack.HotModuleReplacementPlugin';
+      HotModuleReplacementPlugin.__expression = "require('webpack').HotModuleReplacementPlugin";
       config.plugin('HotModuleReplacementPlugin').use(webpack.HotModuleReplacementPlugin);
       // 支持调试直出代码
       if (ssr) {
         const SSRPlugin = require('../webpack/plugins/ssr-plugin');
-        SSRPlugin.__expression = "require('.../webpack/plugins/ssr-plugin')";
+        SSRPlugin.__expression = "require('a8k/lib/webpack/plugins/ssr-plugin')";
         config
           .plugin('ssr-plugin')
           .use(SSRPlugin, [{ ssrConfig: context.config.ssrConfig, dist: context.config.dist }]);
