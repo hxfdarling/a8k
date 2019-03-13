@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/hxfdarling/a8k/compare/v1.2.0...v1.3.0) (2019-03-13)
+
+### Bug Fixes
+
+- 修复 ssr 模式 watch 失效 ([9e4241e](https://github.com/hxfdarling/a8k/commit/9e4241e))
+- 修复 ssr 模式 watch 失效 ([81f071a](https://github.com/hxfdarling/a8k/commit/81f071a))
+- 修复 ssr 模式 watch 失效 ([faf88c7](https://github.com/hxfdarling/a8k/commit/faf88c7))
+
 # [1.2.0](https://github.com/hxfdarling/a8k/compare/v1.1.5...v1.2.0) (2019-03-12)
 
 **Note:** Version bump only for package a8k
