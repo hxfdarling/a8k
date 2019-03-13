@@ -159,7 +159,11 @@ export default {
             type: TYPE_SERVER,
             watch: true,
           });
-          context.runWebpack(webpackConfigSSR);
+          const compiler = context.createWebpackCompiler(webpackConfigSSR);
+          // eslint-disable-next-line
+          new WebpackDevServer(compiler, {
+            quiet: true,
+          });
         }
       });
   },

@@ -10,7 +10,7 @@ export default (config, context, { type, mini, silent }) => {
   }
   const BuildTime = require('./plugins/build-time');
   BuildTime.__expression = "require('./plugins/build-time')";
-  config.plugin('buildTime').use(BuildTime);
+  config.plugin('buildTime').use(BuildTime, [{ name: type }]);
 
   const ManifestPlugin = require('webpack-manifest-plugin');
   ManifestPlugin.__expression = "require('webpack-manifest-plugin')";

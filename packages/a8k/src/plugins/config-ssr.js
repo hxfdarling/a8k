@@ -1,7 +1,7 @@
 import logger from '@a8k/cli-utils/logger';
 import fs from 'fs-extra';
 import path from 'path';
-import { ENV_PROD, TYPE_SERVER } from '../const';
+import { ENV_PROD, ENV_DEV, TYPE_SERVER } from '../const';
 
 function deleteLoading(str) {
   const s = str.substring(
@@ -13,10 +13,11 @@ function deleteLoading(str) {
 exports.apply = context => {
   context.chainWebpack((config, { type, watch }) => {
     if (type === TYPE_SERVER) {
-      config.mode(ENV_PROD);
+      const isDevMode = watch;
+      config.mode(isDevMode ? ENV_DEV : ENV_PROD);
       config.devtool(false);
       config.target('node');
-      const isDevMode = watch;
+
       const { ssrConfig, publicPath } = context.config;
 
       for (const entryName of Object.keys(ssrConfig.entry)) {
