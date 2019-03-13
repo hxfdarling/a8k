@@ -4,17 +4,14 @@ const chalk = require('chalk');
 const Generator = require('yeoman-generator');
 const { basename, join } = require('path');
 const logger = require('@a8k/cli-utils/logger');
+const {
+  toArray,
+  createExampleComponent,
+  createMultiExamplePage,
+  createSingleExamplePage,
+} = require('./heper');
 
 // debug.enabled = true;
-
-if (!semver.satisfies(process.version, '>= 8.0.0')) {
-  console.error(chalk.red('✘ The generator will only work with Node v8.0.0 and up!'));
-  process.exit(1);
-}
-
-const toArray = a => {
-  return Array.isArray(a) ? a : [a];
-};
 
 class CreateGenerator extends Generator {
   constructor(args, opts) {
@@ -104,8 +101,8 @@ class CreateGenerator extends Generator {
   async _singlePage() {
     this._copyFiles([['single/src', 'src']]);
     this._copyTpls([['single/src/index.html', 'src/index.html']]);
-    this._createExampleComponent();
-    this._createSingleExamplePage();
+    createExampleComponent(this, 'src/components', 'Example', false);
+    createSingleExamplePage(this, 'index');
   }
 
   async _multiPages() {
@@ -117,60 +114,8 @@ class CreateGenerator extends Generator {
       this._copyFiles([['multi/app', 'app']]);
       this._copyTpls([['multi/nodemon.json', 'nodemon.json']]);
     }
-    this._createExampleComponent();
-    this._createMultiExamplePage();
-  }
-
-  _createExampleComponent(name = 'Example') {
-    [
-      ['common/componentTemplate/index.jsx.tpl', `src/components/${name}/index.jsx`],
-      ['common/componentTemplate/index.scss.tpl', `src/components/${name}/index.scss`],
-    ].forEach(([src, dest]) => {
-      src = this.templatePath(...toArray(src));
-      dest = this.destinationPath(...toArray(dest));
-      this.fs.copyTpl(src, dest, {
-        name,
-        className: `x-component-${name.toLowerCase()}`,
-        useConnect: false,
-      });
-    });
-  }
-
-  _createMultiExamplePage(name = 'index') {
-    [
-      ['multi/pageTemplate/action_creators.js', `src/pages/${name}/action_creators.js`],
-      ['multi/pageTemplate/action_types.js', `src/pages/${name}/action_types.js`],
-      ['multi/pageTemplate/index.html', `src/pages/${name}/index.html`],
-      ['multi/pageTemplate/index.jsx', `src/pages/${name}/index.jsx`],
-      ['multi/pageTemplate/index.scss', `src/pages/${name}/index.scss`],
-      ['multi/pageTemplate/ProviderContainer.jsx', `src/pages/${name}/ProviderContainer.jsx`],
-      ['multi/pageTemplate/reducer.js', `src/pages/${name}/reducer.js`],
-      ['multi/pageTemplate/store.js', `src/pages/${name}/store.js`],
-    ].forEach(([src, dest]) => {
-      src = toArray(src);
-      dest = toArray(dest);
-      this.fs.copyTpl(this.templatePath(...src), this.destinationPath(...dest), {
-        name,
-        className: `x-page-${name.toLowerCase()}`,
-      });
-    });
-  }
-
-  _createSingleExamplePage(name = 'index') {
-    [
-      ['single/pageTemplate/action_creators.js', `src/pages/${name}/action_creators.js`],
-      ['single/pageTemplate/action_types.js', `src/pages/${name}/action_types.js`],
-      ['single/pageTemplate/index.jsx', `src/pages/${name}/index.jsx`],
-      ['single/pageTemplate/index.scss', `src/pages/${name}/index.scss`],
-      ['single/pageTemplate/reducer.js', `src/pages/${name}/reducer.js`],
-    ].forEach(([src, dest]) => {
-      src = toArray(src);
-      dest = toArray(dest);
-      this.fs.copyTpl(this.templatePath(...src), this.destinationPath(...dest), {
-        name,
-        className: `x-page-${name.toLowerCase()}`,
-      });
-    });
+    createExampleComponent(this, 'src/components', 'Example', false);
+    createMultiExamplePage(this, 'index');
   }
 
   _commonFiles() {
@@ -222,6 +167,10 @@ class CreateGenerator extends Generator {
 }
 
 module.exports = projectDir => {
+  if (!semver.satisfies(process.version, '>= 8.0.0')) {
+    console.error(chalk.red('✘ The generator will only work with Node v8.0.0 and up!'));
+    process.exit(1);
+  }
   return new Promise(resolve => {
     new CreateGenerator({
       name: 'basic',

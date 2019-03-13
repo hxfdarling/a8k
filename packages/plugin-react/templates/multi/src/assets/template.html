@@ -9,15 +9,15 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 
-    <title></title>
+    <title>{% block title %}{% endblock %}</title>
 
     <!-- KEYWORDS_PLACEHOLDER -->
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="{% block keywords %}{% endblock %}" />
     <!-- DESCRIPTION_PLACEHOLDER -->
-    <meta name="description" itemprop="description" content="" />
+    <meta name="description" itemprop="description" content="{% block keywords %}{% endblock %}" />
 
     <!-- 微信QQ分享支持 -->
-    <meta itemprop="name" content="" />
+    <meta itemprop="name" content="{% block qqtitle %}{% endblock %}" />
     <meta itemprop="image" content="../../assets/images/icon.png" />
 
     <link rel="shortcut icon" type="image/ico" href="../../assets/images/icon.png" />

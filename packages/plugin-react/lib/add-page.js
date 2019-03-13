@@ -5,8 +5,8 @@ const chalk = require('chalk');
 const Generator = require('yeoman-generator');
 const { basename, join } = require('path');
 const logger = require('@a8k/cli-utils/logger');
-const fs = require('fs-extra');
-const { toArray, createExampleComponent } = require('./heper');
+const { PROJECT_MODE_SINGLE } = require('a8k/lib/const');
+const { toArray, createMultiExamplePage, createSingleExamplePage } = require('./heper');
 
 // logger.setOptions({ debug: true });
 
@@ -21,47 +21,21 @@ class CreateGenerator extends Generator {
 
     this.pagesPath = path.resolve(args.env.cwd, 'src/pages');
 
-    this.pagesList = fs.readdirSync(this.pagesPath).map(file => {
-      return { name: path.basename(file), value: file };
-    });
-
     this.sourceRoot(join(__dirname, '../templates/'));
   }
 
   async prompting() {
-    const { type } = await this.prompt([
-      {
-        name: 'type',
-        message: '选择组建类型',
-        type: 'list',
-        choices: [{ name: '通用组件', value: 'common' }, { name: '页面组件', value: 'page' }],
-      },
-    ]);
-    this.props.type = type;
-    if (type === 'page') {
-      const { pagePath } = await this.prompt([
-        {
-          name: 'pagePath',
-          message: '通用组建还是页面组件？',
-          type: 'list',
-          choices: this.pagesList,
-        },
-      ]);
-      this.props.filepath = `src/pages/${pagePath}`;
-    } else {
-      this.props.filepath = 'src/components';
-    }
     const { name } = await this.prompt([
       {
         name: 'name',
-        message: '输入组件名称(使用驼峰命名)',
+        message: '页面名称(使用下划线分割单词)',
         type: 'input',
         validate(input) {
           if (!input) {
             return '请输入组件名称';
           }
-          if (!/^([A-Z]{1}[a-z]+)/.test(input)) {
-            return '请遵循驼峰命名规则';
+          if (!/^([a-z_\d]+)$/.test(input)) {
+            return '格式错误(支持英文小写字母、数字、下划线)';
           }
           return true;
         },
@@ -88,7 +62,11 @@ class CreateGenerator extends Generator {
 
   writing() {
     logger.debug(`this.props: ${JSON.stringify(this.props)}`);
-    createExampleComponent(this, this.props.filepath, this.props.name, this.props.type === 'page');
+    if (this.props.config.mode === PROJECT_MODE_SINGLE) {
+      createSingleExamplePage(this, this.props.name);
+    } else {
+      createMultiExamplePage(this, this.props.name);
+    }
   }
 }
 

@@ -59,7 +59,8 @@ module.exports = {
   },
   <% } %>
   // 修改webpack配置文件
-  chainWebpack(config) {
+  chainWebpack() {
+
   },
   plugins: [],
 };

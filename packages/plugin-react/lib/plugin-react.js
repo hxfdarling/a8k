@@ -1,13 +1,14 @@
 const getNpmCommand = require('@a8k/cli-utils/npm');
+const logger = require('@a8k/cli-utils/logger');
 const fs = require('fs-extra');
 const inquirer = require('inquirer');
 const ora = require('ora');
 const path = require('path');
 const shell = require('shelljs');
 const util = require('util');
-const { PROJECT_MODE_SINGLE, PROJECT_MODE_MULTI } = require('a8k/lib/const');
 const createGenerator = require('./create');
 const addComponent = require('./add-component');
+const addPage = require('./add-page');
 
 exports.apply = context => {
   const { config, options } = context;
@@ -38,6 +39,7 @@ exports.apply = context => {
       }
 
       await createGenerator(projectDir);
+      await context.hooks.invokePromise('afterCreate', context);
       console.log('✨  File Generate Done');
 
       const spinner = ora('安装依赖').start();
@@ -45,6 +47,12 @@ exports.apply = context => {
       shell.cd(projectDir);
       await util.promisify(shell.exec)(`${npmCmd} i`, { silent: true });
       spinner.succeed('安装依赖完毕');
+      try {
+        await util.promisify(shell.exec)('npx eslint --fix src  a8k.config.js  --ext jsx,js');
+        spinner.succeed('执行eslint校验');
+      } catch (e) {
+        logger.warn('执行eslint校验失败');
+      }
       await context.hooks.invokePromise(context);
       spinner.succeed('项目创建完毕');
     });
@@ -54,23 +62,16 @@ exports.apply = context => {
     .alias('p')
     .description('新建页面')
     .action(async () => {
-      switch (config.mode) {
-        case PROJECT_MODE_MULTI:
-          break;
-        case PROJECT_MODE_SINGLE:
-          console.log('xxxx');
-          break;
-        default:
-          break;
-      }
+      addPage(context);
+      await context.hooks.invokePromise('afterAddPage', context);
     });
   context
     .registerCommand('component')
     .alias('c')
     .description('新建组件')
     .action(async () => {
-      // const { baseDir } = require(path.join(process.cwd(), './a8k.config.js'));
-      addComponent(path.resolve(process.cwd()));
+      addComponent(context);
+      await context.hooks.invokePromise('afterAddComponent', context);
     });
 };
 exports.name = 'builtin:react';
