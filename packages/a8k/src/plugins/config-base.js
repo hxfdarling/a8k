@@ -50,11 +50,6 @@ exports.apply = context => {
       .add('.ts')
       .add('.tsx')
       .add('.json')
-      .end()
-      // es tree-shaking
-      .mainFields.add('jsnext:main')
-      .add('browser')
-      .add('main')
       .end();
 
     const ownModules = context.rootResolve('node_modules');
