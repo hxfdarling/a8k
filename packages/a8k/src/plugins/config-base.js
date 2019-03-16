@@ -71,7 +71,7 @@ exports.apply = context => {
       .add('node_modules');
 
     // 这些库都是不依赖其它库的库 不需要解析他们可以加快编译速度
-    config.module.noParse(/node_modules\/(moment|chart\.js)/);
+    config.module.noParse(/node_modules\/(moment|lodash)/);
 
     require('../webpack/rules/js')(config, context, options);
     require('../webpack/rules/css')(config, context, options, filenames.css);
