@@ -52,6 +52,9 @@ exports.apply = context => {
       .add('.json')
       .end();
 
+    // 避免在开发模式下面link全局的模块时无法正确编译，需要配置额外的参数
+    config.resolve.symlinks(false);
+
     const ownModules = context.rootResolve('node_modules');
     const projectModules = context.resolve('node_modules');
     config.resolve.modules
