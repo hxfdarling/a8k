@@ -69,7 +69,7 @@ exports.apply = context => {
       .add('node_modules');
 
     // 这些库都是不依赖其它库的库 不需要解析他们可以加快编译速度
-    config.module.noParse(/node_modules\/(moment|lodash)/);
+    config.module.noParse(/node_modules\/(moment)/);
     // 动态依赖默认不处理子目录，仅处理单层目录
     config.module.set('wrappedContextRecursive', false);
 
