@@ -129,7 +129,7 @@
     "webpack-manifest-plugin": "^2.0.4",
     "webpack-merge": "^4.2.1",
     "webpack-node-externals": "^1.7.2",
-    "webpack-retry-load-plugin": "^1.1.5",
+    "webpack-retry-load-plugin": "^1.1.6",
     "webpack-subresource-integrity": "^1.3.1",
     "whatwg-fetch": "^3.0.0",
     "yeoman-generator": "^3.2.0"
