@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/hxfdarling/a8k/compare/v1.3.1...v1.4.0) (2019-03-18)
+
+### Bug Fixes
+
+- 更新 webpack-retry-plugin ([4c27bf6](https://github.com/hxfdarling/a8k/commit/4c27bf6))
+- 修复 link 全局依赖时，无法正确编译相关文件 ([f76440e](https://github.com/hxfdarling/a8k/commit/f76440e))
+- 修复 lodash 模块没有解析依赖问题 ([fc82303](https://github.com/hxfdarling/a8k/commit/fc82303))
+- 移除对 mainFields 的修改 ([f823776](https://github.com/hxfdarling/a8k/commit/f823776))
+
+### Features
+
+- 添加动态导入默认不处理子目录 ([c658a6c](https://github.com/hxfdarling/a8k/commit/c658a6c))
+
 ## [1.3.1](https://github.com/hxfdarling/a8k/compare/v1.3.0...v1.3.1) (2019-03-13)
 
 **Note:** Version bump only for package a8k
