@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.12.1"></a>
+
+## [0.12.1](https://github.com/hxfdarling/imt/compare/v0.12.0...v0.12.1) (2019-03-18)
+
+### Bug Fixes
+
+- 更新 webpack-retry-plugin，修复部分浏览器 link onload 错误 ([19bc409](https://github.com/hxfdarling/imt/commit/19bc409))
+
 <a name="0.12.0"></a>
 
 # [0.12.0](https://github.com/hxfdarling/imt/compare/v0.11.1...v0.12.0) (2019-02-27)
