@@ -86,7 +86,10 @@ exports.apply = context => {
 
     if (analyzer) {
       const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-      config.plugin('bundle-analyzer-plugin').use(BundleAnalyzerPlugin);
+      config.plugin('bundle-analyzer-plugin').use(BundleAnalyzerPlugin, [{
+        analyzerMode: 'static',
+        reportFilename: `a8k_report_${type}.html`,
+      }]);
     }
   });
 };
