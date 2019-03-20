@@ -12,6 +12,14 @@ export default (config, context, { type, mini, silent }) => {
   BuildTime.__expression = "require('a8k/lib/webpack/plugins/build-time')";
   config.plugin('buildTime').use(BuildTime, [{ name: type }]);
 
+  const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+  MomentLocalesPlugin.__expression = "require('moment-locales-webpack-plugin')";
+  config.plugin('MomentLocalesPlugin').use(MomentLocalesPlugin, [
+    {
+      localesToKeep: ['es-us', 'zh-cn'],
+    },
+  ]);
+
   const ManifestPlugin = require('webpack-manifest-plugin');
   ManifestPlugin.__expression = "require('webpack-manifest-plugin')";
   config.plugin('ManifestPlugin').use(ManifestPlugin, [
