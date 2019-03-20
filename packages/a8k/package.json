@@ -1,6 +1,6 @@
 {
   "name": "a8k",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "bin": {
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js",
@@ -30,7 +30,7 @@
   "dependencies": {
     "@a8k/cli-utils": "^1.0.6-alpha.0",
     "@a8k/dev-utils": "^1.1.0",
-    "@a8k/plugin-react": "^1.4.0",
+    "@a8k/plugin-react": "^1.4.1",
     "@babel/runtime": "^7.3.4",
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
