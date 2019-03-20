@@ -5,7 +5,6 @@ const chalk = require('chalk');
 const Generator = require('yeoman-generator');
 const { basename, join } = require('path');
 const logger = require('@a8k/cli-utils/logger');
-const { PROJECT_MODE_SINGLE } = require('a8k/lib/const');
 const { toArray, createMultiExamplePage, createSingleExamplePage } = require('./heper');
 
 // logger.setOptions({ debug: true });
@@ -62,7 +61,7 @@ class CreateGenerator extends Generator {
 
   writing() {
     logger.debug(`this.props: ${JSON.stringify(this.props)}`);
-    if (this.props.config.mode === PROJECT_MODE_SINGLE) {
+    if (this.props.config.mode === 'single') {
       createSingleExamplePage(this, this.props.name);
     } else {
       createMultiExamplePage(this, this.props.name);
