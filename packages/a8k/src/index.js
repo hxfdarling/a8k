@@ -59,10 +59,6 @@ program.on('command:*', () => {
 });
 
 class A8k {
-  PROJECT_MODE_SINGLE = 'single';
-
-  PROJECT_MODE_MULTI = 'multi';
-
   constructor(options = {}, _config = {}) {
     this.options = {
       ...options,
