@@ -1,8 +1,8 @@
 {
   "name": "@a8k/plugin-react",
   "version": "1.4.2",
-  "description": "> TODO: description",
-  "author": "edenhliu <edenhliu@tencent.com>",
+  "description": "react 模板插件，支持创建react项目",
+  "author": "zman",
   "license": "ISC",
   "main": "lib/plugin-react.js",
   "directories": {

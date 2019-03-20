@@ -2,7 +2,7 @@
   "name": "@a8k/cli-utils",
   "version": "1.0.6-alpha.0",
   "description": "> TODO: description",
-  "author": "edenhliu <edenhliu@tencent.com>",
+  "author": "zman",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/cli-utils#readme",
   "license": "ISC",
   "files": [
