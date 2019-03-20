@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/hxfdarling/a8k/compare/v1.4.2...v1.5.0) (2019-03-20)
+
+
+### Features
+
+* 支持直接导出构建分析文件 ([9106f69](https://github.com/hxfdarling/a8k/commit/9106f69))
+* 支持自动剔除moment中的多余local文件 ([87c5f88](https://github.com/hxfdarling/a8k/commit/87c5f88))
+
+
+
+
+
 ## [1.4.2](https://github.com/hxfdarling/a8k/compare/v1.4.1...v1.4.2) (2019-03-20)
 
 ### Bug Fixes
