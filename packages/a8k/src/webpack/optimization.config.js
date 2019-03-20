@@ -19,18 +19,25 @@ module.exports = (config, context, { type, mini, sourceMap }) => {
       minSize: 30000, // 提高缓存利用率，这需要在http2/spdy
       maxSize: 0,
       minChunks: 3,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 5,
+      maxAsyncRequests: 6,
+      maxInitialRequests: 6,
       automaticNameDelimiter: '~',
       name: true,
       cacheGroups: {
+        polyfill: {
+          test: /[\\/]node_modules[\\/](core-js|@babel|babel-runtime)/,
+          name: 'polyfill',
+          priority: 70,
+          minChunks: 1,
+          reuseExistingChunk: true,
+        },
         vendor: {
           test: ({ resource }) => {
             if (resource) {
               const include = [/[\\/]node_modules[\\/]/].every(reg => {
                 return reg.test(resource);
               });
-              const exclude = [/[\\/]node_modules[\\/](react|redux|antd)/].some(reg => {
+              const exclude = [/[\\/]node_modules[\\/](react|redux|antd|@ant-design)/].some(reg => {
                 return reg.test(resource);
               });
               return include && !exclude;
@@ -39,7 +46,7 @@ module.exports = (config, context, { type, mini, sourceMap }) => {
           },
           name: 'vendor',
           priority: 50,
-          minChunks: 3,
+          minChunks: 2,
           reuseExistingChunk: true,
         },
         react: {
@@ -52,7 +59,7 @@ module.exports = (config, context, { type, mini, sourceMap }) => {
           reuseExistingChunk: true,
         },
         antd: {
-          test: /[\\/]node_modules[\\/]antd/,
+          test: /[\\/]node_modules[\\/](antd|@ant-design)/,
           name: 'antd',
           priority: 15,
           minChunks: 1,
