@@ -18,13 +18,13 @@ module.exports = (config, context, { type, mini, sourceMap }) => {
       name: true,
       cacheGroups: {
         vendor: {
-          test: module => {
-            if (module.resource) {
+          test: ({ resource }) => {
+            if (resource) {
               const include = [/[\\/]node_modules[\\/]/].every(reg => {
-                return reg.test(module.resource);
+                return reg.test(resource);
               });
               const exclude = [/[\\/]node_modules[\\/](react|redux|antd)/].some(reg => {
-                return reg.test(module.resource);
+                return reg.test(resource);
               });
               return include && !exclude;
             }
@@ -32,7 +32,7 @@ module.exports = (config, context, { type, mini, sourceMap }) => {
           },
           name: 'vendor',
           priority: 50,
-          minChunks: 2,
+          minChunks: 3,
           reuseExistingChunk: true,
         },
         react: {
