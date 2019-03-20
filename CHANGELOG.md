@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/hxfdarling/a8k/compare/v1.4.1...v1.4.2) (2019-03-20)
+
+### Bug Fixes
+
+- 消除循环依赖 ([e608e83](https://github.com/hxfdarling/a8k/commit/e608e83))
+- 优化模块 id 生成规则，使用原生配置 ([a792e57](https://github.com/hxfdarling/a8k/commit/a792e57))
+
 ## [1.4.1](https://github.com/hxfdarling/a8k/compare/v1.4.0...v1.4.1) (2019-03-20)
 
 ### Bug Fixes
