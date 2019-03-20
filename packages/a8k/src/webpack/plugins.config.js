@@ -64,12 +64,5 @@ export default (config, context, { type, mini, silent }) => {
         dry: false,
       },
     ]);
-    const { HashedModuleIdsPlugin } = webpack;
-    HashedModuleIdsPlugin.__expression = "require('webpack').HashedModuleIdsPlugin";
-    config.plugin('webpack.HashedModuleIdsPlugin').use(HashedModuleIdsPlugin, [
-      {
-        hashDigestLength: 6,
-      },
-    ]);
   }
 };

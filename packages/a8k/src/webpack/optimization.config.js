@@ -3,6 +3,13 @@ import { ENV_PROD, TYPE_CLIENT } from '../const';
 
 module.exports = (config, context, { type, mini, sourceMap }) => {
   config.optimization.minimize(false);
+
+  if (context.internals.mode === ENV_PROD && mini) {
+    config.optimization.set('moduleIds', 'hashed');
+  } else {
+    config.optimization.set('moduleIds', 'named');
+  }
+
   if (type === TYPE_CLIENT) {
     config.optimization.splitChunks({
       // Automatically split vendor and commons
