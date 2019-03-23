@@ -24,6 +24,7 @@ module.exports = (config, context, { type }) => {
     .include // 热重载插件需要被编译
     .add(context.resolve('src'))
     .add(context.resolve('node_modules/@tencent'))
+    .add(/lodash-es/)
     // 开发模式注入的代码,需要编译，否则 ie 下面不支持const语法
     .add(path.resolve(require.resolve('@a8k/dev-utils/webpackHotDevClient'), '../'))
     .add(/strip-ansi|chalk|ansi-styles|ansi-regex/);
