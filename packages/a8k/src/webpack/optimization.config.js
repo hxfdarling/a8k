@@ -22,7 +22,8 @@ module.exports = (config, context, { type, mini, sourceMap }) => {
       maxAsyncRequests: 6,
       maxInitialRequests: 6,
       automaticNameDelimiter: '~',
-      name: true,
+      // 避免由于添加页面造成不必要的缓存失效
+      name: context.internals.mode !== ENV_PROD,
       cacheGroups: {
         polyfill: {
           test: /[\\/]node_modules[\\/](core-js|@babel|babel-runtime)/,
