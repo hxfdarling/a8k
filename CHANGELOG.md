@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/hxfdarling/a8k/compare/v1.5.0...v1.6.0) (2019-03-25)
+
+
+### Features
+
+* 默认支持lodash-es的编译 ([5ecb423](https://github.com/hxfdarling/a8k/commit/5ecb423))
+
+
+
+
+
 # [1.5.0](https://github.com/hxfdarling/a8k/compare/v1.4.2...v1.5.0) (2019-03-20)
 
 
