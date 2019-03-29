@@ -12,7 +12,7 @@
     "dev": "tsc -w -sourceMap",
     "build": "npm run clean && tsc && npm run chmod",
     "chmod": "chmod +x lib/bin/cli.js",
-    "prepublish": "npm build",
+    "prepublishOnly": "npm run build",
     "test": "jest",
     "test:w": "jest --watch"
   },
