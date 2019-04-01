@@ -267,7 +267,7 @@ class A8k {
         this._inspectWebpackConfigPath,
         `//${JSON.stringify(options)}\nconst ${options.type} = ${config.toString()}\n`
       );
-      require('opn')(this._inspectWebpackConfigPath);
+      require('open')(this._inspectWebpackConfigPath);
     }
 
     let webpackConfig = config.toConfig();
