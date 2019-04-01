@@ -55,6 +55,11 @@ module.exports = {
   // 加快热构建的缓存目录
   cache: '/tmp/fudao_qq_com_pc',
   // 是否将 JS 标签配置 crossOrigin='anonymous'
+  // 配置babel需要处理的模块或者忽略的模块，支持正则和绝对路径
+  babel:{
+    include:[],
+    exclude:[]
+  },
   crossOrigin: false,
   // webpack-dev-server配置
   devServer: {

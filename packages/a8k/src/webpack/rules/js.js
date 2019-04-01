@@ -3,8 +3,10 @@ import { ENV_DEV, TYPE_SERVER } from '../../const';
 
 module.exports = (config, context, { type }) => {
   let include = [];
+  let exclude = [];
   if (context.config.babel) {
     include = context.config.babel.include || [];
+    exclude = context.config.babel.exclude || [];
   }
 
   // TODO 需要抽离成插件？
@@ -32,10 +34,15 @@ module.exports = (config, context, { type }) => {
   // 自定义babel处理内容
   include.forEach(i => (rule = rule.add(i)));
 
-  rule
+  rule = rule
     .end()
     // 忽略哪些压缩的文件
-    .exclude.add(/(.|_)min\.js$/)
+    .exclude.add(/(.|_)min\.js$/);
+
+  // 自定义babel忽略内容
+  exclude.forEach(i => (rule = rule.add(i)));
+
+  rule
     .end()
     .use('babel-loader')
     .loader('babel-loader')

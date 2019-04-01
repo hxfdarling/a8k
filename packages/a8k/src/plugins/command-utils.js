@@ -9,9 +9,9 @@ export default {
       .registerCommand('clean')
       .description('清理缓存文件和构建结果文件')
       .action(async () => {
-        if (context.config.cache) {
+        if (context.config.cacheBase) {
           logWithSpinner('清理缓存文件');
-          await fs.emptyDir(context.config.cache);
+          await fs.emptyDir(context.config.cacheBase);
         } else {
           logger.warn('没有指定缓存目录');
         }
