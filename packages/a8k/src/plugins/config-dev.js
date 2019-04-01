@@ -1,5 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
+import loadConfig from '@a8k/cli-utils/load-config';
+import crypto from 'crypto';
 import { ENV_DEV, TYPE_CLIENT } from '../const';
 
 exports.apply = context => {
@@ -9,6 +11,23 @@ exports.apply = context => {
     if (type === TYPE_CLIENT && context.internals.mode === ENV_DEV) {
       // 开发模式
       if (eslint) {
+        const hash = crypto.createHash('sha256');
+        hash.update(
+          JSON.stringify(
+            loadConfig.loadSync({
+              files: [
+                '.eslintrc.js',
+                '.eslintrc.yaml',
+                '.eslintrc.yml',
+                '.eslintrc.json',
+                '.eslintrc',
+              ],
+              cwd: context.options.baseDir,
+              packageKey: 'eslintConfig',
+            })
+          )
+        );
+
         config.module
           .rule('eslint')
           .test(/\.(js|mjs|jsx)$/)
@@ -22,7 +41,7 @@ exports.apply = context => {
             failOnError: false,
             failOnWarning: false,
             quit: true,
-            cache: path.resolve(context.config.cache, 'eslint-loader'),
+            cache: path.resolve(context.config.cache, `eslint-loader-${hash.digest('hex')}`),
             formatter: require.resolve('eslint-friendly-formatter'),
             // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
             eslintPath: context.resolve('node_modules', 'eslint'),
