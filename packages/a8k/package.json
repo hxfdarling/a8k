@@ -1,6 +1,6 @@
 {
   "name": "a8k",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "bin": {
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js",
@@ -35,7 +35,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.5",
-    "babel-preset-a8k": "^1.5.0",
+    "babel-preset-a8k": "^1.6.3",
     "cache-loader": "^2.0.1",
     "chalk": "^2.4.2",
     "chokidar": "^2.1.5",

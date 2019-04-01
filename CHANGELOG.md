@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://github.com/hxfdarling/a8k/compare/v1.6.2...v1.6.3) (2019-04-01)
+
+
+### Bug Fixes
+
+* 提供babel的排除接口,清理缓存能力 ([30825ab](https://github.com/hxfdarling/a8k/commit/30825ab))
+* 修复eslint规则变化依然缓存上次结果 ([579f90e](https://github.com/hxfdarling/a8k/commit/579f90e))
+
+
+
+
+
 ## [1.6.2](https://github.com/hxfdarling/a8k/compare/v1.6.1...v1.6.2) (2019-03-29)
 
 **Note:** Version bump only for package a8k-packages
