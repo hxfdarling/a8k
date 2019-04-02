@@ -14,16 +14,8 @@
     "prepublishOnly": "npm run test",
     "test": "jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hxfdarling/html-inline-assets-loader.git"
-  },
   "author": "zman",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/hxfdarling/html-inline-assets-loader/issues"
-  },
-  "homepage": "https://github.com/hxfdarling/html-inline-assets-loader#readme",
   "dependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
