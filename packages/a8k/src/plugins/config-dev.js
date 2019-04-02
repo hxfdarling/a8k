@@ -2,6 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 import loadConfig from '@a8k/cli-utils/load-config';
 import crypto from 'crypto';
+import logger from '@a8k/cli-utils/logger';
 import { ENV_DEV, TYPE_CLIENT } from '../const';
 
 exports.apply = context => {
@@ -48,9 +49,27 @@ exports.apply = context => {
           });
       }
       if (stylelint) {
+        const stylelintConfig = loadConfig.loadSync({
+          files: [
+            '.stylelintrc.js',
+            '.stylelintrc.yaml',
+            '.stylelintrc.yml',
+            '.stylelintrc.json',
+            '.stylelintrc',
+          ],
+          cwd: context.options.baseDir,
+          packageKey: 'stylelintrc',
+        });
+        if (!stylelintConfig.data || Object.keys(stylelintConfig.data).length < 1) {
+          logger.error(
+            '确保stylelint配置文件正确有效,可以使用`npx k init lint`自动初始化stylelint'
+          );
+          process.exit(-1);
+        }
+        const stylelintFormatter = require('stylelint-formatter-pretty');
         const StyleLintPlugin = require('stylelint-webpack-plugin');
         StyleLintPlugin.__expression = "require('stylelint-webpack-plugin')";
-        config.plugin('StyleLintPlugin').use(StyleLintPlugin, []);
+        config.plugin('StyleLintPlugin').use(StyleLintPlugin, [{ formatter: stylelintFormatter }]);
       }
       const { HotModuleReplacementPlugin } = webpack;
       HotModuleReplacementPlugin.__expression = "require('webpack').HotModuleReplacementPlugin";

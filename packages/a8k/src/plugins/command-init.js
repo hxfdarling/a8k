@@ -16,7 +16,7 @@ export default {
   apply: context => {
     context
       .registerCommand('init [type]')
-      .description('给项目添加 eslint、commit message 校验,支持:lint,commit')
+      .description('给项目添加 eslint、stylelint、commit message 校验,支持参数:lint,commit')
       .action(async (type, options) => {
         if (!type) {
           ({ type } = await inquirer.prompt([
@@ -32,30 +32,55 @@ export default {
         const choice = initChoices.find(i => i.value === type);
         if (choice) {
           const pkgFile = path.join(cwd, 'package.json');
-          const pPkg = require(pkgFile);
+          const pkg = require(pkgFile);
           shell.cd(cwd);
           const npmCmd = getNpmCommand();
           switch (type) {
             case 'lint':
-              pPkg['lint-staged'] = {
-                '*.{json,css,scss,md}': ['prettier --write', 'git add'],
-                '*.{jsx,js}': ['prettier --write', 'eslint --fix', 'git add'],
-              };
-              pPkg.husky = pPkg.husky || {};
-              pPkg.husky.hooks = pPkg.husky.hooks || {};
-              pPkg.husky.hooks['pre-commit'] = 'lint-staged';
-              logWithSpinner('添加配置信息');
-              fs.writeFileSync(pkgFile, JSON.stringify(pPkg, null, 2));
-              logWithSpinner('安装依赖：husky,prettier,lint-staged');
+              {
+                pkg['lint-staged'] = {
+                  '*.{js,jsx,json,css,scss,md}': ['prettier --write', 'git add'],
+                  '*.{css,scss}': ['stylelint --fix', 'git add'],
+                  '*.{jsx,js}': ['prettier --write', 'eslint --fix', 'git add'],
+                };
+                pkg.scripts = pkg.scripts || {};
+                if (!pkg.scripts.stylelint) {
+                  pkg.scripts.stylelint = 'stylelint --fix src/**/*.{scss,css}';
+                }
+                if (!pkg.scripts.eslint) {
+                  pkg.scripts.eslint = 'eslint --fix src/**/*.{js,jsx}';
+                }
+                pkg.husky = pkg.husky || {};
+                pkg.husky.hooks = pkg.husky.hooks || {};
+                pkg.husky.hooks['pre-commit'] = 'lint-staged';
+                logWithSpinner('添加配置信息');
+                fs.writeFileSync(pkgFile, JSON.stringify(pkg, null, 2));
+                const stylelintFile = path.join(cwd, '.stylelintrc.js');
+                if (!fs.existsSync(stylelintFile)) {
+                  fs.writeFileSync(
+                    stylelintFile,
+                    "module.exports = { extends: ['stylelint-config-standard'] };"
+                  );
+                }
 
-              await util.promisify(shell.exec)(`${npmCmd} i husky prettier lint-staged -D`, {
-                silent: false,
-              });
+                logWithSpinner('安装依赖中');
+                const deps = [
+                  'eslint',
+                  'stylelint',
+                  'stylelint-config-standard',
+                  'prettier',
+                  'husky',
+                  'lint-staged',
+                ];
+                await util.promisify(shell.exec)(`${npmCmd} i ${deps.join(' ')} -D`, {
+                  silent: false,
+                });
 
-              stopSpinner();
+                stopSpinner();
+              }
               break;
             case 'commit': {
-              logWithSpinner('安装依赖：commitlint-config-imt');
+              logWithSpinner('安装依赖中');
               await util.promisify(shell.exec)(`${npmCmd} i commitlint-config-imt -D`, {
                 silent: true,
               });

@@ -97,6 +97,7 @@
     "strip-ansi": "^5.2.0",
     "style-loader": "^0.23.1",
     "stylelint": "^9.10.1",
+    "stylelint-formatter-pretty": "^1.0.3",
     "stylelint-webpack-plugin": "^0.10.5",
     "svg-inline-loader": "^0.8.0",
     "terser": "^3.17.0",
