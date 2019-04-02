@@ -31,10 +31,11 @@ export default {
       .description('启动开发者模式')
       .option('-s, --ssr', '服务端渲染开发调试')
       .option('-p, --port <port>', '配置开发者服务器监听端口')
-      .option('--eslint', '禁用eslint检测代码', false)
+      .option('--eslint', '启用eslint检测代码')
+      .option('--stylelint', '启用stylelint检测css')
       .option('-c, --css-source-map', '使用cssSourceMap ，但会导致开发模式 FOUC')
       .option('--inspectWebpack', '输出webpack配置信息')
-      .action(async ({ ssr, port, eslint, cssSourceMap, inspectWebpack }) => {
+      .action(async ({ ssr, port, eslint, stylelint, cssSourceMap, inspectWebpack }) => {
         process.env.NODE_ENV = ENV_DEV;
         context.options.inspectWebpack = inspectWebpack;
         context.internals.mode = ENV_DEV;
@@ -42,7 +43,7 @@ export default {
         if (port) {
           context.config.devServer.port = port;
         }
-        const options = { ssr, eslint, cssSourceMap };
+        const options = { ssr, eslint, stylelint, cssSourceMap };
         const { devServer, ssrDevServer, ssrConfig } = context.config;
 
         if (ssr) {

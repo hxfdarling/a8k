@@ -6,7 +6,7 @@ import { ENV_DEV, TYPE_CLIENT } from '../const';
 
 exports.apply = context => {
   context.chainWebpack((config, options) => {
-    const { type, eslint, ssr } = options;
+    const { type, eslint, stylelint, ssr } = options;
     // 只有客户端代码 开发模式才需要使用，构建服务器代码不需要
     if (type === TYPE_CLIENT && context.internals.mode === ENV_DEV) {
       // 开发模式
@@ -46,6 +46,11 @@ exports.apply = context => {
             // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
             eslintPath: context.resolve('node_modules', 'eslint'),
           });
+      }
+      if (stylelint) {
+        const StyleLintPlugin = require('stylelint-webpack-plugin');
+        StyleLintPlugin.__expression = "require('stylelint-webpack-plugin')";
+        config.plugin('StyleLintPlugin').use(StyleLintPlugin, []);
       }
       const { HotModuleReplacementPlugin } = webpack;
       HotModuleReplacementPlugin.__expression = "require('webpack').HotModuleReplacementPlugin";

@@ -51,7 +51,13 @@ export default {
           ...options,
           type: TYPE_CLIENT,
         });
-        await context.runWebpack(webpackConfig);
+        const compiler = context.createWebpackCompiler(webpackConfig);
+        compiler.hooks.done.tap('done', stats => {
+          if (stats.hasErrors()) {
+            process.exit(-1);
+          }
+        });
+        await context.runCompiler(compiler);
         await hooks.invokePromise('afterBuild', context);
 
         const { ssrConfig } = context.config;
@@ -68,7 +74,14 @@ export default {
             ...options,
             type: TYPE_SERVER,
           });
-          await context.runWebpack(webpackConfigSSR);
+          const compilerSSR = context.createWebpackCompiler(webpackConfigSSR);
+          compilerSSR.hooks.done.tap('done', stats => {
+            if (stats.hasErrors()) {
+              process.exit(-1);
+            }
+          });
+          await context.runCompiler(compilerSSR);
+          // await context.runWebpack(webpackConfigSSR);
           await context.hooks.invokePromise('afterSSRBuild', context);
         }
       });

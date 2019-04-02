@@ -297,6 +297,17 @@ class A8k {
     });
   }
 
+  async runCompiler(compiler) {
+    await new Promise((resolve, reject) => {
+      compiler.run((err, stats) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(stats);
+      });
+    });
+  }
+
   hasDependency(name, type = 'all') {
     const prodDeps = Object.keys(this.pkg.data.dependencies || {});
     const devDeps = Object.keys(this.pkg.data.devDependencies || {});
