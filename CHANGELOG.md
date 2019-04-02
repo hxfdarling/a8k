@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/hxfdarling/a8k/compare/v1.6.6...v1.7.0) (2019-04-02)
+
+
+### Features
+
+* 添加stylelint支持 ([cd48b8c](https://github.com/hxfdarling/a8k/commit/cd48b8c))
+
+
+
+
+
 ## [1.6.6](https://github.com/hxfdarling/a8k/compare/v1.6.5...v1.6.6) (2019-04-02)
 
 
