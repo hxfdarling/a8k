@@ -59,7 +59,10 @@ export default {
                 if (!fs.existsSync(stylelintFile)) {
                   fs.writeFileSync(
                     stylelintFile,
-                    "module.exports = { extends: ['stylelint-config-standard'] };"
+                    `module.exports = {
+  extends: ['stylelint-config-standard'],
+  plugins: ['stylelint-scss'],
+};`
                   );
                 }
 
@@ -68,6 +71,7 @@ export default {
                   'eslint',
                   'stylelint',
                   'stylelint-config-standard',
+                  'stylelint-scss',
                   'prettier',
                   'husky',
                   'lint-staged',
