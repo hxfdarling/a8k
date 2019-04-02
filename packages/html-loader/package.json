@@ -9,6 +9,9 @@
   "files": [
     "lib"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test:w": "jest --watch",
     "prepublishOnly": "npm run test",
