@@ -59,10 +59,16 @@ export default {
                 if (!fs.existsSync(stylelintFile)) {
                   fs.writeFileSync(
                     stylelintFile,
-                    `module.exports = {
+                    `
+module.exports = {
   extends: ['stylelint-config-standard'],
   plugins: ['stylelint-scss'],
-};`
+  rules: {
+    'at-rule-no-unknown': null,
+    'scss/at-rule-no-unknown': true,
+  },
+};
+`
                   );
                 }
 
