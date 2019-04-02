@@ -1,3 +1,4 @@
+import path from 'path';
 import { ENV_PROD, TYPE_SERVER } from '../../const';
 
 module.exports = (config, context, { type, mini }) => {
@@ -15,9 +16,10 @@ module.exports = (config, context, { type, mini }) => {
       minimize: mini && context.internals.mode === ENV_PROD,
     })
     .end()
-    .use('html-ineline-assets-loader')
-    .loader('html-inline-assets-loader')
+    .use('@a8k/html-loader')
+    .loader('@a8k/html-loader')
     .options({
+      cacheDirectory: path.resolve(context.config.cache, '@a8k/html-loader'),
       minimize: mini && context.internals.mode === ENV_PROD,
     })
     .end()

@@ -1,0 +1,24 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "cacheDirectory": {
+      "anyOf": [
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "minimize": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        }
+      ]
+    }
+  },
+  "errorMessages": {
+    "minimize": "should be {Boolean}",
+    "cacheDirectory": "should be {String} "
+  },
+  "type": "object"
+}

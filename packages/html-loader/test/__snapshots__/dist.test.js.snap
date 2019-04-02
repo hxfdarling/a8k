@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dist loader 在development模式下不引入: module (evaluated) 1`] = `
+"<!DOCTYPE html><html><head>
+    <title>imt application</title>
+    
+    
+  </head>
+  <body>
+
+</body></html>"
+`;
+
+exports[`dist loader 在development模式下不引入: module 1`] = `"module.exports = \\"<!DOCTYPE html><html><head>\\\\n    <title>imt application</title>\\\\n    \\\\n    \\\\n  </head>\\\\n  <body>\\\\n\\\\n</body></html>\\";"`;
+
+exports[`dist loader 在production模式下引入: module (evaluated) 1`] = `
+"<!DOCTYPE html><html><head>
+    <title>imt application</title>
+    <script>\\"use strict\\";
+
+console.log('inline');</script>
+    <script src=\\"inline_fde1ab.js\\"></script>
+  </head>
+  <body>
+
+</body></html>"
+`;
+
+exports[`dist loader 在production模式下引入: module 1`] = `"module.exports = \\"<!DOCTYPE html><html><head>\\\\n    <title>imt application</title>\\\\n    <script>\\\\\\"use strict\\\\\\";\\\\n\\\\nconsole.log('inline');</script>\\\\n    <script src=\\\\\\"inline_fde1ab.js\\\\\\"></script>\\\\n  </head>\\\\n  <body>\\\\n\\\\n</body></html>\\";"`;

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`link loader should link js/css: module (evaluated) 1`] = `
+"<!DOCTYPE html><html><head>
+    <title>imt application</title>
+    <link rel=\\"stylesheet\\" href=\\"inline_02f276.css\\">
+    <script src=\\"inline_fde1ab.js\\"></script>
+  </head>
+  <body>
+
+</body></html>"
+`;
+
+exports[`link loader should link js/css: module 1`] = `"module.exports = \\"<!DOCTYPE html><html><head>\\\\n    <title>imt application</title>\\\\n    <link rel=\\\\\\"stylesheet\\\\\\" href=\\\\\\"inline_02f276.css\\\\\\">\\\\n    <script src=\\\\\\"inline_fde1ab.js\\\\\\"></script>\\\\n  </head>\\\\n  <body>\\\\n\\\\n</body></html>\\";"`;
