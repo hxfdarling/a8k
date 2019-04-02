@@ -1,5 +1,18 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.6.4](https://github.com/hxfdarling/html-inline-assets-loader/compare/v1.6.3...v1.6.4) (2019-04-02)
+
+**Note:** Version bump only for package @a8k/html-loader
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 <a name="0.3.2"></a>
