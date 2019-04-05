@@ -366,3 +366,4 @@ class A8k {
 }
 
 export default (...args) => new A8k(...args);
+console.log('haige a8k');
