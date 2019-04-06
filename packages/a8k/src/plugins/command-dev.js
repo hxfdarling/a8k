@@ -56,6 +56,7 @@ export default {
             logger.error('没有在ssrConfig中配置需要直出的页面');
             process.exit(-1);
           }
+          // devServer 执行之前
           devServer.before = app => {
             const protocol = https ? 'https://' : 'http://';
             const proxy = {};

@@ -6,7 +6,7 @@ const Generator = require('yeoman-generator');
 const { basename, join } = require('path');
 const logger = require('@a8k/cli-utils/logger');
 const fs = require('fs-extra');
-const { toArray, createExampleComponent } = require('./heper');
+const { toArray, createExampleComponent } = require('./helper');
 
 // logger.setOptions({ debug: true });
 

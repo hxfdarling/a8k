@@ -215,6 +215,7 @@ class A8k {
   applyPlugins() {
     const plugins = [
       require.resolve('@a8k/plugin-react'),
+
       require.resolve('./plugins/config-base'),
       require.resolve('./plugins/config-dev'),
       require.resolve('./plugins/config-html'),
@@ -333,6 +334,7 @@ class A8k {
         )}"`
       );
     }
+
     this.commands.set(command, this._name);
     return this.cli.command(command);
   }
@@ -366,4 +368,3 @@ class A8k {
 }
 
 export default (...args) => new A8k(...args);
-console.log('haige a8k');
