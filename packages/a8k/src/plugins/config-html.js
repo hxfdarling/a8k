@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { ENV_DEV, ENV_PROD, TYPE_CLIENT, PROJECT_MODE_MULTI, PROJECT_MODE_SINGLE } from '../const';
+import EmptyPlugin from '../webpack/plugins/empty-plugin';
 
 const DEFAULT_PAGES_DIR = './src/pages';
 
@@ -98,6 +99,8 @@ exports.apply = context => {
           },
         ]);
       }
+      // mark html end
+      config.plugin('html-end').use(EmptyPlugin);
     }
   });
 };
