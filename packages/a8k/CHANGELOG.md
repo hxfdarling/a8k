@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/hxfdarling/a8k/compare/v1.7.0...v1.7.1) (2019-04-08)
+
+
+### Bug Fixes
+
+* 修复plugin不支持顺序问题,导致sw插件不能再html插件之后执行 ([3a576d9](https://github.com/hxfdarling/a8k/commit/3a576d9))
+
+
+
+
+
 # [1.7.0](https://github.com/hxfdarling/a8k/compare/v1.6.6...v1.7.0) (2019-04-02)
 
 
