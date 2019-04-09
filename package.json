@@ -23,7 +23,7 @@
     "lerna": "^3.13.1",
     "lint-staged": "^8.1.5",
     "prettier": "^1.16.4",
-    "vuepress": "^0.14.9"
+    "vuepress": "^0.14.10"
   },
   "directories": {
     "doc": "docs"

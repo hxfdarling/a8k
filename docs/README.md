@@ -20,10 +20,10 @@ yarn global add a8k
 # 或者：npm install -g a8k
 
 # 新建一个 项目 文件
-k create test
+k create demo
 
 # 进入项目目录
-cd test
+cd demo
 
 # 开始开发
 k dev

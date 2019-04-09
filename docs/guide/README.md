@@ -40,6 +40,34 @@ k build
 k test
 ```
 
+## 模板项目目录结构
+
+为了规范化项目，我们的模板项目规定了最基本的文件结构如下：
+
+```
+├── src 源代码目录
+|   ├── assets  公共资源目录
+|   |   ├── css  公共样式
+|   |   ├── images 公共图片
+|   |   ├── polyfill.js 填充库
+|   |   ├── rem.js 
+|   |   ├── template.html html模板
+|   |   └── vendor.js 第三方库
+|   ├── components 公共组件
+|   |   ├── Example
+|   ├── pages 页面目录
+|   |   ├── index 页面(url路径以目录名命名)
+├── .commitlintrc.js commit信息规范配置
+├── .editorconfig 编辑器格式化同步
+├── .eslintrc.js eslint配置
+├── .gitignore  git 忽略文件配置
+├── .gitmessage commit提示信息
+├── .prettierrc prettier 格式化配置
+├── a8k.config.js a8k构建配置
+├── jsconfig.json jsconfig配置，为了让vscode支持绝对路径智能感知
+└── package.json
+```
+
 ## 现有项目如何接入？
 
 在项目根目录添加配置文件:`a8k.config.js`
