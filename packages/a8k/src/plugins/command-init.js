@@ -11,12 +11,13 @@ import util from 'util';
 const initChoices = [
   { name: '添加 提交前 lint 和 prettier', value: 'lint' },
   { name: '添加 commit msg规范检测', value: 'commit' },
+  { name: '添加 jsconfig ', value: 'jsconfig' },
 ];
 export default {
   apply: context => {
     context
       .registerCommand('init [type]')
-      .description('给项目添加 eslint、stylelint、commit message 校验,支持参数:lint,commit')
+      .description('给项目添加额外能力')
       .action(async (type, options) => {
         if (!type) {
           ({ type } = await inquirer.prompt([
@@ -99,6 +100,34 @@ module.exports = {
                 os.platform() === 'win32' ? '.cmd' : ''
               }`;
               await util.promisify(shell.exec)(cmd, { silent: true });
+              stopSpinner();
+              break;
+            }
+            case 'jsconfig': {
+              logWithSpinner('添加jsconfig配置信息');
+              const jsconfig = path.join(cwd, 'jsconfig.json');
+              if (!fs.existsSync(jsconfig)) {
+                fs.writeFileSync(
+                  jsconfig,
+                  `
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "pages/*": ["./src/pages/*"]
+    }
+  }
+}               
+`
+                );
+              } else {
+                stopSpinner();
+                logger.warn('jsconfig配置已经存在');
+              }
               stopSpinner();
               break;
             }
