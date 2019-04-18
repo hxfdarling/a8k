@@ -45,6 +45,12 @@ const defaultConfig = {
   ssrDevServer: {
     host: 'localhost',
   },
+  ssrConfig: {
+    // js存放地址
+    dist: './app/components',
+    // html存放地址
+    view: './app/views',
+  },
 };
 
 program.version(require('../package.json').version);
@@ -114,19 +120,9 @@ class A8k {
     this.config.cacheBase = path.resolve(this.config.cache);
     // 缓存版本标记
     this.config.cache = path.resolve(this.config.cache, `v-${pkg.version}`);
-    // 如果有ssr配置
-    if (this.config.ssrConfig) {
-      this.config.ssrConfig = {
-        // js存放地址
-        dist: './node_modules/components',
-        // html存放地址
-        view: './app/views',
-        ...this.config.ssrConfig,
-      };
-      const { ssrConfig } = this.config;
-      ssrConfig.dist = this.resolve(ssrConfig.dist);
-      ssrConfig.view = this.resolve(ssrConfig.view);
-    }
+    // ssr配置
+    this.config.ssrConfig.dist = this.resolve(this.config.ssrConfig.dist);
+    this.config.ssrConfig.view = this.resolve(this.config.ssrConfig.view);
 
     this.config.devServer = {
       host: this.config.host || process.env.HOST || '0.0.0.0',
