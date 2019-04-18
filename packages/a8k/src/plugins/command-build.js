@@ -61,7 +61,7 @@ export default {
         await hooks.invokePromise('afterBuild', context);
 
         const { ssrConfig } = context.config;
-        if (ssrConfig) {
+        if (ssrConfig.entry) {
           logger.info('build ssr');
           await hooks.invokePromise('beforeSSRBuild', context);
 

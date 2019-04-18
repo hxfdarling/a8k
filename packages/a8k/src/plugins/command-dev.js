@@ -52,7 +52,7 @@ export default {
             logger.error('如需要调试直出，请配置 ssrDevServer:{port:xxx} 端口信息');
             process.exit(-1);
           }
-          if (!ssrConfig) {
+          if (!ssrConfig.entry) {
             logger.error('没有在ssrConfig中配置需要直出的页面');
             process.exit(-1);
           }
