@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.4](https://github.com/hxfdarling/a8k/compare/v1.8.3...v1.8.4) (2019-04-18)
+
+
+### Bug Fixes
+
+* 兼容旧版本imt ([e25dffb](https://github.com/hxfdarling/a8k/commit/e25dffb))
+
+
+
+
+
 ## [1.8.3](https://github.com/hxfdarling/a8k/compare/v1.8.2...v1.8.3) (2019-04-18)
 
 
