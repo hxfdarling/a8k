@@ -269,7 +269,11 @@ class A8k {
     let webpackConfig = config.toConfig();
     if (this.config.webpackOverride) {
       logger.warn('!!webpackOverride 已经废弃，请使用chainWebpack修改配置!!');
-      const modifyConfig = this.config.webpackOverride(webpackConfig, options);
+      // 兼容旧版本imt
+      const legacyOptions = {
+        type: options.type ? options.mode : 'server',
+      };
+      const modifyConfig = this.config.webpackOverride(webpackConfig, legacyOptions);
       if (modifyConfig) {
         webpackConfig = modifyConfig;
       }
