@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/hxfdarling/a8k/compare/v1.7.1...v1.8.0) (2019-04-18)
+
+
+### Bug Fixes
+
+* 优化默认的服务器渲染js存放目录 ([db30a9b](https://github.com/hxfdarling/a8k/commit/db30a9b))
+
+
+### Features
+
+* 添加了jsconfig初始化能力 ([18bee4b](https://github.com/hxfdarling/a8k/commit/18bee4b))
+
+
+
+
+
 ## [1.7.1](https://github.com/hxfdarling/a8k/compare/v1.7.0...v1.7.1) (2019-04-08)
 
 
