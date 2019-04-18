@@ -100,7 +100,7 @@ class A8k {
       files:
         typeof configFile === 'string'
           ? [configFile]
-          : ['.imtrc.js', 'imtrc.js', 'a8k.config.js', 'package.json'],
+          : ['a8k.config.js', 'imtrc.js', 'package.json'],
       cwd: baseDir,
       packageKey: 'a8k',
     });
