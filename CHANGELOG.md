@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.5](https://github.com/hxfdarling/a8k/compare/v1.8.4...v1.8.5) (2019-04-18)
+
+
+### Bug Fixes
+
+* 清理命令添加清除SSR构建结果 ([dd8e609](https://github.com/hxfdarling/a8k/commit/dd8e609))
+
+
+
+
+
 ## [1.8.4](https://github.com/hxfdarling/a8k/compare/v1.8.3...v1.8.4) (2019-04-18)
 
 
