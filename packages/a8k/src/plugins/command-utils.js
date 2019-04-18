@@ -17,6 +17,11 @@ export default {
         }
         logWithSpinner('清理构建结果文件');
         await fs.emptyDir(context.config.dist);
+        if (context.config.ssrConfig.entry) {
+          logWithSpinner('清理SSR构建结果文件');
+          await fs.emptyDir(context.config.ssrConfig.view);
+          await fs.emptyDir(context.config.ssrConfig.dist);
+        }
         stopSpinner();
       });
 
