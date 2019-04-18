@@ -271,7 +271,7 @@ class A8k {
       logger.warn('!!webpackOverride 已经废弃，请使用chainWebpack修改配置!!');
       // 兼容旧版本imt
       const legacyOptions = {
-        type: options.type ? options.mode : 'server',
+        type: options.type === TYPE_CLIENT ? options.mode : 'server',
       };
       const modifyConfig = this.config.webpackOverride(webpackConfig, legacyOptions);
       if (modifyConfig) {
