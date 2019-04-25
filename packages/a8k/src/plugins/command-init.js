@@ -72,7 +72,19 @@ module.exports = {
 `
                   );
                 }
-
+                const prettierFile = path.join(cwd, '.prettierrc');
+                if (!fs.existsSync(prettierFile)) {
+                  fs.writeFileSync(
+                    prettierFile,
+                    `{
+  "bracketSpacing": true,
+  "singleQuote": true,
+  "jsxBracketSameLine": false,
+  "trailingComma": "es5",
+  "printWidth": 80
+}`
+                  );
+                }
                 logWithSpinner('安装依赖中');
                 const deps = [
                   'eslint',
