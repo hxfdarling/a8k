@@ -5,174 +5,97 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.8.5](https://github.com/hxfdarling/a8k/compare/v1.8.4...v1.8.5) (2019-04-18)
 
-
 ### Bug Fixes
 
-* 清理命令添加清除SSR构建结果 ([dd8e609](https://github.com/hxfdarling/a8k/commit/dd8e609))
-
-
-
-
+- 清理命令添加清除 SSR 构建结果 ([dd8e609](https://github.com/hxfdarling/a8k/commit/dd8e609))
 
 ## [1.8.4](https://github.com/hxfdarling/a8k/compare/v1.8.3...v1.8.4) (2019-04-18)
 
-
 ### Bug Fixes
 
-* 兼容旧版本imt ([e25dffb](https://github.com/hxfdarling/a8k/commit/e25dffb))
-
-
-
-
+- 兼容旧版本 imt ([e25dffb](https://github.com/hxfdarling/a8k/commit/e25dffb))
 
 ## [1.8.3](https://github.com/hxfdarling/a8k/compare/v1.8.2...v1.8.3) (2019-04-18)
 
-
 ### Bug Fixes
 
-* 兼容旧版本imt ([2f95c8e](https://github.com/hxfdarling/a8k/commit/2f95c8e))
-
-
-
-
+- 兼容旧版本 imt ([2f95c8e](https://github.com/hxfdarling/a8k/commit/2f95c8e))
 
 ## [1.8.2](https://github.com/hxfdarling/a8k/compare/v1.8.1...v1.8.2) (2019-04-18)
 
-
 ### Bug Fixes
 
-* 修复依赖问题 ([8d56c3c](https://github.com/hxfdarling/a8k/commit/8d56c3c))
-
-
-
-
+- 修复依赖问题 ([8d56c3c](https://github.com/hxfdarling/a8k/commit/8d56c3c))
 
 ## [1.8.1](https://github.com/hxfdarling/a8k/compare/v1.8.0...v1.8.1) (2019-04-18)
 
-
 ### Bug Fixes
 
-* 修复支出配置识别错误 ([6c0faad](https://github.com/hxfdarling/a8k/commit/6c0faad))
-
-
-
-
+- 修复支出配置识别错误 ([6c0faad](https://github.com/hxfdarling/a8k/commit/6c0faad))
 
 # [1.8.0](https://github.com/hxfdarling/a8k/compare/v1.7.1...v1.8.0) (2019-04-18)
 
-
 ### Bug Fixes
 
-* 优化默认的服务器渲染js存放目录 ([db30a9b](https://github.com/hxfdarling/a8k/commit/db30a9b))
-
+- 优化默认的服务器渲染 js 存放目录 ([db30a9b](https://github.com/hxfdarling/a8k/commit/db30a9b))
 
 ### Features
 
-* 添加了jsconfig初始化能力 ([18bee4b](https://github.com/hxfdarling/a8k/commit/18bee4b))
-
-
-
-
+- 添加了 jsconfig 初始化能力 ([18bee4b](https://github.com/hxfdarling/a8k/commit/18bee4b))
 
 ## [1.7.1](https://github.com/hxfdarling/a8k/compare/v1.7.0...v1.7.1) (2019-04-08)
 
-
 ### Bug Fixes
 
-* 修复plugin不支持顺序问题,导致sw插件不能再html插件之后执行 ([3a576d9](https://github.com/hxfdarling/a8k/commit/3a576d9))
-
-
-
-
+- 修复 plugin 不支持顺序问题,导致 sw 插件不能再 html 插件之后执行 ([3a576d9](https://github.com/hxfdarling/a8k/commit/3a576d9))
 
 # [1.7.0](https://github.com/hxfdarling/a8k/compare/v1.6.6...v1.7.0) (2019-04-02)
 
-
 ### Features
 
-* 添加stylelint支持 ([cd48b8c](https://github.com/hxfdarling/a8k/commit/cd48b8c))
-
-
-
-
+- 添加 stylelint 支持 ([cd48b8c](https://github.com/hxfdarling/a8k/commit/cd48b8c))
 
 ## [1.6.6](https://github.com/hxfdarling/a8k/compare/v1.6.5...v1.6.6) (2019-04-02)
 
-
 ### Bug Fixes
 
-* 回滚webpack版本到4.28.4,修复动态import异常 ([666ee38](https://github.com/hxfdarling/a8k/commit/666ee38))
-
-
-
-
+- 回滚 webpack 版本到 4.28.4,修复动态 import 异常 ([666ee38](https://github.com/hxfdarling/a8k/commit/666ee38))
 
 ## [1.6.5](https://github.com/hxfdarling/a8k/compare/v1.6.4...v1.6.5) (2019-04-02)
 
 **Note:** Version bump only for package a8k
 
-
-
-
-
 ## [1.6.4](https://github.com/hxfdarling/a8k/compare/v1.6.3...v1.6.4) (2019-04-02)
 
 **Note:** Version bump only for package a8k
 
-
-
-
-
 ## [1.6.3](https://github.com/hxfdarling/a8k/compare/v1.6.2...v1.6.3) (2019-04-01)
-
 
 ### Bug Fixes
 
-* 提供babel的排除接口,清理缓存能力 ([30825ab](https://github.com/hxfdarling/a8k/commit/30825ab))
-* 修复eslint规则变化依然缓存上次结果 ([579f90e](https://github.com/hxfdarling/a8k/commit/579f90e))
-
-
-
-
+- 提供 babel 的排除接口,清理缓存能力 ([30825ab](https://github.com/hxfdarling/a8k/commit/30825ab))
+- 修复 eslint 规则变化依然缓存上次结果 ([579f90e](https://github.com/hxfdarling/a8k/commit/579f90e))
 
 ## [1.6.2](https://github.com/hxfdarling/a8k/compare/v1.6.1...v1.6.2) (2019-03-29)
 
 **Note:** Version bump only for package a8k
 
-
-
-
-
 ## [1.6.1](https://github.com/hxfdarling/a8k/compare/v1.6.0...v1.6.1) (2019-03-29)
 
 **Note:** Version bump only for package a8k
 
-
-
-
-
 # [1.6.0](https://github.com/hxfdarling/a8k/compare/v1.5.0...v1.6.0) (2019-03-25)
-
 
 ### Features
 
-* 默认支持lodash-es的编译 ([5ecb423](https://github.com/hxfdarling/a8k/commit/5ecb423))
-
-
-
-
+- 默认支持 lodash-es 的编译 ([5ecb423](https://github.com/hxfdarling/a8k/commit/5ecb423))
 
 # [1.5.0](https://github.com/hxfdarling/a8k/compare/v1.4.2...v1.5.0) (2019-03-20)
 
-
 ### Features
 
-* 支持直接导出构建分析文件 ([9106f69](https://github.com/hxfdarling/a8k/commit/9106f69))
-* 支持自动剔除moment中的多余local文件 ([87c5f88](https://github.com/hxfdarling/a8k/commit/87c5f88))
-
-
-
-
+- 支持直接导出构建分析文件 ([9106f69](https://github.com/hxfdarling/a8k/commit/9106f69))
+- 支持自动剔除 moment 中的多余 local 文件 ([87c5f88](https://github.com/hxfdarling/a8k/commit/87c5f88))
 
 ## [1.4.2](https://github.com/hxfdarling/a8k/compare/v1.4.1...v1.4.2) (2019-03-20)
 
