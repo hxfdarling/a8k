@@ -75,10 +75,80 @@ module.exports = {
 
 ### retry
 
+JavaScript、css 加载多域名重试配置,配置项支持：`retryPublicPath`,`exclude`
+
+配置示例:
+
+```js
+module.exports = {
+  retry: {
+    retry: {
+      retryPublicPath: '//fudao.qq.com/pc/', //重试的地址前缀
+      exclude: [/\/\/sqimg\.qq\.com/, /pub\.idqqimg\.com/], // 通过正则表达式，排除不需要重试的文件
+    },
+  },
+};
+```
+
 ### ssrConfig
 
+服务器渲染配置
+
+`dist`:服务器渲染代码入口构建存放目录，默认值：`./app/components`
+
+`view`:视图代码存放目录（及 html 模板存放目录),默认值:`./app/views`
+`entry`:支持服务器渲染的页面入口文件
+
+配置示例：
+
+```js
+module.exports = {
+  //省略其他配置
+  ssrConfig: {
+    dist: './app/components/',
+    view: './app/views',
+    entry: {
+      providerDiscover: './src/pages/discover/ProviderDiscover',
+      providerCourse: './src/pages/course/ProviderCourse',
+      providerSearch: './src/pages/search/ProviderSearch',
+    },
+  },
+};
+```
+
 ### ignorePages
+
+正则表达式，配置`src/pages`目录下面需要排除的文件夹，使用场景是你希望构建不要处理 `src/pages` 目录下面的某些目录（及不认为他们是一个页面)
 
 ## 自定义 webpack 配置
 
 利用了 webpack-chain 实现自定义配置，具体配置项是`chainWebpack`,该配置项提供一个函数，参数有`config、options`
+
+其中`config`是 WebpackChain 实例对象；
+options 中包括了两个重要参数：`type`和`mode`,其中 type 取值`server`或`client`分别标识服务器代码、前端代码,mode 取值`production`或`development`,标识是生产模式还是开发模式
+
+配置示例:
+
+```js
+module.exports = {
+  //省略其他配置
+  /**
+   * @param WebpackChain config webpackChain实例对象
+   * @param {type:string,mode:string} options 包括:type取值:server、client;mode取值:production、development
+   */
+  chainWebpack(config, options) {
+    //添加自定义loader
+    config.module
+      .rule('css')
+      .test(/\.(scss|css)$/)
+      .use('loader-name') //配置一个名字，方便标识
+      .loader('style-loader');
+    //自定义plugin
+    const Plugin = require('you-plugin-module');
+    Plugin.__expression = `require('you-plugin-module')`;
+    config.plugin('you-plugin-name').use(Plugin, [params1, params2]);
+  },
+};
+```
+
+更多配置方法请参考哦[webpack chain 文档](https://github.com/neutrinojs/webpack-chain)
