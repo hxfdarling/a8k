@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.7](https://github.com/hxfdarling/a8k/compare/v1.8.6...v1.8.7) (2019-05-20)
+
+### Bug Fixes
+
+- 修复 webpack 动态导入错误 ([84e3108](https://github.com/hxfdarling/a8k/commit/84e3108))
+
 ## [1.8.6](https://github.com/hxfdarling/a8k/compare/v1.8.5...v1.8.6) (2019-05-20)
 
 **Note:** Version bump only for package a8k
