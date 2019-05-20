@@ -37,6 +37,8 @@
     "@a8k/html-loader": "^1.8.6",
     "@a8k/plugin-react": "^1.8.6",
     "@babel/runtime": "^7.4.4",
+    "acorn": "^6.1.1",
+    "acorn-dynamic-import": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
