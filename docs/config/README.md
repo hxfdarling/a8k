@@ -97,6 +97,7 @@ module.exports = {
 `dist`:服务器渲染代码入口构建存放目录，默认值：`./app/components`
 
 `view`:视图代码存放目录（及 html 模板存放目录),默认值:`./app/views`
+
 `entry`:支持服务器渲染的页面入口文件
 
 配置示例：
@@ -118,14 +119,15 @@ module.exports = {
 
 ### ignorePages
 
-正则表达式，配置`src/pages`目录下面需要排除的文件夹，使用场景是你希望构建不要处理 `src/pages` 目录下面的某些目录（及不认为他们是一个页面)
+正则表达式，配置`src/pages`目录下面需要排除的文件夹，使用场景是你希望构建不要处理 `src/pages` 目录下面的某些目录（及排除这些目录作为页面处理)
 
 ## 自定义 webpack 配置
 
 利用了 webpack-chain 实现自定义配置，具体配置项是`chainWebpack`,该配置项提供一个函数，参数有`config、options`
 
-其中`config`是 WebpackChain 实例对象；
-options 中包括了两个重要参数：`type`和`mode`,其中 type 取值`server`或`client`分别标识服务器代码、前端代码,mode 取值`production`或`development`,标识是生产模式还是开发模式
+`config`: 是 WebpackChain 实例对象；
+
+`options`: 中包括了两个重要参数：`type`和`mode`,其中 type 取值`server`或`client`分别标识服务器代码、前端代码,mode 取值`production`或`development`,标识是生产模式还是开发模式
 
 配置示例:
 
