@@ -14,9 +14,16 @@ const getPages = context => {
       return false;
     }
     let filepath = path.join(pagesDir, item, 'index.js');
+    const filePathTs = path.join(pagesDir, item, 'index.ts');
 
     if (!fs.existsSync(filepath)) {
       filepath = `${filepath}x`; // jsx
+    }
+    if (!fs.existsSync(filepath)) {
+      filepath = filePathTs;
+    }
+    if (!fs.existsSync(filepath)) {
+      filepath = `${filepath}x`; // tsx
     }
     if (!fs.existsSync(filepath)) {
       return false;
