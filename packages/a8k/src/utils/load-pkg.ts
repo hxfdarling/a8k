@@ -1,12 +1,12 @@
-import path from 'path';
-import chokidar from 'chokidar';
 import logger from '@a8k/cli-utils/logger';
+import chokidar from 'chokidar';
 import JoyCon from 'joycon';
+import path from 'path';
 
 export default ({ cwd = process.cwd() } = {}) => {
-  let pkgData;
-  let pkgPath;
-  let watcher;
+  let pkgData: any;
+  let pkgPath: string;
+  let watcher: any;
 
   const updatePkg = () => {
     const joycon = new JoyCon({

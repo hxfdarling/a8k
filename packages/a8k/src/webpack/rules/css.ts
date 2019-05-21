@@ -1,9 +1,16 @@
 import loadConfig from '@a8k/cli-utils/load-config';
 import logger from '@a8k/cli-utils/logger';
 import path from 'path';
+import WebpackChain from 'webpack-chain';
 import { ENV_PROD, TYPE_SERVER } from '../../const';
+import A8k from '../..';
 
-module.exports = (config, context, { type, ssr, cssSourceMap, sourceMap }, filename) => {
+export default (
+  config: WebpackChain,
+  context: A8k,
+  { type, ssr, cssSourceMap, sourceMap },
+  filename: string
+) => {
   if (type === TYPE_SERVER) {
     // 服务端渲染，直接忽略css
     config.module

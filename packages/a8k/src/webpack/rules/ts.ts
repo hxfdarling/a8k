@@ -1,4 +1,6 @@
-module.exports = config => {
+import WebpackChain from 'webpack-chain';
+
+export default (config: WebpackChain) => {
   config.module
     .rule('ts')
     .test(/\.tsx?$/)

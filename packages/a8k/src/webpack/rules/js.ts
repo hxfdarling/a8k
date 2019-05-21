@@ -1,7 +1,9 @@
 import path from 'path';
+import WebpackChain from 'webpack-chain';
 import { ENV_DEV, TYPE_SERVER } from '../../const';
+import A8k from '../..';
 
-module.exports = (config, context, { type }) => {
+export default (config: WebpackChain, context: A8k, { type }) => {
   let include = [];
   let exclude = [];
   if (context.config.babel) {

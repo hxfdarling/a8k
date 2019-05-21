@@ -1,6 +1,8 @@
+import WebpackChain from 'webpack-chain';
 import { TYPE_SERVER } from '../../const';
+import A8k from '../..';
 
-module.exports = (config, context, { type }, filename) => {
+export default (config: WebpackChain, context: A8k, { type }, filename: string) => {
   const isSSR = TYPE_SERVER === type;
   config.module
     // 部分json文件只需要使用路径

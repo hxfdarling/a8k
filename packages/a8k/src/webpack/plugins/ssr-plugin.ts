@@ -11,6 +11,8 @@ function deleteLoading(str) {
 }
 
 class SSRPlugin {
+  options: { ssrConfig: { entry: any; view: string }; dist: string };
+
   constructor(options) {
     this.options = options;
   }

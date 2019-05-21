@@ -1,7 +1,9 @@
 import path from 'path';
+import WebpackChain from 'webpack-chain';
 import { ENV_PROD, TYPE_SERVER } from '../../const';
+import A8k from '../..';
 
-module.exports = (config, context, { type, mini }) => {
+export default (config: WebpackChain, context: A8k, { type, mini }) => {
   if (type === TYPE_SERVER) {
     return;
   }

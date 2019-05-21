@@ -74,15 +74,15 @@ exports.apply = context => {
     // TODO：项目里面有使用到
     // config.module.set('wrappedContextRecursive', false);
 
-    require('../webpack/rules/ts')(config, context, options);
-    require('../webpack/rules/js')(config, context, options);
-    require('../webpack/rules/css')(config, context, options, filenames.css);
-    require('../webpack/rules/fonts')(config, context, options, filenames.font);
-    require('../webpack/rules/images')(config, context, options, filenames.image);
-    require('../webpack/rules/file')(config, context, options, filenames.image);
-    require('../webpack/rules/html')(config, context, options);
+    require('../webpack/rules/ts').default(config, context, options);
+    require('../webpack/rules/js').default(config, context, options);
+    require('../webpack/rules/css').default(config, context, options, filenames.css);
+    require('../webpack/rules/fonts').default(config, context, options, filenames.font);
+    require('../webpack/rules/images').default(config, context, options, filenames.image);
+    require('../webpack/rules/file').default(config, context, options, filenames.image);
+    require('../webpack/rules/html').default(config, context, options);
 
-    require('../webpack/optimization.config')(config, context, options);
+    require('../webpack/optimization.config').default(config, context, options);
     require('../webpack/plugins.config').default(config, context, options);
 
     if (analyzer) {

@@ -1,6 +1,8 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 class MarkTimePlugin {
+  options: any;
+
   constructor(options = {}) {
     this.options = options;
   }

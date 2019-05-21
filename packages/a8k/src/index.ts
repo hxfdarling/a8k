@@ -45,6 +45,9 @@ interface A8kConfig {
   publicPath: string;
   plugins: Array<string>;
   webpackOverride: Function;
+  crossOrigin: boolean;
+  retry: any;
+  babel: { include: Array<string | RegExp>; exclude: Array<string | RegExp> };
   // [key: string]: any;
 }
 
@@ -294,7 +297,7 @@ export default class A8k {
 
   async runCompiler(compiler) {
     await new Promise((resolve, reject) => {
-      compiler.run((err:Error, stats:any) => {
+      compiler.run((err: Error, stats: any) => {
         if (err) {
           return reject(err);
         }

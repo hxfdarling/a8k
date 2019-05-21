@@ -7,6 +7,8 @@ import chalk from 'chalk';
  */
 
 class ReportStatusPlugin {
+  options: any;
+
   /**
    *Creates an instance of ReportStatusPlugin.
    * @param {Options} options

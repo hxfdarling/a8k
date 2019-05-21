@@ -10,7 +10,8 @@ async function printInstructions(devServer) {
   console.log();
 
   // eslint-disable-next-line max-len
-  const getLocalAddress = color => `${protocol}${isAnyHost ? 'localhost' : host}:${color ? chalk.bold(port) : port}`;
+  const getLocalAddress = color =>
+    `${protocol}${isAnyHost ? 'localhost' : host}:${color ? chalk.bold(port) : port}`;
   console.log(`  ${chalk.green('Local:')}            ${getLocalAddress(true)}`);
 
   const ip = await getIp.v4();

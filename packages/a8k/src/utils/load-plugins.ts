@@ -1,6 +1,6 @@
 import resolveFrom from 'resolve-from';
 
-export default (plugins, cwd) => {
+export default (plugins: Array<any>, cwd: string) => {
   return plugins
     .map(plugin => {
       if (typeof plugin === 'string') {

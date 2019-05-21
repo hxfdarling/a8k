@@ -1,7 +1,9 @@
 import path from 'path';
 import { ENV_PROD, TYPE_CLIENT } from '../const';
+import WebpackChain from 'webpack-chain';
+import A8k from '..';
 
-module.exports = (config, context, { type, mini, sourceMap }) => {
+export default (config: WebpackChain, context: A8k, { type, mini, sourceMap }) => {
   config.optimization.minimize(false);
 
   if (context.internals.mode === ENV_PROD && mini) {
@@ -102,9 +104,9 @@ module.exports = (config, context, { type, mini, sourceMap }) => {
           cssProcessorOptions: {
             map: sourceMap
               ? {
-                inline: false,
-                annotation: true,
-              }
+                  inline: false,
+                  annotation: true,
+                }
               : false,
             safe: true,
             discardComments: true,
