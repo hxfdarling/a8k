@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/hxfdarling/a8k/compare/v1.9.0...v1.9.1) (2019-05-21)
+
+### Bug Fixes
+
+- 修复清理缓存目录失败 ([81c547a](https://github.com/hxfdarling/a8k/commit/81c547a))
+
 # [1.9.0](https://github.com/hxfdarling/a8k/compare/v1.8.7...v1.9.0) (2019-05-21)
 
 ### Bug Fixes
