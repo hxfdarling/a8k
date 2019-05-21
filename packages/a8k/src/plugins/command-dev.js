@@ -5,6 +5,7 @@ import os from 'os';
 import WebpackDevServer from 'webpack-dev-server';
 import { ENV_DEV, TYPE_CLIENT, TYPE_SERVER } from '../const';
 import { printInstructions, setProxy } from '../utils/helper';
+import cleanUnusedCache from '../utils/clean-old-cache';
 
 const isInteractive = process.stdout.isTTY;
 
@@ -36,6 +37,7 @@ export default {
       .option('-c, --css-source-map', '使用cssSourceMap ，但会导致开发模式 FOUC')
       .option('--inspectWebpack', '输出webpack配置信息')
       .action(async ({ ssr, port, eslint, stylelint, cssSourceMap, inspectWebpack }) => {
+        await cleanUnusedCache(context);
         process.env.NODE_ENV = ENV_DEV;
         context.options.inspectWebpack = inspectWebpack;
         context.internals.mode = ENV_DEV;
