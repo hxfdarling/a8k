@@ -74,6 +74,7 @@ exports.apply = context => {
     // TODO：项目里面有使用到
     // config.module.set('wrappedContextRecursive', false);
 
+    require('../webpack/rules/ts')(config, context, options);
     require('../webpack/rules/js')(config, context, options);
     require('../webpack/rules/css')(config, context, options, filenames.css);
     require('../webpack/rules/fonts')(config, context, options, filenames.font);
@@ -86,10 +87,12 @@ exports.apply = context => {
 
     if (analyzer) {
       const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-      config.plugin('bundle-analyzer-plugin').use(BundleAnalyzerPlugin, [{
-        analyzerMode: 'static',
-        reportFilename: `a8k_report_${type}.html`,
-      }]);
+      config.plugin('bundle-analyzer-plugin').use(BundleAnalyzerPlugin, [
+        {
+          analyzerMode: 'static',
+          reportFilename: `a8k_report_${type}.html`,
+        },
+      ]);
     }
   });
 };
