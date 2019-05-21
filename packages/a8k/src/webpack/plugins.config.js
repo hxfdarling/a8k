@@ -1,17 +1,21 @@
-import webpack from 'webpack';
+// import webpack from 'webpack';
 import { ENV_PROD, TYPE_CLIENT } from '../const';
 
 export default (config, context, { type, mini, silent }) => {
   // 只有命令行中才显示进度，CI系统日志不需要
-  if (process.stderr.isTTY) {
-    const { ProgressPlugin } = webpack;
-    ProgressPlugin.__expression = "require('webpack').ProgressPlugin";
-    config.plugin('ProgressPlugin').use(ProgressPlugin);
-  }
-  const BuildTime = require('./plugins/build-time');
-  BuildTime.__expression = "require('a8k/lib/webpack/plugins/build-time')";
-  config.plugin('buildTime').use(BuildTime, [{ name: type }]);
-
+  // if (process.stderr.isTTY) {
+  // const { ProgressPlugin } = webpack;
+  // ProgressPlugin.__expression = "require('webpack').ProgressPlugin";
+  // config.plugin('ProgressPlugin').use(ProgressPlugin);
+  const WebpackBar = require('webpackbar');
+  WebpackBar.__expression = "require('webpackbar')";
+  config.plugin('bar').use(WebpackBar, [
+    {
+      name: type,
+      color: '#41b883',
+    },
+  ]);
+  // }
   const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
   MomentLocalesPlugin.__expression = "require('moment-locales-webpack-plugin')";
   config.plugin('MomentLocalesPlugin').use(MomentLocalesPlugin, [

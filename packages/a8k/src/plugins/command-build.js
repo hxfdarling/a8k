@@ -1,7 +1,6 @@
-import logger from '@a8k/cli-utils/logger';
-import { logWithSpinner, stopSpinner } from '@a8k/cli-utils/spinner';
 import fs from 'fs-extra';
-import { ENV_PROD, TYPE_CLIENT, TYPE_SERVER, ENV_DEV } from '../const';
+import { ENV_DEV, ENV_PROD, TYPE_CLIENT, TYPE_SERVER } from '../const';
+import cleanUnusedCache from '../utils/clean-old-cache.js';
 
 export default {
   apply: context => {
@@ -17,7 +16,8 @@ export default {
       .option('--dev', '环境变量使用 development')
       .option('--inspectWebpack', '输出webpack配置信息')
       .action(async ({ dev, analyzer, inspectWebpack, sourceMap, mini, silent }) => {
-        // 为了让react这样的库不要使用压缩代码
+        await cleanUnusedCache(context);
+        // 为了让react这样的库不要使用压缩代码;
         process.env.NODE_ENV = dev ? ENV_DEV : ENV_PROD;
 
         context.options.inspectWebpack = inspectWebpack;
@@ -30,8 +30,6 @@ export default {
           analyzer,
         };
 
-        logger.info('build frontend');
-
         if (silent) {
           process.noDeprecation = true;
         }
@@ -43,8 +41,8 @@ export default {
         // }
 
         await hooks.invokePromise('beforeBuild', context);
-        logWithSpinner('clean frontend dist dir.');
-        stopSpinner();
+        // logWithSpinner('clean frontend dist dir.');
+        // stopSpinner();
 
         fs.emptyDirSync(context.config.dist);
         const webpackConfig = context.resolveWebpackConfig({
@@ -57,18 +55,18 @@ export default {
             process.exit(-1);
           }
         });
-        await context.runCompiler(compiler);
-        await hooks.invokePromise('afterBuild', context);
+        const clientCompiler = context
+          .runCompiler(compiler)
+          .then(() => hooks.invokePromise('afterBuild', context));
 
         const { ssrConfig } = context.config;
         if (ssrConfig.entry) {
-          logger.info('build ssr');
           await hooks.invokePromise('beforeSSRBuild', context);
 
           fs.emptyDirSync(ssrConfig.dist);
           fs.emptyDirSync(ssrConfig.view);
-          logWithSpinner('clean ssr dist dir.');
-          stopSpinner();
+          // logWithSpinner('clean ssr dist dir.');
+          // stopSpinner();
 
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,
@@ -81,7 +79,7 @@ export default {
             }
           });
           await context.runCompiler(compilerSSR);
-          // await context.runWebpack(webpackConfigSSR);
+          await clientCompiler;
           await context.hooks.invokePromise('afterSSRBuild', context);
         }
       });

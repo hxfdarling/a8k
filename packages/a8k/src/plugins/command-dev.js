@@ -4,6 +4,7 @@ import chalk from 'chalk';
 import os from 'os';
 import WebpackDevServer from 'webpack-dev-server';
 import { ENV_DEV, TYPE_CLIENT, TYPE_SERVER } from '../const';
+import cleanUnusedCache from '../utils/clean-old-cache';
 import { printInstructions, setProxy } from '../utils/helper';
 
 const isInteractive = process.stdout.isTTY;
@@ -34,8 +35,10 @@ export default {
       .option('--eslint', '启用eslint检测代码')
       .option('--stylelint', '启用stylelint检测css')
       .option('-c, --css-source-map', '使用cssSourceMap ，但会导致开发模式 FOUC')
+      .option('--no-silent', '输出日志')
       .option('--inspectWebpack', '输出webpack配置信息')
-      .action(async ({ ssr, port, eslint, stylelint, cssSourceMap, inspectWebpack }) => {
+      .action(async ({ ssr, port, eslint, silent, stylelint, cssSourceMap, inspectWebpack }) => {
+        await cleanUnusedCache(context);
         process.env.NODE_ENV = ENV_DEV;
         context.options.inspectWebpack = inspectWebpack;
         context.internals.mode = ENV_DEV;
@@ -43,6 +46,10 @@ export default {
         if (port) {
           context.config.devServer.port = port;
         }
+        if (silent) {
+          process.noDeprecation = true;
+        }
+
         const options = { ssr, eslint, stylelint, cssSourceMap };
         const { devServer, ssrDevServer, ssrConfig } = context.config;
 
@@ -147,7 +154,6 @@ export default {
           process.exit(1);
         }
         if (options.ssr) {
-          logger.info('starting ssr watch.');
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,
             type: TYPE_SERVER,
