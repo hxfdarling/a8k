@@ -9,7 +9,7 @@ export const ENV_TEST = 'test';
 export const PROJECT_MODE_SINGLE = 'single';
 export const PROJECT_MODE_MULTI = 'multi';
 
-let root;
+let root: string;
 if (process.platform === 'win32') {
   root = process.env.USERPROFILE || process.env.APPDATA || process.env.TMP || process.env.TEMP;
 } else {

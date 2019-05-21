@@ -5,55 +5,15 @@ import fs from 'fs-extra';
 import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
-
-import pkg from '../package.json';
-
 import { ENV_DEV, ENV_PROD, TYPE_CLIENT } from './const';
+import defaultConfig from './default-config';
 import Hooks from './hooks';
 import loadPkg from './utils/load-pkg';
 import loadPlugins from './utils/load-plugins';
 
-const defaultConfig = {
-  cache: 'node_modules/.cache',
-  publicPath: '',
-  devServer: {
-    https: false,
-    // Enable gzip compression of generated files.
-    compress: true,
-    // Silence WebpackDevServer's own logs since they're generally not useful.
-    // It will still show compile warnings and errors with this setting.
-    clientLogLevel: 'none',
-    // Enable hot reloading server. It will provide /sockjs-node/ endpoint
-    // for the WebpackDevServer client so it can learn when the files were
-    // updated. The WebpackDevServer client is included as an entry point
-    // in the Webpack development configuration. Note that only changes
-    // to CSS are currently hot reloaded. JS changes will refresh the browser.
-    hot: true,
-    // WebpackDevServer is noisy by default so we emit custom message instead
-    // by listening to the compiler events with `compiler.hooks[...].tap` calls
-    // above.
-    quiet: true,
-    overlay: false,
-    headers: {
-      'access-control-allow-origin': '*',
-    },
-    historyApiFallback: {
-      // Paths with dots should still use the history fallback.
-      disableDotRule: true,
-    },
-  },
-  ssrDevServer: {
-    host: 'localhost',
-  },
-  ssrConfig: {
-    // js存放地址
-    dist: './app/components',
-    // html存放地址
-    view: './app/views',
-  },
-};
+const { version } = require('../package.json');
 
-program.version(require('../package.json').version);
+program.version(version);
 
 program.option('--nochecklatest', '不检测最新版本');
 
@@ -64,20 +24,62 @@ program.on('command:*', () => {
   process.exit(1);
 });
 
-class A8k {
-  constructor(options = {}, _config = {}) {
-    this.options = {
-      ...options,
-      cliPath: path.resolve(__dirname, '../'),
-      cliArgs: options.cliArgs || process.argv,
-      baseDir: path.resolve(options.baseDir || '.'),
-    };
-    const { baseDir, debug, configFile } = this.options;
+interface A8kOptions {
+  cliArgs: Array<string>;
+  cliPath: string;
+  baseDir: string;
+  debug?: boolean;
+  configFile?: string;
+  inspectWebpack?: boolean;
+}
+interface A8kConfig {
+  dist: any;
+  cacheBase: any;
+  cache: any;
+  ssrConfig: any;
+  devServer: any;
+  host: string;
+  port: string;
+  chainWebpack: Function;
+  envs: any;
+  publicPath: string;
+  plugins: Array<string>;
+  webpackOverride: Function;
+  // [key: string]: any;
+}
 
-    this.hooks = new Hooks();
-    this.config = { ..._config };
-    // Exposed
-    this.commands = new Map();
+interface Internals {
+  mode: string;
+}
+export default class A8k {
+  options: A8kOptions;
+  config: A8kConfig;
+  hooks = new Hooks();
+  commands = new Map();
+  logger = logger;
+  internals: Internals;
+  buildId: string;
+  pkg: any;
+  cli: any;
+  configFilePath: string;
+  plugins = [];
+  _inspectWebpackConfigPath: string;
+  constructor(options?: A8kOptions) {
+    this.options = {
+      cliPath: path.resolve(__dirname, '../'),
+      cliArgs: process.argv,
+      baseDir: path.resolve('.'),
+    };
+    if (options) {
+      this.options = { ...this.options, ...options };
+      const { baseDir } = options;
+      if (baseDir) {
+        this.options.baseDir = path.resolve(baseDir);
+      }
+    }
+    const { baseDir, debug } = this.options;
+
+    this.config = {} as A8kConfig;
     this.logger = logger;
 
     this.internals = {
@@ -94,8 +96,15 @@ class A8k {
       debug,
     });
 
-    // Load .env file before loading config file
-    const envs = this.loadEnvs();
+    this.initConfig();
+
+    // 客户端定制webpack配置
+    if (this.config.chainWebpack) {
+      this.hooks.add('chainWebpack', this.config.chainWebpack);
+    }
+  }
+  initConfig() {
+    const { baseDir, configFile } = this.options;
     const res = loadConfig.loadSync({
       files:
         typeof configFile === 'string'
@@ -104,7 +113,6 @@ class A8k {
       cwd: baseDir,
       packageKey: 'a8k',
     });
-
     if (res.path) {
       this.configFilePath = res.path;
       this.config = merge(res.data, this.config);
@@ -119,7 +127,7 @@ class A8k {
     // 缓存基础目录
     this.config.cacheBase = path.resolve(this.config.cache);
     // 缓存版本标记
-    this.config.cache = path.resolve(this.config.cache, `v-${pkg.version}`);
+    this.config.cache = path.resolve(this.config.cache, `v-${version}`);
     // ssr配置
     this.config.ssrConfig.dist = this.resolve(this.config.ssrConfig.dist);
     this.config.ssrConfig.view = this.resolve(this.config.ssrConfig.view);
@@ -129,25 +137,17 @@ class A8k {
       port: this.config.port || process.env.PORT || 8899,
       ...this.config.devServer,
     };
-    // 客户端定制webpack配置
-    if (this.config.chainWebpack) {
-      this.hooks.add('chainWebpack', this.config.chainWebpack, this);
-    }
-
-    // Merge envs with this.config.envs
-    // Allow to embed these env variables in app code
-    this.setAppEnvs(envs);
+    this.config.envs = { ...this.config.envs, ...this.loadEnvs() };
   }
-
-  hook(name, fn) {
+  hook(name: string, fn: Function) {
     return this.hooks.add(name, fn);
   }
 
-  resolve(...args) {
+  resolve(...args: Array<string>) {
     return path.resolve(this.options.baseDir, ...args);
   }
 
-  rootResolve(...args) {
+  rootResolve(...args: Array<string>) {
     return path.resolve(this.options.cliPath, ...args);
   }
 
@@ -203,11 +203,6 @@ class A8k {
     });
   }
 
-  setAppEnvs(envs) {
-    this.config.envs = { ...this.config.envs, ...envs };
-    return this;
-  }
-
   applyPlugins() {
     const plugins = [
       require.resolve('@a8k/plugin-react'),
@@ -251,7 +246,7 @@ class A8k {
     this.hooks.invoke('chainWebpack', config, options);
 
     if (this.config.chainWebpack) {
-      this.config.chainWebpack(config, options);
+      this.config.chainWebpack(config, options, this);
     }
 
     if (this.options.inspectWebpack) {
@@ -288,7 +283,7 @@ class A8k {
   async runWebpack(webpackConfig) {
     const compiler = this.createWebpackCompiler(webpackConfig);
     await new Promise((resolve, reject) => {
-      compiler.run((err, stats) => {
+      compiler.run((err: Error, stats: any) => {
         if (err) {
           return reject(err);
         }
@@ -299,7 +294,7 @@ class A8k {
 
   async runCompiler(compiler) {
     await new Promise((resolve, reject) => {
-      compiler.run((err, stats) => {
+      compiler.run((err:Error, stats:any) => {
         if (err) {
           return reject(err);
         }
@@ -308,7 +303,7 @@ class A8k {
     });
   }
 
-  hasDependency(name, type = 'all') {
+  hasDependency(name: string, type = 'all') {
     const prodDeps = Object.keys(this.pkg.data.dependencies || {});
     const devDeps = Object.keys(this.pkg.data.devDependencies || {});
     if (type === 'all') {
@@ -323,35 +318,25 @@ class A8k {
     throw new Error(`Unknow dep type: ${type}`);
   }
 
-  registerCommand(command) {
-    if (this.commands.has(command)) {
-      logger.debug(
-        `Plugin "${
-          this._name
-        }" overrided the command "${command}" that was previously added by plugin "${this.commands.get(
-          command
-        )}"`
-      );
-    }
-    this.commands.set(command, this._name);
+  registerCommand(command: string) {
     return this.cli.command(command);
   }
 
-  hasPlugin(name) {
+  hasPlugin(name: string) {
     return this.plugins && this.plugins.find(plugin => plugin.resolve.name === name);
   }
 
-  removePlugin(name) {
+  removePlugin(name: string) {
     this.plugins = this.plugins.filter(plugin => plugin.resolve.name !== name);
     return this;
   }
 
-  chainWebpack(fn) {
+  chainWebpack(fn: Function) {
     this.hooks.add('chainWebpack', fn);
     return this;
   }
 
-  localResolve(id, fallbackDir) {
+  localResolve(id: string, fallbackDir: string) {
     let resolved = resolveFrom.silent(this.resolve(), id);
     if (!resolved && fallbackDir) {
       resolved = resolveFrom.silent(fallbackDir, id);
@@ -359,10 +344,8 @@ class A8k {
     return resolved;
   }
 
-  localRequire(...args) {
-    const resolved = this.localResolve(...args);
+  localRequire(id: string, fallbackDir: string) {
+    const resolved = this.localResolve(id, fallbackDir);
     return resolved && require(resolved);
   }
 }
-
-export default (...args) => new A8k(...args);
