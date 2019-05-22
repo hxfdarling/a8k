@@ -39,14 +39,15 @@ export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
     },
   ]);
 
+  const ReportStatusPlugin = require('./plugins/report-status-plugin');
+  ReportStatusPlugin.__expression = "require('a8k/lib/webpack/plugins/report-status-plugin')";
+  config.plugin('ReportStatusPlugin').use(ReportStatusPlugin, [
+    {
+      silent,
+    },
+  ]);
+
   if (context.internals.mode === ENV_PROD && type === TYPE_CLIENT) {
-    const ReportStatusPlugin = require('./plugins/report-status-plugin');
-    ReportStatusPlugin.__expression = "require('a8k/lib/webpack/plugins/report-status-plugin')";
-    config.plugin('ReportStatusPlugin').use(ReportStatusPlugin, [
-      {
-        silent,
-      },
-    ]);
     if (context.config.crossOrigin) {
       const CrossOriginLoadingPlugin = require('./plugins/cross-origin-loading');
       CrossOriginLoadingPlugin.__expression =

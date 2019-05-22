@@ -17,13 +17,13 @@ module.exports = class PluginPostcss {
     const { context } = this;
     context.chainWebpack((config, { type, sourceMap, cssSourceMap, ssr }) => {
       config.resolveLoader.modules.add(path.join(__dirname, '../node_modules'));
-
       config.module.rules.delete('css');
+
       if (type === TYPE_SERVER) {
         // 服务端渲染，直接忽略css
         config.module
           .rule('css')
-          .test(/\.(css)$/)
+          .test(/\.(scss|css)$/)
           .use('ignore-loader')
           .loader('ignore-loader');
         return;
