@@ -190,6 +190,7 @@ export default class A8k {
       require.resolve('./plugins/command-test'),
       require.resolve('./plugins/command-utils'),
       require.resolve('./plugins/command-init'),
+
       ...(this.config.plugins || []),
     ];
 
@@ -197,7 +198,11 @@ export default class A8k {
 
     for (const plugin of this.plugins) {
       const { resolve, options } = plugin;
-      resolve.apply(this, options);
+      if (resolve instanceof Function) {
+        new resolve(this, options);
+      } else {
+        resolve.apply(this, options);
+      }
     }
   }
 
