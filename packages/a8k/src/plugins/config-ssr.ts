@@ -1,7 +1,8 @@
 import logger from '@a8k/cli-utils/logger';
 import fs from 'fs-extra';
 import path from 'path';
-import { ENV_PROD, ENV_DEV, TYPE_SERVER } from '../const';
+import A8k from '..';
+import { ENV_DEV, ENV_PROD, TYPE_SERVER } from '../const';
 
 function deleteLoading(str) {
   const s = str.substring(
@@ -10,7 +11,7 @@ function deleteLoading(str) {
   );
   return str.replace(s, '');
 }
-exports.apply = context => {
+exports.apply = (context: A8k) => {
   context.chainWebpack((config, { type, watch }) => {
     if (type === TYPE_SERVER) {
       const isDevMode = watch;

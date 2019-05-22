@@ -1,7 +1,8 @@
 import { ENV_DEV, TYPE_CLIENT } from '../const';
 import getFileNames from '../utils/get-filenames';
+import A8k from '..';
 
-exports.apply = context => {
+exports.apply = (context: A8k) => {
   context.chainWebpack((config, options) => {
     const filenames = getFileNames({
       filenames: context.config.filenames,
@@ -19,7 +20,7 @@ exports.apply = context => {
     config.context(context.options.baseDir);
 
     if (type === TYPE_CLIENT) {
-      let devtool = false;
+      let devtool = 'none';
       if (context.internals.mode === ENV_DEV) {
         devtool = 'cheap-module-eval-source-map';
       } else if (options.sourceMap) {

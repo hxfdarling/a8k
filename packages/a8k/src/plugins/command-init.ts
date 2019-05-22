@@ -7,6 +7,7 @@ import os from 'os';
 import path from 'path';
 import shell from 'shelljs';
 import util from 'util';
+import A8k from '..';
 
 const initChoices = [
   { name: '添加 提交前 lint 和 prettier', value: 'lint' },
@@ -14,7 +15,7 @@ const initChoices = [
   { name: '添加 jsconfig ', value: 'jsconfig' },
 ];
 export default {
-  apply: context => {
+  apply: (context: A8k) => {
     context
       .registerCommand('init [type]')
       .description('给项目添加额外能力')

@@ -3,7 +3,7 @@ import A8k from '..';
 const chalk = require('chalk');
 const path = require('path');
 
-module.exports = (context: A8k) => {
+export default (context: A8k) => {
   const rootDir = context.resolve();
   const config = {
     rootDir,

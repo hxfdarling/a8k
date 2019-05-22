@@ -2,9 +2,10 @@ import logger from '@a8k/cli-utils/logger';
 import { logWithSpinner, stopSpinner } from '@a8k/cli-utils/spinner';
 import { execSync } from 'child_process';
 import fs from 'fs-extra';
+import A8k from '..';
 
 export default {
-  apply: context => {
+  apply: (context: A8k) => {
     context
       .registerCommand('clean')
       .description('清理缓存文件和构建结果文件')

@@ -1,11 +1,12 @@
+import loadConfig from '@a8k/cli-utils/load-config';
+import logger from '@a8k/cli-utils/logger';
+import crypto from 'crypto';
 import path from 'path';
 import webpack from 'webpack';
-import loadConfig from '@a8k/cli-utils/load-config';
-import crypto from 'crypto';
-import logger from '@a8k/cli-utils/logger';
+import A8k from '..';
 import { ENV_DEV, TYPE_CLIENT } from '../const';
 
-exports.apply = context => {
+exports.apply = (context: A8k) => {
   context.chainWebpack((config, options) => {
     const { type, eslint, stylelint, ssr } = options;
     // 只有客户端代码 开发模式才需要使用，构建服务器代码不需要

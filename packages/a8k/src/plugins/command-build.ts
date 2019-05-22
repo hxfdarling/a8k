@@ -1,9 +1,10 @@
 import fs from 'fs-extra';
 import { ENV_DEV, ENV_PROD, TYPE_CLIENT, TYPE_SERVER } from '../const';
 import cleanUnusedCache from '../utils/clean-old-cache.js';
+import A8k from '..';
 
 export default {
-  apply: context => {
+  apply: (context: A8k) => {
     const { hooks } = context;
     context
       .registerCommand('build')

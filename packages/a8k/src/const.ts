@@ -6,8 +6,10 @@ export const ENV_DEV = 'development';
 export const ENV_PROD = 'production';
 export const ENV_TEST = 'test';
 
-export const PROJECT_MODE_SINGLE = 'single';
-export const PROJECT_MODE_MULTI = 'multi';
+export enum PROJECT_MODE {
+  SINGLE = 'single', // 单页面
+  MULTI = 'multi', // 多页面
+}
 
 let root: string;
 if (process.platform === 'win32') {

@@ -6,6 +6,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import { ENV_DEV, TYPE_CLIENT, TYPE_SERVER } from '../const';
 import cleanUnusedCache from '../utils/clean-old-cache';
 import { printInstructions, setProxy } from '../utils/helper';
+import A8k from '..';
 
 const isInteractive = process.stdout.isTTY;
 
@@ -26,7 +27,7 @@ const invalidHook = (filename, ctime) => {
 };
 
 export default {
-  apply: context => {
+  apply: (context: A8k) => {
     context
       .registerCommand('dev')
       .description('启动开发者模式')
@@ -143,7 +144,7 @@ export default {
           });
 
           ['SIGINT', 'SIGTERM'].forEach(sig => {
-            process.on(sig, () => {
+            process.on(sig as any, () => {
               server.close();
               process.exit();
             });
@@ -162,9 +163,9 @@ export default {
           const compiler = context.createWebpackCompiler(webpackConfigSSR);
           compiler.watch(webpackConfigSSR.watchOptions, err => {
             if (err) {
-              context.log.error(err.stack || err);
+              context.logger.error(err.stack || err);
               if (err.details) {
-                context.log.error(err.details);
+                context.logger.error(err.details);
               }
             }
           });

@@ -2,9 +2,9 @@ import { execSync } from 'child_process';
 import jest from 'jest';
 import path from 'path';
 import resolve from 'resolve';
-import createJestConfig from '../utils/createJestConfig';
-// import logger from '@a8k/cli-utils/logger';
+import A8k from '..';
 import { ENV_TEST } from '../const';
+import createJestConfig from '../utils/createJestConfig';
 
 function isInGitRepository() {
   try {
@@ -36,7 +36,7 @@ function resolveJestDefaultEnvironment(name) {
 }
 
 export default {
-  apply: context => {
+  apply: (context: A8k) => {
     context
       .registerCommand('test')
       .description('运行 jest 测试')

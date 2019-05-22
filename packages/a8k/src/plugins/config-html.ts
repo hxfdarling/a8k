@@ -1,11 +1,12 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { ENV_DEV, ENV_PROD, TYPE_CLIENT, PROJECT_MODE_MULTI, PROJECT_MODE_SINGLE } from '../const';
+import A8k from '..';
+import { ENV_DEV, ENV_PROD, PROJECT_MODE, TYPE_CLIENT } from '../const';
 import EmptyPlugin from '../webpack/plugins/empty-plugin';
 
 const DEFAULT_PAGES_DIR = './src/pages';
 
-const getPages = context => {
+const getPages = (context: A8k) => {
   const { ignorePages = [] } = context.config;
   const pagesDir = context.resolve(context.config.pagesDir || DEFAULT_PAGES_DIR);
 
@@ -32,7 +33,7 @@ const getPages = context => {
   });
 };
 
-exports.apply = context => {
+exports.apply = (context: A8k) => {
   const HtmlWebpackPlugin = require('html-webpack-plugin');
   HtmlWebpackPlugin.__expression = "require('html-webpack-plugin')";
   context.chainWebpack((config, { type }) => {
@@ -55,7 +56,7 @@ exports.apply = context => {
       const isDev = context.internals.mode === ENV_DEV;
       const webpackHotDevClient = require.resolve('@a8k/dev-utils/webpackHotDevClient');
 
-      if (context.config.mode === PROJECT_MODE_SINGLE) {
+      if (context.config.mode === PROJECT_MODE.SINGLE) {
         config
           .entry('index')
           .merge(
@@ -73,7 +74,7 @@ exports.apply = context => {
           },
         ]);
       }
-      if (context.config.mode === PROJECT_MODE_MULTI) {
+      if (context.config.mode === PROJECT_MODE.MULTI) {
         getPages(context).forEach(file => {
           const name = path.basename(file);
           const dir = context.resolve(`${pagesDir}/${file}`);
