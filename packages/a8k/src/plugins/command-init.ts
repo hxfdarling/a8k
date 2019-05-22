@@ -105,11 +105,11 @@ module.exports = {
               break;
             case 'commit': {
               logWithSpinner('安装依赖中');
-              await util.promisify(shell.exec)(`${npmCmd} i commitlint-config-imt -D`, {
+              await util.promisify(shell.exec)(`${npmCmd} i @a8k/changelog commitlint-config-czx -D`, {
                 silent: true,
               });
               logWithSpinner('初始化commit配置');
-              const cmd = `./node_modules/.bin/imt-commit${
+              const cmd = `./node_modules/.bin/a8k-changelog${
                 os.platform() === 'win32' ? '.cmd' : ''
               }`;
               await util.promisify(shell.exec)(cmd, { silent: true });

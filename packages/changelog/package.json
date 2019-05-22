@@ -6,13 +6,7 @@
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/changelog#readme",
   "license": "ISC",
   "main": "index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "lib"
-  ],
+  "files": ["*.js"],
   "publishConfig": {
     "access": "public"
   },
@@ -23,6 +17,9 @@
   "scripts": {
     "postinstall": "node ./scripts/post-install.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "a8k-changelog": "./scripts/init.js"
   },
   "bugs": {
     "url": "https://github.com/hxfdarling/a8k/issues"
