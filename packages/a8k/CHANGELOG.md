@@ -5,15 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.12.0](https://github.com/hxfdarling/a8k/compare/v1.11.1...v1.12.0) (2019-05-23)
 
-
 ### Features
 
-* 添加changelog插件 ([dd6605f](https://github.com/hxfdarling/a8k/commit/dd6605f))
-* 添加changelog插件 ([ce3b830](https://github.com/hxfdarling/a8k/commit/ce3b830))
-
-
-
-
+- 添加 changelog 插件 ([dd6605f](https://github.com/hxfdarling/a8k/commit/dd6605f))
 
 ## [1.11.1](https://github.com/hxfdarling/a8k/compare/v1.11.0...v1.11.1) (2019-05-22)
 
