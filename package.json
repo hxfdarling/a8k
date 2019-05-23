@@ -8,16 +8,20 @@
       "path": "node_modules/cz-customizable"
     },
     "cz-customizable": {
-      "config": "node_modules/commitlint-config-imt/cz-config.js"
+      "config": "node_modules/@a8k/changelog/cz-config.js"
     }
   },
   "devDependencies": {
+    "@a8k/changelog": "^1.12.1",
+    "@commitlint/cli": "^7.6.1",
     "@commitlint/travis-cli": "^7.6.1",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@vuepress/plugin-back-to-top": "^1.0.0-alpha.0",
     "@vuepress/plugin-pwa": "^1.0.0-alpha.0",
     "babel-eslint": "^10.0.1",
-    "commitlint-config-imt": "0.0.4",
+    "commitizen": "^3.1.1",
+    "commitlint-config-cz": "^0.11.1",
+    "cz-customizable": "^6.1.0",
     "eslint": "^5.16.0",
     "eslint-config-zman": "^0.2.1",
     "husky": "^2.3.0",
