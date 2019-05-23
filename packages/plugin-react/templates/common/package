@@ -6,13 +6,14 @@
   "main": "app/index.js",
   <% } %>
   "scripts": {
-    "dev": "k dev",
+    "dev": "k dev --eslint",
     "build": "k build",
     <% if(ssr) {%>
-    "dev:s":"k dev -s & npm run server",
+    "dev:s":"k dev --eslint -s",
     "server":"nodemon app/index.js",
     <% } %>
-    "clean": "rimraf -rf public/ && rimraf -rf pack/"
+    "clean": "rimraf -rf public/ && rimraf -rf pack/",
+    "stylelint": "stylelint --fix src/**/*.{scss,css}"
   },
   "husky": {
     "hooks": {
@@ -23,6 +24,10 @@
   "lint-staged": {
     "*.{json,css,scss,md}": [
       "prettier --write",
+      "git add"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix",
       "git add"
     ],
     "*.{jsx,js}": [
@@ -66,7 +71,10 @@
     "lint-staged": "^8.0.4",
     "prettier": "^1.15.1",
     "rimraf": "^2.6.2",
-    "serialize-javascript": "^1.6.1"
+    "serialize-javascript": "^1.6.1",
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0",
+    "stylelint-scss": "^3.5.4"
   },
  "config": {
     "commitizen": {
