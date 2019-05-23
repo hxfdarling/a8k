@@ -1,12 +1,14 @@
 {
   "name": "@a8k/changelog",
-  "version": "1.0.0",
+  "version": "1.12.0",
   "description": "a8k项目git提交记录校验规则",
   "author": "edenhliu <edenhliu@tencent.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/changelog#readme",
   "license": "ISC",
   "main": "index.js",
-  "files": ["*.js"],
+  "files": [
+    "*.js"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -30,9 +32,9 @@
     "execa": "^1.0.0"
   },
   "peerDependencies": {
-    "commitizen": "^3.1.1",
     "@commitlint/cli": "^7.6.1",
-    "cz-customizable": "^6.1.0",
-    "commitlint-config-cz": "^0.11.1"
+    "commitizen": "^3.1.1",
+    "commitlint-config-cz": "^0.11.1",
+    "cz-customizable": "^6.1.0"
   }
 }
