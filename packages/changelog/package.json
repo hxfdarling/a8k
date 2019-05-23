@@ -1,6 +1,6 @@
 {
   "name": "@a8k/changelog",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "description": "a8k项目git提交记录校验规则",
   "author": "edenhliu <edenhliu@tencent.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/changelog#readme",
