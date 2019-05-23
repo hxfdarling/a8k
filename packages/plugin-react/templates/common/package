@@ -55,7 +55,11 @@
     <% if(ssr) {%>
     "nodemon": "^1.18.6",
     <% } %>
-    "commitlint-config-imt": "^0.0.4",
+    "@a8k/changelog": "^1.12.2",
+    "@commitlint/cli": "^7.6.1",
+    "commitizen": "^3.1.1",
+    "commitlint-config-cz": "^0.11.1",
+    "cz-customizable": "^6.1.0",
     "eslint-config-imweb": "^0.2.11",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.9.0",
@@ -64,12 +68,12 @@
     "rimraf": "^2.6.2",
     "serialize-javascript": "^1.6.1"
   },
-  "config": {
+ "config": {
     "commitizen": {
       "path": "node_modules/cz-customizable"
     },
     "cz-customizable": {
-      "config": "node_modules/commitlint-config-imt/cz-config.js"
+      "config": "node_modules/@a8k/changelog/cz-config.js"
     }
   }
 }
