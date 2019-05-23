@@ -22,11 +22,10 @@ module.exports = {
   }
 };
 `;
-  if (!fs.existsSync(commitlintrc)) {
-    fs.writeFileSync(commitlintrc, template);
-  } else {
-    console.log(chalk.gray('.commitlintrc 文件已经存在将不会自动修改该文件内容 '));
+  if (fs.existsSync(commitlintrc)) {
+    console.log(chalk.gray('.commitlintrc 文件已经存在将覆盖该文件内容 '));
   }
+  fs.writeFileSync(commitlintrc, template);
 }
 function updatePackageJson() {
   const config = {
