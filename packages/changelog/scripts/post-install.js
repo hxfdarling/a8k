@@ -3,6 +3,7 @@ const chalk = require('chalk').default;
 console.log(
   chalk.green('请在命令行中执行一下命令初始化配置:\n'),
   `
+  npm i -D commitizen @commitlint/cli cz-customizable commitlint-config-cz
   npx a8k-changelog
 
   or

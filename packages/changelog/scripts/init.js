@@ -16,7 +16,7 @@ function genCommitlintrc() {
   const template = `
 // 校验commit消息是否符合规范
 module.exports = {
-  extends: ['@a8k/changelog', 'czx'],
+  extends: ['@a8k/changelog', 'cz'],
   rules:{
     
   }
@@ -29,32 +29,17 @@ module.exports = {
   }
 }
 function updatePackageJson() {
-  if (!pkg.config) {
-    // 自动注入配置到package.json中
-    pkg.config = {
-      commitizen: {
-        path: 'node_modules/cz-customizable',
-      },
-      'cz-customizable': {
-        config: 'node_modules/@a8k/changelog/cz-config.js',
-      },
-    };
-  } else {
-    console.log(
-      chalk.yellow('请手动添加以下配置到 package.json 中：\n'),
-      `
-    config: {
-      commitizen: {
-        path: 'node_modules/cz-customizable',
-      },
-      'cz-customizable': {
-        config: 'node_modules/@a8k/changelog/cz-config.js',
-      },
-    }
-`,
-      chalk.gray('\n如果已经添加请忽略\n')
-    );
-  }
+  const config = {
+    commitizen: {
+      path: 'node_modules/cz-customizable',
+    },
+    'cz-customizable': {
+      config: 'node_modules/@a8k/changelog/cz-config.js',
+    },
+  };
+  // 自动注入配置到package.json中
+  pkg.config = Object.assign(pkg.config || {}, config);
+
   const command = 'commitlint -E HUSKY_GIT_PARAMS';
   pkg.husky = pkg.husky || {};
   pkg.husky.hooks = pkg.husky.hooks || {};
@@ -115,7 +100,8 @@ const devDependencies = Object.keys(pkg.devDependencies || {});
 // 需要添加了依赖才执行
 if (
   pkg.name !== packageName
-  && (dependencies.find(key => key === packageName) || devDependencies.find(key => key === packageName))
+  && (dependencies.find(key => key === packageName)
+    || devDependencies.find(key => key === packageName))
 ) {
   updatePackageJson();
   genCommitlintrc();

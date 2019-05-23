@@ -25,14 +25,14 @@
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
-    "@commitlint/cli": "^7.6.1",
     "app-root-path": "^2.2.1",
     "chalk": "^2.4.2",
-    "commitizen": "^3.1.1",
-    "cz-customizable": "^6.1.0",
     "execa": "^1.0.0"
   },
   "peerDependencies": {
-    "commitlint-config-czx": "^0.0.1"
+    "commitizen": "^3.1.1",
+    "@commitlint/cli": "^7.6.1",
+    "cz-customizable": "^6.1.0",
+    "commitlint-config-cz": "^0.11.1"
   }
 }

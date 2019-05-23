@@ -7,8 +7,10 @@
 ### 安装包
 
 ```bash
-npm i -D @a8k/changelog commitlint-config-czx // 安装依赖
-npm i -g commitizen // 安装全局工具可以使用：git cz 命令提交代码
+# 安装依赖
+npm i -D @a8k/changelog commitizen @commitlint/cli cz-customizable commitlint-config-cz
+# 安装全局工具可以使用：git cz 命令提交代码
+npm i -g commitizen
 ```
 
 修改 package.json

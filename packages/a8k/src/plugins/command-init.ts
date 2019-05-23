@@ -105,9 +105,12 @@ module.exports = {
               break;
             case 'commit': {
               logWithSpinner('安装依赖中');
-              await util.promisify(shell.exec)(`${npmCmd} i @a8k/changelog commitlint-config-czx -D`, {
-                silent: true,
-              });
+              await util.promisify(shell.exec)(
+                `${npmCmd} i @a8k/changelog @commitlint/cli commitizen cz-customizable commitlint-config-cz -D`,
+                {
+                  silent: true,
+                }
+              );
               logWithSpinner('初始化commit配置');
               const cmd = `./node_modules/.bin/a8k-changelog${
                 os.platform() === 'win32' ? '.cmd' : ''
