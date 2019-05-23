@@ -6,9 +6,6 @@
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/changelog#readme",
   "license": "ISC",
   "main": "index.js",
-  "files": [
-    "*.js"
-  ],
   "publishConfig": {
     "access": "public"
   },
