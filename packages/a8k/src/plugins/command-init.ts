@@ -14,8 +14,9 @@ const initChoices = [
   { name: '添加 commit msg规范检测', value: 'commit' },
   { name: '添加 jsconfig ', value: 'jsconfig' },
 ];
-export default {
-  apply: (context: A8k) => {
+export default class InitCommand {
+  name = 'builtin:add';
+  apply(context: A8k) {
     context
       .registerCommand('init [type]')
       .description('给项目添加额外能力')
@@ -161,6 +162,5 @@ module.exports = {
           options.outputHelp();
         }
       });
-  },
-  name: 'builtin:add',
-};
+  }
+}

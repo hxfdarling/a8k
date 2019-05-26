@@ -197,11 +197,12 @@ export default class A8k {
     this.plugins = loadPlugins(plugins, this.options.baseDir);
 
     for (const plugin of this.plugins) {
-      const { resolve, options } = plugin;
-      if (resolve instanceof Function) {
-        new resolve(this, options);
+      const { resolve: Plugin, options } = plugin;
+      if (Plugin instanceof Function) {
+        const plugin = new Plugin(options);
+        plugin.apply(this);
       } else {
-        resolve.apply(this, options);
+        Plugin.apply(this, options);
       }
     }
   }

@@ -26,8 +26,9 @@ const invalidHook = (filename, ctime) => {
   );
 };
 
-export default {
-  apply: (context: A8k) => {
+export default class DevCommand {
+  name = 'builtin:dev';
+  apply(context: A8k) {
     context
       .registerCommand('dev')
       .description('启动开发者模式')
@@ -133,6 +134,5 @@ export default {
           });
         }
       });
-  },
-  name: 'builtin:dev',
-};
+  }
+}

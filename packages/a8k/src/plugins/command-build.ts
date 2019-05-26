@@ -3,8 +3,9 @@ import { ENV_DEV, ENV_PROD, TYPE_CLIENT, TYPE_SERVER } from '../const';
 import cleanUnusedCache from '../utils/clean-old-cache.js';
 import A8k from '..';
 
-export default {
-  apply: (context: A8k) => {
+export default class BuildCommand {
+  name = 'builtin:build';
+  apply(context: A8k) {
     const { hooks } = context;
     context
       .registerCommand('build')
@@ -84,6 +85,5 @@ export default {
           await context.hooks.invokePromise('afterSSRBuild', context);
         }
       });
-  },
-  name: 'builtin:build',
-};
+  }
+}

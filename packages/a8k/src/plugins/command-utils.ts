@@ -4,8 +4,9 @@ import { execSync } from 'child_process';
 import fs from 'fs-extra';
 import A8k from '..';
 
-export default {
-  apply: (context: A8k) => {
+export default class UtilsCommand {
+  name = 'builtin:utils';
+  apply(context: A8k) {
     context
       .registerCommand('clean')
       .description('清理缓存文件和构建结果文件')
@@ -48,6 +49,5 @@ export default {
           process.exit(1);
         }
       });
-  },
-  name: 'builtin:utils',
-};
+  }
+}

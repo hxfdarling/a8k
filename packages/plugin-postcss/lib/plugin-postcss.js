@@ -6,15 +6,13 @@ const TYPE_SERVER = 'server';
 const ENV_PROD = 'production';
 
 module.exports = class PluginPostcss {
-  constructor(context, options) {
+  constructor(options) {
     this.name = 'plugin-postcss';
-    this.context = context;
     this.options = options;
     this.apply();
   }
 
-  apply() {
-    const { context } = this;
+  apply(context) {
     context.chainWebpack((config, { type, sourceMap, cssSourceMap, ssr }) => {
       config.resolveLoader.modules.add(path.join(__dirname, '../node_modules'));
       config.module.rules.delete('css');
