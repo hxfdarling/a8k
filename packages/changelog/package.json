@@ -14,6 +14,7 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
+    "lint":"eslint scripts ./ --ext .js",
     "postinstall": "node ./scripts/post-install.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

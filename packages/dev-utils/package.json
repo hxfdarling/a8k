@@ -20,6 +20,7 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
+    "lint":"eslint *.js",
     "dev": "echo \"ok\"",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
