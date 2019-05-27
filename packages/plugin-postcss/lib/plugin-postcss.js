@@ -9,7 +9,6 @@ module.exports = class PluginPostcss {
   constructor(options) {
     this.name = 'plugin-postcss';
     this.options = options;
-    this.apply();
   }
 
   apply(context) {
