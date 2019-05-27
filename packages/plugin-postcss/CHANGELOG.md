@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/hxfdarling/a8k/compare/v1.12.4...v1.13.0) (2019-05-27)
+
+
+### Bug Fixes
+
+* 修复post-css-plugin执行错误 ([e3c394c](https://github.com/hxfdarling/a8k/commit/e3c394c))
+
+
+
+
+
 ## [1.12.4](https://github.com/hxfdarling/a8k/compare/v1.12.3...v1.12.4) (2019-05-26)
 
 **Note:** Version bump only for package @a8k/plugin-postcss

@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-postcss",
-  "version": "1.12.4",
+  "version": "1.13.0",
   "description": "a8k 项目 sass to postcss插件",
   "author": "edenhliu <edenhliu@tencent.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-postcss#readme",
@@ -21,14 +21,14 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
-    "lint":"eslint lib/*.js",
+    "lint": "eslint lib/*.js",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
-    "@a8k/cli-utils": "^1.12.2",
+    "@a8k/cli-utils": "^1.13.0",
     "cache-loader": "^3.0.1",
     "css-loader": "^2.1.1",
     "ignore-loader": "^0.1.2",

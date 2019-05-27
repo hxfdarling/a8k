@@ -1,6 +1,6 @@
 {
   "name": "@a8k/changelog",
-  "version": "1.12.2",
+  "version": "1.13.0",
   "description": "a8k项目git提交记录校验规则",
   "author": "edenhliu <edenhliu@tencent.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/changelog#readme",
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
-    "lint":"eslint scripts ./ --ext .js",
+    "lint": "eslint scripts ./ --ext .js",
     "postinstall": "node ./scripts/post-install.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

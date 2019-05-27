@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/hxfdarling/a8k/compare/v1.12.4...v1.13.0) (2019-05-27)
+
+
+### Features
+
+* 添加构建结果es5检测,避免出现构建结果中存在非es5代码,造成意外的bug ([f9dc105](https://github.com/hxfdarling/a8k/commit/f9dc105))
+
+
+
+
+
 ## [1.12.4](https://github.com/hxfdarling/a8k/compare/v1.12.3...v1.12.4) (2019-05-26)
 
 **Note:** Version bump only for package a8k
