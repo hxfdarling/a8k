@@ -61,6 +61,8 @@ module.exports = {
 };
 ```
 
+> 当然你可以直接在项目目录下面使用 babel 官方配置文件，自定义 babel 配置
+
 ### crossOrigin
 
 配置通过 script、link 引用的 js、css 资源是否支持跨域。默认`false`,支持两个值：`true`、`false`

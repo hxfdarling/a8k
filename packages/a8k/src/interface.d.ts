@@ -26,7 +26,10 @@ interface A8kConfig {
   webpackOverride: Function; // 直接修改webapck配置文件
   crossOrigin: boolean; // 是否跨域加载css、JavaScript
   retry: any; //主域重试
-  babel: { include: Array<string | RegExp>; exclude: Array<string | RegExp> };
+  babel: {
+    include: Array<string | RegExp>;
+    exclude: Array<string | RegExp>;
+  };
   filenames: {
     js: string;
     css: string;

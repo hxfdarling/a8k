@@ -1,15 +1,12 @@
+import loadConfig from '@a8k/cli-utils/load-config';
+import logger from '@a8k/cli-utils/logger';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
-import { ENV_DEV, TYPE_SERVER } from '../../const';
 import A8k from '../..';
+import { ENV_DEV, TYPE_SERVER } from '../../const';
 
 export default (config: WebpackChain, context: A8k, { type }) => {
-  let include = [];
-  let exclude = [];
-  if (context.config.babel) {
-    include = context.config.babel.include || [];
-    exclude = context.config.babel.exclude || [];
-  }
+  const { babel: { include = [], exclude = [] } = {} } = context.config;
 
   // TODO 需要抽离成插件？
   // 加载 imui 里的 // @require '.css'
@@ -44,12 +41,23 @@ export default (config: WebpackChain, context: A8k, { type }) => {
   // 自定义babel忽略内容
   exclude.forEach(i => (rule = rule.add(i)));
 
+  const res = loadConfig.loadSync({
+    files: ['babel.config.js', '.babelrc.js', '.babelrc', 'package.json'],
+    cwd: context.options.baseDir,
+    packageKey: 'babel',
+  });
+  const babelrc = !!res.path;
+
+  if (babelrc) {
+    logger.info(`babelrc config in you project, may be a8k internal config override you config`);
+  }
+
   rule
     .end()
     .use('babel-loader')
     .loader('babel-loader')
     .options({
-      babelrc: false,
+      babelrc,
       // cacheDirectory 缓存babel编译结果加快重新编译速度
       cacheDirectory: path.resolve(context.config.cache, 'babel-loader'),
       presets: [[require.resolve('babel-preset-a8k'), { isSSR: type === TYPE_SERVER }]],
