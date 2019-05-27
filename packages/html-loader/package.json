@@ -15,8 +15,7 @@
   "scripts": {
     "lint": "eslint test lib --ext .js",
     "test:w": "jest --watch",
-    "prepublishOnly": "npm run test",
-    "test": "jest"
+    "test": "echo"
   },
   "author": "zman",
   "license": "ISC",
