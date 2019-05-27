@@ -4,7 +4,7 @@
 
 ## 项目架构
 
-项目采用采用 `hook` 机制以支持插件能力，其中`a8k`包是主项目，集成了 webpack 的必要关键配置和性能优化；`babel-preset-a8k` 包封装了最新的 JavaScript 特性解析和 jsx 支持
+项目采用采用 `hook` 机制以支持插件能力，其中`a8k`包是主项目，集成了 webpack 的必要关键配置和性能优化；`babel-preset-a8k` 包封装了最新的 JavaScript 特性解析和 jsx 支持。
 
 使用的关键技术：
 
@@ -12,6 +12,17 @@
 2. `webpack-chain` 为了方便插件动态修改 webpack 配置信息，该库提供灵活的可编程机制动态生成配置文件
 3. `webpack-dev-server` 集成 webpack 开发模式的动态更新代码能力
 4. `commander`提供命令行能力
+5. `webpack`提供模块化打包能力
+6. `babel`es 代码转换能力
+7. `sass(dart-sass)`提供 sass 预处理语法编译能力
+8. `post-css`提供 css 兼容性处理
+9. `nunjucks`提供 html 模板化能力
+10. `jest` 集成单元测试功能
+11. `eslint`检测代码规范
+12. `styleint`检测样式规范
+13. `acorn`构建结果语法检测
+14. `@commitlint/cli`提供 Git commit message 规范检测能力
+15. `yeoman-generator` 提供模板项目初始化能力
 
 ## 插件开发方式
 
