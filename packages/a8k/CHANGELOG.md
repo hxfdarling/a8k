@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://github.com/hxfdarling/a8k/compare/v1.13.0...v1.14.0) (2019-05-27)
+
+
+### Bug Fixes
+
+* 修复webpack-dev-server 默认启用inline client能力 ([10fafd2](https://github.com/hxfdarling/a8k/commit/10fafd2))
+
+
+### Features
+
+* 支持使用babel配置文件,自定义babel配置 ([09d1c2c](https://github.com/hxfdarling/a8k/commit/09d1c2c))
+
+
+
+
+
 # [1.13.0](https://github.com/hxfdarling/a8k/compare/v1.12.4...v1.13.0) (2019-05-27)
 
 
