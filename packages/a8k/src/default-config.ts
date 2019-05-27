@@ -2,6 +2,9 @@ export default {
   cache: 'node_modules/.cache',
   publicPath: '',
   devServer: {
+    // disable webpack-dev-server inline client, use a8k client
+    inline: false,
+    disableHostCheck: true,
     https: false,
     // Enable gzip compression of generated files.
     compress: true,
@@ -26,6 +29,15 @@ export default {
       // Paths with dots should still use the history fallback.
       disableDotRule: true,
     },
+
+    // By default files from `contentBase` will not trigger a page reload.
+    watchContentBase: true,
+
+    // It is important to tell WebpackDevServer to use the same "root" path
+    // as we specified in the config. In development, we always serve from /.
+    publicPath: '/',
+    // WebpackDevServer is noisy by default so we emit custom message instead
+    // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
   },
   ssrDevServer: {
     host: 'localhost',
