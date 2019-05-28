@@ -3,6 +3,7 @@ const loadConfig = require('@a8k/cli-utils/load-config');
 const path = require('path');
 
 const TYPE_SERVER = 'server';
+// const TYPE_CLIENT = 'client';
 const ENV_PROD = 'production';
 
 module.exports = class PluginPostcss {
@@ -15,14 +16,10 @@ module.exports = class PluginPostcss {
     context.chainWebpack((config, { type, sourceMap, cssSourceMap, ssr }) => {
       config.resolveLoader.modules.add(path.join(__dirname, '../node_modules'));
       config.module.rules.delete('css');
+      config.module.rules.delete('sass');
 
       if (type === TYPE_SERVER) {
         // 服务端渲染，直接忽略css
-        config.module
-          .rule('css')
-          .test(/\.(scss|css)$/)
-          .use('ignore-loader')
-          .loader('ignore-loader');
         return;
       }
 
