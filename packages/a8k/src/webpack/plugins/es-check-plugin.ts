@@ -55,7 +55,9 @@ class EsCheckPlugin {
       packageKey: 'escheck',
     });
     if (!res.path) {
-      logger.debug('es-check-plugin is not using any config file');
+      logger.debug('ES-Check: is not using any config file');
+    } else {
+      logger.debug('ES-Check: is using you config file');
     }
 
     let config = res.data || {};
@@ -136,8 +138,8 @@ class EsCheckPlugin {
     this.acornOpts = acornOpts;
   }
   apply(compiler) {
-    logger.debug(`ES-Check: Going to check files using version ${this.options.ecmaVersion}`);
-    compiler.hooks.emit.tap(this.name, ({ assets }) => {
+    logger.debug(` Going to check files using version ${this.options.ecmaVersion}`);
+    compiler.hooks.afterEmit.tap(this.name, ({ assets }) => {
       const files = Object.keys(assets)
         .filter(filename => /\.js$/.test(filename))
         .map((filename: string) => {
