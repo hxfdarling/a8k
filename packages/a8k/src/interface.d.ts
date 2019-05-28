@@ -14,7 +14,13 @@ interface A8kConfig {
   dist: any; //构建文件输出目录
   cacheBase: any; //缓存根目录
   cache: any; //缓存目录
-  ssrConfig: any; //服务器渲染配置
+  ssrConfig: {
+    entry: {
+      [key: string]: string | Function | Array<string>;
+    };
+    dist: string;
+    view: string;
+  }; //服务器渲染配置
   devServer: any; // webpack-dev-server配置
   ssrDevServer: { contentBase: string; https: boolean; port: string; host: string };
   host: string; // 调试域名

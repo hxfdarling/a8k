@@ -12,19 +12,23 @@ class SSRPlugin {
 
   apply(compiler) {
     compiler.hooks.done.tap('ssr', async () => {
-      const { outputFileSystem } = compiler;
+      let { outputFileSystem } = compiler;
       const {
         ssrConfig: { entry, view },
         dist,
       } = this.options;
+      if (!outputFileSystem.existsSync) {
+        // 在非dev模式下outputFileSystem不可用
+        outputFileSystem = fs;
+      }
       fs.ensureDirSync(view);
       Object.keys(entry).forEach(key => {
         const pageName = entry[key].split('/');
         const file = `${pageName[pageName.length - 2]}.html`;
         const srcFile = path.join(dist, file);
         const targetFile = path.join(view, file);
+        logger.debug(`ssr-plugin: generate ssr html "${targetFile}" from "${srcFile}"`);
         if (outputFileSystem.existsSync(srcFile)) {
-          logger.debug(`ssr-plugin: generate ssr html "${targetFile}" from "${srcFile}"`);
           const data = deleteLoading(outputFileSystem.readFileSync(srcFile).toString());
           fs.writeFileSync(targetFile, data);
         } else {

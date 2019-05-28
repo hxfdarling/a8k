@@ -62,7 +62,7 @@ export default class BuildCommand {
           .then(() => hooks.invokePromise('afterBuild', context));
 
         const { ssrConfig } = context.config;
-        if (ssrConfig.entry) {
+        if (ssrConfig.entry && Object.keys(ssrConfig.entry).length) {
           await hooks.invokePromise('beforeSSRBuild', context);
 
           fs.emptyDirSync(ssrConfig.dist);

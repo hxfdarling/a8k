@@ -1,9 +1,5 @@
-import logger from '@a8k/cli-utils/logger';
-import fs from 'fs-extra';
-import path from 'path';
 import A8k from '..';
-import { ENV_DEV, ENV_PROD, TYPE_SERVER } from '../const';
-import { deleteLoading } from '../utils/ssr';
+import { ENV_DEV, ENV_PROD, TYPE_SERVER, TYPE_CLIENT } from '../const';
 
 export default class SsrConfig {
   name = 'builtin:config-ssr';
@@ -45,27 +41,18 @@ export default class SsrConfig {
           },
         });
       }
-    });
-
-    context.hooks.add('afterSSRBuild', () => {
-      const {
-        ssrConfig: { entry, view },
-        dist,
-      } = context.config;
-      // 拷贝 html 文件到 node 直出服务目录
-      Object.keys(entry).forEach(key => {
-        const pageName = entry[key].split('/');
-        const file = `${pageName[pageName.length - 2]}.html`;
-        const srcFile = path.join(dist, file);
-        const targetFile = path.join(view, file);
-        if (fs.existsSync(srcFile)) {
-          logger.debug(`config-ssr: generate ssr html "${targetFile}" from "${srcFile}"`);
-          const data = deleteLoading(fs.readFileSync(srcFile).toString());
-          fs.writeFileSync(targetFile, data);
-        } else {
-          logger.warn(`config-ssr: ssr entry "${key}" not found html file!`);
+      if (type === TYPE_CLIENT) {
+        const {
+          ssrConfig: { entry },
+        } = context.config;
+        if (entry && Object.keys(entry).length) {
+          const SSRPlugin = require('../webpack/plugins/ssr-plugin');
+          SSRPlugin.__expression = "require('a8k/lib/webpack/plugins/ssr-plugin')";
+          config
+            .plugin('ssr-plugin')
+            .use(SSRPlugin, [{ ssrConfig: context.config.ssrConfig, dist: context.config.dist }]);
         }
-      });
+      }
     });
   }
 }
