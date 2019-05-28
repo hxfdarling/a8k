@@ -1,4 +1,4 @@
-![licens MIT](https://img.shields.io/github/license/hxfdarling/a8k.svg)
+[![licens MIT](https://img.shields.io/github/license/hxfdarling/a8k.svg)](https://github.com/hxfdarling/a8k/blob/master/LICENSE)
 [![travis CI](https://travis-ci.org/hxfdarling/a8k.svg?branch=master)](https://travis-ci.org/hxfdarling/a8k)
 
 # a8k
