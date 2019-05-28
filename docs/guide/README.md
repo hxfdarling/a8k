@@ -10,7 +10,7 @@
 4. 提供优雅的开发体验
 5. 提供工程化的必要命令行工具
 6. JavaScript 代码规范检测(eslint)
-7. css/sass 代码规范检测(styleint)
+7. css/sass/less 代码规范检测(styleint)
 8. 构建结果是否是 es5 代码检测,避免兼容问题
 9. git 代码提交消息规范检测，避免开发人员随意提交日志
 
