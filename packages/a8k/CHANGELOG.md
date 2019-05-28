@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.1](https://github.com/hxfdarling/a8k/compare/v1.14.0...v1.14.1) (2019-05-28)
+
+
+### Bug Fixes
+
+* 修复es-check-plugin 失败后没有输出文件,不方便调试 ([4ca0db8](https://github.com/hxfdarling/a8k/commit/4ca0db8))
+* 修复es-check-plugin options异常 ([e48384b](https://github.com/hxfdarling/a8k/commit/e48384b))
+
+
+
+
+
 # [1.14.0](https://github.com/hxfdarling/a8k/compare/v1.13.0...v1.14.0) (2019-05-27)
 
 
