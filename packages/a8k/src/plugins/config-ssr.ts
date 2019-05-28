@@ -3,14 +3,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import A8k from '..';
 import { ENV_DEV, ENV_PROD, TYPE_SERVER } from '../const';
+import { deleteLoading } from '../utils/ssr';
 
-function deleteLoading(str:string) {
-  const s = str.substring(
-    str.indexOf('<!--CLIENT_ONLY_START-->'),
-    str.lastIndexOf('<!--CLIENT_ONLY_END-->')
-  );
-  return str.replace(s, '');
-}
 export default class SsrConfig {
   name = 'builtin:config-ssr';
   apply(context: A8k) {
@@ -65,10 +59,11 @@ export default class SsrConfig {
         const srcFile = path.join(dist, file);
         const targetFile = path.join(view, file);
         if (fs.existsSync(srcFile)) {
+          logger.debug(`config-ssr: generate ssr html "${targetFile}" from "${srcFile}"`);
           const data = deleteLoading(fs.readFileSync(srcFile).toString());
           fs.writeFileSync(targetFile, data);
         } else {
-          logger.warn(`ssr entry "${key}" not found html file!`);
+          logger.warn(`config-ssr: ssr entry "${key}" not found html file!`);
         }
       });
     });

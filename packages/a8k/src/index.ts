@@ -1,6 +1,6 @@
 import loadConfig from '@a8k/cli-utils/load-config';
 import logger from '@a8k/cli-utils/logger';
-import program from 'commander';
+import program, { Command } from 'commander';
 import fs from 'fs-extra';
 import { merge } from 'lodash';
 import path from 'path';
@@ -17,7 +17,7 @@ const { version } = require('../package.json');
 program.version(version);
 
 program.option('--nochecklatest', '不检测最新版本');
-
+program.option('--debug', '输出构建调试信息');
 program.on('command:*', () => {
   logger.error(
     `Invalid command: ${program.args.join(' ')}\nSee --help for a list of available commands.`
@@ -31,10 +31,10 @@ export default class A8k {
   hooks = new Hooks();
   commands = new Map();
   logger = logger;
+  cli = program;
   internals: Internals;
   buildId: string;
   pkg: any;
-  cli: any;
   configFilePath: string;
   plugins = [];
   _inspectWebpackConfigPath: string;
@@ -52,9 +52,10 @@ export default class A8k {
       }
     }
     const { baseDir, debug } = this.options;
-
+    logger.setOptions({
+      debug,
+    });
     this.config = {} as A8kConfig;
-    this.logger = logger;
 
     this.internals = {
       mode: ENV_DEV,
@@ -64,11 +65,6 @@ export default class A8k {
       .toString(36)
       .substring(7);
     this.pkg = loadPkg({ cwd: baseDir });
-    this.cli = program;
-
-    logger.setOptions({
-      debug,
-    });
 
     this.initConfig();
 
@@ -298,7 +294,7 @@ export default class A8k {
     throw new Error(`Unknow dep type: ${type}`);
   }
 
-  registerCommand(command: string) {
+  registerCommand(command: string): Command {
     return this.cli.command(command);
   }
 

@@ -1,9 +1,9 @@
 import { PROJECT_MODE } from './const';
 
 interface A8kOptions {
-  cliArgs: Array<string>;
-  cliPath: string;
-  baseDir: string;
+  cliArgs?: Array<string>;
+  cliPath?: string;
+  baseDir?: string;
   debug?: boolean;
   configFile?: string;
   inspectWebpack?: boolean;

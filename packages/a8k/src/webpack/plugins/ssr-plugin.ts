@@ -1,14 +1,7 @@
 import logger from '@a8k/cli-utils/logger';
 import fs from 'fs-extra';
 import path from 'path';
-
-function deleteLoading(str) {
-  const s = str.substring(
-    str.indexOf('<!--CLIENT_ONLY_START-->'),
-    str.lastIndexOf('<!--CLIENT_ONLY_END-->')
-  );
-  return str.replace(s, '');
-}
+import { deleteLoading } from '../../utils/ssr';
 
 class SSRPlugin {
   options: { ssrConfig: { entry: any; view: string }; dist: string };
@@ -31,11 +24,12 @@ class SSRPlugin {
         const srcFile = path.join(dist, file);
         const targetFile = path.join(view, file);
         if (outputFileSystem.existsSync(srcFile)) {
+          logger.debug(`ssr-plugin: generate ssr html "${targetFile}" from "${srcFile}"`);
           const data = deleteLoading(outputFileSystem.readFileSync(srcFile).toString());
           fs.writeFileSync(targetFile, data);
         } else {
           console.log();
-          logger.warn(`ssr entry "${key}" not found html file!`);
+          logger.warn(`ssr-plugin: ssr entry "${key}" not found html file!`);
         }
       });
     });

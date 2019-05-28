@@ -49,7 +49,10 @@ export default (config: WebpackChain, context: A8k, { type }) => {
   const babelrc = !!res.path;
 
   if (babelrc) {
-    logger.info(`babelrc config in you project, may be a8k internal config override you config`);
+    logger.debug(`Applying custom babel config at ${res.path}`);
+    logger.info(`babel config in you project, may be a8k internal config override you config`);
+  } else {
+    logger.debug('Applying buildint babel config');
   }
 
   rule
