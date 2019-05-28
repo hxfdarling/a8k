@@ -1,3 +1,6 @@
+![licens MIT](https://img.shields.io/github/license/hxfdarling/a8k.svg)
+[![travis CI](https://travis-ci.org/hxfdarling/a8k.svg?branch=master)](https://travis-ci.org/hxfdarling/a8k)
+
 # a8k
 
 集成 webpack 的 react 项目最佳实践配置的构建工具
