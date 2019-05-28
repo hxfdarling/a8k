@@ -48,7 +48,7 @@ class EsCheckPlugin {
   name = 'es-check-plugin';
   acornOpts: Options;
   constructor(options: EsCheckOptions) {
-    this.options = options;
+    this.options = { ...options };
     const res = loadConfig.loadSync({
       files: ['.escheckrc', '.escheckrc.js', '.escheckrc.json', 'package.json'],
       cwd: options.baseDir || process.cwd(),

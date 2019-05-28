@@ -16,7 +16,7 @@ interface A8kConfig {
   cache: any; //缓存目录
   ssrConfig: {
     entry: {
-      [key: string]: string | Function | Array<string>;
+      [key: string]: string;
     };
     dist: string;
     view: string;
