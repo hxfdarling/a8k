@@ -1,5 +1,5 @@
 // import webpack from 'webpack';
-import { ENV_PROD, TYPE_CLIENT } from '../const';
+import { ENV_PROD, TYPE_CLIENT, TYPE_SERVER } from '../const';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
 
@@ -83,5 +83,20 @@ export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
     const EsCheckPlugin = require('./plugins/es-check-plugin');
     EsCheckPlugin.__expression = `require('./plugins/es-check-plugin')`;
     config.plugin('es-check-plugin').use(EsCheckPlugin, [{ ecmaVersion: 'es5' }]);
+
+    // 条件
+    // 1. command build中携带了--offlinePack， 会保存到a8k option
+    // 2. a8k.config.js中有配置offlinePack配置项
+    // 3. 配置项中有黑名单，且黑名单长度不为0
+    if (
+      context.options.offlinePack &&
+      context.config.offlinePack &&
+      context.config.offlinePack.blackList &&
+      context.config.offlinePack.blackList.length
+    ) {
+      const OfflinePackPlugin = require('./plugins/offline-pack-plugin');
+      OfflinePackPlugin.__expression = `require('./plugins/offline-pack-plugin')`;
+      config.plugin('offline-pack-plugin').use(OfflinePackPlugin, [context.config.offlinePack]);
+    }
   }
 };
