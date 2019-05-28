@@ -14,7 +14,9 @@
     "chmod": "chmod +x lib/bin/cli.js",
     "prepublishOnly": "npm run build",
     "test": "jest",
-    "test:w": "jest --watch"
+    "test:w": "jest --watch",
+    "lint:fix":"tslint --project ./tsconfig.json -t stylish --fix",
+    "lint":"tslint --project ./tsconfig.json -t stylish"
   },
   "files": [
     "lib"
