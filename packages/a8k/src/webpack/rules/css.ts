@@ -1,7 +1,7 @@
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 import { ENV_PROD, TYPE_SERVER } from '../../const';
-import GenCss from './gen-css';
+import generateLoaders from './generate-loaders';
 
 export default (config: WebpackChain, context: A8k, options, filename: string) => {
   const { type, ssr } = options;
@@ -18,20 +18,14 @@ export default (config: WebpackChain, context: A8k, options, filename: string) =
     return;
   }
 
-  new GenCss(config.module.rule('css').test(/\.css$/), context, options)
-    .addBaseLoader({
-      needExtraCss,
-      importLoaders: 1,
-    })
-    .addPostCssLoader();
+  // css rule
+  generateLoaders('css', config, context, options, needExtraCss);
 
-  new GenCss(config.module.rule('sass').test(/\.(scss)$/), context, options)
-    .addBaseLoader({
-      needExtraCss,
-      importLoaders: 2,
-    })
-    .addPostCssLoader()
-    .addSassLoader();
+  // sass rule
+  generateLoaders('sass', config, context, options, needExtraCss);
+
+  // less rule
+  generateLoaders('less', config, context, options, needExtraCss);
 
   if (needExtraCss) {
     const MiniCssExtractPlugin = require('mini-css-extract-plugin');

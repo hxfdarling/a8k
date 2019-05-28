@@ -4,7 +4,13 @@ import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 
-export default class GenCss {
+const testMap = {
+  css: /\.(css)$/,
+  sass: /\.(scss)$/,
+  less: /\.(less)$/,
+};
+
+export class GenerateLoaders {
   rule: WebpackChain.Rule;
   context: A8k;
   options: { type: string; ssr: boolean; cssSourceMap: boolean; sourceMap: boolean };
@@ -15,7 +21,32 @@ export default class GenCss {
     this.context = context;
     this.options = options;
   }
-  addSassLoader(): GenCss {
+  value() {
+    return this.rule;
+  }
+  addLessLoader(options = {}): GenerateLoaders {
+    const {
+      context,
+      options: { sourceMap },
+    } = this;
+    this.rule = this.rule
+      .use('less-loader')
+      .loader('less-loader')
+      .options({
+        paths: [
+          // 支持绝对路径查找
+          context.resolve('src'),
+          context.resolve('node_modules'),
+        ],
+        // Enable Inline JavaScript
+        javascriptEnabled: true,
+        sourceMap,
+        ...options,
+      })
+      .end();
+    return this;
+  }
+  addSassLoader(): GenerateLoaders {
     const {
       context,
       options: { sourceMap },
@@ -26,15 +57,16 @@ export default class GenCss {
       .options({
         implementation: require('sass'),
         includePaths: [
-          // 支持绝对路径查找
+          // 支持绝对路径查找,项目与项目目录
           context.resolve('src'),
+          context.resolve('node_modules'),
         ],
         sourceMap,
       })
       .end();
     return this;
   }
-  addPostCssLoader(): GenCss {
+  addPostCssLoader(): GenerateLoaders {
     const {
       context,
       options: { sourceMap },
@@ -98,7 +130,7 @@ export default class GenCss {
   }: {
     importLoaders: number;
     needExtraCss: boolean;
-  }): GenCss {
+  }): GenerateLoaders {
     const {
       context,
       cacheDirectory,
@@ -145,3 +177,43 @@ export default class GenCss {
     return this;
   }
 }
+
+export default (
+  type: 'sass' | 'less' | 'css',
+  config: WebpackChain,
+  context: A8k,
+  options,
+  needExtraCss: boolean
+) => {
+  const rule = config.module.rule(type).test(testMap[type]);
+  const gen = new GenerateLoaders(rule, context, options);
+
+  switch (type) {
+    case 'css':
+      gen
+        .addBaseLoader({
+          needExtraCss,
+          importLoaders: 1,
+        })
+        .addPostCssLoader();
+      break;
+    case 'sass':
+      gen
+        .addBaseLoader({
+          needExtraCss,
+          importLoaders: 2,
+        })
+        .addPostCssLoader()
+        .addSassLoader();
+      break;
+    case 'less':
+      gen
+        .addBaseLoader({
+          needExtraCss,
+          importLoaders: 2,
+        })
+        .addPostCssLoader()
+        .addLessLoader();
+      break;
+  }
+};
