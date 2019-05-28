@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/hxfdarling/a8k/compare/v1.14.1...v1.15.0) (2019-05-28)
+
+
+### Features
+
+* 添加less编译能力 ([2cda702](https://github.com/hxfdarling/a8k/commit/2cda702))
+
+
+
+
+
 ## [1.14.1](https://github.com/hxfdarling/a8k/compare/v1.14.0...v1.14.1) (2019-05-28)
 
 

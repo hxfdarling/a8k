@@ -1,6 +1,6 @@
 {
   "name": "a8k",
-  "version": "1.14.1",
+  "version": "1.15.0",
   "bin": {
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js",
