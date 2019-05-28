@@ -48,7 +48,7 @@ export default class TestCommand {
         process.env.NODE_ENV = ENV_TEST;
         process.env.BABEL_ENV = ENV_TEST;
         context.hooks.invokePromise('beforeTest', context);
-        const argv = [];
+        const argv: Array<string> = [];
 
         if (!process.env.CI && !coverage) {
           const hasSourceControl = isInGitRepository();

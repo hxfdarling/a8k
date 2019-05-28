@@ -36,14 +36,14 @@ export default class A8k {
   buildId: string;
   pkg: any;
   configFilePath: string;
-  plugins = [];
+  plugins: Array<any> = [];
   _inspectWebpackConfigPath: string;
-  constructor(options?: A8kOptions) {
+  constructor(options: A8kOptions) {
     this.options = {
       cliPath: path.resolve(__dirname, '../'),
       cliArgs: process.argv,
       baseDir: path.resolve('.'),
-    };
+    } as A8kOptions;
     if (options) {
       this.options = { ...this.options, ...options };
       const { baseDir } = options;
