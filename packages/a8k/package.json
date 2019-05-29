@@ -37,6 +37,7 @@
     "@a8k/dev-utils": "^1.13.0",
     "@a8k/html-loader": "^1.15.1",
     "@a8k/plugin-react": "^1.15.1",
+    "@a8k/plugin-sb-react": "^0.0.1",
     "@babel/runtime": "^7.4.5",
     "acorn": "^6.1.1",
     "acorn-dynamic-import": "^4.0.0",

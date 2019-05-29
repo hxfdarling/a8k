@@ -1,0 +1,33 @@
+{
+  "name": "@a8k/plugin-sb-react",
+  "version": "0.0.1",
+  "description": "storybook for react",
+  "keywords": [
+    "storybook",
+    "react"
+  ],
+  "author": "enjoychen <enjoychen@tencent.com>",
+  "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-sb-react#readme",
+  "license": "ISC",
+  "main": "lib/plugin-sb-react.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hxfdarling/a8k.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/hxfdarling/a8k/issues"
+  },
+  "dependencies": {
+    "storybook-react-tmp": "0.0.1"
+  }
+}
