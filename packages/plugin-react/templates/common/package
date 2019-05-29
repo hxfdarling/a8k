@@ -6,13 +6,14 @@
   "main": "app/index.js",
   <% } %>
   "scripts": {
-    "dev": "k dev",
+    "dev": "k dev --eslint",
     "build": "k build",
     <% if(ssr) {%>
-    "dev:s":"k dev -s & npm run server",
+    "dev:s":"k dev --eslint -s",
     "server":"nodemon app/index.js",
     <% } %>
-    "clean": "rimraf -rf public/ && rimraf -rf pack/"
+    "clean": "rimraf -rf public/ && rimraf -rf pack/",
+    "stylelint": "stylelint --fix src/**/*.{scss,css}"
   },
   "husky": {
     "hooks": {
@@ -23,6 +24,10 @@
   "lint-staged": {
     "*.{json,css,scss,md}": [
       "prettier --write",
+      "git add"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix",
       "git add"
     ],
     "*.{jsx,js}": [
@@ -55,21 +60,28 @@
     <% if(ssr) {%>
     "nodemon": "^1.18.6",
     <% } %>
-    "commitlint-config-imt": "^0.0.4",
+    "@a8k/changelog": "^1.12.2",
+    "@commitlint/cli": "^7.6.1",
+    "commitizen": "^3.1.1",
+    "commitlint-config-cz": "^0.11.1",
+    "cz-customizable": "^6.1.0",
     "eslint-config-imweb": "^0.2.11",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.9.0",
     "lint-staged": "^8.0.4",
     "prettier": "^1.15.1",
     "rimraf": "^2.6.2",
-    "serialize-javascript": "^1.6.1"
+    "serialize-javascript": "^1.6.1",
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0",
+    "stylelint-scss": "^3.5.4"
   },
-  "config": {
+ "config": {
     "commitizen": {
       "path": "node_modules/cz-customizable"
     },
     "cz-customizable": {
-      "config": "node_modules/commitlint-config-imt/cz-config.js"
+      "config": "node_modules/@a8k/changelog/cz-config.js"
     }
   }
 }

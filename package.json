@@ -8,22 +8,29 @@
       "path": "node_modules/cz-customizable"
     },
     "cz-customizable": {
-      "config": "node_modules/commitlint-config-imt/cz-config.js"
+      "config": "node_modules/@a8k/changelog/cz-config.js"
     }
   },
   "devDependencies": {
-    "@commitlint/travis-cli": "^7.2.1",
+    "@a8k/changelog": "^1.13.0",
+    "@commitlint/cli": "^7.6.1",
+    "@commitlint/travis-cli": "^7.6.1",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@vuepress/plugin-back-to-top": "^1.0.0-alpha.0",
     "@vuepress/plugin-pwa": "^1.0.0-alpha.0",
     "babel-eslint": "^10.0.1",
-    "commitlint-config-imt": "0.0.4",
+    "commitizen": "^3.1.1",
+    "commitlint-config-cz": "^0.11.1",
+    "cz-customizable": "^6.1.0",
     "eslint": "^5.16.0",
     "eslint-config-zman": "^0.2.1",
-    "husky": "^1.3.1",
-    "lerna": "^3.13.1",
-    "lint-staged": "^8.1.5",
-    "prettier": "^1.16.4",
-    "vuepress": "^0.14.10"
+    "husky": "^2.3.0",
+    "lerna": "^3.14.1",
+    "lint-staged": "^8.1.7",
+    "prettier": "^1.17.1",
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5",
+    "vuepress": "^0.14.11"
   },
   "directories": {
     "doc": "docs"
@@ -45,6 +52,10 @@
       "prettier --write",
       "eslint --fix",
       "git add"
+    ],
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "git add"
     ]
   },
   "name": "a8k-packages",
@@ -54,10 +65,12 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "lint": "lerna run lint",
+    "test": "lerna run test",
+    "release": "lerna version --conventional-commits && lerna publish from-package",
     "docs:build": "vuepress build docs",
-    "docs:dev": "vuepress dev docs",
-    "lint": "eslint packages/*/src/**  --ext .js",
-    "release": "lerna version --conventional-commits && lerna publish from-package"
+    "docs:dev": "vuepress dev docs"
   },
   "workspaces": [
     "packages/*"

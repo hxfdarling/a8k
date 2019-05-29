@@ -3,13 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.5.0](https://github.com/hxfdarling/a8k/compare/v1.4.2...v1.5.0) (2019-03-20)
+## [1.15.1](https://github.com/hxfdarling/a8k/compare/v1.15.0...v1.15.1) (2019-05-29)
+
+
+### Bug Fixes
+
+* fix jest not work ([0e27af7](https://github.com/hxfdarling/a8k/commit/0e27af7))
+
+
+
+
+
+# [1.13.0](https://github.com/hxfdarling/a8k/compare/v1.12.4...v1.13.0) (2019-05-27)
 
 **Note:** Version bump only for package @a8k/plugin-react
 
 
 
 
+
+## [1.12.4](https://github.com/hxfdarling/a8k/compare/v1.12.3...v1.12.4) (2019-05-26)
+
+**Note:** Version bump only for package @a8k/plugin-react
+
+
+
+
+
+## [1.12.3](https://github.com/hxfdarling/a8k/compare/v1.12.2...v1.12.3) (2019-05-23)
+
+**Note:** Version bump only for package @a8k/plugin-react
+
+
+
+
+
+## [1.12.2](https://github.com/hxfdarling/a8k/compare/v1.12.1...v1.12.2) (2019-05-23)
+
+**Note:** Version bump only for package @a8k/plugin-react
+
+
+
+
+
+## [1.8.6](https://github.com/hxfdarling/a8k/compare/v1.8.5...v1.8.6) (2019-05-20)
+
+**Note:** Version bump only for package @a8k/plugin-react
+
+# [1.8.0](https://github.com/hxfdarling/a8k/compare/v1.7.1...v1.8.0) (2019-04-18)
+
+**Note:** Version bump only for package @a8k/plugin-react
+
+# [1.5.0](https://github.com/hxfdarling/a8k/compare/v1.4.2...v1.5.0) (2019-03-20)
+
+**Note:** Version bump only for package @a8k/plugin-react
 
 ## [1.4.2](https://github.com/hxfdarling/a8k/compare/v1.4.1...v1.4.2) (2019-03-20)
 

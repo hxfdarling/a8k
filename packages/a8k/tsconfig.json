@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "./lib",
-    "allowJs": true,
+    "outDir": "lib",
+    "allowJs": false,
     "target": "ES2017",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    // "declaration": true,
+    "noUnusedLocals": true,
+    "pretty": true
   },
   "compileOnSave": true,
-  "include": ["./src/**/*"]
+  "include": ["src/**/*"]
 }

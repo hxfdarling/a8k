@@ -128,6 +128,7 @@ class CreateGenerator extends Generator {
       ['common/.gitmessage', '.gitmessage'],
       ['common/.prettierrc', '.prettierrc'],
       ['common/jsconfig.json', 'jsconfig.json'],
+      ['common/.stylelintrc.js', '.stylelintrc.js'],
     ]);
 
     // tpl

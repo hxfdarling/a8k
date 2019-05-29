@@ -1,4 +1,18 @@
-# a8k 文档
+# 简介
+
+> 集成 webpack 构建最佳实践以及性能优化，集成常见的开发辅助工具，集成模板项目
+
+## 拥有什么能力？
+
+1. 集成 React 模板项目
+2. 集成 webpack 最佳实践配置
+3. 提供高性能的构建体验
+4. 提供优雅的开发体验
+5. 提供工程化的必要命令行工具
+6. JavaScript 代码规范检测(eslint)
+7. css/sass/less 代码规范检测(styleint)
+8. 构建结果是否是 es5 代码检测,避免兼容问题
+9. git 代码提交消息规范检测，避免开发人员随意提交日志
 
 ## 使用方法
 
@@ -50,7 +64,7 @@ k test
 |   |   ├── css  公共样式
 |   |   ├── images 公共图片
 |   |   ├── polyfill.js 填充库
-|   |   ├── rem.js 
+|   |   ├── rem.js
 |   |   ├── template.html html模板
 |   |   └── vendor.js 第三方库
 |   ├── components 公共组件
@@ -82,13 +96,15 @@ module.exports = {
   dist: 'public/cdn',
   // 加快热构建的缓存目录
   cache: '/tmp/fudao_qq_com_pc',
+  // cdn部署路径
+  publicPath,
   // 是否将 JS 标签配置 crossOrigin='anonymous'
-  // 配置babel需要处理的模块或者忽略的模块，支持正则和绝对路径
-  babel:{
-    include:[],
-    exclude:[]
-  },
   crossOrigin: false,
+  // 配置babel需要处理的模块或者忽略的模块，支持正则和绝对路径
+  babel: {
+    include: [],
+    exclude: [],
+  },
   // webpack-dev-server配置
   devServer: {
     port: 7475,
@@ -109,12 +125,9 @@ module.exports = {
     // 入口文件
     entry: {
       providerDiscover: './src/pages/discover/ProviderDiscover',
-      providerCourse: './src/pages/course/ProviderCourse',
-      providerSearch: './src/pages/search/ProviderSearch',
     },
   },
-  // cdn部署路径
-  publicPath,
+
   // pages目录下需要忽略的文件夹（不作为页面处理）
   ignorePages: ['action_creators', 'action_types', 'reducers'],
   chainWebpack(config, { type, mode }) {
