@@ -7,7 +7,7 @@ export default (context: A8k) => {
   const rootDir = context.resolve();
   const config = {
     rootDir,
-    collectCoverageFrom: ['src/**/*.{js,jsx,tsx}'],
+    collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
     setupFiles: [require.resolve('./jsdom')],
     testMatch: [
       '<rootDir>/tests/**/*.{js,jsx,ts,tsx}',
