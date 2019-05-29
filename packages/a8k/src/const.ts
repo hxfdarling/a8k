@@ -1,10 +1,17 @@
 import path from 'path';
 
-export const TYPE_CLIENT = 'client';
-export const TYPE_SERVER = 'server';
 export const ENV_DEV = 'development';
 export const ENV_PROD = 'production';
 export const ENV_TEST = 'test';
+
+export enum BUILD_TYPE {
+  CLIENT = 'client',
+  SERVER = 'server',
+}
+export enum BUILD_ENV {
+  DEVELOPMENT = 'development',
+  PRODUCTION = 'production',
+}
 
 export enum PROJECT_MODE {
   SINGLE = 'single', // 单页面

@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-a8k",
-  "version": "1.13.0",
+  "version": "1.15.1",
   "description": "Babel preset used by a8k",
   "license": "MIT",
   "files": [
@@ -34,7 +34,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.4.4",
+    "@babel/runtime": "^7.4.5",
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "2.2.0",

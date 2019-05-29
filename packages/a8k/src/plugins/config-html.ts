@@ -1,8 +1,10 @@
 import fs from 'fs-extra';
 import path from 'path';
 import A8k from '..';
-import { ENV_DEV, ENV_PROD, PROJECT_MODE, TYPE_CLIENT } from '../const';
+import { BUILD_TYPE, ENV_DEV, ENV_PROD, PROJECT_MODE } from '../const';
 import EmptyPlugin from '../webpack/plugins/empty-plugin';
+import WebpackChain from 'webpack-chain';
+import { IResolveWebpackConfigOptions } from '../interface';
 
 const DEFAULT_PAGES_DIR = './src/pages';
 
@@ -38,10 +40,10 @@ export default class HtmlConfig {
   apply(context: A8k) {
     const HtmlWebpackPlugin = require('html-webpack-plugin');
     HtmlWebpackPlugin.__expression = "require('html-webpack-plugin')";
-    context.chainWebpack((config, { type }) => {
+    context.chainWebpack((config: WebpackChain, { type }: IResolveWebpackConfigOptions) => {
       const pagesDir = context.config.pagesDir || DEFAULT_PAGES_DIR;
       // 服务器渲染 js 不需要构建 html
-      if (type === TYPE_CLIENT) {
+      if (type === BUILD_TYPE.CLIENT) {
         // 处理公共entry
         const initEntry = Object.keys(context.config.entry || {})
           .reduce((result, key) => {
@@ -97,7 +99,7 @@ export default class HtmlConfig {
             ]);
           });
         }
-        if (config.sri) {
+        if (context.config.sri) {
           const SriPlugin = require('webpack-subresource-integrity');
           SriPlugin.__expression = "require('webpack-subresource-integrity')";
           // 支持js资源完整性校验

@@ -1,7 +1,7 @@
-import { ENV_PROD } from '../const';
+import { BUILD_ENV } from '../const';
 
 export default ({ filenames, mode }) => {
-  const useHash = mode === ENV_PROD;
+  const useHash = mode === BUILD_ENV.PRODUCTION;
   return {
     js: useHash ? 'assets/js/[name]_[chunkhash:8].js' : 'assets/js/[name].js',
     css: useHash ? 'assets/css/[name]_[contenthash:8].css' : 'assets/css/[name].css',

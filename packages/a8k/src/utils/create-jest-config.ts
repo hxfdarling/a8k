@@ -7,7 +7,7 @@ export default (context: A8k) => {
   const rootDir = context.resolve();
   const config = {
     rootDir,
-    collectCoverageFrom: ['src/**/*.{js,jsx,tsx}'],
+    collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
     setupFiles: [require.resolve('./jsdom')],
     testMatch: [
       '<rootDir>/tests/**/*.{js,jsx,ts,tsx}',
@@ -63,18 +63,18 @@ export default (context: A8k) => {
     if (unsupportedKeys.length) {
       console.error(
         chalk.red(
-          `${'\nOut of the box, Create React App only supports overriding ' +
+          `${'\nOut of the box, a8k only supports overriding ' +
             'these Jest options:\n\n'}${supportedKeys
             .map(key => chalk.bold(`  \u2022 ${key}`))
             .join('\n')}.\n\n` +
             'These options in your package.json Jest configuration ' +
-            `are not currently supported by Create React App:\n\n${unsupportedKeys
+            `are not currently supported by a8k :\n\n${unsupportedKeys
               .map(key => chalk.bold(`  \u2022 ${key}`))
               .join('\n')}\n\nIf you wish to override other Jest options, you need to ` +
             `eject from the default setup. You can do so by running ${chalk.bold(
               'npm run eject'
             )} but remember that this is a one-way operation. ` +
-            'You may also file an issue with Create React App to discuss ' +
+            'You may also file an issue with a8k to discuss ' +
             'supporting more options out of the box.\n'
         )
       );

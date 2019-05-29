@@ -4,7 +4,7 @@ import path from 'path';
 import resolve from 'resolve';
 import A8k from '..';
 import { ENV_TEST } from '../const';
-import createJestConfig from '../utils/createJestConfig';
+import createJestConfig from '../utils/create-jest-config';
 
 function isInGitRepository(): boolean {
   try {
@@ -48,7 +48,7 @@ export default class TestCommand {
         process.env.NODE_ENV = ENV_TEST;
         process.env.BABEL_ENV = ENV_TEST;
         context.hooks.invokePromise('beforeTest', context);
-        const argv = [];
+        const argv: string[] = [];
 
         if (!process.env.CI && !coverage) {
           const hasSourceControl = isInGitRepository();

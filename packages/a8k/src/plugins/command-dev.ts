@@ -2,10 +2,10 @@ import logger from '@a8k/cli-utils/logger';
 import chalk from 'chalk';
 import os from 'os';
 import WebpackDevServer from 'webpack-dev-server';
-import { ENV_DEV, TYPE_CLIENT, TYPE_SERVER } from '../const';
+import A8k from '..';
+import { BUILD_ENV, BUILD_TYPE, ENV_DEV } from '../const';
 import cleanUnusedCache from '../utils/clean-old-cache';
 import { printInstructions, setProxy } from '../utils/helper';
-import A8k from '..';
 
 const isInteractive = process.stdout.isTTY;
 
@@ -42,7 +42,7 @@ export default class DevCommand {
         await cleanUnusedCache(context);
         process.env.NODE_ENV = ENV_DEV;
         context.options.inspectWebpack = inspectWebpack;
-        context.internals.mode = ENV_DEV;
+        context.internals.mode = BUILD_ENV.DEVELOPMENT;
         context.config.publicPath = ''; // 开发模式下面不用publicPath
         if (port) {
           context.config.devServer.port = port;
@@ -81,7 +81,7 @@ export default class DevCommand {
         try {
           const webpackConfig = context.resolveWebpackConfig({
             ...options,
-            type: TYPE_CLIENT,
+            type: BUILD_TYPE.CLIENT,
           });
 
           const compiler = context.createWebpackCompiler(webpackConfig);
@@ -119,7 +119,7 @@ export default class DevCommand {
         if (options.ssr) {
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,
-            type: TYPE_SERVER,
+            type: BUILD_TYPE.SERVER,
             watch: true,
           });
           const compiler = context.createWebpackCompiler(webpackConfigSSR);

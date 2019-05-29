@@ -8,7 +8,7 @@ async function cleanUnusedCache(context: A8k) {
   if (cacheBase) {
     logWithSpinner('clean old cache');
     try {
-      const list: Array<string> = await fs.readdir(cacheBase);
+      const list: string[] = await fs.readdir(cacheBase);
       await Promise.all(
         list
           .filter(i => path.basename(cache) !== i)

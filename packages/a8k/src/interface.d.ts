@@ -1,12 +1,12 @@
-import { PROJECT_MODE } from './const';
+import { BUILD_ENV, BUILD_TYPE, PROJECT_MODE } from './const';
 
 interface A8kOptions {
-  cliArgs?: Array<string>;
-  cliPath?: string;
-  baseDir?: string;
-  debug?: boolean;
-  configFile?: string;
-  inspectWebpack?: boolean;
+  cliArgs: Array<string>;
+  cliPath: string;
+  baseDir: string;
+  debug: boolean;
+  configFile: string;
+  inspectWebpack: boolean;
 }
 interface A8kConfig {
   mode: PROJECT_MODE; // 项目模式，单页面多页面
@@ -45,9 +45,27 @@ interface A8kConfig {
   };
   ignorePages: Array<string>;
   pagesDir: string;
+  sri: boolean;
   // [key: string]: any;
 }
 
 interface Internals {
-  mode: string; // production/development
+  mode: BUILD_ENV; // production/development
+}
+
+interface ICommandOptions {
+  sourceMap?: boolean;
+  cssSourceMap?: boolean;
+  mini?: boolean;
+  silent?: boolean;
+  analyzer?: boolean;
+  eslint?: boolean;
+  stylelint?: boolean;
+}
+
+interface IResolveWebpackConfigOptions extends ICommandOptions {
+  type: BUILD_TYPE;
+  mode?: BUILD_ENV;
+  watch?: boolean;
+  ssr?: boolean;
 }

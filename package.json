@@ -12,7 +12,7 @@
     }
   },
   "devDependencies": {
-    "@a8k/changelog": "^1.12.2",
+    "@a8k/changelog": "^1.13.0",
     "@commitlint/cli": "^7.6.1",
     "@commitlint/travis-cli": "^7.6.1",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
@@ -28,6 +28,8 @@
     "lerna": "^3.14.1",
     "lint-staged": "^8.1.7",
     "prettier": "^1.17.1",
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5",
     "vuepress": "^0.14.11"
   },
   "directories": {
@@ -63,10 +65,12 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
-    "lint":"lerna run lint",
+    "bootstrap": "lerna bootstrap",
+    "lint": "lerna run lint",
+    "test": "lerna run test",
+    "release": "lerna version --conventional-commits && lerna publish from-package",
     "docs:build": "vuepress build docs",
-    "docs:dev": "vuepress dev docs",
-    "release": "lerna version --conventional-commits && lerna publish from-package"
+    "docs:dev": "vuepress dev docs"
   },
   "workspaces": [
     "packages/*"

@@ -1,5 +1,5 @@
 import path from 'path';
-import { ENV_PROD, TYPE_CLIENT } from '../const';
+import { ENV_PROD, BUILD_TYPE } from '../const';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
 
@@ -12,7 +12,7 @@ export default (config: WebpackChain, context: A8k, { type, mini, sourceMap }) =
     config.optimization.set('moduleIds', 'named');
   }
 
-  if (type === TYPE_CLIENT) {
+  if (type === BUILD_TYPE.CLIENT) {
     config.optimization.splitChunks({
       // Automatically split vendor and commons
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366

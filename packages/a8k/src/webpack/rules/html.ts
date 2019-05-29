@@ -1,10 +1,10 @@
 import path from 'path';
 import WebpackChain from 'webpack-chain';
-import { ENV_PROD, TYPE_SERVER } from '../../const';
 import A8k from '../..';
+import { BUILD_ENV, BUILD_TYPE } from '../../const';
 
 export default (config: WebpackChain, context: A8k, { type, mini }) => {
-  if (type === TYPE_SERVER) {
+  if (type === BUILD_TYPE.SERVER) {
     return;
   }
   config.module
@@ -15,14 +15,14 @@ export default (config: WebpackChain, context: A8k, { type, mini }) => {
     .loader('html-loader')
     .options({
       removeComments: false,
-      minimize: mini && context.internals.mode === ENV_PROD,
+      minimize: mini && context.internals.mode === BUILD_ENV.PRODUCTION,
     })
     .end()
     .use('@a8k/html-loader')
     .loader('@a8k/html-loader')
     .options({
       cacheDirectory: path.resolve(context.config.cache, '@a8k/html-loader'),
-      minimize: mini && context.internals.mode === ENV_PROD,
+      minimize: mini && context.internals.mode === BUILD_ENV.PRODUCTION,
     })
     .end()
     .use('imt-nunjucks-loader')

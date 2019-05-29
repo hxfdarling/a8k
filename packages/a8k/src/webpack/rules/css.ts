@@ -1,14 +1,20 @@
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
-import { ENV_PROD, TYPE_SERVER } from '../../const';
+import { BUILD_ENV, BUILD_TYPE } from '../../const';
+import { IResolveWebpackConfigOptions } from '../../interface';
 import generateLoaders from './generate-loaders';
 
-export default (config: WebpackChain, context: A8k, options, filename: string) => {
+export default (
+  config: WebpackChain,
+  context: A8k,
+  options: IResolveWebpackConfigOptions,
+  filename: string
+) => {
   const { type, ssr } = options;
   // 生产模式和服务器渲染调试时，开启这个模式防止样式抖动
-  const needExtraCss = context.internals.mode === ENV_PROD || ssr;
+  const needExtraCss = context.internals.mode === BUILD_ENV.PRODUCTION || ssr;
 
-  if (type === TYPE_SERVER) {
+  if (type === BUILD_TYPE.SERVER) {
     // 服务端渲染，直接忽略css
     config.module
       .rule('css-sass-less')

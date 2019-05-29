@@ -1,41 +1,68 @@
+[![licens MIT](https://img.shields.io/github/license/hxfdarling/a8k.svg)](https://github.com/hxfdarling/a8k/blob/master/LICENSE)
+[![travis CI](https://travis-ci.org/hxfdarling/a8k.svg?branch=master)](https://travis-ci.org/hxfdarling/a8k)
+
 # a8k
 
-集成 webpack 的 react 项目最佳实践配置的构建工具
+A build tool that integrates webpack's react project best practices configuration.
 
-## 使用方法
+[docs](https://hxfdarling.github.io/a8k/)
 
-安装
+## Getting Started
 
-```shell
+install
+
+```bash
 npm i -g a8k
+# or
+npm i -D a8k
 ```
 
-生成模板
+init project
 
-```shell
+```bash
 k create [projectName]
 ```
 
-启动开发服务器
+start devServer
 
-```shell
+```bash
 k dev
 ```
 
-dev 调试直出模式
+start devServer for ssr
 
-```shell
+```bash
 k dev -s
 ```
 
-构建前端代码
+build
 
-```shell
+```bash
 k build
 ```
 
-运行 jest 测试
+test
 
-```shell
+```bash
 k test
 ```
+
+## Development scripts
+
+A8k is organized as a monorepo using Lerna. Useful scripts include:
+
+### `yarn bootstrap`
+
+Installs package dependencies and links packages together - using lerna
+
+### `yarn release`
+
+Push a release to git and npm will ask for version in interactive mode - using lerna.
+
+### `yarn lint`
+
+boolean check if code conforms to linting rules - uses remark & eslint
+
+### `yarn test`
+
+boolean check if unit tests all pass - uses jest
