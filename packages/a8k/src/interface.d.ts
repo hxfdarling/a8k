@@ -45,6 +45,7 @@ interface A8kConfig {
   };
   ignorePages: Array<string>;
   pagesDir: string;
+  sri: boolean;
   // [key: string]: any;
 }
 
@@ -58,6 +59,8 @@ interface ICommandOptions {
   mini?: boolean;
   silent?: boolean;
   analyzer?: boolean;
+  eslint?: boolean;
+  stylelint?: boolean;
 }
 
 interface IResolveWebpackConfigOptions extends ICommandOptions {

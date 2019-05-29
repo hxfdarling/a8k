@@ -2,9 +2,14 @@ import logger from '@a8k/cli-utils/logger';
 import fs from 'fs-extra';
 import path from 'path';
 import { deleteLoading } from '../../utils/ssr';
+import { BUILD_ENV } from '../../const';
 
 class SSRPlugin {
-  options: { ssrConfig: { entry: any; view: string }; dist: string };
+  options: {
+    mode: BUILD_ENV;
+    ssrConfig: { entry: any; view: string };
+    dist: string;
+  };
 
   constructor(options) {
     this.options = options;
@@ -17,10 +22,15 @@ class SSRPlugin {
         ssrConfig: { entry, view },
         dist,
       } = this.options;
-      if (!outputFileSystem.existsSync) {
+
+      if (this.options.mode === BUILD_ENV.PRODUCTION) {
         // 在非dev模式下outputFileSystem不可用
         outputFileSystem = fs;
+        logger.debug('use os fileSystem');
+      } else {
+        logger.debug('use os compiler.outputFileSystem');
       }
+
       fs.ensureDirSync(view);
       Object.keys(entry).forEach(key => {
         const pageName = entry[key].split('/');

@@ -5,12 +5,13 @@ import path from 'path';
 import webpack from 'webpack';
 import A8k from '..';
 import { BUILD_ENV, BUILD_TYPE } from '../const';
-
+import WebpackChain from 'webpack-chain';
+import { IResolveWebpackConfigOptions } from '../interface';
 export default class DevConfig {
   name = 'builtin:config-dev';
   apply(context: A8k) {
-    context.chainWebpack((config, options) => {
-      const { type, eslint, stylelint, ssr } = options;
+    context.chainWebpack((config: WebpackChain, options: IResolveWebpackConfigOptions) => {
+      const { type, eslint, stylelint } = options;
       // 只有客户端代码 开发模式才需要使用，构建服务器代码不需要
       if (type === BUILD_TYPE.CLIENT && context.internals.mode === BUILD_ENV.DEVELOPMENT) {
         // 开发模式
@@ -79,14 +80,6 @@ export default class DevConfig {
         const { HotModuleReplacementPlugin } = webpack;
         HotModuleReplacementPlugin.__expression = "require('webpack').HotModuleReplacementPlugin";
         config.plugin('HotModuleReplacementPlugin').use(webpack.HotModuleReplacementPlugin);
-        // 支持调试直出代码
-        if (ssr) {
-          const SSRPlugin = require('../webpack/plugins/ssr-plugin');
-          SSRPlugin.__expression = "require('a8k/lib/webpack/plugins/ssr-plugin')";
-          config
-            .plugin('ssr-plugin')
-            .use(SSRPlugin, [{ ssrConfig: context.config.ssrConfig, dist: context.config.dist }]);
-        }
       }
     });
   }
