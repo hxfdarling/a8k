@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.2](https://github.com/hxfdarling/a8k/compare/v1.15.1...v1.15.2) (2019-05-29)
+
+
+### Bug Fixes
+
+* fix ssr-html plugin not work ([6bff76a](https://github.com/hxfdarling/a8k/commit/6bff76a))
+
+
+
+
+
 ## [1.15.1](https://github.com/hxfdarling/a8k/compare/v1.15.0...v1.15.1) (2019-05-29)
 
 
