@@ -65,10 +65,12 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
+    "bootstrap":"lerna bootstrap",
     "lint": "lerna run lint",
+    "test":"lerna run test",
+    "release": "lerna version --conventional-commits && lerna publish from-package",
     "docs:build": "vuepress build docs",
-    "docs:dev": "vuepress dev docs",
-    "release": "lerna version --conventional-commits && lerna publish from-package"
+    "docs:dev": "vuepress dev docs"
   },
   "workspaces": [
     "packages/*"
