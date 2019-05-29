@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-react",
-  "version": "1.13.0",
+  "version": "1.15.1",
   "description": "react 模板插件，支持创建react项目",
   "author": "zman",
   "license": "ISC",
