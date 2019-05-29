@@ -13,7 +13,6 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "eslint test lib --ext .js",
     "test:w": "jest --watch",
     "prepublishOnly": "npm run test",
     "test": "jest"

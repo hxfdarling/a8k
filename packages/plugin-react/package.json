@@ -21,7 +21,6 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
-    "lint": "eslint lib/*.js",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {

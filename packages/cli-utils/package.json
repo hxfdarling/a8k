@@ -21,7 +21,6 @@
   },
   "scripts": {
     "dev": "echo \"ok\"",
-    "lint": "eslint *.js",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
