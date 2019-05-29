@@ -168,7 +168,6 @@ export default class A8k {
   // Get envs that will be embed in app code
   getEnvs() {
     return Object.assign({}, this.config.envs, {
-      NODE_ENV: this.internals.mode,
       PUBLIC_PATH: this.config.publicPath,
     });
   }
