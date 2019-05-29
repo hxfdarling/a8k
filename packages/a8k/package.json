@@ -15,8 +15,8 @@
     "prepublishOnly": "npm run build",
     "test": "jest",
     "test:w": "jest --watch",
-    "lint:fix":"tslint --project ./tsconfig.json -t stylish --fix",
-    "lint":"tslint --project ./tsconfig.json -t stylish"
+    "lint:fix": "tslint --project ./tsconfig.json -t stylish --fix",
+    "lint": "tslint --project ./tsconfig.json -t stylish"
   },
   "files": [
     "lib"
@@ -27,8 +27,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.2",
-    "jest-extended": "^0.11.1",
+    "@types/node": "^12.0.3",
     "rimraf": "^2.6.3",
     "ts-jest": "^24.0.2",
     "typescript": "^3.4.5"
@@ -38,7 +37,7 @@
     "@a8k/dev-utils": "^1.13.0",
     "@a8k/html-loader": "^1.14.0",
     "@a8k/plugin-react": "^1.13.0",
-    "@babel/runtime": "^7.4.4",
+    "@babel/runtime": "^7.4.5",
     "acorn": "^6.1.1",
     "acorn-dynamic-import": "^4.0.0",
     "babel-eslint": "^10.0.1",
@@ -90,12 +89,12 @@
     "postcss-preset-env": "^6.5.0",
     "pretty-ms": "^5.0.0",
     "react-error-overlay": "^5.1.6",
-    "react-hot-loader": "^4.8.7",
+    "react-hot-loader": "^4.8.8",
     "resolve": "^1.11.0",
     "resolve-from": "^5.0.0",
     "sass": "^1.20.1",
     "sass-loader": "^7.1.0",
-    "semver": "^6.0.0",
+    "semver": "^6.1.1",
     "shelljs": "^0.8.3",
     "sockjs-client": "^1.3.0",
     "source-map-support": "^0.5.12",
@@ -108,7 +107,7 @@
     "stylelint-webpack-plugin": "^0.10.5",
     "svg-inline-loader": "^0.8.0",
     "terser": "^4.0.0",
-    "terser-webpack-plugin": "^1.2.4",
+    "terser-webpack-plugin": "^1.3.0",
     "ts-loader": "^6.0.1",
     "url": "^0.11.0",
     "webpack": "4.28.4",

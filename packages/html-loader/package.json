@@ -40,6 +40,6 @@
     "jest-extended": "^0.11.1",
     "memory-fs": "^0.4.1",
     "vm": "^0.1.0",
-    "webpack": "^4.31.0"
+    "webpack": "^4.32.2"
   }
 }
