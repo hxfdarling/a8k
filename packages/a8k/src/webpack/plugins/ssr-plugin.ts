@@ -16,7 +16,7 @@ class SSRPlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.done.tap('ssr', async () => {
+    compiler.hooks.afterEmit.tap('ssr', async () => {
       let { outputFileSystem } = compiler;
       const {
         ssrConfig: { entry, view },
