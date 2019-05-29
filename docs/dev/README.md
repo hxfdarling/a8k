@@ -15,15 +15,14 @@
 5. `webpack`提供模块化打包能力
 6. `babel`es 代码转换能力
 7. `sass(dart-sass)`提供 sass 预处理语法编译能力
-8. `less`提供 less 预处理语法编译能力
-9. `post-css`提供 css 兼容性处理
-10. `nunjucks`提供 html 模板化能力
-11. `jest` 集成单元测试功能
-12. `eslint`检测代码规范
-13. `styleint`检测样式规范
-14. `acorn`构建结果语法检测
-15. `@commitlint/cli`提供 Git commit message 规范检测能力
-16. `yeoman-generator` 提供模板项目初始化能力
+8. `post-css`提供 css 兼容性处理
+9. `nunjucks`提供 html 模板化能力
+10. `jest` 集成单元测试功能
+11. `eslint`检测代码规范
+12. `styleint`检测样式规范
+13. `acorn`构建结果语法检测
+14. `@commitlint/cli`提供 Git commit message 规范检测能力
+15. `yeoman-generator` 提供模板项目初始化能力
 
 ## 插件开发方式
 
