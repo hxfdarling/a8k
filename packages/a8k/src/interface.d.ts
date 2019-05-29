@@ -1,4 +1,4 @@
-import { PROJECT_MODE } from './const';
+import { BUILD_ENV, BUILD_TYPE, PROJECT_MODE } from './const';
 
 interface A8kOptions {
   cliArgs: Array<string>;
@@ -49,5 +49,20 @@ interface A8kConfig {
 }
 
 interface Internals {
-  mode: string; // production/development
+  mode: BUILD_ENV; // production/development
+}
+
+interface ICommandOptions {
+  sourceMap?: boolean;
+  cssSourceMap?: boolean;
+  mini?: boolean;
+  silent?: boolean;
+  analyzer?: boolean;
+}
+
+interface IResolveWebpackConfigOptions extends ICommandOptions {
+  type: BUILD_TYPE;
+  mode?: BUILD_ENV;
+  watch?: boolean;
+  ssr?: boolean;
 }

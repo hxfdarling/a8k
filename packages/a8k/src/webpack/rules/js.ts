@@ -3,7 +3,7 @@ import logger from '@a8k/cli-utils/logger';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
-import { ENV_DEV, TYPE_SERVER } from '../../const';
+import { BUILD_ENV, BUILD_TYPE } from '../../const';
 
 export default (config: WebpackChain, context: A8k, { type }) => {
   const { babel: { include = [], exclude = [] } = {} } = context.config;
@@ -63,9 +63,10 @@ export default (config: WebpackChain, context: A8k, { type }) => {
       babelrc,
       // cacheDirectory 缓存babel编译结果加快重新编译速度
       cacheDirectory: path.resolve(context.config.cache, 'babel-loader'),
-      presets: [[require.resolve('babel-preset-a8k'), { isSSR: type === TYPE_SERVER }]],
+      presets: [[require.resolve('babel-preset-a8k'), { isSSR: type === BUILD_TYPE.SERVER }]],
       plugins: [
-        context.internals.mode === ENV_DEV && require.resolve('react-hot-loader/babel'),
+        context.internals.mode === BUILD_ENV.DEVELOPMENT &&
+          require.resolve('react-hot-loader/babel'),
       ].filter(Boolean),
     });
 };

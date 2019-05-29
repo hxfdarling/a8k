@@ -1,11 +1,13 @@
-import { ENV_DEV, TYPE_CLIENT } from '../const';
-import getFileNames from '../utils/get-filenames';
 import A8k from '..';
+import { BUILD_TYPE, ENV_DEV } from '../const';
+import getFileNames from '../utils/get-filenames';
+import WebpackChain, { DevTool } from 'webpack-chain';
+import { IResolveWebpackConfigOptions } from '../interface';
 
 export default class BaseConfig {
   name = 'builtin:config-base';
   apply(context: A8k) {
-    context.chainWebpack((config, options) => {
+    context.chainWebpack((config: WebpackChain, options: IResolveWebpackConfigOptions) => {
       const filenames = getFileNames({
         filenames: context.config.filenames,
         mode: context.internals.mode,
@@ -21,8 +23,8 @@ export default class BaseConfig {
 
       config.context(context.options.baseDir);
 
-      if (type === TYPE_CLIENT) {
-        let devtool = 'none';
+      if (type === BUILD_TYPE.CLIENT) {
+        let devtool: DevTool = false;
         if (context.internals.mode === ENV_DEV) {
           devtool = 'cheap-module-eval-source-map';
         } else if (options.sourceMap) {

@@ -5,7 +5,7 @@ module.exports = function(api, options, env) {
   const { isSSR } = options;
   if (!isEnvDevelopment && !isEnvProduction && !isEnvTest) {
     throw new Error(
-      `${'Using `babel-preset-imt` requires that you specify `NODE_ENV` or '
+      `${'Using `babel-preset-a8k` requires that you specify `NODE_ENV` or '
         + '`BABEL_ENV` environment variables. Valid values are "development", '
         + '"test", and "production". Instead, received: '}${JSON.stringify(env)}.`
     );

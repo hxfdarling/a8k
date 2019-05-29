@@ -1,7 +1,6 @@
-// import webpack from 'webpack';
-import { ENV_PROD, TYPE_CLIENT } from '../const';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
+import { BUILD_ENV, BUILD_TYPE } from '../const';
 
 export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
   // 只有命令行中才显示进度，CI系统日志不需要
@@ -47,7 +46,7 @@ export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
     },
   ]);
 
-  if (context.internals.mode === ENV_PROD && type === TYPE_CLIENT) {
+  if (context.internals.mode === BUILD_ENV.PRODUCTION && type === BUILD_TYPE.CLIENT) {
     if (context.config.crossOrigin) {
       const CrossOriginLoadingPlugin = require('./plugins/cross-origin-loading');
       CrossOriginLoadingPlugin.__expression =

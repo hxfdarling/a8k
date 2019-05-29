@@ -3,6 +3,7 @@ import logger from '@a8k/cli-utils/logger';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
+import { IResolveWebpackConfigOptions } from '../../interface';
 
 const testMap = {
   css: /\.(css)$/,
@@ -13,9 +14,9 @@ const testMap = {
 export class GenerateLoaders {
   rule: WebpackChain.Rule;
   context: A8k;
-  options: { type: string; ssr: boolean; cssSourceMap: boolean; sourceMap: boolean };
+  options: IResolveWebpackConfigOptions;
   cacheDirectory: string;
-  constructor(rule: WebpackChain.Rule, context: A8k, options) {
+  constructor(rule: WebpackChain.Rule, context: A8k, options: IResolveWebpackConfigOptions) {
     this.cacheDirectory = path.join(context.config.cache, 'cache-loader-css');
     this.rule = rule;
     this.context = context;
@@ -182,7 +183,7 @@ export default (
   type: 'sass' | 'less' | 'css',
   config: WebpackChain,
   context: A8k,
-  options,
+  options: IResolveWebpackConfigOptions,
   needExtraCss: boolean
 ) => {
   const rule = config.module.rule(type).test(testMap[type]);

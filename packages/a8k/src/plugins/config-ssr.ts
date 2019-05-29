@@ -1,11 +1,11 @@
 import A8k from '..';
-import { ENV_DEV, ENV_PROD, TYPE_SERVER, TYPE_CLIENT } from '../const';
+import { BUILD_TYPE, ENV_DEV, ENV_PROD } from '../const';
 
 export default class SsrConfig {
   name = 'builtin:config-ssr';
   apply(context: A8k) {
     context.chainWebpack((config, { type, watch }) => {
-      if (type === TYPE_SERVER) {
+      if (type === BUILD_TYPE.SERVER) {
         const isDevMode = watch;
         config.mode(isDevMode ? ENV_DEV : ENV_PROD);
         config.devtool(false);
@@ -41,7 +41,7 @@ export default class SsrConfig {
           },
         });
       }
-      if (type === TYPE_CLIENT) {
+      if (type === BUILD_TYPE.CLIENT) {
         const {
           ssrConfig: { entry },
         } = context.config;

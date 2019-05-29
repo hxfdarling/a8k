@@ -5,10 +5,10 @@ import fs from 'fs-extra';
 import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
-import { ENV_DEV, ENV_PROD, TYPE_CLIENT } from './const';
+import { BUILD_ENV, BUILD_TYPE } from './const';
 import defaultConfig from './default-config';
 import Hooks from './hooks';
-import { A8kConfig, A8kOptions, Internals } from './interface';
+import { A8kConfig, A8kOptions, Internals, IResolveWebpackConfigOptions } from './interface';
 import loadPkg from './utils/load-pkg';
 import loadPlugins from './utils/load-plugins';
 
@@ -58,7 +58,7 @@ export default class A8k {
     this.config = {} as A8kConfig;
 
     this.internals = {
-      mode: ENV_DEV,
+      mode: BUILD_ENV.DEVELOPMENT,
     };
 
     this.buildId = Math.random()
@@ -168,7 +168,7 @@ export default class A8k {
   // Get envs that will be embed in app code
   getEnvs() {
     return Object.assign({}, this.config.envs, {
-      NODE_ENV: this.internals.mode === ENV_PROD ? ENV_PROD : ENV_DEV,
+      NODE_ENV: this.internals.mode,
       PUBLIC_PATH: this.config.publicPath,
     });
   }
@@ -213,11 +213,11 @@ export default class A8k {
     }
   }
 
-  resolveWebpackConfig(options) {
+  resolveWebpackConfig(options: IResolveWebpackConfigOptions) {
     const WebpackChain = require('webpack-chain');
     const config = new WebpackChain();
 
-    options = { type: TYPE_CLIENT, ...options, mode: this.internals.mode };
+    options = { type: BUILD_TYPE.CLIENT, ...options, mode: this.internals.mode };
 
     this.hooks.invoke('chainWebpack', config, options);
 
@@ -242,7 +242,7 @@ export default class A8k {
       logger.warn('!!webpackOverride 已经废弃，请使用chainWebpack修改配置!!');
       // 兼容旧版本imt
       const legacyOptions = {
-        type: options.type === TYPE_CLIENT ? options.mode : 'server',
+        type: options.type === BUILD_TYPE.CLIENT ? options.mode : 'server',
       };
       const modifyConfig = this.config.webpackOverride(webpackConfig, legacyOptions);
       if (modifyConfig) {

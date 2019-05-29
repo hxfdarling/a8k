@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import path from 'path';
 import webpack from 'webpack';
 import A8k from '..';
-import { ENV_DEV, TYPE_CLIENT } from '../const';
+import { BUILD_ENV, BUILD_TYPE } from '../const';
 
 export default class DevConfig {
   name = 'builtin:config-dev';
@@ -12,7 +12,7 @@ export default class DevConfig {
     context.chainWebpack((config, options) => {
       const { type, eslint, stylelint, ssr } = options;
       // 只有客户端代码 开发模式才需要使用，构建服务器代码不需要
-      if (type === TYPE_CLIENT && context.internals.mode === ENV_DEV) {
+      if (type === BUILD_TYPE.CLIENT && context.internals.mode === BUILD_ENV.DEVELOPMENT) {
         // 开发模式
         if (eslint) {
           const hash = crypto.createHash('sha256');

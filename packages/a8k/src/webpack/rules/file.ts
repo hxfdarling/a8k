@@ -1,9 +1,9 @@
 import WebpackChain from 'webpack-chain';
-import { TYPE_SERVER } from '../../const';
+import { BUILD_TYPE } from '../../const';
 import A8k from '../..';
 
 export default (config: WebpackChain, context: A8k, { type }, filename: string) => {
-  const isSSR = TYPE_SERVER === type;
+  const isSSR = BUILD_TYPE.SERVER === type;
   config.module
     // 部分json文件只需要使用路径
     .rule('json')
