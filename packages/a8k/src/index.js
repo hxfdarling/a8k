@@ -215,6 +215,7 @@ class A8k {
   applyPlugins() {
     const plugins = [
       require.resolve('@a8k/plugin-react'),
+      require.resolve('@a8k/plugin-sb-react'),
       require.resolve('./plugins/config-base'),
       require.resolve('./plugins/config-dev'),
       require.resolve('./plugins/config-html'),
