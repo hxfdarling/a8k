@@ -7,7 +7,6 @@ interface A8kOptions {
   debug?: boolean;
   configFile?: string;
   inspectWebpack?: boolean;
-  offlinePack?: boolean;
 }
 interface A8kConfig {
   mode: PROJECT_MODE; // 项目模式，单页面多页面
@@ -46,7 +45,6 @@ interface A8kConfig {
   };
   ignorePages: Array<string>;
   pagesDir: string;
-  offlinePack: any;
   // [key: string]: any;
 }
 

@@ -48,10 +48,4 @@ export default {
     // html存放地址
     view: './app/views',
   },
-  offlinePack: {
-    blackList: [],
-    debug: false,
-    whiteAssetsList: [],
-    tempFolderName: 'fudao.qq.com',
-  },
 };
