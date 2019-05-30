@@ -1,7 +1,7 @@
 {
   "name": "@a8k/plugin-postcss",
   "version": "1.14.1",
-  "description": "a8k 项目 sass to postcss插件",
+  "description": "a8k project use postcss instead of sass",
   "author": "edenhliu <edenhliu@tencent.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-postcss#readme",
   "license": "ISC",

@@ -1,6 +1,6 @@
 # `dev-utils`
 
-> TODO: description
+> a8k dev-utils
 
 ## Usage
 

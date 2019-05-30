@@ -1,6 +1,6 @@
 # `@a8k/plugin-postcss`
 
-> TODO: description
+> use postcss instead of sass
 
 ## Usage
 
