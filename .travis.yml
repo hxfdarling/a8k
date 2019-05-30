@@ -16,7 +16,7 @@ install:
   - npm install
 
 script:
-  - commitlint-travis
+  #- commitlint-travis
   - npm run lint
 
 deploy:
