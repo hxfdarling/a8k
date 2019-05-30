@@ -1,12 +1,14 @@
 import loadConfig from '@a8k/cli-utils/load-config';
 import logger from '@a8k/cli-utils/logger';
 import { Options, parse } from 'acorn';
+import micromatch from 'micromatch';
 
 interface EsCheckOptions {
   ecmaVersion: string;
   baseDir?: string;
   module?: boolean;
   allowHashBang?: boolean;
+  exclude?: Array<string>;
 }
 
 const check = (files: Array<{ filename: string; source: string }>, acornOpts: Options) => {
@@ -28,6 +30,10 @@ const check = (files: Array<{ filename: string; source: string }>, acornOpts: Op
 
   if (errArray.length > 0) {
     logger.error(`ES-Check: there were ${errArray.length} ES version matching errors.`);
+    logger.error(`maybe you need not check some file support es ${acornOpts.ecmaVersion}`);
+    logger.error(
+      `you can add "exclude" option into ".escheckrc.json" config to ignore this file or check you code`
+    );
     errArray.forEach(o => {
       logger.info(`
           ES-Check Error:
@@ -47,6 +53,7 @@ class EsCheckPlugin {
   options: EsCheckOptions;
   name = 'es-check-plugin';
   acornOpts: Options;
+  exclude: Array<string>;
   constructor(options: EsCheckOptions) {
     this.options = { ...options };
     const res = loadConfig.loadSync({
@@ -65,7 +72,8 @@ class EsCheckPlugin {
     let esModule = options.module || config.module;
     let ecmaVersion = options.ecmaVersion || config.ecmaVersion;
     let allowHashBang = options.allowHashBang || config.allowHashBang;
-
+    // 可以配置不校验的文件
+    let exclude = (config.exclude || []).concat(options.exclude || []);
     if (!ecmaVersion) {
       logger.error(
         'No ecmaScript version passed in or found in .escheckrc. Please set your ecmaScript version in the CLI or in .escheckrc'
@@ -125,6 +133,7 @@ class EsCheckPlugin {
     this.options.ecmaVersion = ecmaVersion;
     this.options.allowHashBang = allowHashBang;
     this.options.module = esModule;
+    this.options.exclude = exclude;
 
     const acornOpts = { ecmaVersion, silent: true } as Options;
 
@@ -141,7 +150,11 @@ class EsCheckPlugin {
     logger.debug(` Going to check files using version ${this.options.ecmaVersion}`);
     compiler.hooks.afterEmit.tap(this.name, ({ assets }) => {
       const files = Object.keys(assets)
-        .filter(filename => /\.js$/.test(filename))
+        .filter(
+          filename =>
+            /\.js$/.test(filename) &&
+            !this.options.exclude.some(i => micromatch.isMatch(filename, i))
+        )
         .map((filename: string) => {
           return { filename, source: assets[filename].source() };
         });
