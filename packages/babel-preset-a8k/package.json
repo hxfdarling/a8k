@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-a8k",
-  "version": "1.15.1",
+  "version": "1.16.0",
   "description": "Babel preset used by a8k",
   "license": "MIT",
   "files": [
