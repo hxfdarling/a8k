@@ -68,6 +68,7 @@
     "bootstrap": "lerna bootstrap",
     "lint": "lerna run lint && eslint packages --ext .js",
     "lint:fix": "eslint packages --ext .js --fix",
+    "build":"lerna run build",
     "test": "lerna run test",
     "release": "lerna version --conventional-commits && lerna publish from-package",
     "docs:build": "vuepress build docs",
