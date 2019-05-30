@@ -127,7 +127,7 @@ module.exports = {
 
 类型：`boolean|{exclude:[],ecmaVersion:string}`,
 
-默认支持编译的结果支持 es5 及以上浏览器运行。但默认情况不会对 node_modules 模块进行代码转换，你可能会意外的引用了第三方模块（没有提供 es5 版本)。为了避免这种意外的 bug 出现，我们提供了默认的构建结果的 es5 检测，如果发现结果中存在非 es5 的代码，将直接报错。
+a8k 编译的结果 JavaScript 代码支持 es5 及以上浏览器运行。但默认情况不会对 node_modules 模块进行代码转换，你可能会意外的引用了第三方模块（没有提供 es5 版本)。为了避免这种意外的 bug 出现，我们提供了默认的构建结果的 es5 检测，如果发现结果中存在非 es5 的代码，将直接报错。
 
 但是，部分文件是可以允许使用高于 es5 版本的 JavaScript 代码的，例如：service worker 脚本，因为支持 service worker 的浏览器对很多 es6 的语法是支持的。
 
