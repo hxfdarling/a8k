@@ -1,4 +1,11 @@
-export default {
+import { A8kConfig } from './interface';
+import { PROJECT_MODE } from './const';
+
+const config: A8kConfig = {
+  mode: PROJECT_MODE.MULTI,
+  entry: {},
+  dist: 'dist',
+  cacheBase: '',
   cache: 'node_modules/.cache',
   publicPath: '',
   devServer: {
@@ -41,11 +48,18 @@ export default {
   },
   ssrDevServer: {
     host: 'localhost',
+    contentBase: '',
+    https: false,
+    port: '',
   },
+  host: '',
+  port: '',
   ssrConfig: {
     // js存放地址
     dist: './app/components',
     // html存放地址
     view: './app/views',
   },
-};
+  escheck: true,
+} as A8kConfig;
+export default config;

@@ -79,8 +79,17 @@ export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
         dry: false,
       },
     ]);
-    const EsCheckPlugin = require('./plugins/es-check-plugin');
-    EsCheckPlugin.__expression = `require('./plugins/es-check-plugin')`;
-    config.plugin('es-check-plugin').use(EsCheckPlugin, [{ ecmaVersion: 'es5' }]);
+    const { escheck } = context.config;
+    if (escheck) {
+      const EsCheckPlugin = require('./plugins/es-check-plugin');
+      EsCheckPlugin.__expression = `require('./plugins/es-check-plugin')`;
+      let escheckConfig = {};
+      if (typeof escheck === 'object') {
+        escheckConfig = escheck;
+      }
+      config
+        .plugin('es-check-plugin')
+        .use(EsCheckPlugin, [{ ecmaVersion: 'es5', ...escheckConfig }]);
+    }
   }
 };

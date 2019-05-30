@@ -123,6 +123,27 @@ module.exports = {
 
 正则表达式，配置`src/pages`目录下面需要排除的文件夹，使用场景是你希望构建不要处理 `src/pages` 目录下面的某些目录（及排除这些目录作为页面处理)
 
+### escheck 检测构建结果是否支持 es5 浏览器
+
+类型：`boolean|{exclude:[],ecmaVersion:string}`,
+
+默认支持编译的结果支持 es5 及以上浏览器运行。但默认情况不会对 node_modules 模块进行代码转换，你可能会意外的引用了第三方模块（没有提供 es5 版本)。为了避免这种意外的 bug 出现，我们提供了默认的构建结果的 es5 检测，如果发现结果中存在非 es5 的代码，将直接报错。
+
+但是，部分文件是可以允许使用高于 es5 版本的 JavaScript 代码的，例如：service worker 脚本，因为支持 service worker 的浏览器对很多 es6 的语法是支持的。
+
+因此，我们提供了额外的配置允许你排除部分文件，配置方式如下：
+
+在 a8k 配置文件中添加如下代码：
+
+```js
+module.exports = {
+  // ...
+  escheck: {
+    exclude: ['you-file'], //支持glob匹配规则
+  },
+};
+```
+
 ## 自定义 webpack 配置
 
 利用了 webpack-chain 实现自定义配置，具体配置项是`chainWebpack`,该配置项提供一个函数，参数有`config、options`

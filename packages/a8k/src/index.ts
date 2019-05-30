@@ -93,7 +93,7 @@ export default class A8k {
     this.config = merge(defaultConfig, this.config);
 
     // 构建输出文件根目录
-    this.config.dist = this.resolve(this.config.dist || 'dist');
+    this.config.dist = this.resolve(this.config.dist);
     // 缓存基础目录
     this.config.cacheBase = path.resolve(this.config.cache);
     // 缓存版本标记

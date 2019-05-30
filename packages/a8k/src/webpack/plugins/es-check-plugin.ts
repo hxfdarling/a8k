@@ -32,7 +32,7 @@ const check = (files: Array<{ filename: string; source: string }>, acornOpts: Op
     logger.error(`ES-Check: there were ${errArray.length} ES version matching errors.`);
     logger.error(`maybe you need not check some file support es ${acornOpts.ecmaVersion}`);
     logger.error(
-      `you can add "exclude" option into ".escheckrc.json" config to ignore this file or check you code`
+      `you can add "escheck.exclude" option into "a8k.config.json" config to ignore this file or check you code`
     );
     errArray.forEach(o => {
       logger.info(`
