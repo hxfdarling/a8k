@@ -6,7 +6,12 @@ import { A8kOptions } from '../interface';
 
 // 自动版本检测
 if (!process.argv.find(arg => arg === '--nochecklatest')) {
-  require('../scripts/check_latest');
+  try {
+    require('../scripts/check_latest');
+  } catch (e) {
+    logger.warn('a8k check latest version fail,network or other error.');
+    logger.error(e);
+  }
 }
 let debug = false;
 if (process.argv.find(arg => arg === '--debug')) {

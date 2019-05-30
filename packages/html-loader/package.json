@@ -1,6 +1,6 @@
 {
   "name": "@a8k/html-loader",
-  "version": "1.15.1",
+  "version": "1.16.0",
   "description": "resolve assets in html file",
   "main": "./lib/index.js",
   "directories": {
@@ -13,7 +13,6 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "eslint test lib --ext .js",
     "test:w": "jest --watch",
     "prepublishOnly": "npm run test",
     "test": "jest"

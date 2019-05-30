@@ -1,6 +1,6 @@
 # `cli-utils`
 
-> TODO: description
+> a8k cli-utils
 
 ## Usage
 

@@ -1,11 +1,10 @@
-'use strict';
 const storybook = require('storybook-react-tmp/standalone');
 const fs = require('fs-extra');
 const path = require('path');
 const initSB = require('./init-sb');
 
 exports.apply = context => {
-  const { config, options } = context;
+  const { options } = context;
   context
     .registerCommand('sb-init')
     .description('初始化 storybook 配置')
@@ -34,9 +33,9 @@ exports.apply = context => {
         // 添加 markdown文件解析
         config.module
           .rule('md')
-            .test(/\.md$/)
-            .use('raw')
-            .loader('raw-loader');
+          .test(/\.md$/)
+          .use('raw')
+          .loader('raw-loader');
       });
       const webpackConfig = context.resolveWebpackConfig(options);
       process.env.BABEL_ENV = mode === 'dev' ? 'development' : 'production';
@@ -54,6 +53,6 @@ exports.apply = context => {
         },
       });
     });
-}
+};
 
 exports.name = 'builtin:storybook for react';

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://github.com/hxfdarling/a8k/compare/v1.15.3...v1.16.0) (2019-05-30)
+
+
+### Bug Fixes
+
+* fix es-check-plugin to support exlude file ([c9fad30](https://github.com/hxfdarling/a8k/commit/c9fad30))
+
+
+### Features
+
+* 添加storybook插件 ([d3e7da3](https://github.com/hxfdarling/a8k/commit/d3e7da3))
+
+
+
+
+
 ## [1.15.3](https://github.com/hxfdarling/a8k/compare/v1.15.2...v1.15.3) (2019-05-29)
 
 **Note:** Version bump only for package a8k-packages

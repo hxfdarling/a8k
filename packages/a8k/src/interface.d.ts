@@ -15,7 +15,7 @@ interface A8kConfig {
   cacheBase: any; //缓存根目录
   cache: any; //缓存目录
   ssrConfig: {
-    entry: {
+    entry?: {
       [key: string]: string;
     };
     dist: string;
@@ -46,6 +46,16 @@ interface A8kConfig {
   ignorePages: Array<string>;
   pagesDir: string;
   sri: boolean;
+  escheck:
+    | boolean
+    | {
+        ecmaVersion?: string;
+        baseDir?: string;
+        module?: boolean;
+        allowHashBang?: boolean;
+        exclude?: Array<string>;
+      };
+
   // [key: string]: any;
 }
 

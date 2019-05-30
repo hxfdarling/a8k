@@ -1,3 +1,4 @@
-a8k.config.js
-/packages/a8k/lib
 node_modules
+/packages/a8k/
+a8k.config.js
+jest.config.js

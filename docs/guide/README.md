@@ -13,7 +13,8 @@
 7. css/sass/less 代码规范检测(styleint)
 8. 构建结果是否是 es5 代码检测,避免兼容问题
 9. git 代码提交消息规范检测，避免开发人员随意提交日志
-10. 内置 @storybook/react 插件，支持使用 storybook 运行项目组件
+10. 支持插件机制，灵活可自定义构建配置或命令行工具
+11. 内置 @storybook/react 插件，支持使用 storybook 运行项目组件
 
 ## 使用方法
 

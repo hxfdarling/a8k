@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-a8k",
-  "version": "1.15.1",
+  "version": "1.16.0",
   "description": "Babel preset used by a8k",
   "license": "MIT",
   "files": [
@@ -45,7 +45,6 @@
   },
   "main": "index.js",
   "scripts": {
-    "lint": "eslint *.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "zman"
