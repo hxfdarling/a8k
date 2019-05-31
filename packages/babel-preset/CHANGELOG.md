@@ -5,7 +5,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.16.0](https://github.com/hxfdarling/a8k/compare/v1.15.3...v1.16.0) (2019-05-30)
 
-**Note:** Version bump only for package babel-preset-a8k
+**Note:** Version bump only for package @a8k/babel-preset
 
 
 
@@ -24,7 +24,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.13.0](https://github.com/hxfdarling/a8k/compare/v1.12.4...v1.13.0) (2019-05-27)
 
-**Note:** Version bump only for package babel-preset-a8k
+**Note:** Version bump only for package @a8k/babel-preset
 
 
 
@@ -32,15 +32,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.8.6](https://github.com/hxfdarling/a8k/compare/v1.8.5...v1.8.6) (2019-05-20)
 
-**Note:** Version bump only for package babel-preset-a8k
+**Note:** Version bump only for package @a8k/babel-preset
 
 ## [1.6.3](https://github.com/hxfdarling/a8k/compare/v1.6.2...v1.6.3) (2019-04-01)
 
-**Note:** Version bump only for package babel-preset-a8k
+**Note:** Version bump only for package @a8k/babel-preset
 
 # [1.5.0](https://github.com/hxfdarling/a8k/compare/v1.4.2...v1.5.0) (2019-03-20)
 
-**Note:** Version bump only for package babel-preset-a8k
+**Note:** Version bump only for package @a8k/babel-preset
 
 # Change Log
 
