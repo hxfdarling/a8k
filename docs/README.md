@@ -33,11 +33,13 @@ k build
 ```
 
 # 在工程下快速创建 .storybook 及其相关配置文件
+
 k sb-init
+
 ```
 
 # 开启storybook运行
-k sb-start
+k sb
 ```
 
 ::: warning 注意

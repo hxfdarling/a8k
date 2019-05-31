@@ -65,7 +65,7 @@ k sb-init
 运行 storybook
 
 ```shell
-k sb-start
+k sb
 ```
 
 ## 模板项目目录结构
