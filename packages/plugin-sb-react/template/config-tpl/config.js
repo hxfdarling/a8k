@@ -1,5 +1,5 @@
-import { configure, addParameters, addDecorator } from '@storybook/react';
-import { withKnobs, boolean } from '@storybook/addon-knobs';
+import { configure, addParameters, addDecorator } from 'storybook-react-tmp';
+import { withKnobs } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 
 addDecorator(withKnobs);
@@ -7,7 +7,7 @@ addDecorator(jsxDecorator);
 
 addParameters({
   options: {
-    name: 'H5 组件库',
+    name: 'storybook react 组件库',
     showPanel: true,
     panelPosition: 'right',
     enableShortcuts: true,

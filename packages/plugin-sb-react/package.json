@@ -28,6 +28,7 @@
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
+    "@a8k/cli-utils": "^1.16.0",
     "storybook-react-tmp": "0.0.1"
   },
   "publishConfig": {
