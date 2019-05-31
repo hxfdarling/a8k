@@ -13,9 +13,7 @@ exports.apply = context => {
       const sbConfigPath = path.resolve(options.baseDir, '.storybook');
       const isConfigExists = await fs.pathExists(sbConfigPath);
       if (isConfigExists) {
-        logger.error(
-          '当前工程已存在.storybook，请自定义配置，执行 k sb start 开启 storybook 服务器'
-        );
+        logger.error('当前工程已存在.storybook，请自定义配置，执行 k sb 开启 storybook 服务器');
         process.exit(-1);
       }
       await initSB(options.baseDir);
@@ -23,11 +21,13 @@ exports.apply = context => {
     });
 
   context
-    .registerCommand('sb [mode] [port]')
-    // .option('-m, --mode', '模式', 'dev')
-    // .option('-p, --port', '启动端口', 9009)
+    .registerCommand('sb')
+    .option('-m, --mode [mode]', 'mode', 'dev')
+    .option('-p, --port [port]', 'listen port', 9009)
+    .option('--inspectWebpack', 'output webpack config info')
     .description('开启storybook测试组件')
-    .action(async (mode = 'dev', port = 9009) => {
+    .action(async ({ mode, port, inspectWebpack }) => {
+      context.options.inspectWebpack = inspectWebpack;
       const sbConfigPath = path.resolve(options.baseDir, '.storybook');
       const isConfigExists = await fs.pathExists(sbConfigPath);
 

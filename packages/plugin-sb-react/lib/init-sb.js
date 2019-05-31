@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const getNpmCommand = require('@a8k/cli-utils/npm');
+const logger = require('@a8k/cli-utils/logger');
 const { logWithSpinner, stopSpinner } = require('@a8k/cli-utils/spinner');
 const shell = require('shelljs');
 const util = require('util');
@@ -40,7 +41,6 @@ module.exports = async projectDir => {
   });
 
   // 安装常用依赖
-  logWithSpinner('安装依赖中');
   const deps = [
     '@storybook/addon-knobs',
     'storybook-addon-jsx',
@@ -48,6 +48,8 @@ module.exports = async projectDir => {
     '@storybook/addon-viewport',
     '@storybook/addon-notes',
   ];
+  logger.debug(`install ${deps.join(' ')}`);
+  logWithSpinner('安装依赖中');
   await util.promisify(shell.exec)(`${npmCmd} i ${deps.join(' ')} -D`, {
     silent: false,
   });
