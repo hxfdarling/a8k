@@ -63,7 +63,7 @@ export default (config: WebpackChain, context: A8k, { type }) => {
       babelrc,
       // cacheDirectory 缓存babel编译结果加快重新编译速度
       cacheDirectory: path.resolve(context.config.cache, 'babel-loader'),
-      presets: [[require.resolve('babel-preset-a8k'), { isSSR: type === BUILD_TYPE.SERVER }]],
+      presets: [[require.resolve('@a8k/babel-preset'), { isSSR: type === BUILD_TYPE.SERVER }]],
       plugins: [
         context.internals.mode === BUILD_ENV.DEVELOPMENT &&
           require.resolve('react-hot-loader/babel'),

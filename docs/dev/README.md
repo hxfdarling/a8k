@@ -4,7 +4,7 @@
 
 ## 项目架构
 
-项目采用采用 `hook` 机制以支持插件能力，其中`a8k`包是主项目，集成了 webpack 的必要关键配置和性能优化；`babel-preset-a8k` 包封装了最新的 JavaScript 特性解析和 jsx 支持。
+项目采用采用 `hook` 机制以支持插件能力，其中`a8k`包是主项目，集成了 webpack 的必要关键配置和性能优化；`@a8k/babel-preset` 包封装了最新的 JavaScript 特性解析和 jsx 支持。
 
 使用的关键技术：
 
