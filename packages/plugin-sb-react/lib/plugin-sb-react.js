@@ -66,7 +66,7 @@ exports.apply = context => {
               .use('babel-loader')
               .tap(babelOptions => {
                 babelOptions.plugins.push([
-                  path.resolve(__dirname, '../node_modules/babel-plugin-react-docgen'),
+                  require.resolve('babel-plugin-react-docgen'),
                   { DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES' },
                 ]);
                 return babelOptions;
