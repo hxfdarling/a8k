@@ -3,32 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://github.com/hxfdarling/a8k/compare/v1.16.0...v1.17.0) (2019-06-05)
+
+**Note:** Version bump only for package @a8k/babel-preset
+
 # [1.16.0](https://github.com/hxfdarling/a8k/compare/v1.15.3...v1.16.0) (2019-05-30)
 
 **Note:** Version bump only for package @a8k/babel-preset
 
-
-
-
-
 ## [1.15.1](https://github.com/hxfdarling/a8k/compare/v1.15.0...v1.15.1) (2019-05-29)
-
 
 ### Bug Fixes
 
-* fix jest not work ([0e27af7](https://github.com/hxfdarling/a8k/commit/0e27af7))
-
-
-
-
+- fix jest not work ([0e27af7](https://github.com/hxfdarling/a8k/commit/0e27af7))
 
 # [1.13.0](https://github.com/hxfdarling/a8k/compare/v1.12.4...v1.13.0) (2019-05-27)
 
 **Note:** Version bump only for package @a8k/babel-preset
-
-
-
-
 
 ## [1.8.6](https://github.com/hxfdarling/a8k/compare/v1.8.5...v1.8.6) (2019-05-20)
 
