@@ -1,6 +1,6 @@
 {
   "name": "@a8k/babel-preset",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "description": "Babel preset used by a8k",
   "license": "MIT",
   "files": [
@@ -47,5 +47,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "zman"
+  "author": "zman",
+  "publishConfig": {
+    "access": "public"
+  }
 }
