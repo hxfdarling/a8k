@@ -43,7 +43,6 @@ export default class DevCommand {
         process.env.NODE_ENV = ENV_DEV;
         context.options.inspectWebpack = inspectWebpack;
         context.internals.mode = BUILD_ENV.DEVELOPMENT;
-        context.config.publicPath = ''; // 开发模式下面不用publicPath
         if (port) {
           context.config.devServer.port = port;
         }

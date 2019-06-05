@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-sb-react",
-  "version": "1.17.0-alpha.0",
+  "version": "1.17.0",
   "description": "storybook for react",
   "keywords": [
     "storybook",

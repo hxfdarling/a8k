@@ -1,0 +1,66 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.17.0](https://github.com/hxfdarling/a8k/compare/v1.16.0...v1.17.0) (2019-06-05)
+
+**Note:** Version bump only for package @a8k/babel-preset
+
+# [1.16.0](https://github.com/hxfdarling/a8k/compare/v1.15.3...v1.16.0) (2019-05-30)
+
+**Note:** Version bump only for package @a8k/babel-preset
+
+## [1.15.1](https://github.com/hxfdarling/a8k/compare/v1.15.0...v1.15.1) (2019-05-29)
+
+### Bug Fixes
+
+- fix jest not work ([0e27af7](https://github.com/hxfdarling/a8k/commit/0e27af7))
+
+# [1.13.0](https://github.com/hxfdarling/a8k/compare/v1.12.4...v1.13.0) (2019-05-27)
+
+**Note:** Version bump only for package @a8k/babel-preset
+
+## [1.8.6](https://github.com/hxfdarling/a8k/compare/v1.8.5...v1.8.6) (2019-05-20)
+
+**Note:** Version bump only for package @a8k/babel-preset
+
+## [1.6.3](https://github.com/hxfdarling/a8k/compare/v1.6.2...v1.6.3) (2019-04-01)
+
+**Note:** Version bump only for package @a8k/babel-preset
+
+# [1.5.0](https://github.com/hxfdarling/a8k/compare/v1.4.2...v1.5.0) (2019-03-20)
+
+**Note:** Version bump only for package @a8k/babel-preset
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="0.3.0"></a>
+
+# [0.3.0](https://github.com/hxfdarling/babel-preset-imt/compare/v0.2.0...v0.3.0) (2019-01-19)
+
+### Features
+
+- 更新 babel 依赖 ([a27909d](https://github.com/hxfdarling/babel-preset-imt/commit/a27909d))
+
+<a name="0.2.0"></a>
+
+# [0.2.0](https://github.com/hxfdarling/babel-preset-imt/compare/v0.0.5...v0.2.0) (2018-11-25)
+
+### Bug Fixes
+
+- 服务器渲染引入[@babel](https://github.com/babel)/runtime 错误 ([9ce2798](https://github.com/hxfdarling/babel-preset-imt/commit/9ce2798))
+
+### Features
+
+- 添加 flow 支持，更新依赖 ([79f4d88](https://github.com/hxfdarling/babel-preset-imt/commit/79f4d88))
+
+<a name="0.1.0"></a>
+
+# [0.1.0](https://github.com/hxfdarling/babel-preset-imt/compare/v0.0.3...v0.1.0) (2018-11-21)
+
+### Features
+
+- 添加 flow 支持，更新依赖 ([79f4d88](https://github.com/hxfdarling/babel-preset-imt/commit/79f4d88))

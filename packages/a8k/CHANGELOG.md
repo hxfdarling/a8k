@@ -3,133 +3,82 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.16.0](https://github.com/hxfdarling/a8k/compare/v1.15.3...v1.16.0) (2019-05-30)
-
+# [1.17.0](https://github.com/hxfdarling/a8k/compare/v1.16.0...v1.17.0) (2019-06-05)
 
 ### Bug Fixes
 
-* fix es-check-plugin to support exlude file ([c9fad30](https://github.com/hxfdarling/a8k/commit/c9fad30))
+- remove hardcoded webpack publich path for dev mode ([a8b644f](https://github.com/hxfdarling/a8k/commit/a8b644f))
 
+# [1.16.0](https://github.com/hxfdarling/a8k/compare/v1.15.3...v1.16.0) (2019-05-30)
+
+### Bug Fixes
+
+- fix es-check-plugin to support exlude file ([c9fad30](https://github.com/hxfdarling/a8k/commit/c9fad30))
 
 ### Features
 
-* 添加storybook插件 ([d3e7da3](https://github.com/hxfdarling/a8k/commit/d3e7da3))
-
-
-
-
+- 添加 storybook 插件 ([d3e7da3](https://github.com/hxfdarling/a8k/commit/d3e7da3))
 
 ## [1.15.3](https://github.com/hxfdarling/a8k/compare/v1.15.2...v1.15.3) (2019-05-29)
 
 **Note:** Version bump only for package a8k
 
-
-
-
-
 ## [1.15.2](https://github.com/hxfdarling/a8k/compare/v1.15.1...v1.15.2) (2019-05-29)
-
 
 ### Bug Fixes
 
-* fix ssr-html plugin not work ([6bff76a](https://github.com/hxfdarling/a8k/commit/6bff76a))
-
-
-
-
+- fix ssr-html plugin not work ([6bff76a](https://github.com/hxfdarling/a8k/commit/6bff76a))
 
 ## [1.15.1](https://github.com/hxfdarling/a8k/compare/v1.15.0...v1.15.1) (2019-05-29)
 
-
 ### Bug Fixes
 
-* fix jest not work ([0e27af7](https://github.com/hxfdarling/a8k/commit/0e27af7))
-
-
-
-
+- fix jest not work ([0e27af7](https://github.com/hxfdarling/a8k/commit/0e27af7))
 
 # [1.15.0](https://github.com/hxfdarling/a8k/compare/v1.14.1...v1.15.0) (2019-05-28)
 
-
 ### Features
 
-* 添加less编译能力 ([2cda702](https://github.com/hxfdarling/a8k/commit/2cda702))
-
-
-
-
+- 添加 less 编译能力 ([2cda702](https://github.com/hxfdarling/a8k/commit/2cda702))
 
 ## [1.14.1](https://github.com/hxfdarling/a8k/compare/v1.14.0...v1.14.1) (2019-05-28)
 
-
 ### Bug Fixes
 
-* 修复es-check-plugin 失败后没有输出文件,不方便调试 ([4ca0db8](https://github.com/hxfdarling/a8k/commit/4ca0db8))
-* 修复es-check-plugin options异常 ([e48384b](https://github.com/hxfdarling/a8k/commit/e48384b))
-
-
-
-
+- 修复 es-check-plugin 失败后没有输出文件,不方便调试 ([4ca0db8](https://github.com/hxfdarling/a8k/commit/4ca0db8))
+- 修复 es-check-plugin options 异常 ([e48384b](https://github.com/hxfdarling/a8k/commit/e48384b))
 
 # [1.14.0](https://github.com/hxfdarling/a8k/compare/v1.13.0...v1.14.0) (2019-05-27)
 
-
 ### Bug Fixes
 
-* 修复webpack-dev-server 默认启用inline client能力 ([10fafd2](https://github.com/hxfdarling/a8k/commit/10fafd2))
-
+- 修复 webpack-dev-server 默认启用 inline client 能力 ([10fafd2](https://github.com/hxfdarling/a8k/commit/10fafd2))
 
 ### Features
 
-* 支持使用babel配置文件,自定义babel配置 ([09d1c2c](https://github.com/hxfdarling/a8k/commit/09d1c2c))
-
-
-
-
+- 支持使用 babel 配置文件,自定义 babel 配置 ([09d1c2c](https://github.com/hxfdarling/a8k/commit/09d1c2c))
 
 # [1.13.0](https://github.com/hxfdarling/a8k/compare/v1.12.4...v1.13.0) (2019-05-27)
 
-
 ### Features
 
-* 添加构建结果es5检测,避免出现构建结果中存在非es5代码,造成意外的bug ([f9dc105](https://github.com/hxfdarling/a8k/commit/f9dc105))
-
-
-
-
+- 添加构建结果 es5 检测,避免出现构建结果中存在非 es5 代码,造成意外的 bug ([f9dc105](https://github.com/hxfdarling/a8k/commit/f9dc105))
 
 ## [1.12.4](https://github.com/hxfdarling/a8k/compare/v1.12.3...v1.12.4) (2019-05-26)
 
 **Note:** Version bump only for package a8k
 
-
-
-
-
 ## [1.12.3](https://github.com/hxfdarling/a8k/compare/v1.12.2...v1.12.3) (2019-05-23)
 
 **Note:** Version bump only for package a8k
-
-
-
-
 
 ## [1.12.2](https://github.com/hxfdarling/a8k/compare/v1.12.1...v1.12.2) (2019-05-23)
 
 **Note:** Version bump only for package a8k
 
-
-
-
-
 ## [1.12.1](https://github.com/hxfdarling/a8k/compare/v1.12.0...v1.12.1) (2019-05-23)
 
 **Note:** Version bump only for package a8k
-
-
-
-
 
 # [1.12.0](https://github.com/hxfdarling/a8k/compare/v1.11.1...v1.12.0) (2019-05-23)
 
