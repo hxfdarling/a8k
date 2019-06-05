@@ -4,7 +4,7 @@ import A8k from '../..';
 import { BUILD_ENV, BUILD_TYPE } from '../../const';
 
 export default (config: WebpackChain, context: A8k, { type, mini }) => {
-  if (type === BUILD_TYPE.SERVER) {
+  if (type === BUILD_TYPE.SERVER || type === BUILD_TYPE.STORYBOOK) {
     return;
   }
   config.module

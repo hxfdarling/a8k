@@ -7,6 +7,7 @@ export const ENV_TEST = 'test';
 export enum BUILD_TYPE {
   CLIENT = 'client',
   SERVER = 'server',
+  STORYBOOK = 'storybook', // storybook 组件构建
 }
 export enum BUILD_ENV {
   DEVELOPMENT = 'development',
