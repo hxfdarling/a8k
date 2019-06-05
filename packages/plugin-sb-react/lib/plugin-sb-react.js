@@ -44,9 +44,7 @@ exports.apply = context => {
         mode,
         port,
         configDir: sbConfigPath, // 获取业务工程的storybook配置
-        // debugWebpack: true,
         webpackConfig: async sbConfig => {
-          // console.dir(sbConfig.module.rules, { depth: null });
           context.chainWebpack(config => {
             // 合并entry
             config.entry('index').merge(sbConfig.entry);
@@ -77,7 +75,6 @@ exports.apply = context => {
             config.resolve.modules.add(path.resolve(__dirname, '../node_modules/'));
           });
           const resultConfig = context.resolveWebpackConfig({ ...options, type: 'storybook' });
-          console.dir(resultConfig.module.rules, { depth: null });
           // 使用 storybook html插件配置
           resultConfig.plugins.push(sbConfig.plugins[0]);
           return resultConfig;
