@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@a8k/cli-utils": "^1.17.0-alpha.0",
+    "babel-plugin-react-docgen": "^3.1.0",
     "storybook-react-tmp": "0.0.1"
   },
   "publishConfig": {

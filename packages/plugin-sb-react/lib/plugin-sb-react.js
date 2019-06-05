@@ -63,28 +63,21 @@ exports.apply = context => {
               .use('raw')
               .loader('raw-loader');
 
-            // config.module
-            //   .rule('js')
-            //   .use('babel-loader')
-            //   .tap(babelOptions => babelOptions.plugins.push([
-            //     'babel-plugin-react-docgen',
-            //     { DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES' },
-            //   ])
-            //   );
-            //   .loader(path.resolve('babel-loader'))
-            //   .options({
-            //     babelrc: false,
-            //     // cacheDirectory 缓存babel编译结果加快重新编译速度
-            //     cacheDirectory: path.resolve(context.config.cache, 'babel-loader'),
-            //     // presets: [[require.resolve('babel-preset-a8k'), { isSSR: false }]],
-            //     // plugins: [
-            //     // '/Users/enjoychan/Workspace/a8k/packages/a8k/node_modules/react-hot-loader/babel.js',
-            //     // ],
-            //   });
+            config.module
+              .rule('js')
+              .use('babel-loader')
+              .tap(babelOptions => {
+                babelOptions.plugins.push([
+                  path.resolve(__dirname, '../node_modules/babel-plugin-react-docgen'),
+                  { DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES' },
+                ]);
+                return babelOptions;
+              });
 
             config.resolve.modules.add(path.resolve(__dirname, '../node_modules/'));
           });
           const resultConfig = context.resolveWebpackConfig({ ...options, type: 'storybook' });
+          console.dir(resultConfig.module.rules, { depth: null });
           // 使用 storybook html插件配置
           resultConfig.plugins.push(sbConfig.plugins[0]);
           return resultConfig;

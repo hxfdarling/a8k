@@ -47,6 +47,7 @@ module.exports = async projectDir => {
     '@storybook/addon-actions',
     '@storybook/addon-viewport',
     '@storybook/addon-notes',
+    '@storybook/addon-console',
   ];
   logger.debug(`install ${deps.join(' ')}`);
   logWithSpinner('安装依赖中');

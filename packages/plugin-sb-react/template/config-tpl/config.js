@@ -1,4 +1,5 @@
 import { configure, addParameters, addDecorator } from 'storybook-react-tmp';
+import '@storybook/addon-console';
 import { withKnobs } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 
