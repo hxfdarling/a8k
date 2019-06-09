@@ -27,12 +27,18 @@ try {
 if (needCheck) {
   config = config || {};
   // END 检查是否需要检查更新
-
+  args.push('-j');
+  args.push('--nochecklatest');
   const cmd = getNpmCommand();
-  const latestVersion = execSync(`${cmd} info ${name} version ${args.join(' ')} --nochecklatest`)
-    .toString()
-    .trim();
-  const needUpdate = semver.neq(latestVersion, version);
+  const info: any = JSON.parse(execSync(`${cmd} info ${name} ${args.join(' ')}`).toString());
+  let latestVersion = info.versions.pop();
+  while (latestVersion) {
+    if (!/-/.test(latestVersion)) {
+      break;
+    }
+    latestVersion = info.versions.pop();
+  }
+  const needUpdate = semver.gt(latestVersion, version);
   if (needUpdate) {
     console.log(
       `目前最新版本的 ${name} 为：${latestVersion.green}, 你的当前版本为：${version.red}`
