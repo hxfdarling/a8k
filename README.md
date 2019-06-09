@@ -55,7 +55,7 @@ A8k is organized as a monorepo using Lerna. Useful scripts include:
 
 Installs package dependencies and links packages together - using lerna
 
-### `yarn release`
+### `yarn lerna:version`
 
 Push a release to git and npm will ask for version in interactive mode - using lerna.
 
