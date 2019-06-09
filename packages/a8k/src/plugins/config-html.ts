@@ -42,8 +42,9 @@ export default class HtmlConfig {
     HtmlWebpackPlugin.__expression = "require('html-webpack-plugin')";
     context.chainWebpack((config: WebpackChain, { type }: IResolveWebpackConfigOptions) => {
       const pagesDir = context.config.pagesDir || DEFAULT_PAGES_DIR;
+      HtmlWebpackPlugin.__expression = "require('html-webpack-plugin')";
       // 服务器渲染 js 不需要构建 html
-      if (type === BUILD_TYPE.CLIENT) {
+      if (type === BUILD_TYPE.CLIENT || type === BUILD_TYPE.STORYBOOK) {
         // 处理公共entry
         const initEntry = Object.keys(context.config.entry || {})
           .reduce((result, key) => {
@@ -59,6 +60,11 @@ export default class HtmlConfig {
 
         const isDev = context.internals.mode === ENV_DEV;
         const webpackHotDevClient = require.resolve('@a8k/dev-utils/webpackHotDevClient');
+
+        if (type === BUILD_TYPE.STORYBOOK) {
+          config.entry('index').merge([...initEntry, isDev && webpackHotDevClient].filter(Boolean));
+          return;
+        }
 
         if (context.config.mode === PROJECT_MODE.SINGLE) {
           config

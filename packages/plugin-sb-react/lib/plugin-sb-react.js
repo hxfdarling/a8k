@@ -35,27 +35,49 @@ exports.apply = context => {
         logger.info('当前工程还没执行storybook初始化，请执行 k sb-init 进行初始化配置');
         process.exit(-1);
       }
-      context.chainWebpack(config => {
-        // 添加 markdown文件解析
-        config.module
-          .rule('md')
-          .test(/\.md$/)
-          .use('raw')
-          .loader('raw-loader');
-        config.resolve.modules.add(path.resolve(__dirname, '../node_modules/'));
-      });
-      const webpackConfig = context.resolveWebpackConfig(options);
-      process.env.BABEL_ENV = mode === 'dev' ? 'development' : 'production';
+      // const webpackConfig = context.resolveWebpackConfig(options);
+      const env = mode === 'dev' ? 'development' : 'production';
+      process.env.NODE_ENV = env;
+      process.env.BABEL_ENV = env;
+      context.internals.mode = env;
       storybook({
         mode,
         port,
         configDir: sbConfigPath, // 获取业务工程的storybook配置
-        webpackConfig(config) {
-          // 直接覆盖rules，否则scss编译会有问题
-          config.module.rules = webpackConfig.module.rules;
-          config.resolve = webpackConfig.resolve;
-          config.resolveLoader = webpackConfig.resolveLoader;
-          return config;
+        webpackConfig: async sbConfig => {
+          context.chainWebpack(config => {
+            // 合并entry
+            config.entry('index').merge(sbConfig.entry);
+
+            config.merge({
+              mode: sbConfig.mode,
+              output: sbConfig.output,
+            });
+
+            // notes需要
+            config.module
+              .rule('md')
+              .test(/\.md$/)
+              .use('raw')
+              .loader('raw-loader');
+
+            config.module
+              .rule('js')
+              .use('babel-loader')
+              .tap(babelOptions => {
+                babelOptions.plugins.push([
+                  require.resolve('babel-plugin-react-docgen'),
+                  { DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES' },
+                ]);
+                return babelOptions;
+              });
+
+            config.resolve.modules.add(path.resolve(__dirname, '../node_modules/'));
+          });
+          const resultConfig = context.resolveWebpackConfig({ ...options, type: 'storybook' });
+          // 使用 storybook html插件配置
+          resultConfig.plugins.push(sbConfig.plugins[0]);
+          return resultConfig;
         },
       });
     });
