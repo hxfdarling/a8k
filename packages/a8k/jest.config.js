@@ -1,6 +1,5 @@
 module.exports = {
   preset: 'ts-jest/presets/js-with-ts',
-  setupTestFrameworkScriptFile: 'jest-extended',
   testEnvironment: 'node',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   testMatch: [

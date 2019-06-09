@@ -14,11 +14,12 @@ env:
 
 install:
   - npm install
+  - npm run bootstrap
 
 script:
   - commitlint-travis
   - npm run lint
-  - npm run bootstrap
+  - npm run test
   - git checkout .
   - git clean -df
 

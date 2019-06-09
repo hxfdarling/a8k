@@ -13,7 +13,7 @@
     "build": "npm run clean && tsc && npm run chmod",
     "chmod": "chmod +x lib/bin/cli.js",
     "prepublishOnly": "npm run build",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:w": "jest --watch",
     "lint:fix": "tslint --project ./tsconfig.json -t stylish --fix",
     "lint": "tslint --project ./tsconfig.json -t stylish"

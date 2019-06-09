@@ -14,8 +14,7 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
-    "postinstall": "node ./scripts/post-install.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "node ./scripts/post-install.js"
   },
   "bin": {
     "a8k-changelog": "./scripts/init.js"
