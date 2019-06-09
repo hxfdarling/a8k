@@ -71,6 +71,7 @@
     "build": "lerna run build",
     "test": "lerna run test",
     "release": "lerna version --conventional-commits && lerna publish from-package",
+    "release:beta":"lerna version --conventional-prerelease && lerna publish from-package --dist-tag beta",
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs"
   },
