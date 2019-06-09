@@ -70,8 +70,10 @@
     "lint:fix": "eslint packages --ext .js --fix",
     "build": "lerna run build",
     "test": "lerna run test",
-    "release": "lerna version --conventional-commits && lerna publish from-package",
-    "release:beta":"lerna version --conventional-prerelease && lerna publish from-package --dist-tag beta",
+    "lerna:version": "lerna version --conventional-commits",
+    "lerna:version:beta":"lerna version --conventional-prerelease",
+    "lerna:publish:beta":"lerna publish from-package --yes --dist-tag beta",
+    "lerna:publish": "lerna publish from-package --yes",
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs"
   },

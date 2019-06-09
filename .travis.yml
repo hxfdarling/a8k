@@ -16,12 +16,25 @@ install:
   - npm install
 
 script:
-  #- commitlint-travis
+  - commitlint-travis
   - npm run lint
-  # - npm run build
+  - npm run lerna bootstrap
 
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: ./deploy.sh
-  keep_history: true
+jobs:
+  include:
+    - stage: deploy docs
+      deploy:
+        provider: script
+        script: ./deploy.sh
+        skip_cleanup: true
+        keep_history: true
+    - stage: npm release
+      before_deploy:
+        - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/null
+      deploy:
+        provider: script
+        script: 'npm run lerna:publish'
+        skip_cleanup: true
+        keep_history: true
+        on:
+          tags: true
