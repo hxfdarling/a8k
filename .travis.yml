@@ -18,7 +18,7 @@ install:
 script:
   - commitlint-travis
   - npm run lint
-  - npx lerna bootstrap
+  - npm run bootstrap
 
 jobs:
   include:

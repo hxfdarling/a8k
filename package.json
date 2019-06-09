@@ -65,7 +65,7 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap --no-ci",
     "lint": "lerna run lint && eslint packages --ext .js",
     "lint:fix": "eslint packages --ext .js --fix",
     "build": "lerna run build",
