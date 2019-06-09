@@ -1,6 +1,6 @@
 {
   "name": "@a8k/babel-preset",
-  "version": "1.17.3",
+  "version": "1.17.4",
   "description": "Babel preset used by a8k",
   "license": "MIT",
   "files": [
@@ -44,8 +44,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24"
   },
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "zman",
   "publishConfig": {
     "access": "public"

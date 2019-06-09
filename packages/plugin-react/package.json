@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-react",
-  "version": "1.17.3",
+  "version": "1.17.4",
   "description": "react 模板插件，支持创建react项目",
   "author": "zman",
   "license": "ISC",
@@ -20,13 +20,12 @@
     "type": "git",
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "bugs": {
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
-    "@a8k/cli-utils": "^1.17.3",
+    "@a8k/cli-utils": "^1.17.4",
     "chalk": "^2.4.2",
     "fs-extra": "^8.0.1",
     "inquirer": "^6.3.1",
