@@ -28,7 +28,7 @@ jobs:
     - stage: deploy docs
       deploy:
         provider: script
-        script: ./deploy.sh
+        script: ./deploy-docs.sh
         skip_cleanup: true
         keep_history: true
     - stage: npm release

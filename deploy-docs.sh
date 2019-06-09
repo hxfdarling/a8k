@@ -12,7 +12,7 @@ cd docs/.vuepress/dist
 
 git init
 git add -A
-git commit -m 'chore: deploy'
+git commit -m 'chore: deploy docs'
 
 
 git push -f https://${GITHUB_TOKEN}@github.com/hxfdarling/a8k.git master:gh-pages
