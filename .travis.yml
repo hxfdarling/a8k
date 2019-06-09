@@ -36,7 +36,7 @@ jobs:
         - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/null
       deploy:
         provider: script
-        script: 'npm run lerna:publish'
+        script: ./deploy.sh
         skip_cleanup: true
         keep_history: true
         on:

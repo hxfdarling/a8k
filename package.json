@@ -72,7 +72,7 @@
     "dev": "lerna run dev --parallel",
     "test": "lerna run test --parallel",
     "lerna:version": "lerna version --conventional-commits",
-    "lerna:version:beta": "lerna version --conventional-prerelease",
+    "lerna:version:beta": "lerna version --conventional-prerelease --preid beta",
     "lerna:publish:beta": "lerna publish from-package --yes --dist-tag beta",
     "lerna:publish": "lerna publish from-package --yes",
     "docs:build": "vuepress build docs",
