@@ -1,6 +1,6 @@
 {
   "name": "@a8k/cli-utils",
-  "version": "1.17.0-alpha.0",
+  "version": "1.17.3",
   "description": "a8k 项目 cli 工具库",
   "author": "zman",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/cli-utils#readme",
