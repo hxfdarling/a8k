@@ -100,13 +100,6 @@ export class GenerateLoaders {
               // --primary: var(--customPrimary, var(--green)); 语法处理存在bug
               'custom-properties': false,
             },
-            browsers: [
-              'Firefox >= 20',
-              'Safari >= 6',
-              'Explorer >= 9',
-              'Chrome >= 21',
-              'Android >= 4.0',
-            ],
           }),
           require('postcss-custom-properties'),
           // stone-ui 中有用到
