@@ -13,9 +13,10 @@
   },
   "devDependencies": {
     "@a8k/changelog": "^1.13.0",
-    "@commitlint/cli": "^7.6.1",
-    "@commitlint/travis-cli": "^7.6.1",
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/travis-cli": "^8.0.0",
     "@types/jest": "^24.0.13",
+    "@types/node": "^12.0.8",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@vuepress/plugin-back-to-top": "^1.0.0-alpha.0",
     "@vuepress/plugin-pwa": "^1.0.0-alpha.0",
@@ -25,15 +26,14 @@
     "cz-customizable": "^6.1.0",
     "eslint": "^5.16.0",
     "eslint-config-zman": "^0.2.1",
-    "husky": "^2.3.0",
+    "husky": "^2.4.1",
     "lerna": "^3.14.1",
-    "lint-staged": "^8.1.7",
+    "lint-staged": "^8.2.1",
     "prettier": "^1.17.1",
+    "ts-jest": "^24.0.2",
     "tslint": "^5.16.0",
-    "typescript": "^3.4.5",
-    "vuepress": "^0.14.11",
-    "@types/node": "^12.0.3",
-    "ts-jest": "^24.0.2"
+    "typescript": "^3.5.2",
+    "vuepress": "^1.0.1"
   },
   "directories": {
     "doc": "docs"
