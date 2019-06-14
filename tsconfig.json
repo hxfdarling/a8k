@@ -1,0 +1,21 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "module": "commonjs",
+    "allowJs": false,
+    "target": "ES2017",
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "pretty": true,
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "jsx": "react",
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "declaration": true
+  },
+  "exclude": ["./types"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

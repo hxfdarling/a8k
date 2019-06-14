@@ -1,0 +1,47 @@
+{
+  "name": "<%= name %>",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "dev": "tsc -w -sourceMap",
+    "build": "rimraf lib && tsc -p tsconfig.json",
+    "test":"jest --coverage",
+    "test:w":"jest --watchAll"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{ts,tsx}":[
+      "prettier --write",
+      "git add"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix",
+      "git add"
+    ],
+    "*.{jsx,js}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "keywords": [],
+  "license": "ISC",
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "node_modules/@a8k/changelog/cz-config.js"
+    }
+  }
+}

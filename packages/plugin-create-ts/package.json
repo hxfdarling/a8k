@@ -1,0 +1,41 @@
+{
+  "name": "@a8k/plugin-create-ts",
+  "version": "1.17.4",
+  "description": "init typescript project",
+  "author": "eden <hxfdarling@hotmail.com>",
+  "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-create-ts#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://bnpm.byted.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hxfdarling/a8k.git"
+  },
+  "scripts": {
+    "dev": "tsc -w -sourceMap",
+    "build": "rimraf lib && tsc -p tsconfig.json"
+  },
+  "bugs": {
+    "url": "https://github.com/hxfdarling/a8k/issues"
+  },
+  "dependencies": {
+    "@a8k/cli-utils": "^1.17.4",
+    "chalk": "^2.4.2",
+    "fs-extra": "^8.0.1",
+    "inquirer": "^6.3.1",
+    "ora": "^3.4.0",
+    "path": "^0.12.7",
+    "semver": "^6.1.1",
+    "shelljs": "^0.8.3",
+    "yeoman-generator": "^4.0.1"
+  }
+}

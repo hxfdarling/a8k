@@ -26,17 +26,14 @@
     "url": "git+https://github.com/hxfdarling/a8k.git"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.3",
-    "rimraf": "^2.6.3",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.4.5"
+    "rimraf": "^2.6.3"
   },
   "dependencies": {
     "@a8k/babel-preset": "^1.17.4",
     "@a8k/cli-utils": "^1.17.4",
     "@a8k/dev-utils": "^1.17.4",
     "@a8k/html-loader": "^1.16.0",
+    "@a8k/plugin-create-ts": "^1.17.4",
     "@a8k/plugin-react": "^1.17.4",
     "@a8k/plugin-sb-react": "^1.17.4",
     "@babel/runtime": "^7.4.5",
