@@ -33,6 +33,7 @@
       "git add"
     ]
   },
+  "files":["lib"],
   "keywords": [],
   "license": "ISC",
   "config": {
