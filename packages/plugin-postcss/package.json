@@ -26,10 +26,10 @@
   },
   "dependencies": {
     "@a8k/cli-utils": "^1.17.4",
-    "cache-loader": "^3.0.1",
-    "css-loader": "^2.1.1",
+    "cache-loader": "^4.0.0",
+    "css-loader": "^3.0.0",
     "ignore-loader": "^0.1.2",
-    "mini-css-extract-plugin": "^0.6.0",
+    "mini-css-extract-plugin": "^0.7.0",
     "postcss-advanced-variables": "^3.0.0",
     "postcss-color-function": "^4.1.0",
     "postcss-custom-properties": "^8.0.10",
