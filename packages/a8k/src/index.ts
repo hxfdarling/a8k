@@ -2,6 +2,7 @@ import loadConfig from '@a8k/cli-utils/load-config';
 import logger from '@a8k/cli-utils/logger';
 import program, { Command } from 'commander';
 import fs from 'fs-extra';
+import inquirer from 'inquirer';
 import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
@@ -38,6 +39,11 @@ export default class A8k {
   configFilePath: string;
   plugins: Array<any> = [];
   _inspectWebpackConfigPath: string;
+  private createCommandTypes: Array<{
+    type: string;
+    description: string;
+    action: (createConfig: any) => void;
+  }> = [];
   constructor(options: A8kOptions) {
     this.options = {
       cliPath: path.resolve(__dirname, '../'),
@@ -123,6 +129,53 @@ export default class A8k {
 
   // 准备工作
   prepare() {
+    this.registerCommand('create [dir] [type]')
+      .description('创建一个项目')
+      .action(async (dir, type) => {
+        const projectDir = path.join(this.options.baseDir, dir || '');
+        const exist = await fs.exists(projectDir);
+        const files = exist ? await fs.readdir(projectDir) : [];
+        if (files.length) {
+          const answer = await inquirer.prompt([
+            {
+              type: 'confirm',
+              name: 'continue',
+              message: '初始化目录不为空, 是否继续?',
+              default: false,
+            },
+          ]);
+          if (!answer.continue) {
+            process.exit(0);
+          }
+        }
+        if (!type) {
+          const prompts = [
+            {
+              // tslint:disable-next-line: no-shadowed-variable
+              choices: this.createCommandTypes.map(({ type, description }) => {
+                return { name: description, value: type };
+              }),
+              message: '选择创建应用类型',
+              name: 'type',
+              type: 'list',
+            },
+          ];
+          const result = await inquirer.prompt(prompts);
+          type = result.type;
+        }
+        const createConfig = {
+          name: path.basename(projectDir),
+          projectDir,
+          type,
+        };
+        const commandType = this.createCommandTypes.find(({ type: c }) => c === type);
+        if (!commandType) {
+          logger.error(`create "${type}" not support`);
+          process.exit(-1);
+        }
+        fs.ensureDir(projectDir);
+        commandType.action(createConfig);
+      });
     this.applyPlugins();
     logger.debug('App envs', JSON.stringify(this.getEnvs(), null, 2));
   }
@@ -175,7 +228,7 @@ export default class A8k {
   applyPlugins() {
     const plugins = [
       require.resolve('@a8k/plugin-react'),
-      require.resolve('@a8k/plugin-create-ts'),
+      require.resolve('@a8k/plugin-typescript-template'),
       require.resolve('@a8k/plugin-sb-react'),
       require.resolve('./plugins/config-base'),
       require.resolve('./plugins/config-dev'),
@@ -295,8 +348,12 @@ export default class A8k {
     throw new Error(`Unknow dep type: ${type}`);
   }
 
-  registerCommand(command: string): Command {
+  public registerCommand(command: string): Command {
     return this.cli.command(command);
+  }
+  public registerCreateType(type: string, description: string, action: () => void): A8k {
+    this.createCommandTypes.push({ type, description, action });
+    return this;
   }
 
   hasPlugin(name: string) {

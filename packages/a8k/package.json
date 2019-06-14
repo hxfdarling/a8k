@@ -33,7 +33,7 @@
     "@a8k/cli-utils": "^1.17.4",
     "@a8k/dev-utils": "^1.17.4",
     "@a8k/html-loader": "^1.16.0",
-    "@a8k/plugin-create-ts": "^1.17.4",
+    "@a8k/plugin-typescript-template": "^1.17.4",
     "@a8k/plugin-react": "^1.17.4",
     "@a8k/plugin-sb-react": "^1.17.4",
     "@babel/runtime": "^7.4.5",

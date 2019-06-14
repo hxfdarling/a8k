@@ -1,5 +1,5 @@
 node_modules
 /packages/a8k/
-/packages/plugin-create-ts/lib
+/packages/plugin-typescript-template/lib
 a8k.config.js
 jest.config.js

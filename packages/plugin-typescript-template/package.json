@@ -1,9 +1,9 @@
 {
-  "name": "@a8k/plugin-create-ts",
+  "name": "@a8k/plugin-typescript-template",
   "version": "1.17.4",
   "description": "init typescript project",
   "author": "eden <hxfdarling@hotmail.com>",
-  "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-create-ts#readme",
+  "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-typescript-template#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
