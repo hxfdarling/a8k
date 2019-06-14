@@ -47,6 +47,7 @@ class CreateGenerator extends Generator {
       ['common/.gitmessage', '.gitmessage'],
       ['common/.prettierrc', '.prettierrc'],
       ['common/tsconfig.json', 'tsconfig.json'],
+      ['common/rollup.config.js', 'rollup.config.js'],
       ['src/', 'src/'],
     ]);
 
@@ -60,7 +61,6 @@ export default (projectDir: any) => {
     logger.error('✘ The generator will only work with Node v8.0.0 and up!');
     process.exit(1);
   }
-  console.log('TCL: projectDir', projectDir);
   return new Promise(resolve => {
     new CreateGenerator({
       name: 'basic',

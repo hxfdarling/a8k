@@ -31,13 +31,15 @@ export default class PluginCreateTypescriptProject {
           'lint-staged',
           'prettier',
           'tslint',
-          'typescript',
           'jest',
           '@types/jest',
           '@types/node',
+          'rollup',
+          'rollup-plugin-typescript',
+          'typescript',
         ];
 
-        await spawn(npmCmd, ['i', '-D ', ...deps], { cwd: projectDir });
+        await spawn(npmCmd, ['i', '-D', ...deps], { cwd: projectDir });
         spinner.succeed('安装依赖完毕');
         await context.hooks.invokePromise(context);
         spinner.succeed('项目创建完毕');

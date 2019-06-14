@@ -2,12 +2,13 @@
   "name": "<%= name %>",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "lib/index.common.js",
+  "module": "lib/index.es.js",
   "scripts": {
-    "dev": "tsc -w -sourceMap",
-    "build": "rimraf lib && tsc -p tsconfig.json",
-    "test":"jest --coverage",
-    "test:w":"jest --watchAll"
+    "dev": "rollup -c -w",
+    "build": "rimraf lib && rollup -c",
+    "test": "jest --coverage",
+    "test:w": "jest --watchAll"
   },
   "husky": {
     "hooks": {
@@ -20,7 +21,7 @@
       "prettier --write",
       "git add"
     ],
-    "*.{ts,tsx}":[
+    "*.{ts,tsx}": [
       "prettier --write",
       "git add"
     ],
@@ -33,7 +34,9 @@
       "git add"
     ]
   },
-  "files":["lib"],
+  "files": [
+    "lib"
+  ],
   "keywords": [],
   "license": "ISC",
   "config": {
