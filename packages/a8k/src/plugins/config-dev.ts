@@ -3,9 +3,9 @@ import logger from '@a8k/cli-utils/logger';
 import crypto from 'crypto';
 import path from 'path';
 import webpack from 'webpack';
+import WebpackChain from 'webpack-chain';
 import A8k from '..';
 import { BUILD_ENV, BUILD_TYPE } from '../const';
-import WebpackChain from 'webpack-chain';
 import { IResolveWebpackConfigOptions } from '../interface';
 export default class DevConfig {
   name = 'builtin:config-dev';
@@ -81,7 +81,8 @@ export default class DevConfig {
             .use(StyleLintPlugin, [{ formatter: stylelintFormatter }]);
         }
         const { HotModuleReplacementPlugin } = webpack;
-        HotModuleReplacementPlugin.__expression = "require('webpack').HotModuleReplacementPlugin";
+        (HotModuleReplacementPlugin as any).__expression =
+          "require('webpack').HotModuleReplacementPlugin";
         config.plugin('HotModuleReplacementPlugin').use(webpack.HotModuleReplacementPlugin);
       }
     });

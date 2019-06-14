@@ -70,11 +70,10 @@ export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
     LodashPlugin.__expression = "require('lodash-webpack-plugin')";
     config.plugin('LodashPlugin').use(LodashPlugin);
 
-    const CleanWebpackPlugin = require('clean-webpack-plugin');
+    const { CleanWebpackPlugin } = require('clean-webpack-plugin');
     CleanWebpackPlugin.__expression = "require('clean-webpack-plugin')";
     config.plugin('CleanWebpackPlugin').use(CleanWebpackPlugin, [
       {
-        root: context.config.dist,
         verbose: false,
         dry: false,
       },
