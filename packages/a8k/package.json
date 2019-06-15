@@ -1,6 +1,6 @@
 {
   "name": "a8k",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "bin": {
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js",
@@ -29,13 +29,13 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@a8k/babel-preset": "^1.18.0",
-    "@a8k/cli-utils": "^1.18.0",
+    "@a8k/babel-preset": "^1.18.1",
+    "@a8k/cli-utils": "^1.18.1",
     "@a8k/dev-utils": "^1.17.4",
     "@a8k/html-loader": "^1.16.0",
-    "@a8k/plugin-react": "^1.18.0",
-    "@a8k/plugin-sb-react": "^1.18.0",
-    "@a8k/plugin-typescript-template": "^1.18.0",
+    "@a8k/plugin-react": "^1.18.1",
+    "@a8k/plugin-sb-react": "^1.18.1",
+    "@a8k/plugin-typescript-template": "^1.18.1",
     "@babel/runtime": "^7.4.5",
     "acorn": "^6.1.1",
     "acorn-dynamic-import": "^4.0.0",
