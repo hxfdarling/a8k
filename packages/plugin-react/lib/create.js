@@ -111,7 +111,7 @@ class CreateGenerator extends Generator {
     this._copyTpls([[`multi/${templateFile}`, templateFile]]);
     if (this.props.ssr) {
       // 复制node相关文件
-      this._copyFiles([['multi/app', 'app']]);
+      this._copyFiles([['multi/server', 'server']]);
       this._copyTpls([['multi/nodemon.json', 'nodemon.json']]);
     }
     createExampleComponent(this, 'src/components', 'Example', false);

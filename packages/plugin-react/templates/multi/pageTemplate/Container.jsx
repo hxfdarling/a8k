@@ -1,8 +1,15 @@
 import React from 'react';
-import { hot } from 'react-hot-loader';
+import store from './store';
 
-function Container() {
-  return <div className="container">index</div>;
+export default function Container({ work }) {
+  return (
+    <div>
+      timestamp:
+      {work}
+    </div>
+  );
 }
 
-export default hot(module)(Container);
+Container.prepare = () => {
+  store.dispatch({ type: 'test', data: { work: Date.now() } });
+};

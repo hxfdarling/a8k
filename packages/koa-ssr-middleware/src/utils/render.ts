@@ -1,5 +1,5 @@
+import { renderToString } from 'react-dom/server';
 import HtmlTemplateHelper from './htmlTemplateHelper';
-const { renderToString } = require('react-dom/server');
 
 export interface IRenderOptions {
   richImg: string;

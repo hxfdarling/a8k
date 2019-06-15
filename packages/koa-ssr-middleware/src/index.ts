@@ -24,7 +24,6 @@ export default function(options: { entryDir?: string; viewDir?: string } = {}) {
   return async function(ctx: Context, next: () => void) {
     let { pathname } = url.parse(ctx.url);
     pathname = (pathname || '').replace('/', '');
-    console.log('TCL: pathname', pathname);
     if (!/\.html$/.test(pathname)) {
       return next();
     }
@@ -32,9 +31,10 @@ export default function(options: { entryDir?: string; viewDir?: string } = {}) {
     if (views[key]) {
       const entry = require(entries[key]);
       // tslint:disable-next-line: no-empty
-      const { default: Component, bootstrap = async () => {} } = entry;
-      const { state, element, ...renderOptions } = (await bootstrap(ctx)) || ({} as any);
-      const html = await render(views[key], element || Component, state, renderOptions);
+      const { default: element, bootstrap = async () => {} } = entry;
+      const { state, element: newElement, ...renderOptions } =
+        (await bootstrap(ctx)) || ({} as any);
+      const html = await render(views[key], newElement || element, state, renderOptions);
       ctx.status = 200;
       ctx.body = html;
     } else {

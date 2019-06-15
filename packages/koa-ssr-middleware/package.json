@@ -67,18 +67,19 @@
     "koa": "^2.7.0",
     "lint-staged": "^8.2.1",
     "prettier": "^1.18.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "tslint": "^5.17.0",
     "typescript": "^3.5.2"
   },
   "peerDependencies": {
+    "react": "~",
     "react-dom": "~"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
     "serialize-javascript": "^1.7.0"
   }
 }

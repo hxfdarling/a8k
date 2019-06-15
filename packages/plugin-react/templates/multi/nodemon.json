@@ -1,4 +1,4 @@
 {
-  "watch": ["app", "lib", "node_modules/components"],
+  "watch": ["app", ".a8k"],
   "ignoreRoot": [".git"]
 }

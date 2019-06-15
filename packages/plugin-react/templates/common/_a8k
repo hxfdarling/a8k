@@ -15,12 +15,6 @@ module.exports = {
     // 配置需要babel解析的路径
     include:[],
   },
-  // 直出服务器监听的端口、主机、协议
-  ssrDevServer: {
-    // protocol:'http',//默认值
-    // host:'localhost',// 默认值
-    port: 3000,  // 必须填写
-  },
   <% if(retry) { %>
   // 主域重试，有该值表示开启
   retry: {
@@ -36,16 +30,11 @@ module.exports = {
   },
   <% if(ssr) { %>
   ssr:true,
-  // 服务器直出页面
-  ssrConfig:{
-    // 构建后的js存放目录，默认值: .a8k/entry
-    // dist:'.a8k/entry',
-    // 构建后html模板存放目录,默认值: .a8k/views
-    // view:'.a8k/views',
-    // 服务器直出页面入口
-    entry:{
-      index:'./src/pages/index/ProviderContainer.jsx',
-    },
+   // 直出服务器监听的端口、主机、协议
+  ssrDevServer: {
+    // protocol:'http',//默认值
+    // host:'localhost',// 默认值
+    port: 3000,  // 必须填写
   },
   <% } %>
    // 修改webpack配置文件

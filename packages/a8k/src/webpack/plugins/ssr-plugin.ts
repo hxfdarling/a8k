@@ -2,27 +2,23 @@ import logger from '@a8k/cli-utils/logger';
 import fs from 'fs-extra';
 import path from 'path';
 import webpack from 'webpack';
-import { BUILD_ENV } from '../../const';
-import { deleteLoading } from '../../utils/ssr';
 
 class SSRPlugin {
   options: {
-    mode: BUILD_ENV;
     pagesDir: string;
     ssrConfig: { entry: { [key: string]: string }; view: string };
-    dist: string;
   };
   constructor(options: any) {
     this.options = options;
   }
 
   apply(compiler: webpack.Compiler) {
-    compiler.hooks.afterEmit.tap('ssr', async () => {
-      const { inputFileSystem } = compiler;
+    compiler.hooks.afterEmit.tap('ssr', async compilation => {
+      const { assets } = compilation;
+
       const {
         ssrConfig: { entry, view },
         pagesDir,
-        dist,
       } = this.options;
 
       let list = [];
@@ -40,23 +36,34 @@ class SSRPlugin {
             return file;
           });
       }
-      list.forEach((file: string) => {
-        const srcFile = path.join(dist, file);
+      const map = list.reduce((p: any, file: string) => {
         const targetFile = path.join(view, file);
-        logger.debug(`ssr-plugin: generate ssr html "${targetFile}" from "${srcFile}"`);
-        let exists = false;
-        try {
-          inputFileSystem.statSync(srcFile);
-          exists = true;
-        } catch (e) {}
-        if (exists) {
-          const data = deleteLoading(inputFileSystem.readFileSync(srcFile).toString());
-          fs.writeFileSync(targetFile, data);
-        } else {
-          console.log();
-          logger.warn(`ssr-plugin: ssr entry "${file}" not found!`);
+        logger.debug(`ssr-plugin: generate ssr html "${targetFile}" from "${file}"`);
+        p[file.replace('/', '')] = targetFile;
+        return p;
+      }, {});
+
+      for (const assetPath of Object.keys(assets)) {
+        let targetFile = assetPath;
+
+        const queryStringIdx = targetFile.indexOf('?');
+
+        if (queryStringIdx >= 0) {
+          targetFile = targetFile.substr(0, queryStringIdx);
         }
-      });
+        if (map[targetFile]) {
+          const asset = assets[assetPath];
+          let content = asset.source();
+          if (!Buffer.isBuffer(content)) {
+            content = Buffer.from(content, 'utf8');
+          }
+          try {
+            fs.writeFileSync(map[targetFile], content, 'utf-8');
+          } catch (e) {
+            logger.error(`Unable to write asset to disk:\n${e}`);
+          }
+        }
+      }
     });
   }
 }

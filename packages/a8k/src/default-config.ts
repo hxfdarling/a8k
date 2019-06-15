@@ -11,7 +11,7 @@ const config: A8kConfig = {
   cache: 'node_modules/.cache',
   publicPath: '',
   devServer: {
-    host: '',
+    host: '0.0.0.0',
     port: 8899,
     // disable webpack-dev-server inline client, use a8k client
     inline: false,

@@ -93,7 +93,6 @@ export default class DevCommand {
                   };
                 });
             }
-            console.log('devServer proxy', proxy);
             setProxy(app, proxy);
           };
         }
