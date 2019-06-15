@@ -1,6 +1,8 @@
-import A8k from '..';
-import { BUILD_TYPE, ENV_DEV, ENV_PROD, BUILD_ENV } from '../const';
+import fs from 'fs-extra';
+import path from 'path';
 import WebpackChain from 'webpack-chain';
+import A8k from '..';
+import { BUILD_ENV, BUILD_TYPE, ENV_DEV, ENV_PROD } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 
 export default class SsrConfig {
@@ -14,13 +16,31 @@ export default class SsrConfig {
           config.devtool(false);
           config.target('node');
 
-          const { ssrConfig, publicPath } = context.config;
-
-          for (const entryName of Object.keys(ssrConfig.entry)) {
-            config
-              .entry(entryName)
-              .merge([].concat(ssrConfig.entry[entryName]).map(i => context.resolve(i)));
+          const { ssrConfig, publicPath, pagesDir } = context.config;
+          let entry: Array<{ key: string; value: string[] }> = [];
+          if (ssrConfig.entry) {
+            entry = Object.keys(ssrConfig.entry).map(key => {
+              let value: any = ssrConfig.entry[key];
+              if (!Array.isArray(value)) {
+                value = [value];
+              }
+              return {
+                key,
+                value,
+              };
+            });
+          } else {
+            entry = fs.readdirSync(pagesDir).map((dir: string) => {
+              return {
+                key: path.basename(dir),
+                value: [path.join(pagesDir, dir, 'index.node')],
+              };
+            });
           }
+
+          entry.forEach(({ key, value }) => {
+            config.entry(key).merge(value);
+          });
 
           config.output
             .path(ssrConfig.dist)
@@ -45,23 +65,19 @@ export default class SsrConfig {
           });
         }
         if (type === BUILD_TYPE.CLIENT) {
-          const {
-            ssrConfig,
-            dist,
-            ssrConfig: { entry },
-          } = context.config;
+          const { ssrConfig, dist, pagesDir, ssr: supportSSR } = context.config;
           const { mode } = context.internals;
-          const hasSsrConfig = entry && Object.keys(entry).length;
           // 生产模式，或者开发模式下明确声明参数ssr，时需要添加该插件
           const needSsr = (mode === BUILD_ENV.DEVELOPMENT && ssr) || mode === BUILD_ENV.PRODUCTION;
-          if (needSsr && hasSsrConfig) {
+          if (needSsr && supportSSR) {
             const SSRPlugin = require('../webpack/plugins/ssr-plugin');
             SSRPlugin.__expression = "require('a8k/lib/webpack/plugins/ssr-plugin')";
             config.plugin('ssr-plugin').use(SSRPlugin, [
               {
-                mode,
-                ssrConfig,
                 dist,
+                mode,
+                pagesDir,
+                ssrConfig,
               },
             ]);
           }

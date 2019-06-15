@@ -78,13 +78,16 @@ k sb
 |   |   ├── css  公共样式
 |   |   ├── images 公共图片
 |   |   ├── polyfill.js 填充库
-|   |   ├── rem.js
+|   |   ├── rem.js 移动端屏幕适配
 |   |   ├── template.html html模板
 |   |   └── vendor.js 第三方库
 |   ├── components 公共组件
 |   |   ├── Example
 |   ├── pages 页面目录
 |   |   ├── index 页面(url路径以目录名命名)
+|   |   |   ├── index.jsx 前端入口文件
+|   |   |   ├── index.html html模板文件
+|   |   |   ├── index.node.jsx 直出入口文件
 ├── .commitlintrc.js commit信息规范配置
 ├── .editorconfig 编辑器格式化同步
 ├── .eslintrc.js eslint配置
@@ -130,6 +133,7 @@ module.exports = {
     // 排除非我们自己控制的JS
     exclude: [/\/\/sqimg\.qq\.com/],
   },
+  ssr: true,
   // 服务器直出页面
   ssrConfig: {
     // js存放目录

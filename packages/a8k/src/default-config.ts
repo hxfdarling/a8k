@@ -5,10 +5,14 @@ const config: A8kConfig = {
   mode: PROJECT_MODE.MULTI,
   entry: {},
   dist: 'dist',
+  pagesDir: './src/pages',
+  template: './src/assets/template.html',
   cacheBase: '',
   cache: 'node_modules/.cache',
   publicPath: '',
   devServer: {
+    host: '',
+    port: 8899,
     // disable webpack-dev-server inline client, use a8k client
     inline: false,
     disableHostCheck: true,
@@ -45,6 +49,13 @@ const config: A8kConfig = {
     publicPath: '/',
     // WebpackDevServer is noisy by default so we emit custom message instead
     // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
+  } as any,
+  ssr: false,
+  ssrConfig: {
+    // js存放地址
+    dist: './.a8k/node/entry',
+    // html存放地址
+    view: './.a8k/node/views',
   },
   ssrDevServer: {
     host: 'localhost',
@@ -52,14 +63,7 @@ const config: A8kConfig = {
     https: false,
     port: '',
   },
-  host: '',
-  port: '',
-  ssrConfig: {
-    // js存放地址
-    dist: './app/components',
-    // html存放地址
-    view: './app/views',
-  },
+
   escheck: true,
 } as A8kConfig;
 export default config;

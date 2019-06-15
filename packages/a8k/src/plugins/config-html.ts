@@ -88,7 +88,11 @@ export default class HtmlConfig {
           getPages(context).forEach(file => {
             const name = path.basename(file);
             const dir = context.resolve(`${pagesDir}/${file}`);
-            file = `${dir}/index.html`;
+            file = path.join(dir, 'index.html');
+            // 如果没有配置，将使用template
+            if (!fs.existsSync(file)) {
+              file = context.config.template;
+            }
 
             config
               .entry(name)

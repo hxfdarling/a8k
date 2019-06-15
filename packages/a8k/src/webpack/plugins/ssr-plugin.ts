@@ -1,49 +1,60 @@
 import logger from '@a8k/cli-utils/logger';
 import fs from 'fs-extra';
 import path from 'path';
-import { deleteLoading } from '../../utils/ssr';
+import webpack from 'webpack';
 import { BUILD_ENV } from '../../const';
+import { deleteLoading } from '../../utils/ssr';
 
 class SSRPlugin {
   options: {
     mode: BUILD_ENV;
-    ssrConfig: { entry: any; view: string };
+    pagesDir: string;
+    ssrConfig: { entry: { [key: string]: string }; view: string };
     dist: string;
   };
-
-  constructor(options) {
+  constructor(options: any) {
     this.options = options;
   }
 
-  apply(compiler) {
+  apply(compiler: webpack.Compiler) {
     compiler.hooks.afterEmit.tap('ssr', async () => {
-      let { outputFileSystem } = compiler;
+      const { inputFileSystem } = compiler;
       const {
         ssrConfig: { entry, view },
+        pagesDir,
         dist,
       } = this.options;
 
-      if (this.options.mode === BUILD_ENV.PRODUCTION) {
-        // 在非dev模式下outputFileSystem不可用
-        outputFileSystem = fs;
-        logger.debug('use os fileSystem');
+      let list = [];
+      if (entry) {
+        list = Object.keys(entry).map((key: string) => {
+          const pageName = entry[key].split('/');
+          const file = `${pageName[pageName.length - 2]}.html`;
+          return file;
+        });
       } else {
-        logger.debug('use os compiler.outputFileSystem');
+        list = (await fs.readdir(pagesDir))
+          .map((file: string) => path.basename(file))
+          .map((name: string) => {
+            const file = `/${name}.html`;
+            return file;
+          });
       }
-
-      fs.ensureDirSync(view);
-      Object.keys(entry).forEach(key => {
-        const pageName = entry[key].split('/');
-        const file = `${pageName[pageName.length - 2]}.html`;
+      list.forEach((file: string) => {
         const srcFile = path.join(dist, file);
         const targetFile = path.join(view, file);
         logger.debug(`ssr-plugin: generate ssr html "${targetFile}" from "${srcFile}"`);
-        if (outputFileSystem.existsSync(srcFile)) {
-          const data = deleteLoading(outputFileSystem.readFileSync(srcFile).toString());
+        let exists = false;
+        try {
+          inputFileSystem.statSync(srcFile);
+          exists = true;
+        } catch (e) {}
+        if (exists) {
+          const data = deleteLoading(inputFileSystem.readFileSync(srcFile).toString());
           fs.writeFileSync(targetFile, data);
         } else {
           console.log();
-          logger.warn(`ssr-plugin: ssr entry "${key}" not found html file!`);
+          logger.warn(`ssr-plugin: ssr entry "${file}" not found!`);
         }
       });
     });

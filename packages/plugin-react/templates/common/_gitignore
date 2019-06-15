@@ -8,6 +8,8 @@
 # production
 /dist
 /public
+/.cache
+/.a8k
 
 # misc
 .DS_Store

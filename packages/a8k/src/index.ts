@@ -101,6 +101,10 @@ export default class A8k {
 
     // 构建输出文件根目录
     this.config.dist = this.resolve(this.config.dist);
+    // 页面根目录
+    this.config.pagesDir = this.resolve(this.config.pagesDir);
+    // html模板路径
+    this.config.template = this.resolve(this.config.template);
     // 缓存基础目录
     this.config.cacheBase = path.resolve(this.config.cache);
     // 缓存版本标记
@@ -109,11 +113,12 @@ export default class A8k {
     this.config.ssrConfig.dist = this.resolve(this.config.ssrConfig.dist);
     this.config.ssrConfig.view = this.resolve(this.config.ssrConfig.view);
 
-    this.config.devServer = {
-      host: this.config.host || process.env.HOST || '0.0.0.0',
-      port: this.config.port || process.env.PORT || 8899,
-      ...this.config.devServer,
-    };
+    if (process.env.HOST) {
+      this.config.devServer.host = process.env.HOST;
+    }
+    if (process.env.PORT) {
+      this.config.devServer.port = process.env.PORT;
+    }
     this.config.envs = { ...this.config.envs, ...this.loadEnvs() };
   }
   hook(name: string, fn: Function) {

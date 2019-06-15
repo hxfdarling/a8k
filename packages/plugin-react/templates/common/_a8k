@@ -4,7 +4,7 @@ module.exports = {
   // 资源根地址，例如: //7.ur.cn/fudao/pc/
   publicPath:"",
   // dist 目录
-  dist: 'public/cdn',
+  dist: 'dist',
   // 加快热构建的缓存目录，注意不要和其他项目重复
   cache: '.cache',
   // webpack-dev-server配置
@@ -35,12 +35,13 @@ module.exports = {
     vendor:['./src/assets/polyfill.js','./src/assets/vendor.js'],
   },
   <% if(ssr) { %>
+  ssr:true,
   // 服务器直出页面
   ssrConfig:{
-    // 构建后的js存放目录，默认值: node_modules/components
-    dist:'app/components',
-    // 构建后html模板存放目录,默认值: app/views
-    // view:'',
+    // 构建后的js存放目录，默认值: .a8k/entry
+    // dist:'.a8k/entry',
+    // 构建后html模板存放目录,默认值: .a8k/views
+    // view:'.a8k/views',
     // 服务器直出页面入口
     entry:{
       index:'./src/pages/index/ProviderContainer.jsx',

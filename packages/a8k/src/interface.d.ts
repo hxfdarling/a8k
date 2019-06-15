@@ -14,17 +14,22 @@ interface A8kConfig {
   dist: any; //构建文件输出目录
   cacheBase: any; //缓存根目录
   cache: any; //缓存目录
+  pagesDir: string;
+  template: string; // html模板路径
+  devServer: {
+    host: string; // 调试域名
+    port: string; // 调试端口
+    [key: string]: any;
+  }; // webpack-dev-server配置
+  ssr: boolean;
   ssrConfig: {
+    dist: string;
+    view: string;
     entry?: {
       [key: string]: string;
     };
-    dist: string;
-    view: string;
   }; //服务器渲染配置
-  devServer: any; // webpack-dev-server配置
   ssrDevServer: { contentBase: string; https: boolean; port: string; host: string };
-  host: string; // 调试域名
-  port: string; // 调试端口
   chainWebpack: Function;
   envs: any; // 配置的.env环境文件
   publicPath: string; //资源的公共路径（CDN、站点路径）
@@ -44,7 +49,6 @@ interface A8kConfig {
     chunk: string;
   };
   ignorePages: Array<string>;
-  pagesDir: string;
   sri: boolean;
   escheck:
     | boolean

@@ -54,7 +54,7 @@ class CreateGenerator extends Generator {
           name: 'ssr',
           message: '是否启用服务器渲染(直出)?',
           type: 'confirm',
-          default: false,
+          default: true,
         },
       ]);
       this.props.ssr = ssr;
@@ -133,7 +133,7 @@ class CreateGenerator extends Generator {
 
     // tpl
     this._copyTpls([
-      ['common/a8k.config.js', 'a8k.config.js'],
+      ['common/_a8k', 'a8k.config.js'],
       ['common/package', 'package.json'],
       ['common/README.md', 'README.md'],
     ]);

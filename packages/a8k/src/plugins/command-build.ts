@@ -62,14 +62,12 @@ export default class BuildCommand {
           .runCompiler(compiler)
           .then(() => hooks.invokePromise('afterBuild', context));
 
-        const { ssrConfig } = context.config;
-        if (ssrConfig.entry && Object.keys(ssrConfig.entry).length) {
+        const { ssrConfig, ssr } = context.config;
+        if (ssr) {
           await hooks.invokePromise('beforeSSRBuild', context);
 
           fs.emptyDirSync(ssrConfig.dist);
           fs.emptyDirSync(ssrConfig.view);
-          // logWithSpinner('clean ssr dist dir.');
-          // stopSpinner();
 
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,

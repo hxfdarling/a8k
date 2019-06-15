@@ -1,6 +1,8 @@
 import logger from '@a8k/cli-utils/logger';
 import chalk from 'chalk';
+import fs from 'fs-extra';
 import os from 'os';
+import path from 'path';
 import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
 import { BUILD_ENV, BUILD_TYPE, ENV_DEV } from '../const';
@@ -51,7 +53,7 @@ export default class DevCommand {
         }
 
         const options = { ssr, eslint, stylelint, cssSourceMap };
-        const { devServer, ssrDevServer, ssrConfig } = context.config;
+        const { devServer, ssrDevServer, ssr: supportSSR, ssrConfig, pagesDir } = context.config;
 
         if (ssr) {
           const { contentBase, https, port: ssrPort, host } = ssrDevServer;
@@ -59,21 +61,39 @@ export default class DevCommand {
             logger.error('如需要调试直出，请配置 ssrDevServer:{port:xxx} 端口信息');
             process.exit(-1);
           }
-          if (!ssrConfig.entry) {
-            logger.error('没有在ssrConfig中配置需要直出的页面');
+          if (!supportSSR && !ssrConfig.entry) {
+            logger.error('项目不支持ssr');
             process.exit(-1);
           }
-          devServer.before = app => {
+
+          fs.emptyDirSync(ssrConfig.dist);
+          fs.emptyDirSync(ssrConfig.view);
+
+          devServer.before = (app: any) => {
             const protocol = https ? 'https://' : 'http://';
             const proxy = {};
-            Object.keys(ssrConfig.entry).forEach(key => {
-              const pageName = ssrConfig.entry[key].split('/');
-              const file = `/${pageName[pageName.length - 2]}.html`;
-              proxy[file] = {
-                target: `${protocol + host}:${ssrPort}${contentBase || ''}`,
-                secure: false,
-              };
-            });
+            // 支持配置模式
+            if (ssrConfig.entry) {
+              Object.keys(ssrConfig.entry).forEach(key => {
+                const pageName = ssrConfig.entry[key].split('/');
+                const file = `/${pageName[pageName.length - 2]}.html`;
+                proxy[file] = {
+                  target: `${protocol + host}:${ssrPort}${contentBase || ''}`,
+                  secure: false,
+                };
+              });
+            } else {
+              fs.readdirSync(pagesDir)
+                .map((file: string) => path.basename(file))
+                .forEach((name: string) => {
+                  const file = `/${name}.html`;
+                  proxy[file] = {
+                    target: `${protocol + host}:${ssrPort}${contentBase || ''}`,
+                    secure: false,
+                  };
+                });
+            }
+            console.log('devServer proxy', proxy);
             setProxy(app, proxy);
           };
         }

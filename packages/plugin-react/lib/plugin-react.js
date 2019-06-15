@@ -1,6 +1,8 @@
 const getNpmCommand = require('@a8k/cli-utils/npm');
 const logger = require('@a8k/cli-utils/logger');
 const spinner = require('@a8k/cli-utils/spinner');
+const spawn = require('@a8k/cli-utils/spawn');
+
 const shell = require('shelljs');
 const util = require('util');
 const createGenerator = require('./create');
@@ -20,7 +22,8 @@ module.exports = class PluginReact {
       spinner.succeed('File Generate Done');
       const npmCmd = getNpmCommand();
       shell.cd(projectDir);
-      await util.promisify(shell.exec)(`${npmCmd} i`, { silent: true });
+      await spawn(npmCmd, ['i'], { cwd: projectDir });
+
       spinner.succeed('安装依赖完毕');
       try {
         await util.promisify(shell.exec)('npx eslint --fix src  a8k.config.js  --ext jsx,js');

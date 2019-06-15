@@ -92,9 +92,15 @@ module.exports = {
 };
 ```
 
+### ssr
+
+类型`boolean`,开启服务器渲染，默认值`false`。
+
+注意：每个页面目录下面必须存在`index.node.jsx`or `index.node.js`文件，这将是服务器直出的入口文件
+
 ### ssrConfig
 
-服务器渲染配置
+服务器渲染配置，将支持所有页面，如果需要单独配置部分页面直出，请添加 entry 指定需要直出的页面入口文件
 
 `dist`:服务器渲染代码入口构建存放目录，默认值：`./app/components`
 
