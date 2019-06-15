@@ -102,9 +102,9 @@ module.exports = {
 
 服务器渲染配置，将支持所有页面，如果需要单独配置部分页面直出，请添加 entry 指定需要直出的页面入口文件
 
-`dist`:服务器渲染代码入口构建存放目录，默认值：`./app/components`
+`dist`:服务器渲染代码入口构建存放目录，默认值：`./.a8k/entry`
 
-`view`:视图代码存放目录（及 html 模板存放目录),默认值:`./app/views`
+`view`:视图代码存放目录（及 html 模板存放目录),默认值:`./.a8k/view`
 
 `entry`:支持服务器渲染的页面入口文件
 
@@ -114,8 +114,6 @@ module.exports = {
 module.exports = {
   //省略其他配置
   ssrConfig: {
-    dist: './app/components/',
-    view: './app/views',
     entry: {
       providerDiscover: './src/pages/discover/ProviderDiscover',
       providerCourse: './src/pages/course/ProviderCourse',

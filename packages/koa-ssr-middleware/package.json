@@ -1,0 +1,84 @@
+{
+  "name": "@a8k/koa-ssr-middleware",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/common/index.js",
+  "module": "lib/esm/index.js",
+  "scripts": {
+    "dev": "tsc --sourceMap --outDir lib/common -m commonjs --watch",
+    "build:esm": "tsc  --outDir lib/esm -m es6",
+    "build:common": "tsc  --outDir lib/common -m commonjs",
+    "build": "rimraf lib && npm run build:esm & npm run build:common",
+    "lint": "tslint --project tsconfig.json",
+    "lint:fix": "tslint --project tsconfig.json --fix",
+    "test": "jest --coverage",
+    "test:w": "jest --watchAll"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "tslint --fix --project tsconfig.json",
+      "git add"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix",
+      "git add"
+    ],
+    "*.{jsx,js}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "license": "ISC",
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "node_modules/@a8k/changelog/cz-config.js"
+    }
+  },
+  "devDependencies": {
+    "@a8k/changelog": "^1.17.4",
+    "@commitlint/cli": "^8.0.0",
+    "@types/jest": "^24.0.14",
+    "@types/koa": "^2.0.48",
+    "@types/node": "^12.0.8",
+    "@types/serialize-javascript": "^1.5.0",
+    "commitizen": "^3.1.1",
+    "commitlint-config-cz": "^0.11.1",
+    "cz-customizable": "^6.2.0",
+    "husky": "^2.4.1",
+    "jest": "^24.8.0",
+    "koa": "^2.7.0",
+    "lint-staged": "^8.2.1",
+    "prettier": "^1.18.2",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.2"
+  },
+  "peerDependencies": {
+    "react-dom": "~"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "serialize-javascript": "^1.7.0"
+  }
+}

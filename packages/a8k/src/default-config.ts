@@ -53,9 +53,9 @@ const config: A8kConfig = {
   ssr: false,
   ssrConfig: {
     // js存放地址
-    dist: './.a8k/node/entry',
+    dist: './.a8k/entry',
     // html存放地址
-    view: './.a8k/node/views',
+    view: './.a8k/view',
   },
   ssrDevServer: {
     host: 'localhost',
