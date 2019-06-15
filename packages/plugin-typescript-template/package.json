@@ -34,5 +34,8 @@
     "semver": "^6.1.1",
     "shelljs": "^0.8.3",
     "yeoman-generator": "^4.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
