@@ -14,7 +14,7 @@ module.exports = class PluginReact {
   }
 
   apply(context) {
-    context.registerCreateType('react', 'react项目', async ({ projectDir }) => {
+    context.registerCreateType('react', '基于react的项目(支持SSR)', async ({ projectDir }) => {
       await createGenerator(projectDir);
       await context.hooks.invokePromise('afterCreate', context);
       console.log('✨  File Generate Done');
