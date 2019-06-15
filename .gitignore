@@ -3,3 +3,5 @@ node_modules
 .eslintcache
 *.log
 *-lock.json
+coverage
+__snapshots__

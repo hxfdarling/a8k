@@ -4,3 +4,4 @@ node_modules
 /packages/koa-ssr-middleware/lib
 a8k.config.js
 jest.config.js
+coverage
