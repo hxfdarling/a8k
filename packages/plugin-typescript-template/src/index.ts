@@ -1,6 +1,6 @@
 import getNpmCommand from '@a8k/cli-utils/npm';
 import spawn from '@a8k/cli-utils/spawn';
-import ora from 'ora';
+import spinner from '@a8k/cli-utils/spinner';
 import createGenerator from './create';
 
 export default class PluginCreateTypescriptProject {
@@ -15,7 +15,6 @@ export default class PluginCreateTypescriptProject {
       'typescript-sample',
       '基于typescript的简单项目',
       async ({ projectDir }) => {
-        const spinner = ora('初始化项目');
         await createGenerator(projectDir);
         await context.hooks.invokePromise('afterCreate', context);
         spinner.succeed('File Generate Done');
@@ -34,8 +33,6 @@ export default class PluginCreateTypescriptProject {
           'jest',
           '@types/jest',
           '@types/node',
-          'rollup',
-          'rollup-plugin-typescript',
           'typescript',
         ];
 

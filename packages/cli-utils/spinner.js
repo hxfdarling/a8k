@@ -1,32 +1,38 @@
 const ora = require('ora');
-const { success } = require('./icon');
 
 const spinner = ora();
 let lastMsg = null;
 
-exports.logWithSpinner = (symbol, msg) => {
-  if (!msg) {
-    msg = symbol;
-    symbol = success;
-  }
+exports.logWithSpinner = msg => {
   if (lastMsg) {
     spinner.stopAndPersist({
-      symbol: lastMsg.symbol,
       text: lastMsg.text,
     });
   }
   spinner.text = ` ${msg}`;
   lastMsg = {
-    symbol: `${symbol} `,
     text: msg,
   };
   spinner.start();
 };
 
+exports.succeed = msg => {
+  spinner.succeed(msg);
+};
+exports.info = msg => {
+  spinner.info(msg);
+};
+
+exports.warn = msg => {
+  spinner.warn(msg);
+};
+exports.fail = msg => {
+  spinner.fail(msg);
+};
+
 exports.stopSpinner = persist => {
   if (lastMsg && persist !== false) {
     spinner.stopAndPersist({
-      symbol: lastMsg.symbol,
       text: lastMsg.text,
     });
   } else {

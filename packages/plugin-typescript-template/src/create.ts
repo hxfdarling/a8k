@@ -47,7 +47,7 @@ class CreateGenerator extends Generator {
       ['common/.gitmessage', '.gitmessage'],
       ['common/.prettierrc', '.prettierrc'],
       ['common/tsconfig.json', 'tsconfig.json'],
-      ['common/rollup.config.js', 'rollup.config.js'],
+      ['common/tslint.json', 'tslint.json'],
       ['src/', 'src/'],
     ]);
 

@@ -1,7 +1,6 @@
 const chalk = require('chalk');
 const padStart = require('string.prototype.padstart');
 const EventEmitter = require('events');
-const icon = require('./icon');
 
 exports.events = new EventEmitter();
 
@@ -43,7 +42,7 @@ class Logger {
   }
 
   success(...args) {
-    console.log(icon.success, ...args);
+    console.log(...args);
   }
 
   log(msg = '', tag = null) {

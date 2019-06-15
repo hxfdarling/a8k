@@ -1,6 +1,6 @@
 const getNpmCommand = require('@a8k/cli-utils/npm');
 const logger = require('@a8k/cli-utils/logger');
-const ora = require('ora');
+const spinner = require('@a8k/cli-utils/spinner');
 const shell = require('shelljs');
 const util = require('util');
 const createGenerator = require('./create');
@@ -17,9 +17,7 @@ module.exports = class PluginReact {
     context.registerCreateType('react', '基于react的项目(支持SSR)', async ({ projectDir }) => {
       await createGenerator(projectDir);
       await context.hooks.invokePromise('afterCreate', context);
-      console.log('✨  File Generate Done');
-
-      const spinner = ora('安装依赖').start();
+      spinner.succeed('File Generate Done');
       const npmCmd = getNpmCommand();
       shell.cd(projectDir);
       await util.promisify(shell.exec)(`${npmCmd} i`, { silent: true });

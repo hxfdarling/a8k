@@ -1,5 +1,6 @@
 import loadConfig from '@a8k/cli-utils/load-config';
 import logger from '@a8k/cli-utils/logger';
+import spinner from '@a8k/cli-utils/spinner';
 import program, { Command } from 'commander';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
@@ -173,6 +174,7 @@ export default class A8k {
           logger.error(`create "${type}" not support`);
           process.exit(-1);
         }
+        spinner.info(commandType.description);
         fs.ensureDir(projectDir);
         commandType.action(createConfig);
       });

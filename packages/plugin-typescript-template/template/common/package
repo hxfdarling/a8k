@@ -5,8 +5,12 @@
   "main": "lib/index.common.js",
   "module": "lib/index.es.js",
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rimraf lib && rollup -c",
+    "dev": "tsc --sourceMap --outDir lib/common -m commonjs --watch",
+    "build:esm":"tsc  --outDir lib/esm -m es6",
+    "build:common":"tsc  --outDir lib/common -m commonjs",
+    "build": "rimraf lib && npm run build:esm & npm run build:common",
+    "lint": "tslint --project tsconfig.json",
+    "lint:fix": "tslint --project tsconfig.json --fix",
     "test": "jest --coverage",
     "test:w": "jest --watchAll"
   },
@@ -23,6 +27,7 @@
     ],
     "*.{ts,tsx}": [
       "prettier --write",
+      "tslint --fix --project tsconfig.json",
       "git add"
     ],
     "*.{css,scss}": [
