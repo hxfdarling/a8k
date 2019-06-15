@@ -2,8 +2,8 @@
   "name": "<%= name %>",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.common.js",
-  "module": "lib/index.es.js",
+  "main": "lib/common/index.js",
+  "module": "lib/esm/index.js",
   "scripts": {
     "dev": "tsc --sourceMap --outDir lib/common -m commonjs --watch",
     "build:esm":"tsc  --outDir lib/esm -m es6",
