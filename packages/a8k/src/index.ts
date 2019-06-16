@@ -136,7 +136,7 @@ export default class A8k {
   // 准备工作
   prepare() {
     this.registerCommand('create [dir] [type]')
-      .description('创建一个项目')
+      .description('create project')
       .action(async (dir, type) => {
         const projectDir = path.join(this.options.baseDir, dir || '');
         const exist = await fs.exists(projectDir);
@@ -146,7 +146,7 @@ export default class A8k {
             {
               type: 'confirm',
               name: 'continue',
-              message: '初始化目录不为空, 是否继续?',
+              message: 'current directory not empty, continue?',
               default: false,
             },
           ]);
@@ -161,7 +161,7 @@ export default class A8k {
               choices: this.createCommandTypes.map(({ type, description }) => {
                 return { name: description, value: type };
               }),
-              message: '选择创建应用类型',
+              message: 'select you want create project type',
               name: 'type',
               type: 'list',
             },
@@ -169,8 +169,28 @@ export default class A8k {
           const result = await inquirer.prompt(prompts);
           type = result.type;
         }
+        let name = path.basename(projectDir);
+        const prompt = [
+          {
+            type: 'input',
+            name: 'name',
+            validate: function(input: string) {
+              // Declare function as asynchronous, and save the done callback
+              const done = this.async();
+
+              if (input !== '' && /^[a-z@A-Z]/.test(input)) {
+                done(null, true);
+              } else {
+                done('Project name must begin with a letter or @');
+              }
+            },
+            message: 'Input project name',
+            default: name,
+          },
+        ];
+        ({ name } = await inquirer.prompt(prompt));
         const createConfig = {
-          name: path.basename(projectDir),
+          name,
           projectDir,
           type,
         };

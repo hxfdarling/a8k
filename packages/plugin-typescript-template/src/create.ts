@@ -1,5 +1,5 @@
 import logger from '@a8k/cli-utils/logger';
-import { basename, join } from 'path';
+import { join } from 'path';
 import semver from 'semver';
 import Generator from 'yeoman-generator';
 
@@ -13,12 +13,9 @@ class CreateGenerator extends Generator {
   props: any;
   constructor(args, opts = {}) {
     super(args, opts);
-    this.name = basename(process.cwd());
-    this.sourceRoot(join(__dirname, '../template/'));
-  }
-
-  public async prompting() {
+    this.name = args.name;
     this.props = { name: this.name };
+    this.sourceRoot(join(__dirname, '../template/'));
   }
 
   private copyFiles(files = []) {
@@ -56,14 +53,14 @@ class CreateGenerator extends Generator {
   }
 }
 
-export default (projectDir: any) => {
+export default (projectDir: string, name: string) => {
   if (!semver.satisfies(process.version, '>= 8.0.0')) {
     logger.error('✘ The generator will only work with Node v8.0.0 and up!');
     process.exit(1);
   }
   return new Promise(resolve => {
     new CreateGenerator({
-      name: 'basic',
+      name,
       env: { cwd: projectDir },
       resolved: __filename,
     }).run(resolve);

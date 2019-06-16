@@ -2,7 +2,7 @@ const semver = require('semver');
 const chalk = require('chalk');
 
 const Generator = require('yeoman-generator');
-const { basename, join } = require('path');
+const { join } = require('path');
 const logger = require('@a8k/cli-utils/logger');
 const {
   toArray,
@@ -16,7 +16,7 @@ const {
 class CreateGenerator extends Generator {
   constructor(args, opts) {
     super(args, opts);
-    this.name = basename(process.cwd());
+    this.name = args.name;
     this.props = { ssr: false };
     this.sourceRoot(join(__dirname, '../templates/'));
   }
@@ -167,14 +167,14 @@ class CreateGenerator extends Generator {
   }
 }
 
-module.exports = projectDir => {
+module.exports = (projectDir, name) => {
   if (!semver.satisfies(process.version, '>= 8.0.0')) {
     console.error(chalk.red('✘ The generator will only work with Node v8.0.0 and up!'));
     process.exit(1);
   }
   return new Promise(resolve => {
     new CreateGenerator({
-      name: 'basic',
+      name,
       env: { cwd: projectDir },
       resolved: __filename,
     }).run(resolve);
