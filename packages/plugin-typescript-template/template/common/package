@@ -11,8 +11,8 @@
     "build": "rimraf lib && npm run build:esm & npm run build:common",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --project tsconfig.json --fix",
-    "test": "jest --coverage",
-    "test:w": "jest --watchAll"
+    "test": "jest --coverage --rootDir ./src --passWithNoTests",
+    "test:w": "jest --watchAll --rootDir ./src --passWithNoTests"
   },
   "husky": {
     "hooks": {
