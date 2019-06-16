@@ -10,7 +10,7 @@
     "build": "k build",
     <% if(ssr) {%>
     "dev:ssr":"k dev --eslint -s & npm run server:dev",
-    "server:dev": "cross-env A8K_ENV=development nodemon app/index.js",
+    "server:dev": "cross-env A8K_ENV=development nodemon server/index.js",
     <% } %>
     "clean": "rimraf -rf public/ && rimraf -rf pack/",
     "eslint":"eslint --fix src/**/*.{js,jsx}",

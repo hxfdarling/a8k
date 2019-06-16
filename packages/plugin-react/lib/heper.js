@@ -35,6 +35,7 @@ const createMultiExamplePage = (context, name) => {
     ['multi/pageTemplate/ProviderContainer.jsx', `src/pages/${name}/ProviderContainer.jsx`],
     ['multi/pageTemplate/reducer.js', `src/pages/${name}/reducer.js`],
     ['multi/pageTemplate/store.js', `src/pages/${name}/store.js`],
+    ['multi/pageTemplate/index.node.jsx', `src/pages/${name}/index.node.jsx`],
   ].forEach(([src, dest]) => {
     src = toArray(src);
     dest = toArray(dest);
