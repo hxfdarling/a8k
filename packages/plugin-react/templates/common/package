@@ -22,11 +22,12 @@
     }
   },
   "lint-staged": {
-    "*.{json,css,scss,md}": [
+    "*.{json,md}": [
       "prettier --write",
       "git add"
     ],
-    "*.{css,scss}": [
+    "*.{css,less,scss}": [
+      "prettier --write",
       "stylelint --fix",
       "git add"
     ],

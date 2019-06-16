@@ -42,13 +42,13 @@ export default class InitCommand {
             case 'lint':
               {
                 pkg['lint-staged'] = {
-                  '*.{js,jsx,json,css,scss,md}': ['prettier --write', 'git add'],
-                  '*.{css,scss}': ['stylelint --fix', 'git add'],
+                  '*.{css,less,scss}': ['prettier --write', 'stylelint --fix', 'git add'],
+                  '*.{ts,tsx,json,md}': ['prettier --write', 'git add'],
                   '*.{jsx,js}': ['prettier --write', 'eslint --fix', 'git add'],
                 };
                 pkg.scripts = pkg.scripts || {};
                 if (!pkg.scripts.stylelint) {
-                  pkg.scripts.stylelint = 'stylelint --fix src/**/*.{scss,css}';
+                  pkg.scripts.stylelint = 'stylelint --fix src/**/*.{less,scss,css}';
                 }
                 if (!pkg.scripts.eslint) {
                   pkg.scripts.eslint = 'eslint --fix src/**/*.{js,jsx}';
