@@ -9,7 +9,7 @@ module.exports = {
   cache: '.cache',
   // webpack-dev-server配置
   devServer: {
-    port: 8080,
+    port: 8081,
   },
   babel:{
     // 配置需要babel解析的路径
