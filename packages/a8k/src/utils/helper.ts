@@ -34,7 +34,7 @@ function setProxy(app, proxy) {
           target: proxy[context],
         };
       } else {
-        proxyOptions = Object.assign({}, proxy[context]);
+        proxyOptions = { ...proxy[context] };
         proxyOptions.context = correctedContext;
       }
 
