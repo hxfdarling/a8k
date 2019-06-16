@@ -62,7 +62,7 @@
   "devDependencies": {
     <% if(ssr) {%>
     "nodemon": "^1.18.6",
-    "@a8k/koa-ssr-middleware":"~",
+    "@a8k/ssr-koa-middleware":"~",
     <% } %>
     "cross-env": "^5.2.0",
     "@a8k/changelog": "^1.12.2",

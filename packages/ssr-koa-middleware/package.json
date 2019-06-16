@@ -1,5 +1,5 @@
 {
-  "name": "@a8k/koa-ssr-middleware",
+  "name": "@a8k/ssr-koa-middleware",
   "version": "1.0.0",
   "description": "",
   "main": "lib/common/index.js",
