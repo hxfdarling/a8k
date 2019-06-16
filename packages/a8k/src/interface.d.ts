@@ -1,4 +1,5 @@
 import { BUILD_ENV, BUILD_TYPE, PROJECT_MODE } from './const';
+import WebpackDevServer from 'webpack-dev-server';
 
 interface A8kOptions {
   cliArgs: Array<string>;
@@ -8,6 +9,7 @@ interface A8kOptions {
   configFile: string;
   inspectWebpack: boolean;
 }
+
 interface A8kConfig {
   mode: PROJECT_MODE; // 项目模式，单页面多页面
   entry: any; //配置每个页面额外的入口文件
@@ -16,11 +18,7 @@ interface A8kConfig {
   cache: any; //缓存目录
   pagesDir: string;
   template: string; // html模板路径
-  devServer: {
-    host: string; // 调试域名
-    port: string; // 调试端口
-    [key: string]: any;
-  }; // webpack-dev-server配置
+  devServer: WebpackDevServer.Configuration; // webpack-dev-server配置
   ssr: boolean;
   ssrConfig: {
     dist: string;

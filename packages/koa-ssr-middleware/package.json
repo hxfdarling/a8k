@@ -66,6 +66,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@a8k/cli-utils": "^1.18.1",
     "serialize-javascript": "^1.7.0"
   }
 }

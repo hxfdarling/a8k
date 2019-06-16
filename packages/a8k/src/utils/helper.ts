@@ -38,7 +38,7 @@ function setProxy(app, proxy) {
         proxyOptions.context = correctedContext;
       }
 
-      proxyOptions.logLevel = proxyOptions.logLevel || 'warn';
+      proxyOptions.logLevel = proxyOptions.logLevel || 'debug';
 
       return proxyOptions;
     });

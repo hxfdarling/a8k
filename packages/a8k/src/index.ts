@@ -117,7 +117,7 @@ export default class A8k {
       this.config.devServer.host = process.env.HOST;
     }
     if (process.env.PORT) {
-      this.config.devServer.port = process.env.PORT;
+      this.config.devServer.port = Number(process.env.PORT);
     }
     this.config.envs = { ...this.config.envs, ...this.loadEnvs() };
   }

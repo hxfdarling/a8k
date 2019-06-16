@@ -1,8 +1,9 @@
-import path from 'path';
+import logger from '@a8k/cli-utils/logger';
 import fs from 'fs';
+import { Context } from 'koa';
+import path from 'path';
 import url from 'url';
 import render from './utils/render';
-import { Context } from 'koa';
 
 export default function(options: { entryDir?: string; viewDir?: string } = {}) {
   const defaultRootDir = path.join(process.cwd(), '.a8k');
@@ -19,8 +20,9 @@ export default function(options: { entryDir?: string; viewDir?: string } = {}) {
   };
   const entries = mapToString(fs.readdirSync(entryDir), entryDir);
   const views = mapToString(fs.readdirSync(viewDir), viewDir);
-  console.log('entry', entries);
-  console.log('view', views);
+  logger.debug('entry', entries);
+  logger.debug('views', views);
+
   return async function(ctx: Context, next: () => void) {
     let { pathname } = url.parse(ctx.url);
     pathname = (pathname || '').replace('/', '');
