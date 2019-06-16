@@ -4,4 +4,3 @@ node_modules
 *.log
 *-lock.json
 coverage
-__snapshots__
