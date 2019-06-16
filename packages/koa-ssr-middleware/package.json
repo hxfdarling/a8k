@@ -11,8 +11,8 @@
     "build": "rimraf lib && npm run build:esm & npm run build:common",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --project tsconfig.json --fix",
-    "test": "jest --coverage",
-    "test:w": "jest --watchAll"
+    "test": "jest --rootDir ./src --passWithNoTests",
+    "test:w": "jest --watchAll --rootDir ./src --passWithNoTests"
   },
   "husky": {
     "hooks": {
@@ -53,24 +53,10 @@
     }
   },
   "devDependencies": {
-    "@a8k/changelog": "^1.17.4",
-    "@commitlint/cli": "^8.0.0",
-    "@types/jest": "^24.0.14",
-    "@types/koa": "^2.0.48",
-    "@types/node": "^12.0.8",
     "@types/serialize-javascript": "^1.5.0",
-    "commitizen": "^3.1.1",
-    "commitlint-config-cz": "^0.11.1",
-    "cz-customizable": "^6.2.0",
-    "husky": "^2.4.1",
-    "jest": "^24.8.0",
     "koa": "^2.7.0",
-    "lint-staged": "^8.2.1",
-    "prettier": "^1.18.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "tslint": "^5.17.0",
-    "typescript": "^3.5.2"
+    "react-dom": "^16.8.6"
   },
   "peerDependencies": {
     "react": "~",
