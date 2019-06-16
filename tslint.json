@@ -3,6 +3,7 @@
   "extends": ["tslint:recommended"],
   "jsRules": {},
   "rules": {
+    "member-ordering": false,
     "quotemark": false,
     "no-console": false,
     "no-var-requires": false

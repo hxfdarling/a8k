@@ -93,15 +93,23 @@ interface ICombine {
 
 export default class {
   private templateContent: string;
+  private filename: string;
   constructor(filename: string) {
-    this.templateContent = fs.readFileSync(filename, 'utf-8');
+    this.filename = filename;
+    this.templateContent = this.readFile();
   }
-  combine(kv: ICombine) {
+  public combine(kv: ICombine) {
     let html = this.templateContent;
+    if (process.env.A8K_ENV === 'development') {
+      html = this.readFile();
+    }
     kv.SERVER_FLAG_INSERTER = 1;
-    Object.keys(kv).forEach(key => {
+    Object.keys(kv).forEach((key: string) => {
       html = key2handler[key](html, kv[key] || '');
     });
     return html;
+  }
+  private readFile() {
+    return fs.readFileSync(this.filename, 'utf-8');
   }
 }

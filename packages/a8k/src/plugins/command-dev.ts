@@ -66,8 +66,8 @@ export default class DevCommand {
             process.exit(-1);
           }
 
-          fs.emptyDirSync(ssrConfig.dist);
-          fs.emptyDirSync(ssrConfig.view);
+          fs.ensureDirSync(ssrConfig.dist);
+          fs.ensureDirSync(ssrConfig.view);
 
           devServer.before = (app: any) => {
             const protocol = https ? 'https://' : 'http://';
