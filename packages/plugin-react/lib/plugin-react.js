@@ -1,5 +1,4 @@
 const getNpmCommand = require('@a8k/cli-utils/npm');
-const logger = require('@a8k/cli-utils/logger');
 const spinner = require('@a8k/cli-utils/spinner');
 const spawn = require('@a8k/cli-utils/spawn');
 
@@ -32,7 +31,7 @@ module.exports = class PluginReact {
           await util.promisify(shell.exec)('npx eslint --fix src  a8k.config.js  --ext jsx,js');
           spinner.succeed('执行eslint校验');
         } catch (e) {
-          logger.warn('执行eslint校验失败');
+          spinner.warn('执行eslint校验失败');
         }
         await context.hooks.invokePromise(context);
         spinner.succeed('项目创建完毕');
