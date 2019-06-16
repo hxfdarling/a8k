@@ -139,7 +139,11 @@ export default class A8k {
       .description('create project')
       .action(async (dir, type) => {
         const projectDir = path.join(this.options.baseDir, dir || '');
-        const exist = await fs.exists(projectDir);
+        let exist = false;
+        try {
+          await fs.stat(projectDir);
+          exist = true;
+        } catch (e) {}
         const files = exist ? await fs.readdir(projectDir) : [];
         if (files.length) {
           const answer = await inquirer.prompt([
