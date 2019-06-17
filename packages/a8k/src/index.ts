@@ -298,7 +298,7 @@ export default class A8k {
 
   public applyPlugins() {
     const plugins = [
-      require.resolve('@a8k/plugin-react'),
+      require.resolve('@a8k/plugin-react-template'),
       require.resolve('@a8k/plugin-typescript-template'),
       require.resolve('@a8k/plugin-sb-react'),
       require.resolve('./plugins/config-base'),

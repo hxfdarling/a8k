@@ -115,6 +115,6 @@ k demo -d test demo
 
 ## 模板项目开发
 
-模板项目可以参考 a8k 项目下`packages/plugin-react`
+模板项目可以参考 a8k 项目下`packages/plugin-react-template`
 
 > 更多 api 参考[a8k 入口文件定义](https://github.com/hxfdarling/a8k/blob/master/packages/a8k/src/index.ts#L28)

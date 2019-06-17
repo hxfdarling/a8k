@@ -25,9 +25,12 @@ class CreateGenerator extends Generator {
     const prompts = [
       {
         name: 'app',
-        message: '选择创建应用类型',
+        message: 'select application type',
         type: 'list',
-        choices: [{ name: '单页面应用', value: 'single' }, { name: '多页面应用', value: 'multi' }],
+        choices: [
+          { name: 'multi page application', value: 'multi' },
+          { name: 'single page application', value: 'single' },
+        ],
       },
     ];
     const { app } = await this.prompt(prompts);
