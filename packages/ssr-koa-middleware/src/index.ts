@@ -15,7 +15,7 @@ export default function(options: { entryDir?: string; viewDir?: string } = {}) {
         p[c.split('.')[0]] = path.join(dir, c);
         return p;
       },
-      {} as { [key: string]: string }
+      {} as { [key: string]: string },
     );
   };
   const entries = mapToString(fs.readdirSync(entryDir), entryDir);

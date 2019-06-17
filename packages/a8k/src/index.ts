@@ -22,7 +22,7 @@ program.option('--nochecklatest', '不检测最新版本');
 program.option('--debug', '输出构建调试信息');
 program.on('command:*', () => {
   logger.error(
-    `Invalid command: ${program.args.join(' ')}\nSee --help for a list of available commands.`
+    `Invalid command: ${program.args.join(' ')}\nSee --help for a list of available commands.`,
   );
   process.exit(1);
 });
@@ -266,13 +266,13 @@ export default class A8k {
 
     let envs = {};
 
-    dotenvFiles.forEach(dotenvFile => {
+    dotenvFiles.forEach((dotenvFile) => {
       if (fs.existsSync(dotenvFile)) {
         logger.debug('Using env file:', dotenvFile);
         const config = require('dotenv-expand')(
           require('dotenv').config({
             path: dotenvFile,
-          })
+          }),
         );
         // Collect all variables from .env file
         envs = { ...envs, ...config.parsed };
@@ -353,11 +353,11 @@ export default class A8k {
     if (this.options.inspectWebpack) {
       this.inspectWebpackConfigPath = path.join(
         require('os').tmpdir(),
-        `a8k-inspect-webpack-config-${options.type}-${this.buildId}.js`
+        `a8k-inspect-webpack-config-${options.type}-${this.buildId}.js`,
       );
       fs.appendFileSync(
         this.inspectWebpackConfigPath,
-        `//${JSON.stringify(options)}\nconst ${options.type} = ${config.toString()}\n`
+        `//${JSON.stringify(options)}\nconst ${options.type} = ${config.toString()}\n`,
       );
       require('open')(this.inspectWebpackConfigPath);
     }
@@ -436,11 +436,11 @@ export default class A8k {
   }
 
   public hasPlugin(name: string) {
-    return this.plugins && this.plugins.find(plugin => plugin.resolve.name === name);
+    return this.plugins && this.plugins.find((plugin) => plugin.resolve.name === name);
   }
 
   public removePlugin(name: string) {
-    this.plugins = this.plugins.filter(plugin => plugin.resolve.name !== name);
+    this.plugins = this.plugins.filter((plugin) => plugin.resolve.name !== name);
     return this;
   }
 

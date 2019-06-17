@@ -15,7 +15,7 @@ export default (
   htmlFile: string,
   element: any,
   state: any,
-  options: IRenderOptions = {} as IRenderOptions
+  options: IRenderOptions = {} as IRenderOptions,
 ) => {
   return new Promise((resolve, reject) => {
     let output = '';

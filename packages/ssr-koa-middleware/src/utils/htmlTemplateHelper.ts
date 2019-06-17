@@ -59,13 +59,13 @@ const key2handler = {
   STATE_PLACEHOLDER: (html: string, val: string) => {
     return html.replace(
       getRegExp(STATE_PLACEHOLDER),
-      `<script>window.__initialState=${serialize(val)};</script>`
+      `<script>window.__initialState=${serialize(val)};</script>`,
     );
   },
   EXTRA_DATA_PLACEHOLDER: (html: string, val: any) => {
     return html.replace(
       getRegExp(EXTRA_DATA_PLACEHOLDER),
-      `<script>window.__extraData=${serialize(val)};</script>`
+      `<script>window.__extraData=${serialize(val)};</script>`,
     );
   },
 
