@@ -31,6 +31,6 @@ export default (config: WebpackChain, context: A8k, { type, mini }) => {
       // Other super important. This will be the base
       // directory in which webpack is going to find
       // the layout and any other file index.njk is calling.
-      searchPaths: ['./src', './src/pages', './src/assets'].map(i => context.resolve(i)),
+      searchPaths: ['./src', './src/pages', './src/assets'].map((i) => context.resolve(i)),
     });
 };

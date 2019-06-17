@@ -6,8 +6,8 @@ import { BUILD_ENV, BUILD_TYPE, ENV_DEV, ENV_PROD } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 
 export default class SsrConfig {
-  name = 'builtin:config-ssr';
-  apply(context: A8k) {
+  public name = 'builtin:config-ssr';
+  public apply(context: A8k) {
     context.chainWebpack(
       (config: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
         if (type === BUILD_TYPE.SERVER) {
@@ -19,7 +19,7 @@ export default class SsrConfig {
           const { ssrConfig, publicPath, pagesDir } = context.config;
           let entry: Array<{ key: string; value: string[] }> = [];
           if (ssrConfig.entry) {
-            entry = Object.keys(ssrConfig.entry).map(key => {
+            entry = Object.keys(ssrConfig.entry).map((key) => {
               let value: any = ssrConfig.entry[key];
               if (!Array.isArray(value)) {
                 value = [value];
@@ -82,7 +82,7 @@ export default class SsrConfig {
             ]);
           }
         }
-      }
+      },
     );
   }
 }

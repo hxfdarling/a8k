@@ -1,5 +1,5 @@
 class EmptyPlugin {
-  apply() {}
+  public apply() {}
 }
 
 export default EmptyPlugin;

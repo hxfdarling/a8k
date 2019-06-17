@@ -31,7 +31,7 @@ export default (config: WebpackChain, context: A8k, { type }) => {
     .add(/strip-ansi|chalk|ansi-styles|ansi-regex/);
 
   // 自定义babel处理内容
-  include.forEach(i => (rule = rule.add(i)));
+  include.forEach((i) => (rule = rule.add(i)));
 
   rule = rule
     .end()
@@ -39,7 +39,7 @@ export default (config: WebpackChain, context: A8k, { type }) => {
     .exclude.add(/(.|_)min\.js$/);
 
   // 自定义babel忽略内容
-  exclude.forEach(i => (rule = rule.add(i)));
+  exclude.forEach((i) => (rule = rule.add(i)));
 
   const res = loadConfig.loadSync({
     files: ['babel.config.js', '.babelrc.js', '.babelrc', 'package.json'],

@@ -22,7 +22,7 @@ export default ({ cwd = process.cwd() } = {}) => {
     pkgData = res.data || {};
   };
 
-  const watchPkg = file => {
+  const watchPkg = (file) => {
     return chokidar
       .watch(file, {
         ignoreInitial: true,

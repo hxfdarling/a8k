@@ -28,22 +28,32 @@ program.on('command:*', () => {
 });
 
 export default class A8k {
-  options: A8kOptions;
-  config: A8kConfig;
-  hooks = new Hooks();
-  commands = new Map();
-  logger = logger;
-  cli = program;
-  internals: Internals;
-  buildId: string;
-  pkg: any;
-  configFilePath: string;
-  plugins: Array<any> = [];
-  _inspectWebpackConfigPath: string;
-  private createCommandTypes: Array<{
+  public options: A8kOptions;
+  public config: A8kConfig;
+  public hooks = new Hooks();
+  public commands = new Map();
+  public logger = logger;
+  public cli = program;
+  public internals: Internals;
+  public buildId: string;
+  public pkg: any;
+  public configFilePath: string;
+  public plugins: any[] = [];
+  private inspectWebpackConfigPath: string;
+  private createProjectCommandTypes: Array<{
     type: string;
     description: string;
-    action: (createConfig: any) => void;
+    action: (options: any) => void;
+  }> = [];
+  private createPageCommand: Array<{
+    type: string;
+    description: string;
+    action: (options: any) => void;
+  }> = [];
+  private createComponentCommand: Array<{
+    type: string;
+    description: string;
+    action: (options: any) => void;
   }> = [];
   constructor(options: A8kOptions) {
     this.options = {
@@ -80,7 +90,7 @@ export default class A8k {
       this.hooks.add('chainWebpack', this.config.chainWebpack);
     }
   }
-  initConfig() {
+  public initConfig() {
     const { baseDir, configFile } = this.options;
     const res = loadConfig.loadSync({
       files:
@@ -121,20 +131,20 @@ export default class A8k {
     }
     this.config.envs = { ...this.config.envs, ...this.loadEnvs() };
   }
-  hook(name: string, fn: Function) {
+  public hook(name: string, fn: Function) {
     return this.hooks.add(name, fn);
   }
 
-  resolve(...args: Array<string>) {
+  public resolve(...args: string[]) {
     return path.resolve(this.options.baseDir, ...args);
   }
 
-  rootResolve(...args: Array<string>) {
+  public rootResolve(...args: string[]) {
     return path.resolve(this.options.cliPath, ...args);
   }
 
   // 准备工作
-  prepare() {
+  public prepare() {
     this.registerCommand('create [dir] [type]')
       .description('create project')
       .action(async (dir, type) => {
@@ -162,7 +172,7 @@ export default class A8k {
           const prompts = [
             {
               // tslint:disable-next-line: no-shadowed-variable
-              choices: this.createCommandTypes.map(({ type, description }) => {
+              choices: this.createProjectCommandTypes.map(({ type, description }) => {
                 return { name: description, value: type };
               }),
               message: 'select you want create project type',
@@ -178,7 +188,7 @@ export default class A8k {
           {
             type: 'input',
             name: 'name',
-            validate: function(input: string) {
+            validate(input: string) {
               // Declare function as asynchronous, and save the done callback
               const done = this.async();
 
@@ -198,7 +208,7 @@ export default class A8k {
           projectDir,
           type,
         };
-        const commandType = this.createCommandTypes.find(({ type: c }) => c === type);
+        const commandType = this.createProjectCommandTypes.find(({ type: c }) => c === type);
         if (!commandType) {
           logger.error(`create "${type}" not support`);
           process.exit(-1);
@@ -207,11 +217,41 @@ export default class A8k {
         fs.ensureDir(projectDir);
         commandType.action(createConfig);
       });
+    this.registerCommand('page')
+      .alias('p')
+      .description('create page from template')
+      .action(async () => {
+        if (!this.config.type) {
+          logger.warn('you project not support this command');
+          return;
+        }
+        const command = this.createPageCommand.find(({ type }) => type === this.config.type);
+        if (command) {
+          command.action({});
+        } else {
+          logger.warn('you project(type is ' + this.config.type + ') not support create page');
+        }
+      });
+    this.registerCommand('component')
+      .alias('c')
+      .description('create component from template')
+      .action(async () => {
+        if (!this.config.type) {
+          logger.warn('you project not support this command');
+          return;
+        }
+        const command = this.createComponentCommand.find(({ type }) => type === this.config.type);
+        if (command) {
+          command.action({});
+        } else {
+          logger.warn('you project(type is ' + this.config.type + ') not support create component');
+        }
+      });
     this.applyPlugins();
     logger.debug('App envs', JSON.stringify(this.getEnvs(), null, 2));
   }
 
-  loadEnvs() {
+  public loadEnvs() {
     const { NODE_ENV } = process.env;
     const dotenvPath = this.resolve('.env');
     const dotenvFiles = [
@@ -250,13 +290,13 @@ export default class A8k {
   }
 
   // Get envs that will be embed in app code
-  getEnvs() {
+  public getEnvs() {
     return Object.assign({}, this.config.envs, {
       PUBLIC_PATH: this.config.publicPath,
     });
   }
 
-  applyPlugins() {
+  public applyPlugins() {
     const plugins = [
       require.resolve('@a8k/plugin-react'),
       require.resolve('@a8k/plugin-typescript-template'),
@@ -289,7 +329,7 @@ export default class A8k {
   }
 
   // 程序入口
-  async run() {
+  public async run() {
     this.prepare();
     await this.hooks.invokePromise('beforeRun');
     this.cli.parse(this.options.cliArgs);
@@ -298,7 +338,7 @@ export default class A8k {
     }
   }
 
-  resolveWebpackConfig(options: IResolveWebpackConfigOptions) {
+  public resolveWebpackConfig(options: IResolveWebpackConfigOptions) {
     const WebpackChain = require('webpack-chain');
     const config = new WebpackChain();
 
@@ -311,15 +351,15 @@ export default class A8k {
     }
 
     if (this.options.inspectWebpack) {
-      this._inspectWebpackConfigPath = path.join(
+      this.inspectWebpackConfigPath = path.join(
         require('os').tmpdir(),
         `a8k-inspect-webpack-config-${options.type}-${this.buildId}.js`
       );
       fs.appendFileSync(
-        this._inspectWebpackConfigPath,
+        this.inspectWebpackConfigPath,
         `//${JSON.stringify(options)}\nconst ${options.type} = ${config.toString()}\n`
       );
-      require('open')(this._inspectWebpackConfigPath);
+      require('open')(this.inspectWebpackConfigPath);
     }
 
     let webpackConfig = config.toConfig();
@@ -337,11 +377,11 @@ export default class A8k {
     return webpackConfig;
   }
 
-  createWebpackCompiler(webpackConfig) {
+  public createWebpackCompiler(webpackConfig) {
     return require('webpack')(webpackConfig);
   }
 
-  async runWebpack(webpackConfig) {
+  public async runWebpack(webpackConfig) {
     const compiler = this.createWebpackCompiler(webpackConfig);
     await new Promise((resolve, reject) => {
       compiler.run((err: Error, stats: any) => {
@@ -353,7 +393,7 @@ export default class A8k {
     });
   }
 
-  async runCompiler(compiler) {
+  public async runCompiler(compiler) {
     await new Promise((resolve, reject) => {
       compiler.run((err: Error, stats: any) => {
         if (err) {
@@ -364,7 +404,7 @@ export default class A8k {
     });
   }
 
-  hasDependency(name: string, type = 'all') {
+  public hasDependency(name: string, type = 'all') {
     const prodDeps = Object.keys(this.pkg.data.dependencies || {});
     const devDeps = Object.keys(this.pkg.data.devDependencies || {});
     if (type === 'all') {
@@ -383,25 +423,33 @@ export default class A8k {
     return this.cli.command(command);
   }
   public registerCreateType(type: string, description: string, action: () => void): A8k {
-    this.createCommandTypes.push({ type, description, action });
+    this.createProjectCommandTypes.push({ type, description, action });
+    return this;
+  }
+  public registerPageType(type: string, description: string, action): A8k {
+    this.createPageCommand.push({ type, description, action });
+    return this;
+  }
+  public registerComponentType(type: string, description: string, action): A8k {
+    this.createComponentCommand.push({ type, description, action });
     return this;
   }
 
-  hasPlugin(name: string) {
+  public hasPlugin(name: string) {
     return this.plugins && this.plugins.find(plugin => plugin.resolve.name === name);
   }
 
-  removePlugin(name: string) {
+  public removePlugin(name: string) {
     this.plugins = this.plugins.filter(plugin => plugin.resolve.name !== name);
     return this;
   }
 
-  chainWebpack(fn: Function) {
+  public chainWebpack(fn: Function) {
     this.hooks.add('chainWebpack', fn);
     return this;
   }
 
-  localResolve(id: string, fallbackDir: string) {
+  public localResolve(id: string, fallbackDir: string) {
     let resolved = resolveFrom.silent(this.resolve(), id);
     if (!resolved && fallbackDir) {
       resolved = resolveFrom.silent(fallbackDir, id);
@@ -409,7 +457,7 @@ export default class A8k {
     return resolved;
   }
 
-  localRequire(id: string, fallbackDir: string) {
+  public localRequire(id: string, fallbackDir: string) {
     const resolved = this.localResolve(id, fallbackDir);
     return resolved && require(resolved);
   }

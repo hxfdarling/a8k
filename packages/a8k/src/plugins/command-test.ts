@@ -18,17 +18,17 @@ function resolveJestDefaultEnvironment(name: string) {
   const jestDir = path.dirname(
     resolve.sync('jest', {
       basedir: __dirname,
-    })
+    }),
   );
   const jestCLIDir = path.dirname(
     resolve.sync('jest-cli', {
       basedir: jestDir,
-    })
+    }),
   );
   const jestConfigDir = path.dirname(
     resolve.sync('jest-config', {
       basedir: jestCLIDir,
-    })
+    }),
   );
   return resolve.sync(name, {
     basedir: jestConfigDir,
@@ -36,8 +36,8 @@ function resolveJestDefaultEnvironment(name: string) {
 }
 
 export default class TestCommand {
-  name = 'builtin:test';
-  apply(context: A8k) {
+  public name = 'builtin:test';
+  public apply(context: A8k) {
     context
       .registerCommand('test')
       .description('运行 jest 测试')

@@ -8,7 +8,7 @@ export default (
   config: WebpackChain,
   context: A8k,
   options: IResolveWebpackConfigOptions,
-  filename: string
+  filename: string,
 ) => {
   const { type, ssr } = options;
   // 生产模式和服务器渲染调试时，开启这个模式防止样式抖动

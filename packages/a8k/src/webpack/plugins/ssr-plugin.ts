@@ -4,7 +4,7 @@ import path from 'path';
 import webpack from 'webpack';
 
 class SSRPlugin {
-  options: {
+  public options: {
     pagesDir: string;
     ssrConfig: { entry: { [key: string]: string }; view: string };
   };
@@ -12,8 +12,8 @@ class SSRPlugin {
     this.options = options;
   }
 
-  apply(compiler: webpack.Compiler) {
-    compiler.hooks.afterEmit.tap('ssr', async compilation => {
+  public apply(compiler: webpack.Compiler) {
+    compiler.hooks.afterEmit.tap('ssr', async (compilation) => {
       const { assets } = compilation;
 
       const {

@@ -31,7 +31,7 @@ export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
     {
       fileName: 'manifest-legacy.json',
       // basePath: dist,
-      map: file => {
+      map: (file) => {
         file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
         return file;
       },

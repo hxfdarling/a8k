@@ -1,8 +1,8 @@
 import resolveFrom from 'resolve-from';
 
-export default (plugins: Array<any>, cwd: string) => {
+export default (plugins: any[], cwd: string) => {
   return plugins
-    .map(plugin => {
+    .map((plugin) => {
       if (typeof plugin === 'string') {
         plugin = {
           resolve: plugin,
@@ -19,7 +19,7 @@ export default (plugins: Array<any>, cwd: string) => {
       }
       throw new TypeError(`Invalid plugin: ${plugin}`);
     })
-    .map(plugin => {
+    .map((plugin) => {
       if (plugin.resolve.default) {
         plugin.resolve = plugin.resolve.default;
       }

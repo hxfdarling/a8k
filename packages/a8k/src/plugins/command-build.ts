@@ -5,8 +5,8 @@ import { ICommandOptions } from '../interface';
 import cleanUnusedCache from '../utils/clean-old-cache.js';
 
 export default class BuildCommand {
-  name = 'builtin:build';
-  apply(context: A8k) {
+  public name = 'builtin:build';
+  public apply(context: A8k) {
     const { hooks } = context;
     context
       .registerCommand('build')
@@ -53,7 +53,7 @@ export default class BuildCommand {
           type: BUILD_TYPE.CLIENT,
         });
         const compiler = context.createWebpackCompiler(webpackConfig);
-        compiler.hooks.done.tap('done', stats => {
+        compiler.hooks.done.tap('done', (stats) => {
           if (stats.hasErrors()) {
             process.exit(-1);
           }
@@ -74,7 +74,7 @@ export default class BuildCommand {
             type: BUILD_TYPE.SERVER,
           });
           const compilerSSR = context.createWebpackCompiler(webpackConfigSSR);
-          compilerSSR.hooks.done.tap('done', stats => {
+          compilerSSR.hooks.done.tap('done', (stats) => {
             if (stats.hasErrors()) {
               process.exit(-1);
             }

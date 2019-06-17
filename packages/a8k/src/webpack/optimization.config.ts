@@ -1,7 +1,7 @@
 import path from 'path';
-import { ENV_PROD, BUILD_TYPE } from '../const';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
+import { BUILD_TYPE, ENV_PROD } from '../const';
 
 export default (config: WebpackChain, context: A8k, { type, mini, sourceMap }) => {
   config.optimization.minimize(false);
@@ -37,10 +37,10 @@ export default (config: WebpackChain, context: A8k, { type, mini, sourceMap }) =
         vendor: {
           test: ({ resource }) => {
             if (resource) {
-              const include = [/[\\/]node_modules[\\/]/].every(reg => {
+              const include = [/[\\/]node_modules[\\/]/].every((reg) => {
                 return reg.test(resource);
               });
-              const exclude = [/[\\/]node_modules[\\/](react|redux|antd|@ant-design)/].some(reg => {
+              const exclude = [/[\\/]node_modules[\\/](react|redux|antd|@ant-design)/].some((reg) => {
                 return reg.test(resource);
               });
               return include && !exclude;

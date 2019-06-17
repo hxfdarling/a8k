@@ -42,7 +42,7 @@ class CreateGenerator extends Generator {
       const { pagePath } = await this.prompt([
         {
           name: 'pagePath',
-          message: '通用组建还是页面组件？',
+          message: '为那个页面创建？',
           type: 'list',
           choices: this.pagesList,
         },

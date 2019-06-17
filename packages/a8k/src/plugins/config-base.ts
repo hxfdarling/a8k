@@ -1,12 +1,12 @@
+import WebpackChain, { DevTool } from 'webpack-chain';
 import A8k from '..';
 import { BUILD_TYPE, ENV_DEV } from '../const';
-import getFileNames from '../utils/get-filenames';
-import WebpackChain, { DevTool } from 'webpack-chain';
 import { IResolveWebpackConfigOptions } from '../interface';
+import getFileNames from '../utils/get-filenames';
 
 export default class BaseConfig {
-  name = 'builtin:config-base';
-  apply(context: A8k) {
+  public name = 'builtin:config-base';
+  public apply(context: A8k) {
     context.chainWebpack((config: WebpackChain, options: IResolveWebpackConfigOptions) => {
       const filenames = getFileNames({
         filenames: context.config.filenames,

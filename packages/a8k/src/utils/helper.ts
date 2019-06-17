@@ -10,7 +10,7 @@ async function printInstructions(devServer) {
   console.log();
 
   // eslint-disable-next-line max-len
-  const getLocalAddress = color =>
+  const getLocalAddress = (color) =>
     `${protocol}${isAnyHost ? 'localhost' : host}:${color ? chalk.bold(port) : port}`;
   console.log(`  ${chalk.green('Local:')}            ${getLocalAddress(true)}`);
 
@@ -23,7 +23,7 @@ async function printInstructions(devServer) {
 
 function setProxy(app, proxy) {
   if (!Array.isArray(proxy)) {
-    proxy = Object.keys(proxy).map(context => {
+    proxy = Object.keys(proxy).map((context) => {
       let proxyOptions;
       // For backwards compatibility reasons.
       const correctedContext = context.replace(/^\*$/, '**').replace(/\/\*$/, '');
@@ -44,7 +44,7 @@ function setProxy(app, proxy) {
     });
   }
 
-  const getProxyMiddleware = proxyConfig => {
+  const getProxyMiddleware = (proxyConfig) => {
     const context = proxyConfig.context || proxyConfig.path;
     // It is possible to use the `bypass` method without a `target`.
     // However, the proxy middleware has no use in this case, and will fail to instantiate.
@@ -52,7 +52,7 @@ function setProxy(app, proxy) {
       return httpProxyMiddleware(context, proxyConfig);
     }
   };
-  proxy.forEach(proxyConfigOrCallback => {
+  proxy.forEach((proxyConfigOrCallback) => {
     let proxyConfig;
     let proxyMiddleware;
 

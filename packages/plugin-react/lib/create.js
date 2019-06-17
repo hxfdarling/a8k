@@ -17,7 +17,7 @@ class CreateGenerator extends Generator {
   constructor(args, opts) {
     super(args, opts);
     this.name = args.name;
-    this.props = { ssr: false };
+    this.props = { ssr: false, type: 'react' };
     this.sourceRoot(join(__dirname, '../templates/'));
   }
 

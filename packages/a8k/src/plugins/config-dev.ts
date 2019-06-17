@@ -8,8 +8,8 @@ import A8k from '..';
 import { BUILD_ENV, BUILD_TYPE } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 export default class DevConfig {
-  name = 'builtin:config-dev';
-  apply(context: A8k) {
+  public name = 'builtin:config-dev';
+  public apply(context: A8k) {
     context.chainWebpack((config: WebpackChain, options: IResolveWebpackConfigOptions) => {
       const { type, eslint, stylelint } = options;
       // 只有客户端代码 开发模式才需要使用，构建服务器代码不需要
@@ -32,8 +32,8 @@ export default class DevConfig {
                 ],
                 cwd: context.options.baseDir,
                 packageKey: 'eslintConfig',
-              })
-            )
+              }),
+            ),
           );
 
           config.module
@@ -69,7 +69,7 @@ export default class DevConfig {
           });
           if (!stylelintConfig.data || Object.keys(stylelintConfig.data).length < 1) {
             logger.error(
-              '确保stylelint配置文件正确有效,可以使用`npx k init lint`自动初始化stylelint'
+              '确保stylelint配置文件正确有效,可以使用`npx k init lint`自动初始化stylelint',
             );
             process.exit(-1);
           }

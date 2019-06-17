@@ -12,20 +12,20 @@ const testMap = {
 };
 
 export class GenerateLoaders {
-  rule: WebpackChain.Rule;
-  context: A8k;
-  options: IResolveWebpackConfigOptions;
-  cacheDirectory: string;
+  public rule: WebpackChain.Rule;
+  public context: A8k;
+  public options: IResolveWebpackConfigOptions;
+  public cacheDirectory: string;
   constructor(rule: WebpackChain.Rule, context: A8k, options: IResolveWebpackConfigOptions) {
     this.cacheDirectory = path.join(context.config.cache, 'cache-loader-css');
     this.rule = rule;
     this.context = context;
     this.options = options;
   }
-  value() {
+  public value() {
     return this.rule;
   }
-  addLessLoader(options = {}): GenerateLoaders {
+  public addLessLoader(options = {}): GenerateLoaders {
     const {
       context,
       options: { sourceMap },
@@ -47,7 +47,7 @@ export class GenerateLoaders {
       .end();
     return this;
   }
-  addSassLoader(): GenerateLoaders {
+  public addSassLoader(): GenerateLoaders {
     const {
       context,
       options: { sourceMap },
@@ -67,7 +67,7 @@ export class GenerateLoaders {
       .end();
     return this;
   }
-  addPostCssLoader(): GenerateLoaders {
+  public addPostCssLoader(): GenerateLoaders {
     const {
       context,
       options: { sourceMap },
@@ -118,7 +118,7 @@ export class GenerateLoaders {
     return this;
   }
 
-  addBaseLoader({
+  public addBaseLoader({
     importLoaders,
     needExtraCss,
   }: {
@@ -177,7 +177,7 @@ export default (
   config: WebpackChain,
   context: A8k,
   options: IResolveWebpackConfigOptions,
-  needExtraCss: boolean
+  needExtraCss: boolean,
 ) => {
   const rule = config.module.rule(type).test(testMap[type]);
   const gen = new GenerateLoaders(rule, context, options);

@@ -1,4 +1,6 @@
 module.exports = {
+  // 项目类型，用于快速创建页面和组件
+  type:"<%=type%>",
   // 标示是多页面还是单页面应用:single/multi
   mode:"<%= app %>",
   // 资源根地址，例如: //7.ur.cn/fudao/pc/

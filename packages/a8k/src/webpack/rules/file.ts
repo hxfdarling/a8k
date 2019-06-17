@@ -1,6 +1,6 @@
 import WebpackChain from 'webpack-chain';
-import { BUILD_TYPE } from '../../const';
 import A8k from '../..';
+import { BUILD_TYPE } from '../../const';
 
 export default (config: WebpackChain, context: A8k, { type }, filename: string) => {
   const isSSR = BUILD_TYPE.SERVER === type;

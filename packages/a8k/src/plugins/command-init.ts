@@ -15,8 +15,8 @@ const initChoices = [
   { name: '添加 jsconfig ', value: 'jsconfig' },
 ];
 export default class InitCommand {
-  name = 'builtin:add';
-  apply(context: A8k) {
+  public name = 'builtin:add';
+  public apply(context: A8k) {
     context
       .registerCommand('init [type]')
       .description('给项目添加额外能力')
@@ -32,7 +32,7 @@ export default class InitCommand {
           ]));
         }
         const cwd = context.options.baseDir;
-        const choice = initChoices.find(i => i.value === type);
+        const choice = initChoices.find((i) => i.value === type);
         if (choice) {
           const pkgFile = path.join(cwd, 'package.json');
           const pkg = require(pkgFile);
@@ -71,7 +71,7 @@ module.exports = {
     'scss/at-rule-no-unknown': true,
   },
 };
-`
+`,
                   );
                 }
                 const prettierFile = path.join(cwd, '.prettierrc');
@@ -84,7 +84,7 @@ module.exports = {
   "jsxBracketSameLine": false,
   "trailingComma": "es5",
   "printWidth": 80
-}`
+}`,
                   );
                 }
                 logWithSpinner('安装依赖中');
@@ -145,8 +145,8 @@ module.exports = {
       "pages/*": ["./src/pages/*"]
     }
   }
-}               
-`
+}
+`,
                 );
               } else {
                 stopSpinner();

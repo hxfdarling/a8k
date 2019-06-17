@@ -37,22 +37,13 @@ module.exports = class PluginReact {
         spinner.succeed('项目创建完毕');
       }
     );
-
-    context
-      .registerCommand('page')
-      .alias('p')
-      .description('新建页面')
-      .action(async () => {
-        addPage(context);
-        await context.hooks.invokePromise('afterAddPage', context);
-      });
-    context
-      .registerCommand('component')
-      .alias('c')
-      .description('新建组件')
-      .action(async () => {
-        addComponent(context);
-        await context.hooks.invokePromise('afterAddComponent', context);
-      });
+    context.registerPageType('react', '创建react项目page', async () => {
+      addPage(context);
+      await context.hooks.invokePromise('afterAddPage', context);
+    });
+    context.registerComponentType('react', '创建react项目component', async () => {
+      addComponent(context);
+      await context.hooks.invokePromise('afterAddComponent', context);
+    });
   }
 };

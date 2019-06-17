@@ -5,8 +5,8 @@ import fs from 'fs-extra';
 import A8k from '..';
 
 export default class UtilsCommand {
-  name = 'builtin:utils';
-  apply(context: A8k) {
+  public name = 'builtin:utils';
+  public apply(context: A8k) {
     context
       .registerCommand('clean')
       .description('清理缓存文件和构建结果文件')
@@ -36,7 +36,7 @@ export default class UtilsCommand {
           const currentBranch = execSync('git rev-parse --abbrev-ref HEAD').toString();
           const ancestor = execSync(`git merge-base origin/master ${currentBranch}`).toString();
           const masterLatest = execSync(
-            'git log --oneline -n 1 --pretty=format:"%h" origin/master'
+            'git log --oneline -n 1 --pretty=format:"%h" origin/master',
           ).toString();
           if (ancestor.indexOf(masterLatest) === -1) {
             logger.error(Error("current branch doesn't merge the latest master commit!"));
