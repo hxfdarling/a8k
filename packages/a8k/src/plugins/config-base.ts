@@ -15,11 +15,6 @@ export default class BaseConfig {
       const { type, analyzer, watch } = options;
 
       config.watch(watch);
-      config.merge({
-        performance: {
-          hints: 'warning', // enum
-        },
-      });
 
       config.context(context.options.baseDir);
 
