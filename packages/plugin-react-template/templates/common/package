@@ -17,6 +17,7 @@
     "stylelint": "stylelint --fix src/**/*.{scss,css}",
     "lint":"npm run eslint&&npm run stylelint"
   },
+  "sideEffects":false,
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",

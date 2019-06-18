@@ -17,7 +17,7 @@ export default class BaseConfig {
       config.watch(watch);
       config.merge({
         performance: {
-          hints: false,
+          hints: 'warning', // enum
         },
       });
 
