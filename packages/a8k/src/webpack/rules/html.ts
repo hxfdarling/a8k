@@ -21,6 +21,7 @@ export default (config: WebpackChain, context: A8k, { type, mini }) => {
     .use('@a8k/html-loader')
     .loader('@a8k/html-loader')
     .options({
+      rootDir: context.resolve('src'),
       cacheDirectory: path.resolve(context.config.cache, '@a8k/html-loader'),
       minimize: mini && context.internals.mode === BUILD_ENV.PRODUCTION,
     })
@@ -31,6 +32,6 @@ export default (config: WebpackChain, context: A8k, { type, mini }) => {
       // Other super important. This will be the base
       // directory in which webpack is going to find
       // the layout and any other file index.njk is calling.
-      searchPaths: ['./src', './src/pages', './src/assets'].map((i) => context.resolve(i)),
+      searchPaths: ['./src', './src/pages', './src/assets'].map(i => context.resolve(i)),
     });
 };

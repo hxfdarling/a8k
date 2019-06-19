@@ -14,11 +14,15 @@
           "type": "boolean"
         }
       ]
+    },
+    "rootDir": {
+      "anyOf": [{ "type": "string" }]
     }
   },
   "errorMessages": {
     "minimize": "should be {Boolean}",
-    "cacheDirectory": "should be {String} "
+    "cacheDirectory": "should be {String} ",
+    "rootDir": "should be {String} "
   },
   "type": "object"
 }

@@ -26,6 +26,7 @@ module.exports = async function(content) {
 
   const publicPath = this._compilation.options.output.publicPath || '';
   const baseDir = path.dirname(this.resource);
+  const { rootDir } = options;
   const { root, list: nodes } = htmlParse(content);
 
   // html 转换
@@ -52,14 +53,21 @@ module.exports = async function(content) {
       if (/^(\/\/|http:|https:)/.test(link.value)) {
         return;
       }
-      const file = path.resolve(baseDir, temp[0]);
-      if (!fs.existsSync(file)) {
-        this.emitError(new Error(`not found file: ${temp[0]} \nin ${this.resource}`));
-        return;
+      const file = temp[0];
+      let filePath = path.join(baseDir, file);
+      if (!fs.existsSync(filePath)) {
+        // 绝对路径支持~
+        const absoluteFile = path.join(rootDir, file.replace(/^~/, ''));
+        if (fs.existsSync(absoluteFile)) {
+          filePath = absoluteFile;
+        } else {
+          this.emitError(new Error(`not found file: ${file} \n in ${baseDir} or ${rootDir}`));
+          return;
+        }
       }
-      const isMiniFile = /\.min\.(js|css)$/.test(file);
-      this.addDependency(file);
-      result = (await fs.readFile(file)).toString();
+      const isMiniFile = /\.min\.(js|css)$/.test(filePath);
+      this.addDependency(filePath);
+      result = (await fs.readFile(filePath)).toString();
       // 只需要转换未压缩的JS
       if (!noParse && !isMiniFile && isScript(node)) {
         if (options.cacheDirectory) {
@@ -102,7 +110,9 @@ module.exports = async function(content) {
         const Hash = crypto.createHash('md5');
         Hash.update(result);
         const hash = Hash.digest('hex').substr(0, 6);
-        const newFileName = `${path.basename(file).split('.')[0]}_${hash}${path.extname(file)}`;
+        const newFileName = `${path.basename(filePath).split('.')[0]}_${hash}${path.extname(
+          filePath
+        )}`;
         const newUrl = [publicPath.replace(/\/$/, ''), newFileName].join(publicPath ? '/' : '');
         if (isScript(node)) {
           // 添加主域重试需要标记
