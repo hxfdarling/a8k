@@ -181,3 +181,7 @@ module.exports = {
 ```
 
 更多配置方法请参考哦[webpack chain 文档](https://github.com/neutrinojs/webpack-chain)
+
+## HTML 模板引擎
+
+本项目采用 nunjucks 作为 HTML 的模板引擎，具体使用文档参考[nunjucks 文档](https://mozilla.github.io/nunjucks/)
