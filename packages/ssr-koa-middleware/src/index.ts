@@ -5,31 +5,45 @@ import path from 'path';
 import url from 'url';
 import render from './utils/render';
 
-export default function(options: { entryDir?: string; viewDir?: string } = {}) {
+const mapToString = (list: string[], dir: string) => {
+  return list.reduce(
+    (p, c) => {
+      p[c.split('.')[0]] = path.join(dir, c);
+      return p;
+    },
+    {} as { [key: string]: string }
+  );
+};
+
+function middleware(options: { entryDir?: string; viewDir?: string } = {}) {
   const defaultRootDir = path.join(process.cwd(), '.a8k');
   const entryDir = options.entryDir || path.join(defaultRootDir, 'entry');
   const viewDir = options.viewDir || path.join(defaultRootDir, 'view');
-  const mapToString = (list: string[], dir: string) => {
-    return list.reduce(
-      (p, c) => {
-        p[c.split('.')[0]] = path.join(dir, c);
-        return p;
-      },
-      {} as { [key: string]: string },
-    );
-  };
-  const entries = mapToString(fs.readdirSync(entryDir), entryDir);
-  const views = mapToString(fs.readdirSync(viewDir), viewDir);
+  let entries = {};
+  let views = {};
+  try {
+    entries = mapToString(fs.readdirSync(entryDir), entryDir);
+    views = mapToString(fs.readdirSync(viewDir), viewDir);
+  } catch (e) {
+    logger.warn('entry or view direction is empty');
+  }
+
   logger.debug('entry', entries);
   logger.debug('views', views);
 
-  return async function(ctx: Context, next: () => void) {
+  return async (ctx: Context, next: () => void) => {
     let { pathname } = url.parse(ctx.url);
     pathname = (pathname || '').replace('/', '');
     if (!/\.html$/.test(pathname)) {
       return next();
     }
     const key = pathname.split('.')[0];
+
+    if (process.env.A8K_ENV === 'development') {
+      views = mapToString(fs.readdirSync(viewDir), viewDir);
+      entries = mapToString(fs.readdirSync(entryDir), entryDir);
+    }
+
     if (views[key]) {
       const entry = require(entries[key]);
       // tslint:disable-next-line: no-empty
@@ -44,3 +58,5 @@ export default function(options: { entryDir?: string; viewDir?: string } = {}) {
     }
   };
 }
+module.exports = middleware;
+export default middleware;
