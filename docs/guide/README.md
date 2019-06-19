@@ -99,7 +99,7 @@ k sb
 └── package.json
 ```
 
-## 现有项目如何接入？
+## 现有项目如何接入
 
 在项目根目录添加配置文件:`a8k.config.js`
 添加如下配置：
@@ -107,12 +107,13 @@ k sb
 ```js
 const publicPath = '//7.url.cn/fudao/pc/';
 module.exports = {
+  type: 'react', // 项目类型
   // 标示是多页面还是单页面应用:single/multi
   mode: 'multi',
   // dist 目录
-  dist: 'public/cdn',
+  dist: 'dist',
   // 加快热构建的缓存目录
-  cache: '/tmp/fudao_qq_com_pc',
+  cache: '.cache',
   // cdn部署路径
   publicPath,
   // 是否将 JS 标签配置 crossOrigin='anonymous'
@@ -123,6 +124,7 @@ module.exports = {
     exclude: [],
   },
   // webpack-dev-server配置
+  // 详细配置可以参考webpack-dev-server官方文档
   devServer: {
     port: 7475,
   },
@@ -137,10 +139,10 @@ module.exports = {
   // 服务器直出页面
   ssrConfig: {
     // js存放目录
-    // dist:'',// 默认：'node_modules/components'
+    // dist:'',// 默认：'.a8k/entry'
     // html存放目录
-    // view:'',//默认: 'app/views'
-    // 入口文件
+    // view:'',//默认: '.a8k/view'
+    // 入口文件,注意如果不配置，将默认认为所有页面支持直出
     entry: {
       providerDiscover: './src/pages/discover/ProviderDiscover',
     },
@@ -168,6 +170,33 @@ module.exports = {
     }
   },
 };
+```
+
+## 直出项目如何接入
+
+运行:`k create example react` 初始化一个多页面应用，可以参考其配置，使用`@a8k/ssr-koa-middleware`中间件，添加到 koa 应用的中间件上， 将自动处理支持直出的路由。
+
+> 注意不要修改 `ssrConfig` 的 `dist|view` 配置, 因为该中间件依赖默认的路径寻找依赖
+
+例如：
+
+```js
+const Koa = require('koa');
+const path = require('path');
+const ssr = require('@a8k/ssr-koa-middleware').default;
+const {
+  ssrDevServer: { port },
+} = require('../a8k.config.js');
+
+const app = new Koa();
+
+app.use(ssr());
+app.use(require('koa-static')(path.join(__dirname, '../dist/'), {}));
+
+app.listen(port, () => {
+  console.log();
+  console.log(`http://localhost:${port}`);
+});
 ```
 
 ## 帮助
