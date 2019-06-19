@@ -55,6 +55,9 @@ export default class BaseConfig {
       // 避免在开发模式下面link全局的模块时无法正确编译，需要配置额外的参数
       config.resolve.symlinks(false);
 
+      // 添加默认的~作为根路径
+      config.resolve.alias.set('~', context.resolve('src'));
+
       const ownModules = context.rootResolve('node_modules');
       const projectModules = context.resolve('node_modules');
       config.resolve.modules
