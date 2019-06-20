@@ -43,6 +43,7 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
+    "core-js": "^3.1.4",
     <% if(ssr) {%>
     "@a8k/ssr-koa-middleware": "^2.0.0-beta.2",
     <% } %>
