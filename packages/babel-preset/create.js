@@ -2,7 +2,7 @@ module.exports = function(api, options, env) {
   const isEnvDevelopment = env === 'development';
   const isEnvProduction = env === 'production';
   const isEnvTest = env === 'test';
-  const { isSSR } = options;
+  const { target } = options;
   if (!isEnvDevelopment && !isEnvProduction && !isEnvTest) {
     throw new Error(
       `${'Using `@a8k/babel-preset` requires that you specify `NODE_ENV` or '
@@ -26,15 +26,14 @@ module.exports = function(api, options, env) {
         // Latest stable ECMAScript features
         require('@babel/preset-env').default,
         {
+          useBuiltIns: 'usage',
+          corejs: 3,
           // no longer works with IE 10
           targets: {
             ie: 10,
           },
-          // Users cannot override this behavior because this Babel
-          // configuration is highly tuned for ES5 support
-          ignoreBrowserslistConfig: true,
           // 转化为commonjs，为了支持module.exports => export default
-          modules: 'commonjs',
+          modules: target === 'node' ? 'commonjs' : 'commonjs',
         },
       ],
       [
@@ -57,17 +56,17 @@ module.exports = function(api, options, env) {
 
       // Polyfills the runtime needed for async/await, generators, and friends
       // https://babeljs.io/docs/en/babel-plugin-transform-runtime
-      [
-        require('@babel/plugin-transform-runtime').default,
-        {
-          corejs: false,
-          regenerator: true,
-          // https://babeljs.io/docs/en/babel-plugin-transform-runtime#useesmodules
-          // We should turn this on once the lowest version of Node LTS
-          // supports ES Modules.
-          useESModules: isSSR ? false : isEnvDevelopment || isEnvProduction,
-        },
-      ],
+      // [
+      //   require('@babel/plugin-transform-runtime').default,
+      //   {
+      //     corejs: 3,
+      //     regenerator: true,
+      //     // https://babeljs.io/docs/en/babel-plugin-transform-runtime#useesmodules
+      //     // We should turn this on once the lowest version of Node LTS
+      //     // supports ES Modules.
+      //     useESModules: target === 'node' ? false : isEnvDevelopment || isEnvProduction,
+      //   },
+      // ],
 
       // Stage 0
       require('@babel/plugin-proposal-function-bind').default,

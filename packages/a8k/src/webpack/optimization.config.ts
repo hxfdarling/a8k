@@ -28,7 +28,7 @@ export default (config: WebpackChain, context: A8k, { type, mini, sourceMap }) =
       name: context.internals.mode !== ENV_PROD,
       cacheGroups: {
         polyfill: {
-          test: /[\\/]node_modules[\\/](core-js|@babel|babel-runtime)/,
+          test: /[\\/]node_modules[\\/](core-js|@babel|babel-runtime|regenerator-runtime)/,
           name: 'polyfill',
           priority: 70,
           minChunks: 1,
@@ -37,10 +37,10 @@ export default (config: WebpackChain, context: A8k, { type, mini, sourceMap }) =
         vendor: {
           test: ({ resource }) => {
             if (resource) {
-              const include = [/[\\/]node_modules[\\/]/].every((reg) => {
+              const include = [/[\\/]node_modules[\\/]/].every(reg => {
                 return reg.test(resource);
               });
-              const exclude = [/[\\/]node_modules[\\/](react|redux|antd|@ant-design)/].some((reg) => {
+              const exclude = [/[\\/]node_modules[\\/](react|redux|antd|@ant-design)/].some(reg => {
                 return reg.test(resource);
               });
               return include && !exclude;

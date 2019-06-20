@@ -128,6 +128,7 @@ class CreateGenerator extends Generator {
       ['common/.commitlintrc.js', '.commitlintrc.js'],
       ['common/.editorconfig', '.editorconfig'],
       ['common/_eslintrc.js', '.eslintrc.js'],
+      ['common/.eslintignore', '.eslintignore'],
       ['common/.gitmessage', '.gitmessage'],
       ['common/.prettierrc', '.prettierrc'],
       ['common/jsconfig.json', 'jsconfig.json'],

@@ -28,7 +28,7 @@ module.exports = {
   <% } %>
   // 配置额外的入口文件，会在每一个page中引用
   entry:{
-    vendor:['./src/assets/polyfill.js','./src/assets/vendor.js'],
+    vendor:['./src/assets/vendor.js'],
   },
   <% if(ssr) { %>
   ssr:true,
