@@ -68,7 +68,7 @@ module.export = class YouPlugin {
 class A8kPlugin {
   apply(context) {
     context.hook('chainWebpack', (config, { type }) => {
-      if (type === 'client' && context.internals.mode === 'development') {
+      if (type === 'browser' && context.internals.mode === 'development') {
         config.plugin('plugin-name').use(require('plugin'), ['params1', 'params2']);
       }
     });

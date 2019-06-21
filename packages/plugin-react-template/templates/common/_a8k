@@ -1,4 +1,5 @@
 module.exports = {
+  version: 2,
   // 项目类型，用于快速创建页面和组件
   type:"<%=type%>",
   // 标示是多页面还是单页面应用:single/multi
@@ -41,14 +42,14 @@ module.exports = {
   <% } %>
    // 修改webpack配置文件
    chainWebpack(config, { type, mode }) {
-    if (type === 'client') {
+    if (type === 'browser') {
       // 前端代码
       if (mode === 'production') {
         // 生产模式
       } else if (mode === 'development') {
         // 开发模式
       }
-    } else if (type === 'server') {
+    } else if (type === 'node') {
       // SSR代码
       if (mode === 'production') {
         // 生产模式

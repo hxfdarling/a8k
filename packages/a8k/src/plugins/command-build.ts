@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TYPE, ENV_DEV, ENV_PROD } from '../const';
+import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '../const';
 import { ICommandOptions } from '../interface';
 import cleanUnusedCache from '../utils/clean-old-cache.js';
 
@@ -50,10 +50,10 @@ export default class BuildCommand {
         fs.emptyDirSync(context.config.dist);
         const webpackConfig = context.resolveWebpackConfig({
           ...options,
-          type: BUILD_TYPE.CLIENT,
+          type: BUILD_TARGET.BROWSER,
         });
         const compiler = context.createWebpackCompiler(webpackConfig);
-        compiler.hooks.done.tap('done', (stats) => {
+        compiler.hooks.done.tap('done', stats => {
           if (stats.hasErrors()) {
             process.exit(-1);
           }
@@ -71,10 +71,10 @@ export default class BuildCommand {
 
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,
-            type: BUILD_TYPE.SERVER,
+            type: BUILD_TARGET.NODE,
           });
           const compilerSSR = context.createWebpackCompiler(webpackConfigSSR);
-          compilerSSR.hooks.done.tap('done', (stats) => {
+          compilerSSR.hooks.done.tap('done', stats => {
             if (stats.hasErrors()) {
               process.exit(-1);
             }

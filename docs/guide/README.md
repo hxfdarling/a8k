@@ -151,7 +151,7 @@ module.exports = {
   // pages目录下需要忽略的文件夹（不作为页面处理）
   ignorePages: ['action_creators', 'action_types', 'reducers'],
   chainWebpack(config, { type, mode }) {
-    if (type === 'client') {
+    if (type === 'browser') {
       // 客户端代构建
       if (mode === 'production') {
         // 生产模式代码
@@ -160,7 +160,7 @@ module.exports = {
         // 开发模式代码
       }
     }
-    if (type === 'server') {
+    if (type === 'node') {
       // 服务器代码构建
       if (mode === 'production') {
         // 生产模式代码

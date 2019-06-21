@@ -1,8 +1,13 @@
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TYPE } from '../const';
+import { BUILD_ENV, BUILD_TARGET } from '../const';
+import { IResolveWebpackConfigOptions } from '../interface';
 
-export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
+export default (
+  config: WebpackChain,
+  context: A8k,
+  { type, mini, silent }: IResolveWebpackConfigOptions
+) => {
   // 只有命令行中才显示进度，CI系统日志不需要
   // if (process.stderr.isTTY) {
   // const { ProgressPlugin } = webpack;
@@ -31,7 +36,7 @@ export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
     {
       fileName: 'manifest-legacy.json',
       // basePath: dist,
-      map: (file) => {
+      map: file => {
         file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
         return file;
       },
@@ -46,7 +51,7 @@ export default (config: WebpackChain, context: A8k, { type, mini, silent }) => {
     },
   ]);
 
-  if (context.internals.mode === BUILD_ENV.PRODUCTION && type === BUILD_TYPE.CLIENT) {
+  if (context.internals.mode === BUILD_ENV.PRODUCTION && type === BUILD_TARGET.BROWSER) {
     if (context.config.crossOrigin) {
       const CrossOriginLoadingPlugin = require('./plugins/cross-origin-loading');
       CrossOriginLoadingPlugin.__expression =

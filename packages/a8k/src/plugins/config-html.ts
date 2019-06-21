@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_TYPE, ENV_DEV, ENV_PROD, PROJECT_MODE } from '../const';
+import { BUILD_TARGET, ENV_DEV, ENV_PROD, PROJECT_MODE } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 import EmptyPlugin from '../webpack/plugins/empty-plugin';
 
@@ -12,7 +12,7 @@ const getPages = (context: A8k) => {
   const { ignorePages = [] } = context.config;
   const pagesDir = context.resolve(context.config.pagesDir || DEFAULT_PAGES_DIR);
 
-  return fs.readdirSync(pagesDir).filter((item) => {
+  return fs.readdirSync(pagesDir).filter(item => {
     if (ignorePages.includes(item)) {
       return false;
     }
@@ -44,7 +44,7 @@ export default class HtmlConfig {
       const pagesDir = context.config.pagesDir || DEFAULT_PAGES_DIR;
       HtmlWebpackPlugin.__expression = "require('html-webpack-plugin')";
       // 服务器渲染 js 不需要构建 html
-      if (type === BUILD_TYPE.CLIENT || type === BUILD_TYPE.STORYBOOK) {
+      if (type === BUILD_TARGET.BROWSER || type === BUILD_TARGET.STORYBOOK) {
         // 处理公共entry
         const initEntry = Object.keys(context.config.entry || {})
           .reduce((result, key) => {
@@ -56,12 +56,12 @@ export default class HtmlConfig {
             }
             return result;
           }, [])
-          .map((i) => context.resolve(i));
+          .map(i => context.resolve(i));
 
         const isDev = context.internals.mode === ENV_DEV;
         const webpackHotDevClient = require.resolve('@a8k/dev-utils/webpackHotDevClient');
 
-        if (type === BUILD_TYPE.STORYBOOK) {
+        if (type === BUILD_TARGET.STORYBOOK) {
           config.entry('index').merge([...initEntry, isDev && webpackHotDevClient].filter(Boolean));
           return;
         }
@@ -71,8 +71,8 @@ export default class HtmlConfig {
             .entry('index')
             .merge(
               [...initEntry, context.resolve('./src/index'), isDev && webpackHotDevClient].filter(
-                Boolean,
-              ),
+                Boolean
+              )
             );
           config.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
             {
@@ -85,7 +85,7 @@ export default class HtmlConfig {
           ]);
         }
         if (context.config.mode === PROJECT_MODE.MULTI) {
-          getPages(context).forEach((file) => {
+          getPages(context).forEach(file => {
             const name = path.basename(file);
             const dir = context.resolve(`${pagesDir}/${file}`);
             file = path.join(dir, 'index.html');

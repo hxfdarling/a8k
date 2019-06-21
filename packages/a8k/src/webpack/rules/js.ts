@@ -3,7 +3,7 @@ import logger from '@a8k/cli-utils/logger';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
-import { BUILD_ENV, BUILD_TYPE } from '../../const';
+import { BUILD_ENV, BUILD_TARGET } from '../../const';
 
 export default (config: WebpackChain, context: A8k, { type }) => {
   const { babel: { include = [], exclude = [] } = {} } = context.config;
@@ -66,7 +66,7 @@ export default (config: WebpackChain, context: A8k, { type }) => {
       presets: [
         [
           require.resolve('@a8k/babel-preset'),
-          { target: type === BUILD_TYPE.SERVER ? 'node' : 'browser' },
+          { target: type === BUILD_TARGET.NODE ? 'node' : 'browser' },
         ],
       ],
       plugins: [

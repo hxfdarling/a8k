@@ -7,7 +7,7 @@ import inquirer from 'inquirer';
 import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
-import { BUILD_ENV, BUILD_TYPE } from './const';
+import { BUILD_ENV, BUILD_TARGET } from './const';
 import defaultConfig from './default-config';
 import Hooks from './hooks';
 import { A8kConfig, A8kOptions, Internals, IResolveWebpackConfigOptions } from './interface';
@@ -338,7 +338,11 @@ export default class A8k {
     const WebpackChain = require('webpack-chain');
     const config = new WebpackChain();
 
-    options = { type: BUILD_TYPE.CLIENT, ...options, mode: this.internals.mode };
+    options = {
+      type: BUILD_TARGET.BROWSER,
+      ...options,
+      mode: this.internals.mode,
+    };
 
     this.hooks.invoke('chainWebpack', config, options);
 
@@ -363,7 +367,7 @@ export default class A8k {
       logger.warn('!!webpackOverride 已经废弃，请使用chainWebpack修改配置!!');
       // 兼容旧版本imt
       const legacyOptions = {
-        type: options.type === BUILD_TYPE.CLIENT ? options.mode : 'server',
+        type: options.type === BUILD_TARGET.BROWSER ? options.mode : 'server',
       };
       const modifyConfig = this.config.webpackOverride(webpackConfig, legacyOptions);
       if (modifyConfig) {

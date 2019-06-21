@@ -1,9 +1,14 @@
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_TYPE, ENV_PROD } from '../const';
+import { BUILD_TARGET, ENV_PROD } from '../const';
+import { IResolveWebpackConfigOptions } from '../interface';
 
-export default (config: WebpackChain, context: A8k, { type, mini, sourceMap }) => {
+export default (
+  config: WebpackChain,
+  context: A8k,
+  { type, mini, sourceMap }: IResolveWebpackConfigOptions
+) => {
   config.optimization.minimize(false);
 
   if (context.internals.mode === ENV_PROD && mini) {
@@ -12,7 +17,7 @@ export default (config: WebpackChain, context: A8k, { type, mini, sourceMap }) =
     config.optimization.set('moduleIds', 'named');
   }
 
-  if (type === BUILD_TYPE.CLIENT || type === BUILD_TYPE.STORYBOOK) {
+  if (type === BUILD_TARGET.BROWSER || type === BUILD_TARGET.STORYBOOK) {
     config.optimization.splitChunks({
       // Automatically split vendor and commons
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366

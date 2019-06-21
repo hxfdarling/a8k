@@ -2,8 +2,8 @@ const logger = require('@a8k/cli-utils/logger');
 const loadConfig = require('@a8k/cli-utils/load-config');
 const path = require('path');
 
-const TYPE_SERVER = 'server';
-// const TYPE_CLIENT = 'client';
+const TYPE_SERVER = 'node';
+// const TYPE_CLIENT = 'browser';
 const ENV_PROD = 'production';
 
 module.exports = class PluginPostcss {

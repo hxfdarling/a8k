@@ -5,7 +5,7 @@ import path from 'path';
 import webpack from 'webpack';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TYPE } from '../const';
+import { BUILD_ENV, BUILD_TARGET } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 export default class DevConfig {
   public name = 'builtin:config-dev';
@@ -14,7 +14,7 @@ export default class DevConfig {
       const { type, eslint, stylelint } = options;
       // 只有客户端代码 开发模式才需要使用，构建服务器代码不需要
       if (
-        (type === BUILD_TYPE.CLIENT || type === BUILD_TYPE.STORYBOOK) &&
+        (type === BUILD_TARGET.BROWSER || type === BUILD_TARGET.STORYBOOK) &&
         context.internals.mode === BUILD_ENV.DEVELOPMENT
       ) {
         // 开发模式
@@ -32,8 +32,8 @@ export default class DevConfig {
                 ],
                 cwd: context.options.baseDir,
                 packageKey: 'eslintConfig',
-              }),
-            ),
+              })
+            )
           );
 
           config.module
@@ -69,7 +69,7 @@ export default class DevConfig {
           });
           if (!stylelintConfig.data || Object.keys(stylelintConfig.data).length < 1) {
             logger.error(
-              '确保stylelint配置文件正确有效,可以使用`npx k init lint`自动初始化stylelint',
+              '确保stylelint配置文件正确有效,可以使用`npx k init lint`自动初始化stylelint'
             );
             process.exit(-1);
           }

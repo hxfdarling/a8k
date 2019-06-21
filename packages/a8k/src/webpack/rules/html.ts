@@ -1,10 +1,15 @@
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
-import { BUILD_ENV, BUILD_TYPE } from '../../const';
+import { BUILD_ENV, BUILD_TARGET } from '../../const';
+import { IResolveWebpackConfigOptions } from '../../interface';
 
-export default (config: WebpackChain, context: A8k, { type, mini }) => {
-  if (type === BUILD_TYPE.SERVER || type === BUILD_TYPE.STORYBOOK) {
+export default (
+  config: WebpackChain,
+  context: A8k,
+  { type, mini }: IResolveWebpackConfigOptions
+) => {
+  if (type === BUILD_TARGET.NODE || type === BUILD_TARGET.STORYBOOK) {
     return;
   }
   const {

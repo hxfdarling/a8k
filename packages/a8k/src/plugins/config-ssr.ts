@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TYPE, ENV_DEV, ENV_PROD } from '../const';
+import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 
 export default class SsrConfig {
@@ -10,7 +10,7 @@ export default class SsrConfig {
   public apply(context: A8k) {
     context.chainWebpack(
       (config: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
-        if (type === BUILD_TYPE.SERVER) {
+        if (type === BUILD_TARGET.NODE) {
           const isDevMode = watch;
           config.mode(isDevMode ? ENV_DEV : ENV_PROD);
           config.devtool(false);
@@ -19,7 +19,7 @@ export default class SsrConfig {
           const { ssrConfig, publicPath, pagesDir } = context.config;
           let entry: Array<{ key: string; value: string[] }> = [];
           if (ssrConfig.entry) {
-            entry = Object.keys(ssrConfig.entry).map((key) => {
+            entry = Object.keys(ssrConfig.entry).map(key => {
               let value: any = ssrConfig.entry[key];
               if (!Array.isArray(value)) {
                 value = [value];
@@ -33,7 +33,7 @@ export default class SsrConfig {
             entry = fs.readdirSync(pagesDir).map((dir: string) => {
               return {
                 key: path.basename(dir),
-                value: [path.join(pagesDir, dir, 'index.node')],
+                value: [path.join(pagesDir, dir, 'index')],
               };
             });
           }
@@ -64,7 +64,7 @@ export default class SsrConfig {
             },
           });
         }
-        if (type === BUILD_TYPE.CLIENT) {
+        if (type === BUILD_TARGET.BROWSER) {
           const { ssrConfig, dist, pagesDir, ssr: supportSSR } = context.config;
           const { mode } = context.internals;
           // 生产模式，或者开发模式下明确声明参数ssr，时需要添加该插件
@@ -82,7 +82,7 @@ export default class SsrConfig {
             ]);
           }
         }
-      },
+      }
     );
   }
 }

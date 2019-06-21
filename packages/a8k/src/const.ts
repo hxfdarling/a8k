@@ -4,9 +4,9 @@ export const ENV_DEV = 'development';
 export const ENV_PROD = 'production';
 export const ENV_TEST = 'test';
 
-export enum BUILD_TYPE {
-  CLIENT = 'client',
-  SERVER = 'server',
+export enum BUILD_TARGET {
+  BROWSER = 'browser',
+  NODE = 'node',
   STORYBOOK = 'storybook', // storybook 组件构建
 }
 export enum BUILD_ENV {

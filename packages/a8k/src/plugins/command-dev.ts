@@ -5,7 +5,7 @@ import os from 'os';
 import path from 'path';
 import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TYPE, ENV_DEV } from '../const';
+import { BUILD_ENV, BUILD_TARGET, ENV_DEV } from '../const';
 import cleanUnusedCache from '../utils/clean-old-cache';
 import { printInstructions, setProxy } from '../utils/helper';
 
@@ -16,14 +16,14 @@ const invalidHook = (filename, ctime) => {
     logger.clearConsole();
   }
   const d = new Date(ctime);
-  const leftpad = (v) => (v > 9 ? v : `0${v}`);
-  const prettyPath = (p) => p.replace(os.homedir(), '~');
+  const leftpad = v => (v > 9 ? v : `0${v}`);
+  const prettyPath = p => p.replace(os.homedir(), '~');
   console.log(
     chalk.cyan(
       `[${leftpad(d.getHours())}:${leftpad(d.getMinutes())}:${leftpad(
-        d.getSeconds(),
-      )}] Rebuilding due to changes made in ${prettyPath(filename)}`,
-    ),
+        d.getSeconds()
+      )}] Rebuilding due to changes made in ${prettyPath(filename)}`
+    )
   );
 };
 
@@ -74,7 +74,7 @@ export default class DevCommand {
             const proxy = {};
             // 支持配置模式
             if (ssrConfig.entry) {
-              Object.keys(ssrConfig.entry).forEach((key) => {
+              Object.keys(ssrConfig.entry).forEach(key => {
                 const pageName = ssrConfig.entry[key].split('/');
                 const file = `/${pageName[pageName.length - 2]}.html`;
                 proxy[file] = {
@@ -99,7 +99,7 @@ export default class DevCommand {
         try {
           const webpackConfig = context.resolveWebpackConfig({
             ...options,
-            type: BUILD_TYPE.CLIENT,
+            type: BUILD_TARGET.BROWSER,
           });
 
           const compiler = context.createWebpackCompiler(webpackConfig);
@@ -107,7 +107,7 @@ export default class DevCommand {
           compiler.hooks.invalid.tap('invalid', invalidHook);
 
           let isFirstCompile = true;
-          compiler.hooks.done.tap('done', (stats) => {
+          compiler.hooks.done.tap('done', stats => {
             if (!stats.hasErrors() && isFirstCompile) {
               printInstructions(devServer);
               isFirstCompile = false;
@@ -116,14 +116,14 @@ export default class DevCommand {
 
           const server = new WebpackDevServer(compiler, devServer);
           // Launch WebpackDevServer.
-          server.listen(devServer.port, devServer.host, (err) => {
+          server.listen(devServer.port, devServer.host, err => {
             if (err) {
               logger.error(err);
               process.exit(1);
             }
           });
 
-          ['SIGINT', 'SIGTERM'].forEach((sig) => {
+          ['SIGINT', 'SIGTERM'].forEach(sig => {
             process.on(sig as any, () => {
               server.close();
               process.exit();
@@ -137,11 +137,11 @@ export default class DevCommand {
         if (options.ssr) {
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,
-            type: BUILD_TYPE.SERVER,
+            type: BUILD_TARGET.NODE,
             watch: true,
           });
           const compiler = context.createWebpackCompiler(webpackConfigSSR);
-          compiler.watch(webpackConfigSSR.watchOptions, (err) => {
+          compiler.watch(webpackConfigSSR.watchOptions, err => {
             if (err) {
               context.logger.error(err.stack || err);
               if (err.details) {

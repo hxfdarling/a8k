@@ -1,9 +1,9 @@
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
-import { BUILD_TYPE } from '../../const';
+import { BUILD_TARGET } from '../../const';
 
 export default (config: WebpackChain, context: A8k, { type }, filename: string) => {
-  const isSSR = type === BUILD_TYPE.SERVER;
+  const isSSR = type === BUILD_TARGET.NODE;
   config.module
     .rule('image')
     .test([/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.webp$/])

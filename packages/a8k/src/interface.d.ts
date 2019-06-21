@@ -1,4 +1,4 @@
-import { BUILD_ENV, BUILD_TYPE, PROJECT_MODE } from './const';
+import { BUILD_ENV, BUILD_TARGET, PROJECT_MODE } from './const';
 import WebpackDevServer from 'webpack-dev-server';
 
 interface A8kOptions {
@@ -77,7 +77,7 @@ interface ICommandOptions {
 }
 
 interface IResolveWebpackConfigOptions extends ICommandOptions {
-  type: BUILD_TYPE;
+  type: BUILD_TARGET;
   mode?: BUILD_ENV;
   watch?: boolean;
   ssr?: boolean;
