@@ -4,15 +4,15 @@ import { A8kConfig } from './interface';
 const devServer: WebpackDevServer.Configuration = {
   host: '0.0.0.0',
   port: 8899,
-  // disable webpack-dev-server inline client, use a8k client
-  inline: false,
+  // use webpack-dev-server client
+  inline: true,
   disableHostCheck: true,
+  // not use https
   https: false,
   // Enable gzip compression of generated files.
   compress: true,
-  // Silence WebpackDevServer's own logs since they're generally not useful.
-  // It will still show compile warnings and errors with this setting.
-  clientLogLevel: 'none',
+  // we need info in compile
+  clientLogLevel: 'info',
   // Enable hot reloading server. It will provide /sockjs-node/ endpoint
   // for the WebpackDevServer client so it can learn when the files were
   // updated. The WebpackDevServer client is included as an entry point
@@ -31,15 +31,11 @@ const devServer: WebpackDevServer.Configuration = {
     // Paths with dots should still use the history fallback.
     disableDotRule: true,
   },
-
   // By default files from `contentBase` will not trigger a page reload.
-  watchContentBase: true,
-
+  watchContentBase: false,
   // It is important to tell WebpackDevServer to use the same "root" path
   // as we specified in the config. In development, we always serve from /.
   publicPath: '/',
-  // WebpackDevServer is noisy by default so we emit custom message instead
-  // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
 };
 const config: A8kConfig = {
   mode: PROJECT_MODE.MULTI,

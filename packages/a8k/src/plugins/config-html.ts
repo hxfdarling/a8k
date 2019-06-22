@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_TARGET, ENV_DEV, ENV_PROD, PROJECT_MODE } from '../const';
+import { BUILD_TARGET, ENV_PROD, PROJECT_MODE } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 import EmptyPlugin from '../webpack/plugins/empty-plugin';
 
@@ -58,22 +58,15 @@ export default class HtmlConfig {
           }, [])
           .map(i => context.resolve(i));
 
-        const isDev = context.internals.mode === ENV_DEV;
-        const webpackHotDevClient = require.resolve('@a8k/dev-utils/webpackHotDevClient');
-
         if (type === BUILD_TARGET.STORYBOOK) {
-          config.entry('index').merge([...initEntry, isDev && webpackHotDevClient].filter(Boolean));
+          config.entry('index').merge([...initEntry].filter(Boolean));
           return;
         }
 
         if (context.config.mode === PROJECT_MODE.SINGLE) {
           config
             .entry('index')
-            .merge(
-              [...initEntry, context.resolve('./src/index'), isDev && webpackHotDevClient].filter(
-                Boolean
-              )
-            );
+            .merge([...initEntry, context.resolve('./src/index')].filter(Boolean));
           config.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
             {
               // https://github.com/jantimon/html-webpack-plugin/issues/870
@@ -94,9 +87,7 @@ export default class HtmlConfig {
               file = context.config.template;
             }
 
-            config
-              .entry(name)
-              .merge([...initEntry, `${dir}/index`, isDev && webpackHotDevClient].filter(Boolean));
+            config.entry(name).merge([...initEntry, `${dir}/index`].filter(Boolean));
 
             const chunks = [name];
             config.plugin(`html-webpack-plugin-${name}`).use(HtmlWebpackPlugin, [
