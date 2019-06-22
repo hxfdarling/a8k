@@ -1,6 +1,6 @@
 {
   "name": "@a8k/ssr-utils",
-  "version": "1.0.0",
+  "version": "2.0.0-beta.8",
   "description": "",
   "main": "lib/common/index.js",
   "module": "lib/esm/index.js",
