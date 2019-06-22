@@ -32,7 +32,7 @@ module.exports = function(api, options, env) {
             target === 'node'
               ? {
                 // 根据当前环境的node编译
-                node: true,
+                node: 'current',
               }
               : {
                 // 最低支持ie11
