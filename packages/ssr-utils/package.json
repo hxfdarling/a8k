@@ -64,5 +64,8 @@
   },
   "dependencies": {
     "serialize-javascript": "^1.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
