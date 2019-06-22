@@ -1,5 +1,5 @@
 {
-  "name": "@a8k/ssr-koa-middleware",
+  "name": "@a8k/ssr-express-middleware",
   "version": "2.0.0-beta.5",
   "description": "",
   "main": "lib/common/index.js",
@@ -53,6 +53,7 @@
     }
   },
   "devDependencies": {
+    "@types/express": "^4.17.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },

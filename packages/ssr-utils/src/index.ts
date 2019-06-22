@@ -1,9 +1,10 @@
+import path from 'path';
 import { renderToString } from 'react-dom/server';
 import HtmlTemplateHelper from './htmlTemplateHelper';
 
 export interface IRenderOptions {
   richImg: string;
-  titleInfo: string;
+  title: string;
   keywords: string;
   description: string;
   style: string;
@@ -11,12 +12,12 @@ export interface IRenderOptions {
 }
 
 const engineCache: any = {};
-export default (
+export function render(
   htmlFile: string,
   element: any,
   state: any,
-  options: IRenderOptions = {} as IRenderOptions,
-) => {
+  options: IRenderOptions = {} as IRenderOptions
+) {
   return new Promise((resolve, reject) => {
     let output = '';
     const perfData: { renderTime: number; renderStart: number } = {
@@ -32,12 +33,12 @@ export default (
       }
       const htmlEngine: HtmlTemplateHelper = engineCache[htmlFile];
       output = htmlEngine.combine({
-        RICH_IMAGE_INSERTER: options.richImg,
         HTML_PLACEHOLDER: domString,
-        STYLE_PLACEHOLDER: options.style,
         STATE_PLACEHOLDER: state || {},
         PERF_INSERTER: perfData,
-        TITLE_INSERTER: options.titleInfo, // 修改title
+        RICH_IMAGE_INSERTER: options.richImg,
+        STYLE_PLACEHOLDER: options.style,
+        TITLE_INSERTER: options.title, // 修改title
         KEYWORDS_INSERTER: options.keywords, // 修改keywords
         DESCRIPTION_INSERTER: options.description, // 修改description
         EXTRA_DATA_PLACEHOLDER: options.extraData || {},
@@ -47,4 +48,13 @@ export default (
       reject(e);
     }
   });
+}
+export const mapToString = (list: string[], dir: string) => {
+  return list.reduce(
+    (p, c) => {
+      p[c.split('.')[0]] = path.join(dir, c);
+      return p;
+    },
+    {} as { [key: string]: string }
+  );
 };

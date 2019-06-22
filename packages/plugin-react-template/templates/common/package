@@ -6,10 +6,12 @@
   "main": "app/index.js",
   <% } %>
   "scripts": {
+     <% if(!ssr) {%>
     "dev": "k dev --eslint",
+    <% } %>
     "build": "k build",
     <% if(ssr) {%>
-    "dev:ssr":"k dev --eslint -s & npm run server:dev",
+    "dev":"k dev --eslint -s & npm run server:dev",
     "server:dev": "cross-env A8K_ENV=development nodemon server/index.js",
     <% } %>
     "clean": "rimraf -rf public/ && rimraf -rf pack/",

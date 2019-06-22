@@ -76,7 +76,7 @@
     "bootstrap": "lerna bootstrap --no-ci",
     "lint": "lerna run lint --parallel && eslint packages --ext .js",
     "lint:fix": "eslint packages --ext .js --fix",
-    "build": "lerna run build --parallel",
+    "build": "lerna run build",
     "dev": "lerna run dev --parallel",
     "test": "lerna run test --parallel",
     "lerna:version": "lerna version --conventional-commits",

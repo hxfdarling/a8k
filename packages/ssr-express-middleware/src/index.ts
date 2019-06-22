@@ -1,7 +1,7 @@
 import logger from '@a8k/cli-utils/logger';
 import { mapToString, render } from '@a8k/ssr-utils';
+import { Request, Response } from 'express';
 import fs from 'fs';
-import { Context } from 'koa';
 import path from 'path';
 import url from 'url';
 
@@ -21,8 +21,8 @@ function middleware(options: { entryDir?: string; viewDir?: string } = {}) {
   logger.debug('entry', entries);
   logger.debug('views', views);
 
-  return async (ctx: Context, next: () => void) => {
-    let { pathname } = url.parse(ctx.url);
+  return async (req: Request, res: Response, next: () => void) => {
+    let { pathname } = url.parse(req.url);
     pathname = (pathname || '').replace('/', '');
     if (!/\.html$/.test(pathname)) {
       return next();
@@ -39,10 +39,11 @@ function middleware(options: { entryDir?: string; viewDir?: string } = {}) {
       // tslint:disable-next-line: no-empty
       const { default: element, bootstrap = async () => {} } = entry;
       const { state, element: newElement, ...renderOptions } =
-        (await bootstrap(ctx)) || ({} as any);
+        (await bootstrap({ res, req })) || ({} as any);
       const html = await render(views[key], newElement || element, state, renderOptions);
-      ctx.status = 200;
-      ctx.body = html;
+      req.statusCode = 200;
+      req.statusMessage = 'ok';
+      req.body = html;
     } else {
       return next();
     }

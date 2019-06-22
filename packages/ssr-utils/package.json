@@ -1,6 +1,6 @@
 {
-  "name": "@a8k/ssr-koa-middleware",
-  "version": "2.0.0-beta.5",
+  "name": "@a8k/ssr-utils",
+  "version": "1.0.0",
   "description": "",
   "main": "lib/common/index.js",
   "module": "lib/esm/index.js",
@@ -11,7 +11,7 @@
     "build": "rimraf lib && npm run build:esm & npm run build:common",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --project tsconfig.json --fix",
-    "test": "jest --rootDir ./src --passWithNoTests",
+    "test": "jest --coverage --rootDir ./src --passWithNoTests",
     "test:w": "jest --watchAll --rootDir ./src --passWithNoTests"
   },
   "husky": {
@@ -53,18 +53,16 @@
     }
   },
   "devDependencies": {
+    "@types/react-dom": "^16.8.4",
+    "@types/serialize-javascript": "^1.5.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
   "peerDependencies": {
-    "react": "~",
-    "react-dom": "~"
-  },
-  "publishConfig": {
-    "access": "public"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "dependencies": {
-    "@a8k/cli-utils": "^2.0.0-beta.5",
-    "@a8k/ssr-utils": "^1.0.0"
+    "serialize-javascript": "^1.7.0"
   }
 }
