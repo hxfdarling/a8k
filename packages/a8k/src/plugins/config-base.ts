@@ -63,10 +63,10 @@ export default class BaseConfig {
       const ownModules = context.rootResolve('node_modules');
       const projectModules = context.resolve('node_modules');
       config.resolve.modules
+        .add('node_modules')
         .add(context.resolve('src'))
         .add(projectModules)
-        .add(ownModules)
-        .add('node_modules');
+        .add(ownModules);
 
       config.resolveLoader.modules
         .add(ownModules)
