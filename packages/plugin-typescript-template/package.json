@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-typescript-template",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.9",
   "description": "init typescript project",
   "author": "eden <hxfdarling@hotmail.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-typescript-template#readme",

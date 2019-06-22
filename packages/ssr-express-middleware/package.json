@@ -1,6 +1,6 @@
 {
   "name": "@a8k/ssr-express-middleware",
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "description": "",
   "main": "lib/common/index.js",
   "module": "lib/esm/index.js",
@@ -67,6 +67,6 @@
   },
   "dependencies": {
     "@a8k/cli-utils": "^2.0.0-beta.5",
-    "@a8k/ssr-utils": "^2.0.0-beta.8"
+    "@a8k/ssr-utils": "^2.0.0-beta.9"
   }
 }
