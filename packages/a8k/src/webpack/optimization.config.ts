@@ -33,7 +33,7 @@ export default (
       name: context.internals.mode !== ENV_PROD,
       cacheGroups: {
         polyfill: {
-          test: /[\\/]node_modules[\\/](core-js|@babel|babel-runtime|regenerator-runtime)/,
+          test: /[\\/]node_modules[\\/](core-js|@babel|regenerator-runtime)/,
           name: 'polyfill',
           priority: 70,
           minChunks: 1,

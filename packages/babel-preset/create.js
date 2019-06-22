@@ -28,12 +28,19 @@ module.exports = function(api, options, env) {
         {
           useBuiltIns: 'usage',
           corejs: 3,
-          // no longer works with IE 10
-          targets: {
-            ie: 10,
-          },
+          targets:
+            target === 'node'
+              ? {
+                // 根据当前环境的node编译
+                node: true,
+              }
+              : {
+                // 最低支持ie11
+                ie: 11,
+              },
           // 转化为commonjs，为了支持module.exports => export default
-          modules: target === 'node' ? 'commonjs' : 'commonjs',
+          // 为了支持webpack tree shake
+          modules: target === 'node' ? 'commonjs' : false,
         },
       ],
       [
@@ -60,7 +67,6 @@ module.exports = function(api, options, env) {
       //   require('@babel/plugin-transform-runtime').default,
       //   {
       //     corejs: 3,
-      //     regenerator: true,
       //     // https://babeljs.io/docs/en/babel-plugin-transform-runtime#useesmodules
       //     // We should turn this on once the lowest version of Node LTS
       //     // supports ES Modules.
