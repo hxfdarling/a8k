@@ -22,10 +22,10 @@ export default (config: WebpackChain, context: A8k, { type }: IResolveWebpackCon
   const ownModules = context.rootResolve('node_modules');
   const projectModules = context.resolve('node_modules');
   resolve.modules
-    .add(context.resolve('src'))
-    .add(projectModules)
-    .add(ownModules)
-    .add('node_modules');
+    .add('node_modules') // 相对目录优先
+    .add(context.resolve('src')) // 项目根目录
+    .add(projectModules) // 项目node_modules
+    .add(ownModules); // a8k node_modules
 
   config.resolveLoader.modules
     .add(ownModules)
