@@ -41,9 +41,9 @@ function middleware(options: { entryDir?: string; viewDir?: string } = {}) {
       const { state, element: newElement, ...renderOptions } =
         (await bootstrap({ res, req })) || ({} as any);
       const html = await render(views[key], newElement || element, state, renderOptions);
-      req.statusCode = 200;
-      req.statusMessage = 'ok';
-      req.body = html;
+      res.statusCode = 200;
+      res.statusMessage = 'ok';
+      res.send(html);
     } else {
       return next();
     }
