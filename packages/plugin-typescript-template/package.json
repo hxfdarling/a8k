@@ -20,6 +20,7 @@
   },
   "scripts": {
     "dev": "tsc -w -sourceMap",
+    "prepublishOnly": "npm run build",
     "build": "rimraf lib && tsc -p tsconfig.json"
   },
   "bugs": {

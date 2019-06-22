@@ -9,6 +9,7 @@
     "build:esm":"tsc  --outDir lib/esm -m es6",
     "build:common":"tsc  --outDir lib/common -m commonjs",
     "build": "rimraf lib && npm run build:esm & npm run build:common",
+    "prepublishOnly": "npm run test && npm run build",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --project tsconfig.json --fix",
     "test": "jest --coverage --rootDir ./src --passWithNoTests",

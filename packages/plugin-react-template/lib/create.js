@@ -61,6 +61,17 @@ class CreateGenerator extends Generator {
         },
       ]);
       this.props.ssr = ssr;
+      if (ssr) {
+        const { nodeFramework } = await this.prompt([
+          {
+            name: 'nodeFramework',
+            message: '使用koa or express',
+            type: 'list',
+            choices: [{ name: 'koa', value: 'koa' }, { name: 'express', value: 'express' }],
+          },
+        ]);
+        this.props.nodeFramework = nodeFramework;
+      }
     } else {
       let htmlConfig = {
         keywords: 'react,a8k',
@@ -114,7 +125,11 @@ class CreateGenerator extends Generator {
     this._copyTpls([[`multi/${templateFile}`, templateFile]]);
     if (this.props.ssr) {
       // 复制node相关文件
-      this._copyFiles([['multi/server', 'server']]);
+      if (this.props.nodeFramework === 'koa') {
+        this._copyFiles([['multi/server/index.js', 'server/index.js']]);
+      } else {
+        this._copyFiles([['multi/server/index.express.js', 'server/index.js']]);
+      }
       this._copyTpls([['multi/nodemon.json', 'nodemon.json']]);
     }
     createExampleComponent(this, 'src/components', 'Example', false);

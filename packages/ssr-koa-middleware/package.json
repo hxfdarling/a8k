@@ -8,6 +8,7 @@
     "dev": "tsc --sourceMap --outDir lib/common -m commonjs --watch",
     "build:esm": "tsc  --outDir lib/esm -m es6",
     "build:common": "tsc  --outDir lib/common -m commonjs",
+    "prepublishOnly": "npm run test && npm run build",
     "build": "rimraf lib && npm run build:esm & npm run build:common",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --project tsconfig.json --fix",
