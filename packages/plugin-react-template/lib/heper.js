@@ -11,7 +11,7 @@ const toArray = a => {
  */
 const createExampleComponent = (context, dist, name, useConnect) => {
   [
-    ['common/componentTemplate/index.jsx.tpl', `${dist}/${name}/index.jsx`],
+    ['common/componentTemplate/index.js.tpl', `${dist}/${name}/index.js`],
     ['common/componentTemplate/index.scss.tpl', `${dist}/${name}/index.scss`],
   ].forEach(([src, dest]) => {
     src = context.templatePath(...toArray(src));
@@ -25,18 +25,7 @@ const createExampleComponent = (context, dist, name, useConnect) => {
 };
 
 const createMultiExamplePage = (context, name) => {
-  [
-    ['multi/pageTemplate/action_creators.js', `src/pages/${name}/action_creators.js`],
-    ['multi/pageTemplate/action_types.js', `src/pages/${name}/action_types.js`],
-    ['multi/pageTemplate/index.html', `src/pages/${name}/index.html`],
-    ['multi/pageTemplate/index.jsx', `src/pages/${name}/index.jsx`],
-    ['multi/pageTemplate/index.scss', `src/pages/${name}/index.scss`],
-    ['multi/pageTemplate/Container.jsx', `src/pages/${name}/Container.jsx`],
-    ['multi/pageTemplate/ProviderContainer.jsx', `src/pages/${name}/ProviderContainer.jsx`],
-    ['multi/pageTemplate/reducer.js', `src/pages/${name}/reducer.js`],
-    ['multi/pageTemplate/store.js', `src/pages/${name}/store.js`],
-    ['multi/pageTemplate/index.node.jsx', `src/pages/${name}/index.node.jsx`],
-  ].forEach(([src, dest]) => {
+  [['multi/pageTemplate', `src/pages/${name}`]].forEach(([src, dest]) => {
     src = toArray(src);
     dest = toArray(dest);
     context.fs.copyTpl(context.templatePath(...src), context.destinationPath(...dest), {
@@ -47,13 +36,7 @@ const createMultiExamplePage = (context, name) => {
 };
 
 const createSingleExamplePage = (context, name) => {
-  [
-    ['single/pageTemplate/action_creators.js', `src/pages/${name}/action_creators.js`],
-    ['single/pageTemplate/action_types.js', `src/pages/${name}/action_types.js`],
-    ['single/pageTemplate/index.jsx', `src/pages/${name}/index.jsx`],
-    ['single/pageTemplate/index.scss', `src/pages/${name}/index.scss`],
-    ['single/pageTemplate/reducer.js', `src/pages/${name}/reducer.js`],
-  ].forEach(([src, dest]) => {
+  [['single/pageTemplate', `src/pages/${name}`]].forEach(([src, dest]) => {
     src = toArray(src);
     dest = toArray(dest);
     context.fs.copyTpl(context.templatePath(...src), context.destinationPath(...dest), {

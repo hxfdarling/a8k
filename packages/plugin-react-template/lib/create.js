@@ -118,7 +118,7 @@ class CreateGenerator extends Generator {
       this._copyTpls([['multi/nodemon.json', 'nodemon.json']]);
     }
     createExampleComponent(this, 'src/components', 'Example', false);
-    createMultiExamplePage(this, 'example');
+    createMultiExamplePage(this, 'index');
   }
 
   _commonFiles() {
