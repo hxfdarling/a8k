@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import webpack from 'webpack';
 import A8k from '..';
 import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '../const';
 import { ICommandOptions } from '../interface';
@@ -18,13 +19,17 @@ export default class BuildCommand {
       .option('--no-silent', '输出日志')
       .option('--dev', '环境变量使用 development')
       .option('--inspectWebpack', '输出webpack配置信息')
-      .action(async ({ dev, analyzer, inspectWebpack, sourceMap, mini, silent }) => {
+      .option('-t,--target [target]', '可选择构建all,browser,node', 'all')
+      .action(async ({ dev, analyzer, inspectWebpack, sourceMap, mini, silent, target }) => {
         await cleanUnusedCache(context);
         // 为了让react这样的库不要使用压缩代码;
         process.env.NODE_ENV = dev ? ENV_DEV : ENV_PROD;
 
         context.options.inspectWebpack = inspectWebpack;
         context.internals.mode = BUILD_ENV.PRODUCTION;
+
+        const buildBrowser = target === 'all' || target === 'browser';
+        const buildNode = target === 'all' || target === 'node';
 
         const options: ICommandOptions = {
           sourceMap,
@@ -43,27 +48,26 @@ export default class BuildCommand {
         //   config = smp.wrap(config);
         // }
 
-        await hooks.invokePromise('beforeBuild', context);
-        // logWithSpinner('clean frontend dist dir.');
-        // stopSpinner();
-
-        fs.emptyDirSync(context.config.dist);
-        const webpackConfig = context.resolveWebpackConfig({
-          ...options,
-          type: BUILD_TARGET.BROWSER,
-        });
-        const compiler = context.createWebpackCompiler(webpackConfig);
-        compiler.hooks.done.tap('done', stats => {
-          if (stats.hasErrors()) {
-            process.exit(-1);
-          }
-        });
-        const clientCompiler = context
-          .runCompiler(compiler)
-          .then(() => hooks.invokePromise('afterBuild', context));
-
+        let clientCompiler: Promise<any>;
+        if (buildBrowser) {
+          await hooks.invokePromise('beforeBuild', context);
+          fs.emptyDirSync(context.config.dist);
+          const webpackConfig = context.resolveWebpackConfig({
+            ...options,
+            type: BUILD_TARGET.BROWSER,
+          });
+          const compiler = context.createWebpackCompiler(webpackConfig);
+          compiler.hooks.done.tap('done', (stats: webpack.Stats) => {
+            if (stats.hasErrors()) {
+              process.exit(-1);
+            }
+          });
+          clientCompiler = context
+            .runCompiler(compiler)
+            .then(() => hooks.invokePromise('afterBuild', context));
+        }
         const { ssrConfig, ssr } = context.config;
-        if (ssr) {
+        if (ssr && buildNode) {
           await hooks.invokePromise('beforeSSRBuild', context);
 
           fs.emptyDirSync(ssrConfig.dist);
@@ -74,13 +78,15 @@ export default class BuildCommand {
             type: BUILD_TARGET.NODE,
           });
           const compilerSSR = context.createWebpackCompiler(webpackConfigSSR);
-          compilerSSR.hooks.done.tap('done', stats => {
+          compilerSSR.hooks.done.tap('done', (stats: webpack.Stats) => {
             if (stats.hasErrors()) {
               process.exit(-1);
             }
           });
           await context.runCompiler(compilerSSR);
-          await clientCompiler;
+          if (buildBrowser) {
+            await clientCompiler;
+          }
           await context.hooks.invokePromise('afterSSRBuild', context);
         }
       });

@@ -4,14 +4,20 @@ const logger = require('./logger');
 
 module.exports = () => {
   let npmCmd = 'npm';
-  if (commandExists('tnpm')) {
+  if (process.env.NPM_CLIENT) {
+    npmCmd = process.env.NPM_CLIENT;
+    logger.debug(`use npm client is "${npmCmd}"`);
+    if (!commandExists(npmCmd)) {
+      logger.warn(`${npmCmd} npm client is maybe not exists`);
+    }
+  } else if (commandExists('tnpm')) {
     npmCmd = 'tnpm';
     if (
-      shell.exec(`${npmCmd} info tnpm`, {
+      shell.exec(`${npmCmd} info npm`, {
         silent: true,
       }).stderr
     ) {
-      logger.warn('tnpm 服务无法访问,将使用npm执行');
+      logger.warn(`${npmCmd} not work, use npm instead of ${npmCmd}`);
       npmCmd = 'npm';
     }
   }
