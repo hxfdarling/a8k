@@ -32,16 +32,16 @@ a8k 提供的插件开发主要依赖于 a8k 实例提供的 hook 机制，通�
 ### 插件结构
 
 ```js
-module.export = class YouPlugin {
+export default class YouPlugin {
+  name = 'you plugin name';
   constructor(options) {
-    this.name = 'you plugin name';
     this.options = options;
   }
   // 必须提供的方法，在插件挂载时调用
   apply(context) {
     // context 是a8k实例对象，所有的api由该对象提供
   }
-};
+}
 ```
 
 ### API
@@ -65,11 +65,15 @@ module.export = class YouPlugin {
 示例：
 
 ```js
-class A8kPlugin {
+export default class A8kPlugin {
+  name = 'you plugin name';
   apply(context) {
     context.hook('chainWebpack', (config, { type }) => {
       if (type === 'browser' && context.internals.mode === 'development') {
         config.plugin('plugin-name').use(require('plugin'), ['params1', 'params2']);
+        config.plugin('xxx').tap(options => {
+          return { options, extraOption: {} };
+        });
       }
     });
   }
@@ -94,6 +98,7 @@ module.exports = {
 
 ```js
 module.exports = class Plugin {
+  name = 'you plugin name';
   apply(context) {
     context
       .registerCommand('demo')
@@ -113,8 +118,35 @@ k demo -d test demo
 ## output: test demo
 ```
 
+### context.registerCreateType(type:string,description:string,action:Function)
+
+注册项目模板，可以扩展项目模板。type 表示项目类型，description 描述信息，action 回调函数。
+示例：
+
+```js
+export default class Plugin {
+  name = 'you plugin name';
+  apply(context) {
+    context
+      .registerCreateType('vue', 'vue模板项目'，({ type, name, projectDir }) => {
+        console.log(type);
+      });
+  }
+}
+```
+
+使用方式：
+
+```bash
+k create you-project-name vue
+```
+
 ## 模板项目开发
 
 模板项目可以参考 a8k 项目下`packages/plugin-react-template`
 
 > 更多 api 参考[a8k 入口文件定义](https://github.com/hxfdarling/a8k/blob/master/packages/a8k/src/index.ts#L28)
+
+```
+
+```

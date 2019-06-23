@@ -40,6 +40,7 @@ export default class A8k {
   public pkg: any;
   public configFilePath: string;
   public plugins: any[] = [];
+  private pluginsSet = new Set<string>();
   private inspectWebpackConfigPath: string;
   private createProjectCommandTypes: Array<{
     type: string;
@@ -316,12 +317,24 @@ export default class A8k {
     ];
     this.plugins = loadPlugins(plugins, this.options.baseDir);
     for (const [Plugin, options] of this.plugins) {
+      let pluginInst = null;
       if (Plugin instanceof Function) {
-        const plugin = new Plugin(options);
-        plugin.apply(this);
+        pluginInst = new Plugin(options);
       } else {
-        Plugin.apply(this, options);
+        pluginInst = Plugin;
       }
+      pluginInst.apply(this, options);
+
+      const pluginName = pluginInst.name;
+
+      if (!pluginName) {
+        throw new Error('plugin name not found\n' + Plugin);
+      }
+      logger.debug('use plugin ' + pluginName);
+      if (this.pluginsSet.has(pluginName)) {
+        logger.warn(pluginName + ' plugin name have exists');
+      }
+      this.pluginsSet.add(pluginName);
     }
   }
 

@@ -4,8 +4,8 @@ module.exports = {
   locales: {
     '/': {
       lang: 'zh-CN',
-      title: 'a8k',
-      description: '集成 webpack + react 的最佳实践配置的构建工具',
+      title: 'A8K',
+      description: '基于 webpack 的最佳实践配置的前端工程化工具',
     },
   },
   themeConfig: {
