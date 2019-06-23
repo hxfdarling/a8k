@@ -3,14 +3,17 @@ import logger from '@a8k/cli-utils/logger';
 import spinner from '@a8k/cli-utils/spinner';
 import program, { Command } from 'commander';
 import fs from 'fs-extra';
+import globalModules from 'global-modules';
 import inquirer from 'inquirer';
 import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
+import WebpackChain from 'webpack-chain';
 import { BUILD_ENV, BUILD_TARGET } from './const';
 import defaultConfig from './default-config';
 import Hooks from './hooks';
 import { A8kConfig, A8kOptions, Internals, IResolveWebpackConfigOptions } from './interface';
+import { getConfig, setConfig } from './utils/global-config';
 import loadPkg from './utils/load-pkg';
 import loadPlugins from './utils/load-plugins';
 
@@ -28,6 +31,7 @@ program.on('command:*', () => {
   process.exit(1);
 });
 
+type emptyFn = () => void;
 export default class A8k {
   public options: A8kOptions;
   public config: A8kConfig;
@@ -250,6 +254,56 @@ export default class A8k {
         }
       });
     this.applyPlugins();
+    this.registerCommand('plugin <type> [pluginName]')
+      .description('编辑全局插件列表，模板插件可以添加到全局')
+      .action((type: string, pluginName: string) => {
+        const plugins: string[] = getConfig('plugins', []);
+        switch (type) {
+          case 'add':
+            if (!pluginName) {
+              logger.error('pluginName param not found');
+              return;
+            }
+            spinner.logWithSpinner('check plugin ' + pluginName);
+            if (plugins.indexOf(pluginName) >= 0) {
+              spinner.stop();
+              logger.info(pluginName + ' exists ');
+              return;
+            }
+            try {
+              resolveFrom(globalModules, pluginName);
+            } catch (e) {
+              spinner.fail();
+              logger.error(pluginName + ' plugin not found from ' + globalModules);
+              return;
+            }
+            spinner.succeed();
+            plugins.push(pluginName);
+            setConfig('plugins', plugins);
+            spinner.succeed(pluginName + ' success add to global config');
+            break;
+          case 'delete':
+            if (!pluginName) {
+              logger.error('pluginName param not found');
+              return;
+            }
+            setConfig('plugins', plugins.filter((p: string) => p !== pluginName));
+            break;
+          case 'ls':
+          case 'list':
+            console.log('plugin list:');
+            plugins.forEach((name: string) => {
+              console.log();
+              console.log(name);
+            });
+            console.log();
+            console.log('plugin total: ' + plugins.length);
+            break;
+          default:
+            console.log('only support type: add,delete,list');
+        }
+      });
+
     logger.debug('App envs', JSON.stringify(this.getEnvs(), null, 2));
   }
 
@@ -268,7 +322,7 @@ export default class A8k {
 
     let envs = {};
 
-    dotenvFiles.forEach(dotenvFile => {
+    dotenvFiles.forEach((dotenvFile: string) => {
       if (fs.existsSync(dotenvFile)) {
         logger.debug('Using env file:', dotenvFile);
         const config = require('dotenv-expand')(
@@ -298,8 +352,8 @@ export default class A8k {
     });
   }
 
-  public applyPlugins() {
-    const plugins = [
+  private applyPlugins() {
+    const buildInPlugins = [
       [require('@a8k/plugin-react-template'), []],
       [require('@a8k/plugin-typescript-template'), []],
       [require('@a8k/plugin-sb-react'), []],
@@ -313,26 +367,43 @@ export default class A8k {
       require('./plugins/command-test'),
       require('./plugins/command-utils'),
       require('./plugins/command-init'),
-      ...(this.config.plugins || []),
     ];
-    this.plugins = loadPlugins(plugins, this.options.baseDir);
-    for (const [Plugin, options] of this.plugins) {
+    const { baseDir } = this.options;
+    this.initPlugins(loadPlugins(buildInPlugins, baseDir), 'build-in');
+    this.initPlugins(loadPlugins(this.config.plugins || [], baseDir), 'custom');
+    const globalPlugins = getConfig('plugins') || [];
+    try {
+      this.initPlugins(loadPlugins(globalPlugins, globalModules), 'global');
+    } catch (e) {
+      logger.error('global init error');
+      console.log('global plugin list:');
+      globalPlugins.forEach((name: string) => console.log(name));
+      console.error(e);
+    }
+  }
+  private initPlugins(plugins: any, type: string) {
+    this.plugins.push(...plugins);
+    for (const [Plugin, options, resolve] of plugins) {
       let pluginInst = null;
       if (Plugin instanceof Function) {
         pluginInst = new Plugin(options);
       } else {
         pluginInst = Plugin;
       }
-      pluginInst.apply(this, options);
-
       const pluginName = pluginInst.name;
+      try {
+        pluginInst.apply(this, options);
+      } catch (e) {
+        logger.error('plugin ' + (resolve || '') + ' apply error ');
+        throw e;
+      }
 
       if (!pluginName) {
         throw new Error('plugin name not found\n' + Plugin);
       }
-      logger.debug('use plugin ' + pluginName);
+      logger.debug('[' + type + ']use plugin ' + pluginName);
       if (this.pluginsSet.has(pluginName)) {
-        logger.warn(pluginName + ' plugin name have exists');
+        logger.warn('[' + type + ']' + pluginName + ' plugin name have exists');
       }
       this.pluginsSet.add(pluginName);
     }
@@ -349,7 +420,6 @@ export default class A8k {
   }
 
   public resolveWebpackConfig(options: IResolveWebpackConfigOptions) {
-    const WebpackChain = require('webpack-chain');
     const config = new WebpackChain();
 
     options = {
@@ -436,29 +506,19 @@ export default class A8k {
   public registerCommand(command: string): Command {
     return this.cli.command(command);
   }
-  public registerCreateType(type: string, description: string, action: () => void): A8k {
+  public registerCreateType(type: string, description: string, action: emptyFn): A8k {
     this.createProjectCommandTypes.push({ type, description, action });
     return this;
   }
-  public registerPageType(type: string, description: string, action): A8k {
+  public registerPageType(type: string, description: string, action: emptyFn): A8k {
     this.createPageCommand.push({ type, description, action });
     return this;
   }
-  public registerComponentType(type: string, description: string, action): A8k {
+  public registerComponentType(type: string, description: string, action: emptyFn): A8k {
     this.createComponentCommand.push({ type, description, action });
     return this;
   }
-
-  public hasPlugin(name: string) {
-    return this.plugins && this.plugins.find(plugin => plugin.resolve.name === name);
-  }
-
-  public removePlugin(name: string) {
-    this.plugins = this.plugins.filter(plugin => plugin.resolve.name !== name);
-    return this;
-  }
-
-  public chainWebpack(fn: Function) {
+  public chainWebpack(fn: (config: WebpackChain, options: IResolveWebpackConfigOptions) => void) {
     this.hooks.add('chainWebpack', fn);
     return this;
   }

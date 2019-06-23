@@ -1,4 +1,5 @@
 import resolveFrom from 'resolve-from';
+
 function requireFrom(dir: string, filePath: string): string {
   try {
     return require(filePath);
@@ -14,7 +15,11 @@ export default (plugins: any[], cwd: string) => {
         plugin = [plugin, []];
       }
       if (plugin && plugin[0]) {
-        return [typeof plugin[0] === 'string' ? requireFrom(cwd, plugin[0]) : plugin[0], plugin[1]];
+        return [
+          typeof plugin[0] === 'string' ? requireFrom(cwd, plugin[0]) : plugin[0],
+          plugin[1],
+          plugin[0],
+        ];
       }
       throw new TypeError(`Invalid plugin: ${plugin}`);
     })
