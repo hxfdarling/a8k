@@ -35,8 +35,8 @@ export default (
       minimize: mini && mode === BUILD_ENV.PRODUCTION,
     })
     .end()
-    .use('imt-nunjucks-loader')
-    .loader('imt-nunjucks-loader')
+    .use('nunjucks-loader')
+    .loader('@a8k/nunjucks-loader')
     .options({
       context: {
         envs,
