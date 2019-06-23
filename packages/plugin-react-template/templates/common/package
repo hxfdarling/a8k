@@ -2,6 +2,7 @@
   "name": "<%= name %>",
   "version": "1.0.0",
   "description": "",
+  "sideEffects":[],
   <% if(ssr) {%>
   "main": "app/index.js",
   <% } %>
@@ -48,13 +49,13 @@
     "core-js": "^3.1.4",
     "classnames": "^2.2.1",
     <% if(ssr && nodeFramework==="koa") {%>
-    "@a8k/ssr-koa-middleware": "^2.0.0-beta.10",
+    "@a8k/ssr-koa-middleware": "*",
     "koa": "^2.6.2",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     <% } %>
     <% if(ssr && nodeFramework==="express") {%>
-    "@a8k/ssr-express-middleware": "^2.0.0-beta.10",
+    "@a8k/ssr-express-middleware": "*",
     "express": "^4.17.1",
     <% } %>
     "lodash": "^4.17.11",
