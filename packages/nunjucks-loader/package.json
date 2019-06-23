@@ -17,5 +17,8 @@
     "loader-utils": "^1.1.0",
     "nunjucks": "^3.0.0"
   },
-  "author": "zman"
+  "author": "zman",
+  "publishConfig": {
+    "access": "public"
+  }
 }
