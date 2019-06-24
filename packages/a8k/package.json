@@ -1,6 +1,6 @@
 {
   "name": "a8k",
-  "version": "2.0.0-beta.13",
+  "version": "2.0.0-beta.14",
   "bin": {
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js",
@@ -34,8 +34,8 @@
     "@a8k/cli-utils": "^2.0.0-beta.5",
     "@a8k/dev-utils": "^1.17.4",
     "@a8k/html-loader": "^2.0.0-beta.2",
-    "@a8k/nunjucks-loader": "^2.0.0-beta.13",
-    "@a8k/plugin-react-template": "^2.0.0-beta.13",
+    "@a8k/nunjucks-loader": "^2.0.0-beta.14",
+    "@a8k/plugin-react-template": "^2.0.0-beta.14",
     "@a8k/plugin-sb-react": "^2.0.0-beta.5",
     "@a8k/plugin-typescript-template": "^2.0.0-beta.10",
     "@babel/runtime": "^7.4.5",
