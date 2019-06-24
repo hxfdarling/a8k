@@ -120,7 +120,7 @@ class CreateGenerator extends Generator {
   }
 
   async _multiPages() {
-    const templateFile = 'src/assets/template.html';
+    const templateFile = 'src/common/template.html';
     this._copyFiles([['multi/src', 'src']]);
     this._copyTpls([[`multi/${templateFile}`, templateFile]]);
     if (this.props.ssr) {
@@ -157,6 +157,7 @@ class CreateGenerator extends Generator {
       ['common/README.md', 'README.md'],
     ]);
     this._copyFiles([['common/assets', 'src/assets']]);
+    this._copyFiles([['common/common', 'src/common']]);
   }
 
   _copyFiles(files = []) {

@@ -4,7 +4,7 @@
 
 ## 拥有什么能力
 
-1. 集成 React 模板项目，支持SSR
+1. 集成 React 模板项目，支持 SSR
 2. 集成 webpack 最佳实践配置
 3. 提供高性能的构建体验
 4. 提供优雅的开发体验
@@ -14,7 +14,7 @@
 8. 构建结果 es5 代码检测,避免兼容问题
 9. git 代码提交消息规范检测，避免开发人员随意提交日志
 10. 支持插件机制，灵活可自定义构建配置或命令行工具
-12. 内置 @storybook/react 插件，支持使用 storybook 运行项目组件
+11. 内置 @storybook/react 插件，支持使用 storybook 运行项目组件
 
 ## 使用方法
 
@@ -77,7 +77,8 @@ k sb
 |   ├── assets  公共资源目录
 |   |   ├── css  公共样式
 |   |   ├── images 公共图片
-|   |   ├── polyfill.js 填充库
+|   |   ├── fonts 字体
+|   ├── common 公共代码
 |   |   ├── rem.js 移动端屏幕适配
 |   |   ├── template.html html模板
 |   |   └── vendor.js 第三方库
@@ -144,7 +145,7 @@ module.exports = {
     // view:'',//默认: '.a8k/view'
     // 入口文件,注意如果不配置，将默认认为所有页面支持直出
     entry: {
-      providerDiscover: './src/pages/discover/ProviderDiscover',
+      index: './src/pages/index/index.node',
     },
   },
 

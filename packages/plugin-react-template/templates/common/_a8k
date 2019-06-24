@@ -29,7 +29,7 @@ module.exports = {
   <% } %>
   // 配置额外的入口文件，会在每一个page中引用
   entry:{
-    vendor:['./src/assets/vendor.js'],
+    vendor:['./src/common/vendor'],
   },
   <% if(ssr) { %>
   ssr:true,

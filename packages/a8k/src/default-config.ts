@@ -42,7 +42,7 @@ const config: A8kConfig = {
   entry: {},
   dist: 'dist',
   pagesDir: './src/pages',
-  template: './src/assets/template.html',
+  template: './src/common/template.html',
   cacheBase: '',
   cache: 'node_modules/.cache',
   publicPath: '',
