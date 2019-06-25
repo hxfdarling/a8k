@@ -90,11 +90,6 @@ export default class A8k {
     this.pkg = loadPkg({ cwd: baseDir });
 
     this.initConfig();
-
-    // 客户端定制webpack配置
-    if (this.config.chainWebpack) {
-      this.hooks.add('chainWebpack', this.config.chainWebpack);
-    }
   }
   public initConfig() {
     const { baseDir, configFile } = this.options;
