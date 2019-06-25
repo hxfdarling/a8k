@@ -38,6 +38,11 @@ module.exports = {
 
 a8k 默认会缓存构建中 js、css、html、eslint 的结果，只有当这些文件发生变化时才会重新构建，否则其中所有的 webpack loader 都将从缓存中获取结果，目的是为了提高构建性能
 
+### cssModules
+
+类型`boolean` or `Object`，默认值:false,当设置为 true，将自动启用 css modules 能力
+参考文档[css-loader](https://github.com/webpack-contrib/css-loader#modules)
+
 ### babel
 
 用于指定 babel 需要处理的额外文件或者需要忽略的文件，这在你调试某些库（需要被编译的代码）时非常用，支持两个配置：

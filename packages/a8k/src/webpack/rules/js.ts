@@ -4,9 +4,10 @@ import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 import { BUILD_ENV, BUILD_TARGET } from '../../const';
+import { genCssModulesName } from './utils';
 
 export default (config: WebpackChain, context: A8k, { type }) => {
-  const { babel: { include = [], exclude = [] } = {} } = context.config;
+  const { babel: { include = [], exclude = [] } = {}, cssModules } = context.config;
 
   // TODO 需要抽离成插件？
   // 加载 imui 里的 // @require '.css'
@@ -25,10 +26,10 @@ export default (config: WebpackChain, context: A8k, { type }) => {
     .include // 热重载插件需要被编译
     .add(context.resolve('src'))
     .add(context.resolve('node_modules/@tencent'))
-    .add(/lodash-es/)
-    // 开发模式注入的代码,需要编译，否则 ie 下面不支持const语法
-    // .add(path.resolve(require.resolve('@a8k/dev-utils/webpackHotDevClient'), '../'))
-    // .add(/strip-ansi|chalk|ansi-styles|ansi-regex/);
+    .add(/lodash-es/);
+  // 开发模式注入的代码,需要编译，否则 ie 下面不支持const语法
+  // .add(path.resolve(require.resolve('@a8k/dev-utils/webpackHotDevClient'), '../'))
+  // .add(/strip-ansi|chalk|ansi-styles|ansi-regex/);
 
   // 自定义babel处理内容
   include.forEach(i => (rule = rule.add(i)));
@@ -70,6 +71,26 @@ export default (config: WebpackChain, context: A8k, { type }) => {
         ],
       ],
       plugins: [
+        cssModules && [
+          require.resolve('babel-plugin-react-css-modules'),
+          {
+            filetypes: {
+              '.less': {
+                syntax: 'postcss-less',
+              },
+              '.scss': {
+                syntax: 'postcss-scss',
+              },
+              '.styl': {
+                syntax: 'sugarss',
+              },
+            },
+            generateScopedName: genCssModulesName(context),
+            autoResolveMultipleImports: true,
+            webpackHotModuleReloading: true,
+            handleMissingStyleName: 'warn',
+          },
+        ],
         context.internals.mode === BUILD_ENV.DEVELOPMENT &&
           require.resolve('react-hot-loader/babel'),
       ].filter(Boolean),

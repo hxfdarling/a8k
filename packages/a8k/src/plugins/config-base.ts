@@ -1,6 +1,6 @@
 import WebpackChain, { DevTool } from 'webpack-chain';
 import A8k from '..';
-import { BUILD_TARGET, ENV_DEV } from '../const';
+import { BUILD_ENV, BUILD_TARGET } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 import getFileNames from '../utils/get-filenames';
 import optimization from '../webpack/optimization.config';
@@ -30,7 +30,7 @@ export default class BaseConfig {
 
       if (type === BUILD_TARGET.BROWSER || type === BUILD_TARGET.STORYBOOK) {
         let devtool: DevTool = false;
-        if (context.internals.mode === ENV_DEV) {
+        if (context.internals.mode === BUILD_ENV.DEVELOPMENT) {
           devtool = 'cheap-module-eval-source-map';
         } else if (options.sourceMap) {
           // 其他模式可以选择开启

@@ -3,14 +3,16 @@ import logger from '@a8k/cli-utils/logger';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
+import { BUILD_ENV } from '../../const';
 import { IResolveWebpackConfigOptions } from '../../interface';
+import { genCssModulesName } from './utils';
 
 const testMap = {
   css: /\.(css)$/,
   sass: /\.(scss)$/,
   less: /\.(less)$/,
 };
-
+let warnOnce = false;
 export class GenerateLoaders {
   public rule: WebpackChain.Rule;
   public context: A8k;
@@ -148,11 +150,22 @@ export class GenerateLoaders {
         .loader(MiniCssExtractPlugin.loader)
         .options({
           publicPath: context.config.publicPath,
+          hmr: context.internals.mode === BUILD_ENV.DEVELOPMENT,
           sourceMap,
         })
         .end();
     }
-
+    let modules = this.context.config.cssModules;
+    if (modules) {
+      if (modules === true) {
+        modules = {};
+      }
+      if (modules.localIdentName && !warnOnce) {
+        warnOnce = true;
+        logger.warn(`you can't override cssModules.localIdentName`);
+      }
+      modules = { ...modules, localIdentName: genCssModulesName(context) };
+    }
     this.rule = this.rule
       .use('cache-loader')
       .loader('cache-loader')
@@ -165,6 +178,7 @@ export class GenerateLoaders {
       .options({
         importLoaders,
         sourceMap,
+        modules,
       })
       .end();
 
@@ -177,7 +191,7 @@ export default (
   config: WebpackChain,
   context: A8k,
   options: IResolveWebpackConfigOptions,
-  needExtraCss: boolean,
+  needExtraCss: boolean
 ) => {
   const rule = config.module.rule(type).test(testMap[type]);
   const gen = new GenerateLoaders(rule, context, options);

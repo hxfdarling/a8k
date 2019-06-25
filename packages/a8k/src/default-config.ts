@@ -47,6 +47,7 @@ const config: A8kConfig = {
   cache: 'node_modules/.cache',
   publicPath: '',
   devServer,
+  cssModules: false,
   ssr: false,
   ssrConfig: {
     // js存放地址

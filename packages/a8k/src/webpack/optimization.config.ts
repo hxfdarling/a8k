@@ -1,7 +1,7 @@
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_TARGET, ENV_PROD } from '../const';
+import { BUILD_ENV, BUILD_TARGET, ENV_PROD } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 
 export default (
@@ -11,7 +11,7 @@ export default (
 ) => {
   config.optimization.minimize(false);
 
-  if (context.internals.mode === ENV_PROD && mini) {
+  if (context.internals.mode === BUILD_ENV.PRODUCTION && mini) {
     config.optimization.set('moduleIds', 'hashed');
   } else {
     config.optimization.set('moduleIds', 'named');
@@ -78,7 +78,7 @@ export default (
     // Keep the runtime chunk seperated to enable long term caching
     config.optimization.runtimeChunk('single');
 
-    if (context.internals.mode === ENV_PROD && mini) {
+    if (context.internals.mode === BUILD_ENV.PRODUCTION && mini) {
       config.optimization.minimize(true);
     }
     const TerserPlugin = require('terser-webpack-plugin');

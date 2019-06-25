@@ -58,7 +58,14 @@ interface A8kConfig {
         allowHashBang?: boolean;
         exclude?: Array<string>;
       };
-
+  cssModules:
+    | boolean
+    | {
+        mode?: string;
+        localIdentName?: string;
+        context?: string;
+        hashPrefix?: string;
+      };
   // [key: string]: any;
 }
 

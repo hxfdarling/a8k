@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_TARGET, ENV_PROD, PROJECT_MODE } from '../const';
+import { BUILD_ENV, BUILD_TARGET, PROJECT_MODE } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 import EmptyPlugin from '../webpack/plugins/empty-plugin';
 
@@ -108,7 +108,7 @@ export default class HtmlConfig {
           config.plugin('sri-plugin').use(SriPlugin, [
             {
               hashFuncNames: ['sha256'],
-              enabled: context.internals.mode === ENV_PROD,
+              enabled: context.internals.mode === BUILD_ENV.PRODUCTION,
             },
           ]);
         }

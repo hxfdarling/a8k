@@ -14,7 +14,7 @@ export default (
   // 生产模式和服务器渲染调试时，开启这个模式防止样式抖动
   const needExtraCss = context.internals.mode === BUILD_ENV.PRODUCTION || ssr;
 
-  if (type === BUILD_TARGET.NODE) {
+  if (type === BUILD_TARGET.NODE && !context.config.cssModules) {
     // 服务端渲染，直接忽略css
     config.module
       .rule('css-sass-less')
@@ -36,6 +36,10 @@ export default (
   if (needExtraCss) {
     const MiniCssExtractPlugin = require('mini-css-extract-plugin');
     MiniCssExtractPlugin.__expression = "require('mini-css-extract-plugin')";
-    config.plugin('mini-css-extract-plugin').use(MiniCssExtractPlugin, [{ filename }]);
+    config.plugin('mini-css-extract-plugin').use(MiniCssExtractPlugin, [
+      {
+        filename,
+      },
+    ]);
   }
 };
