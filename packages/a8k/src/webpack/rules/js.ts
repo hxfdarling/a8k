@@ -7,7 +7,8 @@ import { BUILD_ENV, BUILD_TARGET } from '../../const';
 import { genCssModulesName } from './utils';
 
 export default (config: WebpackChain, context: A8k, { type }) => {
-  const { babel: { include = [], exclude = [] } = {}, cssModules } = context.config;
+  const { babel: { include = [], exclude = [] } = {}, cssModules, cache } = context.config;
+  const { mode } = context.internals;
 
   // TODO 需要抽离成插件？
   // 加载 imui 里的 // @require '.css'
@@ -63,7 +64,7 @@ export default (config: WebpackChain, context: A8k, { type }) => {
     .options({
       babelrc,
       // cacheDirectory 缓存babel编译结果加快重新编译速度
-      cacheDirectory: path.resolve(context.config.cache, 'babel-loader'),
+      cacheDirectory: path.resolve(cache, 'babel-loader'),
       presets: [
         [
           require.resolve('@a8k/babel-preset'),
@@ -87,12 +88,11 @@ export default (config: WebpackChain, context: A8k, { type }) => {
             },
             generateScopedName: genCssModulesName(context),
             autoResolveMultipleImports: true,
-            webpackHotModuleReloading: true,
+            webpackHotModuleReloading: mode === BUILD_ENV.DEVELOPMENT,
             handleMissingStyleName: 'warn',
           },
         ],
-        context.internals.mode === BUILD_ENV.DEVELOPMENT &&
-          require.resolve('react-hot-loader/babel'),
+        mode === BUILD_ENV.DEVELOPMENT && require.resolve('react-hot-loader/babel'),
       ].filter(Boolean),
     });
 };
