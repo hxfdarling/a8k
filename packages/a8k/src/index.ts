@@ -10,7 +10,7 @@ import path from 'path';
 import resolveFrom from 'resolve-from';
 import WebpackChain from 'webpack-chain';
 import { BUILD_ENV, BUILD_TARGET } from './const';
-import defaultConfig from './default-config';
+import defaultConfig, { ssrConfig } from './default-config';
 import Hooks from './hooks';
 import { A8kConfig, A8kOptions, Internals, IResolveWebpackConfigOptions } from './interface';
 import { getConfig, setConfig } from './utils/global-config';
@@ -108,6 +108,13 @@ export default class A8k {
     } else {
       logger.debug('a8k is not using any config file');
     }
+    if (this.config.ssrDevServer) {
+      logger.wran('ssrDevServer Deprecated ,instead of ssrConfig');
+      this.config.ssrConfig = { ...this.config.ssrDevServer };
+    }
+    if (this.config.ssrConfig) {
+      this.config.ssrConfig = { ...ssrConfig, ...this.config.ssrConfig };
+    }
     this.config = merge(defaultConfig, this.config);
 
     // 构建输出文件根目录
@@ -120,10 +127,11 @@ export default class A8k {
     this.config.cacheBase = path.resolve(this.config.cache);
     // 缓存版本标记
     this.config.cache = path.resolve(this.config.cache, `v-${version}`);
-    // ssr配置
-    this.config.ssrConfig.dist = this.resolve(this.config.ssrConfig.dist);
-    this.config.ssrConfig.view = this.resolve(this.config.ssrConfig.view);
-
+    if (this.config.ssrConfig) {
+      // ssr配置
+      this.config.ssrConfig.dist = this.resolve(this.config.ssrConfig.dist);
+      this.config.ssrConfig.view = this.resolve(this.config.ssrConfig.view);
+    }
     if (process.env.HOST) {
       this.config.devServer.host = process.env.HOST;
     }

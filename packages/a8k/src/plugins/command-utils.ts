@@ -19,7 +19,7 @@ export default class UtilsCommand {
         }
         logWithSpinner('清理构建结果文件');
         await fs.emptyDir(context.config.dist);
-        if (context.config.ssrConfig.entry) {
+        if (context.config.ssrConfig) {
           logWithSpinner('清理SSR构建结果文件');
           await fs.emptyDir(context.config.ssrConfig.view);
           await fs.emptyDir(context.config.ssrConfig.dist);
@@ -36,7 +36,7 @@ export default class UtilsCommand {
           const currentBranch = execSync('git rev-parse --abbrev-ref HEAD').toString();
           const ancestor = execSync(`git merge-base origin/master ${currentBranch}`).toString();
           const masterLatest = execSync(
-            'git log --oneline -n 1 --pretty=format:"%h" origin/master',
+            'git log --oneline -n 1 --pretty=format:"%h" origin/master'
           ).toString();
           if (ancestor.indexOf(masterLatest) === -1) {
             logger.error(Error("current branch doesn't merge the latest master commit!"));

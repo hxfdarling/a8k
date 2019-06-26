@@ -40,27 +40,25 @@ const devServer: WebpackDevServer.Configuration = {
 const config: A8kConfig = {
   mode: PROJECT_MODE.MULTI,
   entry: {},
-  dist: 'dist',
+  dist: './.a8k/static',
   pagesDir: './src/pages',
   template: './src/common/template.html',
   cacheBase: '',
-  cache: 'node_modules/.cache',
+  cache: './.a8k/.cache',
   publicPath: '',
   devServer,
   cssModules: false,
-  ssr: false,
-  ssrConfig: {
-    // js存放地址
-    dist: './.a8k/entry',
-    // html存放地址
-    view: './.a8k/view',
-  },
-  ssrDevServer: {
-    host: 'localhost',
-    contentBase: '',
-    https: false,
-    port: '',
-  },
+  ssrConfig: false,
   escheck: true,
 } as A8kConfig;
+export const ssrConfig = {
+  host: 'localhost',
+  contentBase: '',
+  https: false,
+  port: '',
+  // js存放地址
+  dist: './.a8k/server/entry',
+  // html存放地址
+  view: './.a8k/server/view',
+};
 export default config;

@@ -53,16 +53,18 @@ export default class DevCommand {
         }
 
         const options = { ssr, eslint, stylelint, cssSourceMap };
-        const { devServer, ssrDevServer, ssr: supportSSR, ssrConfig, pagesDir } = context.config;
+        const { devServer, ssrConfig, pagesDir } = context.config;
 
         if (ssr) {
-          const { contentBase, https, port: ssrPort, host } = ssrDevServer;
-          if (!ssrPort) {
-            logger.error('如需要调试直出，请配置 ssrDevServer:{port:xxx} 端口信息');
+          if (!ssrConfig) {
+            logger.error('项目没有启用服务器渲染，请参考文档配置');
             process.exit(-1);
+            return;
           }
-          if (!supportSSR && !ssrConfig.entry) {
-            logger.error('项目不支持ssr');
+          const { contentBase, https, port: ssrPort, host } = ssrConfig;
+
+          if (!ssrPort) {
+            logger.error('如需要调试直出，请配置 ssrConfig:{port:xxx} 端口信息');
             process.exit(-1);
           }
 

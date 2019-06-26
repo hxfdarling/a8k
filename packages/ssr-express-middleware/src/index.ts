@@ -6,7 +6,7 @@ import path from 'path';
 import url from 'url';
 
 function middleware(options: { entryDir?: string; viewDir?: string } = {}) {
-  const defaultRootDir = path.join(process.cwd(), '.a8k');
+  const defaultRootDir = path.join(process.cwd(), '.a8k/server');
   const entryDir = options.entryDir || path.join(defaultRootDir, 'entry');
   const viewDir = options.viewDir || path.join(defaultRootDir, 'view');
   let entries = {};

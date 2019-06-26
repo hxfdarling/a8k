@@ -10,13 +10,13 @@ export default class SsrConfig {
   public apply(context: A8k) {
     context.chainWebpack(
       (config: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
-        if (type === BUILD_TARGET.NODE) {
+        const { ssrConfig, publicPath, pagesDir } = context.config;
+        if (type === BUILD_TARGET.NODE && ssrConfig) {
           const isDevMode = watch;
           config.mode(isDevMode ? ENV_DEV : ENV_PROD);
           config.devtool(false);
           config.target('node');
 
-          const { ssrConfig, publicPath, pagesDir } = context.config;
           let entry: Array<{ key: string; value: string[] }> = [];
           if (ssrConfig.entry) {
             entry = Object.keys(ssrConfig.entry).map(key => {
@@ -65,11 +65,11 @@ export default class SsrConfig {
           });
         }
         if (type === BUILD_TARGET.BROWSER) {
-          const { ssrConfig, dist, pagesDir, ssr: supportSSR } = context.config;
+          const { ssrConfig, dist, pagesDir } = context.config;
           const { mode } = context.internals;
           // 生产模式，或者开发模式下明确声明参数ssr，时需要添加该插件
           const needSsr = (mode === BUILD_ENV.DEVELOPMENT && ssr) || mode === BUILD_ENV.PRODUCTION;
-          if (needSsr && supportSSR) {
+          if (needSsr) {
             const SSRPlugin = require('../webpack/plugins/ssr-plugin');
             SSRPlugin.__expression = "require('a8k/lib/webpack/plugins/ssr-plugin')";
             config.plugin('ssr-plugin').use(SSRPlugin, [

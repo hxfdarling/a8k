@@ -20,15 +20,21 @@ interface A8kConfig {
   pagesDir: string;
   template: string; // html模板路径
   devServer: WebpackDevServer.Configuration; // webpack-dev-server配置
-  ssr: boolean;
-  ssrConfig: {
-    dist: string;
-    view: string;
-    entry?: {
-      [key: string]: string;
-    };
-  }; //服务器渲染配置
-  ssrDevServer: { contentBase: string; https: boolean; port: string; host: string };
+  //服务器渲染配置
+  ssrConfig:
+    | false
+    | {
+        contentBase: string;
+        https: boolean;
+        port: string;
+        host: string;
+        dist: string;
+        view: string;
+        entry?: {
+          [key: string]: string;
+        };
+      };
+  ssrDevServer: any;
   chainWebpack: Function;
   envs: any; // 配置的.env环境文件
   publicPath: string; //资源的公共路径（CDN、站点路径）
