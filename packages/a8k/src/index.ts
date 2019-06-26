@@ -359,17 +359,16 @@ export default class A8k {
     const buildInPlugins = [
       [require('@a8k/plugin-react-template'), []],
       [require('@a8k/plugin-typescript-template'), []],
-      [require('@a8k/plugin-sb-react'), []],
       require('./plugins/config-base'),
       require('./plugins/config-dev'),
       require('./plugins/config-html'),
       require('./plugins/config-ssr'),
-
       require('./plugins/command-build'),
       require('./plugins/command-dev'),
       require('./plugins/command-test'),
       require('./plugins/command-utils'),
       require('./plugins/command-init'),
+      [require('@a8k/plugin-sb-react'), []],
     ];
     const { baseDir } = this.options;
     this.initPlugins(loadPlugins(buildInPlugins, baseDir), 'build-in');
