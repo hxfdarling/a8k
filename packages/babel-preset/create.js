@@ -2,7 +2,7 @@ module.exports = function(api, options, env) {
   const isEnvDevelopment = env === 'development';
   const isEnvProduction = env === 'production';
   const isEnvTest = env === 'test';
-  const { target } = options;
+  const { target, useBuiltIns } = options;
   if (!isEnvDevelopment && !isEnvProduction && !isEnvTest) {
     throw new Error(
       `${'Using `@a8k/babel-preset` requires that you specify `NODE_ENV` or '
@@ -26,8 +26,8 @@ module.exports = function(api, options, env) {
         // Latest stable ECMAScript features
         require('@babel/preset-env').default,
         {
-          useBuiltIns: 'usage',
-          corejs: 3,
+          useBuiltIns,
+          corejs: useBuiltIns ? 3 : false,
           targets:
             target === 'node'
               ? {

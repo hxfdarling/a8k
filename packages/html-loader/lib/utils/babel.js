@@ -5,15 +5,10 @@ module.exports = (code, options) => {
     minified: options.minimize,
     presets: [
       [
-        require('@babel/preset-env').default,
+        require('@a8k/babel-preset'),
         {
-          // no longer works with IE 10
-          targets: {
-            ie: 10,
-          },
-          // Users cannot override this behavior because this Babel
-          // configuration is highly tuned for ES5 support
-          ignoreBrowserslistConfig: true,
+          target: 'browser',
+          useBuiltIns: false,
         },
       ],
     ],

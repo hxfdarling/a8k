@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": ["target"],
+  "properties": {
+    "target": {
+      "type": "string",
+      "enum": ["node", "browser"]
+    },
+    "useBuiltIns": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": ["usage", "entry"]
+        },
+        {
+          "type": "boolean",
+          "enum": [false]
+        }
+      ]
+    }
+  }
+}
