@@ -4,6 +4,7 @@ node_modules
 /packages/ssr-koa-middleware/lib
 /packages/ssr-express-middleware/lib
 /packages/ssr-utils/lib
+/packages/common/lib
 a8k.config.js
 jest.config.js
 coverage

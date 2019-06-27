@@ -1,5 +1,5 @@
+import { PROJECT_MODE } from '@a8k/common/lib/constants';
 import WebpackDevServer from 'webpack-dev-server';
-import { PROJECT_MODE } from './const';
 import { A8kConfig } from './interface';
 const devServer: WebpackDevServer.Configuration = {
   host: '0.0.0.0',

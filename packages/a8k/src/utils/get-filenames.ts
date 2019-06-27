@@ -1,4 +1,5 @@
-import { BUILD_ENV } from '../const';
+import { BUILD_ENV } from "@a8k/common/lib/constants";
+
 
 export default ({ filenames, mode }) => {
   const useHash = mode === BUILD_ENV.PRODUCTION;

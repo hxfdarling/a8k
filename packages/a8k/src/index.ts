@@ -1,6 +1,7 @@
 import loadConfig from '@a8k/cli-utils/load-config';
 import logger from '@a8k/cli-utils/logger';
 import spinner from '@a8k/cli-utils/spinner';
+import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import program, { Command } from 'commander';
 import fs from 'fs-extra';
 import globalModules from 'global-modules';
@@ -9,7 +10,6 @@ import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
 import WebpackChain from 'webpack-chain';
-import { BUILD_ENV, BUILD_TARGET } from './const';
 import defaultConfig, { ssrConfig } from './default-config';
 import Hooks from './hooks';
 import { A8kConfig, A8kOptions, Internals, IResolveWebpackConfigOptions } from './interface';

@@ -1,6 +1,6 @@
+import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import WebpackChain, { DevTool } from 'webpack-chain';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TARGET } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 import getFileNames from '../utils/get-filenames';
 import optimization from '../webpack/optimization.config';

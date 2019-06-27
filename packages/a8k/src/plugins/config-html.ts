@@ -1,8 +1,8 @@
+import { BUILD_ENV, BUILD_TARGET, PROJECT_MODE } from '@a8k/common/lib/constants';
 import fs from 'fs-extra';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TARGET, PROJECT_MODE } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 import EmptyPlugin from '../webpack/plugins/empty-plugin';
 
