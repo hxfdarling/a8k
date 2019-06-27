@@ -186,7 +186,7 @@ const Koa = require('koa');
 const path = require('path');
 const ssr = require('@a8k/ssr-koa-middleware').default;
 const {
-  ssrDevServer: { port },
+  ssrConfig: { port },
 } = require('../a8k.config.js');
 
 const app = new Koa();

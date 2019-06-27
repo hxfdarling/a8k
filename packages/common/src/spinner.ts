@@ -1,9 +1,9 @@
-const ora = require('ora');
+import ora from 'ora';
 
 const spinner = ora();
 let lastMsg = null;
 
-exports.logWithSpinner = msg => {
+export const logWithSpinner = msg => {
   if (lastMsg) {
     spinner.stopAndPersist({
       text: lastMsg.text,
@@ -16,21 +16,22 @@ exports.logWithSpinner = msg => {
   spinner.start();
 };
 
-exports.succeed = msg => {
+export const succeed = (msg?) => {
   spinner.succeed(msg);
 };
-exports.info = msg => {
+export const info = msg => {
   spinner.info(msg);
 };
-
-exports.warn = msg => {
+export const warn = msg => {
   spinner.warn(msg);
 };
-exports.fail = msg => {
+export const fail = (msg?) => {
   spinner.fail(msg);
 };
-
-exports.stopSpinner = persist => {
+export const stop = () => {
+  spinner.stop();
+};
+export const stopSpinner = (persist?) => {
   if (lastMsg && persist !== false) {
     spinner.stopAndPersist({
       text: lastMsg.text,
@@ -41,10 +42,10 @@ exports.stopSpinner = persist => {
   lastMsg = null;
 };
 
-exports.pauseSpinner = () => {
+export const pauseSpinner = () => {
   spinner.stop();
 };
 
-exports.resumeSpinner = () => {
+export const resumeSpinner = () => {
   spinner.start();
 };

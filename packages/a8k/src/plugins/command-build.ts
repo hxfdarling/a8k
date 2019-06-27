@@ -1,7 +1,7 @@
+import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '@a8k/common/lib/constants';
 import fs from 'fs-extra';
 import webpack from 'webpack';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '../const';
 import { ICommandOptions } from '../interface';
 import cleanUnusedCache from '../utils/clean-old-cache.js';
 
@@ -66,8 +66,8 @@ export default class BuildCommand {
             .runCompiler(compiler)
             .then(() => hooks.invokePromise('afterBuild', context));
         }
-        const { ssrConfig, ssr } = context.config;
-        if (ssr && buildNode) {
+        const { ssrConfig } = context.config;
+        if (ssrConfig && buildNode) {
           await hooks.invokePromise('beforeSSRBuild', context);
 
           fs.emptyDirSync(ssrConfig.dist);

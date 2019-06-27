@@ -1,6 +1,5 @@
-const chalk = require('chalk');
-const padStart = require('string.prototype.padstart');
-const EventEmitter = require('events');
+import chalk from 'chalk';
+import EventEmitter from 'events';
 
 exports.events = new EventEmitter();
 
@@ -18,7 +17,9 @@ const format = (label, msg) => {
   return msg
     .split('\n')
     .map((line, i) => {
-      return i === 0 ? `${label} ${line}` : padStart(line, chalk.reset(label).length);
+      return i === 0
+        ? `${label} ${line}`
+        : String.prototype.padStart.call(line, chalk.reset(label).length);
     })
     .join('\n');
 };
@@ -26,48 +27,49 @@ const format = (label, msg) => {
 const chalkTag = msg => chalk.bgBlackBright.white.dim(` ${msg} `);
 
 class Logger {
+  public options: any;
   constructor(options) {
     this.setOptions(options);
   }
 
-  setOptions(options) {
+  public setOptions(options) {
     this.options = { ...this.options, ...options };
   }
 
-  debug(...args) {
+  public debug(...args) {
     if (!this.options.debug) {
       return;
     }
     console.log(chalk.magenta.bold('===>'), ...args.map(str => chalk.bold(str)));
   }
 
-  success(...args) {
+  public success(...args) {
     console.log(...args);
   }
 
-  log(msg = '', tag = null) {
+  public log(msg = '', tag = null) {
     tag ? console.log(format(chalkTag(tag), msg)) : console.log(msg);
     _log('log', tag, msg);
   }
 
-  info(msg, tag = null) {
+  public info(msg, tag = null) {
     console.log(format(chalk.bgBlue.black(' INFO ') + (tag ? chalkTag(tag) : ''), msg));
     _log('info', tag, msg);
   }
 
-  done(msg, tag = null) {
+  public done(msg, tag = null) {
     console.log(format(chalk.bgGreen.black(' DONE ') + (tag ? chalkTag(tag) : ''), msg));
     _log('done', tag, msg);
   }
 
-  warn(msg, tag = null) {
+  public warn(msg, tag = null) {
     console.warn(
       format(chalk.bgYellow.black(' WARN ') + (tag ? chalkTag(tag) : ''), chalk.yellow(msg))
     );
     _log('warn', tag, msg);
   }
 
-  error(msg, tag = null) {
+  public error(msg, tag = null) {
     console.error(format(chalk.bgRed(' ERROR ') + (tag ? chalkTag(tag) : ''), chalk.red(msg)));
     _log('error', tag, msg);
     if (msg instanceof Error) {
@@ -77,9 +79,9 @@ class Logger {
     process.exitCode = process.exitCode || 1;
   }
 
-  clearConsole() {
+  public clearConsole() {
     process.stdout.write(process.platform === 'win32' ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H');
   }
 }
 
-module.exports = new Logger();
+export default new Logger({});

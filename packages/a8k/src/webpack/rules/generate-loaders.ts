@@ -1,9 +1,9 @@
 import loadConfig from '@a8k/cli-utils/load-config';
-import logger from '@a8k/cli-utils/logger';
+import { logger } from '@a8k/common';
+import { BUILD_ENV } from '@a8k/common/lib/constants';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
-import { BUILD_ENV } from '../../const';
 import { IResolveWebpackConfigOptions } from '../../interface';
 import { genCssModulesName } from './utils';
 

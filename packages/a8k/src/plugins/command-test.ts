@@ -1,9 +1,9 @@
+import { ENV_TEST } from '@a8k/common/lib/constants';
 import { execSync } from 'child_process';
 import jest from 'jest';
 import path from 'path';
 import resolve from 'resolve';
 import A8k from '..';
-import { ENV_TEST } from '../const';
 import createJestConfig from '../utils/create-jest-config';
 
 function isInGitRepository(): boolean {
@@ -18,17 +18,17 @@ function resolveJestDefaultEnvironment(name: string) {
   const jestDir = path.dirname(
     resolve.sync('jest', {
       basedir: __dirname,
-    }),
+    })
   );
   const jestCLIDir = path.dirname(
     resolve.sync('jest-cli', {
       basedir: jestDir,
-    }),
+    })
   );
   const jestConfigDir = path.dirname(
     resolve.sync('jest-config', {
       basedir: jestCLIDir,
-    }),
+    })
   );
   return resolve.sync(name, {
     basedir: jestConfigDir,

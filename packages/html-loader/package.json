@@ -21,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "@a8k/babel-preset": "^2.0.0-beta.15",
+    "@a8k/common": "^1.0.0",
     "@babel/core": "^7.4.5",
     "find-cache-dir": "^3.0.0",
     "fs-extra": "^8.0.1",

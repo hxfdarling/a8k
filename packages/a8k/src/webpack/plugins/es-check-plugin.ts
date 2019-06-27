@@ -1,5 +1,5 @@
 import loadConfig from '@a8k/cli-utils/load-config';
-import logger from '@a8k/cli-utils/logger';
+import { logger } from '@a8k/common';
 import { Options, parse } from 'acorn';
 import micromatch from 'micromatch';
 
@@ -32,9 +32,9 @@ const check = (files: Array<{ filename: string; source: string }>, acornOpts: Op
     logger.error(`ES-Check: there were ${errArray.length} ES version matching errors.`);
     logger.error(`maybe you need not check some file support es ${acornOpts.ecmaVersion}`);
     logger.error(
-      `you can add "escheck.exclude" option into "a8k.config.json" config to ignore this file or check you code`,
+      `you can add "escheck.exclude" option into "a8k.config.json" config to ignore this file or check you code`
     );
-    errArray.forEach((o) => {
+    errArray.forEach(o => {
       logger.info(`
           ES-Check Error:
           ----
@@ -76,7 +76,7 @@ class EsCheckPlugin {
     const exclude = (config.exclude || []).concat(options.exclude || []);
     if (!ecmaVersion) {
       logger.error(
-        'No ecmaScript version passed in or found in .escheckrc. Please set your ecmaScript version in the CLI or in .escheckrc',
+        'No ecmaScript version passed in or found in .escheckrc. Please set your ecmaScript version in the CLI or in .escheckrc'
       );
       process.exit(1);
     }
@@ -151,9 +151,9 @@ class EsCheckPlugin {
     compiler.hooks.afterEmit.tap(this.name, ({ assets }) => {
       const files = Object.keys(assets)
         .filter(
-          (filename) =>
+          filename =>
             /\.js$/.test(filename) &&
-            !this.options.exclude.some((i) => micromatch.isMatch(filename, i)),
+            !this.options.exclude.some(i => micromatch.isMatch(filename, i))
         )
         .map((filename: string) => {
           return { filename, source: assets[filename].source() };

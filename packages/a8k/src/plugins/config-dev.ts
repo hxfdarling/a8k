@@ -1,11 +1,11 @@
 import loadConfig from '@a8k/cli-utils/load-config';
-import logger from '@a8k/cli-utils/logger';
+import { logger } from '@a8k/common';
+import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import crypto from 'crypto';
 import path from 'path';
 import webpack from 'webpack';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TARGET } from '../const';
 import { IResolveWebpackConfigOptions } from '../interface';
 export default class DevConfig {
   public name = 'builtin:config-dev';

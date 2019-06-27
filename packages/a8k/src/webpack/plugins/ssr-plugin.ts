@@ -1,4 +1,4 @@
-import logger from '@a8k/cli-utils/logger';
+import { logger } from '@a8k/common';
 import fs from 'fs-extra';
 import path from 'path';
 import webpack from 'webpack';
@@ -13,7 +13,7 @@ class SSRPlugin {
   }
 
   public apply(compiler: webpack.Compiler) {
-    compiler.hooks.afterEmit.tap('ssr', async (compilation) => {
+    compiler.hooks.afterEmit.tap('ssr', async compilation => {
       const { assets } = compilation;
 
       const {

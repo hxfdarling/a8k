@@ -1,6 +1,7 @@
 import loadConfig from '@a8k/cli-utils/load-config';
-import logger from '@a8k/cli-utils/logger';
-import spinner from '@a8k/cli-utils/spinner';
+import { spinner } from '@a8k/common';
+import { logger } from '@a8k/common';
+import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import program, { Command } from 'commander';
 import fs from 'fs-extra';
 import globalModules from 'global-modules';
@@ -9,8 +10,7 @@ import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
 import WebpackChain from 'webpack-chain';
-import { BUILD_ENV, BUILD_TARGET } from './const';
-import defaultConfig from './default-config';
+import defaultConfig, { ssrConfig } from './default-config';
 import Hooks from './hooks';
 import { A8kConfig, A8kOptions, Internals, IResolveWebpackConfigOptions } from './interface';
 import { getConfig, setConfig } from './utils/global-config';
@@ -33,11 +33,11 @@ program.on('command:*', () => {
 
 type emptyFn = () => void;
 export default class A8k {
+  public logger: any = logger;
   public options: A8kOptions;
   public config: A8kConfig;
   public hooks = new Hooks();
   public commands = new Map();
-  public logger = logger;
   public cli = program;
   public internals: Internals;
   public buildId: string;
@@ -108,6 +108,13 @@ export default class A8k {
     } else {
       logger.debug('a8k is not using any config file');
     }
+    if (this.config.ssrDevServer) {
+      logger.warn('ssrDevServer Deprecated ,instead of ssrConfig');
+      this.config.ssrConfig = { ...this.config.ssrDevServer };
+    }
+    if (this.config.ssrConfig) {
+      this.config.ssrConfig = { ...ssrConfig, ...this.config.ssrConfig };
+    }
     this.config = merge(defaultConfig, this.config);
 
     // 构建输出文件根目录
@@ -120,10 +127,11 @@ export default class A8k {
     this.config.cacheBase = path.resolve(this.config.cache);
     // 缓存版本标记
     this.config.cache = path.resolve(this.config.cache, `v-${version}`);
-    // ssr配置
-    this.config.ssrConfig.dist = this.resolve(this.config.ssrConfig.dist);
-    this.config.ssrConfig.view = this.resolve(this.config.ssrConfig.view);
-
+    if (this.config.ssrConfig) {
+      // ssr配置
+      this.config.ssrConfig.dist = this.resolve(this.config.ssrConfig.dist);
+      this.config.ssrConfig.view = this.resolve(this.config.ssrConfig.view);
+    }
     if (process.env.HOST) {
       this.config.devServer.host = process.env.HOST;
     }

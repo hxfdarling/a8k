@@ -1,6 +1,6 @@
 const commandExists = require('command-exists').sync;
 const shell = require('shelljs');
-const logger = require('./logger');
+const { logger } = require('@a8k/common');
 
 module.exports = () => {
   let npmCmd = 'npm';

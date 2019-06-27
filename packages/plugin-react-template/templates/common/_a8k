@@ -6,17 +6,26 @@ module.exports = {
   mode:"<%= app %>",
   // 资源根地址，例如: //7.ur.cn/fudao/pc/
   publicPath:"",
-  // dist 目录
-  dist: 'dist',
-  // 加快热构建的缓存目录，注意不要和其他项目重复
-  cache: '.cache',
   // webpack-dev-server配置
   devServer: {
     port: 8081,
   },
+  <% if(ssr) { %>
+   // 直出服务器监听的端口、主机、协议
+  ssrConfig: {
+    // protocol:'http',//默认值
+    // host:'localhost',// 默认值
+    port: 3000,  // 必须填写
+  },
+  <% } %>
+  // 配置额外的入口文件，会在每一个page中引用
+  entry:{
+    vendor:['./src/common/vendor'],
+  },
   babel:{
     // 配置需要babel解析的路径
     include:[],
+    exclude:[],
   },
   <% if(retry) { %>
   // 主域重试，有该值表示开启
@@ -25,19 +34,6 @@ module.exports = {
     retryPublicPath: '',
     // 排除非自己控制的script链接
     exclude: [],
-  },
-  <% } %>
-  // 配置额外的入口文件，会在每一个page中引用
-  entry:{
-    vendor:['./src/common/vendor'],
-  },
-  <% if(ssr) { %>
-  ssr:true,
-   // 直出服务器监听的端口、主机、协议
-  ssrDevServer: {
-    // protocol:'http',//默认值
-    // host:'localhost',// 默认值
-    port: 3000,  // 必须填写
   },
   <% } %>
    // 修改webpack配置文件

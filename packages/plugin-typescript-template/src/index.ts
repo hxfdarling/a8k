@@ -1,6 +1,6 @@
 import getNpmCommand from '@a8k/cli-utils/npm';
 import spawn from '@a8k/cli-utils/spawn';
-import spinner from '@a8k/cli-utils/spinner';
+import { spinner } from '@a8k/common';
 import createGenerator from './create';
 
 export default class PluginCreateTypescriptProject {

@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 const Generator = require('yeoman-generator');
 const { basename, join } = require('path');
-const logger = require('@a8k/cli-utils/logger');
+const logger = require('@a8k/common/lib/logger');
 const { toArray, createMultiExamplePage, createSingleExamplePage } = require('./heper');
 
 // logger.setOptions({ debug: true });

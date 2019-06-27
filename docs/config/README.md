@@ -97,21 +97,21 @@ module.exports = {
 };
 ```
 
-### ssr
-
-类型`boolean`,开启服务器渲染，默认值`false`。
-
-注意：每个页面目录下面必须存在`index.node.jsx`or `index.node.js`文件，这将是服务器直出的入口文件
-
 ### ssrConfig
+
+类型`boolean` or `Object`, 默认值`false`。
 
 服务器渲染配置，将支持所有页面，如果需要单独配置部分页面直出，请添加 entry 指定需要直出的页面入口文件
 
-`dist`:服务器渲染代码入口构建存放目录，默认值：`./.a8k/entry`
+`dist`:服务器渲染代码入口构建存放目录，默认值：`./.a8k/server/entry`,不建议修改
 
-`view`:视图代码存放目录（及 html 模板存放目录),默认值:`./.a8k/view`
+`view`:视图代码存放目录（及 html 模板存放目录),默认值:`./.a8k/server/view`,不建议修改
 
 `entry`:支持服务器渲染的页面入口文件
+
+`port`: `required` 指定 node 服务启动端口，在开发阶段调试需要代理到该页面
+
+`routers`: 配置直出页面路由, 如果不配置，默认使用`req.path` 进行匹配
 
 配置示例：
 
@@ -119,10 +119,12 @@ module.exports = {
 module.exports = {
   //省略其他配置
   ssrConfig: {
+    port: 3000, // 配置node服务端口
     entry: {
-      providerDiscover: './src/pages/discover/ProviderDiscover',
-      providerCourse: './src/pages/course/ProviderCourse',
-      providerSearch: './src/pages/search/ProviderSearch',
+      search: './src/pages/search/search',
+    },
+    routers: {
+      'search/:key': 'search',
     },
   },
 };

@@ -64,6 +64,7 @@
     "react-dom": "^16.8.6"
   },
   "dependencies": {
+    "@a8k/common": "^1.0.0",
     "serialize-javascript": "^1.7.0"
   },
   "publishConfig": {
