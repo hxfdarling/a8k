@@ -1,5 +1,5 @@
-import logger from '@a8k/cli-utils/logger';
-import { logWithSpinner, stopSpinner } from '@a8k/cli-utils/spinner';
+import { logger } from '@a8k/common';
+import { logWithSpinner, stopSpinner } from '@a8k/common/lib/spinner';
 import { execSync } from 'child_process';
 import fs from 'fs-extra';
 import A8k from '..';

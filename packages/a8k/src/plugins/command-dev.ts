@@ -1,11 +1,11 @@
-import logger from '@a8k/cli-utils/logger';
+import { logger } from '@a8k/common';
+import { BUILD_ENV, BUILD_TARGET, ENV_DEV } from '@a8k/common/lib/constants';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
 import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
-import { BUILD_ENV, BUILD_TARGET, ENV_DEV } from '../const';
 import cleanUnusedCache from '../utils/clean-old-cache';
 import { printInstructions, setProxy } from '../utils/helper';
 
@@ -145,9 +145,9 @@ export default class DevCommand {
           const compiler = context.createWebpackCompiler(webpackConfigSSR);
           compiler.watch(webpackConfigSSR.watchOptions, err => {
             if (err) {
-              context.logger.error(err.stack || err);
+              logger.error(err.stack || err);
               if (err.details) {
-                context.logger.error(err.details);
+                logger.error(err.details);
               }
             }
           });

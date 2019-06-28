@@ -1,5 +1,5 @@
 const storybook = require('storybook-react-tmp/standalone');
-const logger = require('@a8k/cli-utils/logger');
+const logger = require('@a8k/common/lib/logger');
 const fs = require('fs-extra');
 const path = require('path');
 const initSB = require('./init-sb');

@@ -1,4 +1,4 @@
-const logger = require('@a8k/cli-utils/logger');
+const logger = require('@a8k/common/lib/logger');
 const loadConfig = require('@a8k/cli-utils/load-config');
 const path = require('path');
 

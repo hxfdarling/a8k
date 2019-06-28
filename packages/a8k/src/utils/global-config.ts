@@ -1,5 +1,5 @@
+import { configPath } from '@a8k/common/lib/constants';
 import fs from 'fs';
-import { configPath } from '../const';
 
 interface IConfig {
   updateDate: string;

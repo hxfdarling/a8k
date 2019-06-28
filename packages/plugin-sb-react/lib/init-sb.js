@@ -1,8 +1,8 @@
 const fs = require('fs-extra');
 const path = require('path');
 const getNpmCommand = require('@a8k/cli-utils/npm');
-const logger = require('@a8k/cli-utils/logger');
-const { logWithSpinner, stopSpinner } = require('@a8k/cli-utils/spinner');
+const logger = require('@a8k/common/lib/logger');
+const { logWithSpinner, stopSpinner } = require('@a8k/common/lib/spinner');
 const shell = require('shelljs');
 const util = require('util');
 

@@ -1,5 +1,5 @@
 const getNpmCommand = require('@a8k/cli-utils/npm');
-const spinner = require('@a8k/cli-utils/spinner');
+const { spinner } = require('@a8k/common');
 const spawn = require('@a8k/cli-utils/spawn');
 
 const shell = require('shelljs');

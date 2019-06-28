@@ -1,4 +1,4 @@
-import logger from '@a8k/cli-utils/logger';
+import logger from '@a8k/common/lib/logger';
 import { mapToString, render } from '@a8k/ssr-utils';
 import fs from 'fs';
 import { Context } from 'koa';

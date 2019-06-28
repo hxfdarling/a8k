@@ -1,6 +1,7 @@
 import loadConfig from '@a8k/cli-utils/load-config';
-import logger from '@a8k/cli-utils/logger';
-import spinner from '@a8k/cli-utils/spinner';
+import { spinner } from '@a8k/common';
+import { logger } from '@a8k/common';
+import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import program, { Command } from 'commander';
 import fs from 'fs-extra';
 import globalModules from 'global-modules';
@@ -9,7 +10,6 @@ import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
 import WebpackChain from 'webpack-chain';
-import { BUILD_ENV, BUILD_TARGET } from './const';
 import defaultConfig, { ssrConfig } from './default-config';
 import Hooks from './hooks';
 import { A8kConfig, A8kOptions, Internals, IResolveWebpackConfigOptions } from './interface';
@@ -33,11 +33,11 @@ program.on('command:*', () => {
 
 type emptyFn = () => void;
 export default class A8k {
+  public logger: any = logger;
   public options: A8kOptions;
   public config: A8kConfig;
   public hooks = new Hooks();
   public commands = new Map();
-  public logger = logger;
   public cli = program;
   public internals: Internals;
   public buildId: string;
@@ -109,7 +109,7 @@ export default class A8k {
       logger.debug('a8k is not using any config file');
     }
     if (this.config.ssrDevServer) {
-      logger.wran('ssrDevServer Deprecated ,instead of ssrConfig');
+      logger.warn('ssrDevServer Deprecated ,instead of ssrConfig');
       this.config.ssrConfig = { ...this.config.ssrDevServer };
     }
     if (this.config.ssrConfig) {

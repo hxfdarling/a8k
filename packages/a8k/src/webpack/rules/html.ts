@@ -1,7 +1,7 @@
+import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
-import { BUILD_ENV, BUILD_TARGET } from '../../const';
 import { IResolveWebpackConfigOptions } from '../../interface';
 
 export default (

@@ -1,4 +1,4 @@
-import logger from '@a8k/cli-utils/logger';
+import { logger } from '@a8k/common';
 import chokidar from 'chokidar';
 import JoyCon from 'joycon';
 import path from 'path';
@@ -22,7 +22,7 @@ export default ({ cwd = process.cwd() } = {}) => {
     pkgData = res.data || {};
   };
 
-  const watchPkg = (file) => {
+  const watchPkg = file => {
     return chokidar
       .watch(file, {
         ignoreInitial: true,

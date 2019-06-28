@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 require('source-map-support/register');
-import logger from '@a8k/cli-utils/logger';
+import { logger } from '@a8k/common';
 import getNpmClient from '@a8k/cli-utils/npm';
 import A8k from '../index';
 import { A8kOptions } from '../interface';

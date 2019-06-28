@@ -3,7 +3,7 @@ const chalk = require('chalk');
 
 const Generator = require('yeoman-generator');
 const { join } = require('path');
-const logger = require('@a8k/cli-utils/logger');
+const logger = require('@a8k/common/lib/logger');
 const {
   toArray,
   createExampleComponent,

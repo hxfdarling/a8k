@@ -1,6 +1,6 @@
-import logger from '@a8k/cli-utils/logger';
 import getNpmCommand from '@a8k/cli-utils/npm';
-import { logWithSpinner, stopSpinner } from '@a8k/cli-utils/spinner';
+import { logger } from '@a8k/common';
+import { logWithSpinner, stopSpinner } from '@a8k/common/lib/spinner';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
 import os from 'os';

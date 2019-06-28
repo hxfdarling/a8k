@@ -1,6 +1,6 @@
+import { BUILD_TARGET } from '@a8k/common/lib/constants';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
-import { BUILD_TARGET } from '../../const';
 
 export default (config: WebpackChain, context: A8k, { type }, filename: string) => {
   config.module
