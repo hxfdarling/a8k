@@ -83,7 +83,7 @@ export default class DevCommand {
               })
               .map(({ name }: IEntry) => `${name}.html`)
               .reduce((result, fileName) => {
-                result[fileName] = {
+                result['/' + fileName] = {
                   target: `${protocol + host}:${ssrPort}${contentBase || ''}`,
                   secure: false,
                 };
