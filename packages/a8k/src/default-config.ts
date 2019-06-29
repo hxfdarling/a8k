@@ -39,12 +39,13 @@ const devServer: WebpackDevServer.Configuration = {
 };
 const config: A8kConfig = {
   mode: PROJECT_MODE.MULTI,
-  entry: {},
+  entry: null,
+  initEntry: [],
   dist: './.a8k/static',
-  pagesDir: './src/pages',
+  cacheDirectory: './.a8k/.cache',
+  pagesPath: './src/pages',
+  ignorePages: [],
   template: './src/common/template.html',
-  cacheBase: '',
-  cache: './.a8k/.cache',
   publicPath: '',
   devServer,
   cssModules: false,
@@ -57,8 +58,8 @@ export const ssrConfig = {
   https: false,
   port: '',
   // js存放地址
-  dist: './.a8k/server/entry',
+  entryPath: './.a8k/server/entry',
   // html存放地址
-  view: './.a8k/server/view',
+  viewPath: './.a8k/server/view',
 };
 export default config;

@@ -2,6 +2,7 @@ import { logger } from '@a8k/common';
 import { logWithSpinner, stopSpinner } from '@a8k/common/lib/spinner';
 import { execSync } from 'child_process';
 import fs from 'fs-extra';
+import path from 'path';
 import A8k from '..';
 
 export default class UtilsCommand {
@@ -11,9 +12,9 @@ export default class UtilsCommand {
       .registerCommand('clean')
       .description('清理缓存文件和构建结果文件')
       .action(async () => {
-        if (context.config.cacheBase) {
+        if (context.config.cacheDirectory) {
           logWithSpinner('清理缓存文件');
-          await fs.emptyDir(context.config.cacheBase);
+          await fs.emptyDir(path.dirname(context.config.cacheDirectory));
         } else {
           logger.warn('没有指定缓存目录');
         }
@@ -21,8 +22,8 @@ export default class UtilsCommand {
         await fs.emptyDir(context.config.dist);
         if (context.config.ssrConfig) {
           logWithSpinner('清理SSR构建结果文件');
-          await fs.emptyDir(context.config.ssrConfig.view);
-          await fs.emptyDir(context.config.ssrConfig.dist);
+          await fs.emptyDir(context.config.ssrConfig.entryPath);
+          await fs.emptyDir(context.config.ssrConfig.viewPath);
         }
         stopSpinner();
       });

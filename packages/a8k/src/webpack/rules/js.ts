@@ -7,7 +7,7 @@ import A8k from '../..';
 import { genCssModulesName } from './utils';
 
 export default (config: WebpackChain, context: A8k, { type }) => {
-  const { babel: { include = [], exclude = [] } = {}, cssModules, cache } = context.config;
+  const { babel: { include = [], exclude = [] } = {}, cssModules, cacheDirectory } = context.config;
   const { mode } = context.internals;
 
   // TODO 需要抽离成插件？
@@ -64,7 +64,7 @@ export default (config: WebpackChain, context: A8k, { type }) => {
     .options({
       babelrc,
       // cacheDirectory 缓存babel编译结果加快重新编译速度
-      cacheDirectory: path.resolve(cache, 'babel-loader'),
+      cacheDirectory: path.resolve(cacheDirectory, 'babel-loader'),
       presets: [
         [
           require.resolve('@a8k/babel-preset'),

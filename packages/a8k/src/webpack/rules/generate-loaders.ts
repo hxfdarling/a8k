@@ -19,7 +19,7 @@ export class GenerateLoaders {
   public options: IResolveWebpackConfigOptions;
   public cacheDirectory: string;
   constructor(rule: WebpackChain.Rule, context: A8k, options: IResolveWebpackConfigOptions) {
-    this.cacheDirectory = path.join(context.config.cache, 'cache-loader-css');
+    this.cacheDirectory = path.join(context.config.cacheDirectory, 'cache-loader-css');
     this.rule = rule;
     this.context = context;
     this.options = options;

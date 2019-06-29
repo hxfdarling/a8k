@@ -3,10 +3,9 @@ import { BUILD_ENV, BUILD_TARGET, ENV_DEV } from '@a8k/common/lib/constants';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import os from 'os';
-import path from 'path';
 import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
-import cleanUnusedCache from '../utils/clean-old-cache';
+import { getEntry, IEntry } from '../utils/entry';
 import { printInstructions, setProxy } from '../utils/helper';
 
 const isInteractive = process.stdout.isTTY;
@@ -41,7 +40,6 @@ export default class DevCommand {
       .option('--no-silent', '输出日志')
       .option('--inspectWebpack', '输出webpack配置信息')
       .action(async ({ ssr, port, eslint, silent, stylelint, cssSourceMap, inspectWebpack }) => {
-        await cleanUnusedCache(context);
         process.env.NODE_ENV = ENV_DEV;
         context.options.inspectWebpack = inspectWebpack;
         context.internals.mode = BUILD_ENV.DEVELOPMENT;
@@ -53,7 +51,7 @@ export default class DevCommand {
         }
 
         const options = { ssr, eslint, stylelint, cssSourceMap };
-        const { devServer, ssrConfig, pagesDir } = context.config;
+        const { devServer, ssrConfig } = context.config;
 
         if (ssr) {
           if (!ssrConfig) {
@@ -61,40 +59,36 @@ export default class DevCommand {
             process.exit(-1);
             return;
           }
-          const { contentBase, https, port: ssrPort, host } = ssrConfig;
+          const { contentBase, https, port: ssrPort, host, entry: customEntry } = ssrConfig;
 
           if (!ssrPort) {
             logger.error('如需要调试直出，请配置 ssrConfig:{port:xxx} 端口信息');
             process.exit(-1);
           }
 
-          fs.ensureDirSync(ssrConfig.dist);
-          fs.ensureDirSync(ssrConfig.view);
+          fs.ensureDirSync(ssrConfig.entryPath);
+          fs.ensureDirSync(ssrConfig.viewPath);
 
           devServer.before = (app: any) => {
             const protocol = https ? 'https://' : 'http://';
-            const proxy = {};
-            // 支持配置模式
-            if (ssrConfig.entry) {
-              Object.keys(ssrConfig.entry).forEach(key => {
-                const pageName = ssrConfig.entry[key].split('/');
-                const file = `/${pageName[pageName.length - 2]}.html`;
-                proxy[file] = {
+            const proxy = getEntry(context)
+              .filter(({ name }) => {
+                if (customEntry === true || !customEntry) {
+                  return true;
+                }
+                if (customEntry.indexOf(name)) {
+                  return true;
+                }
+                return false;
+              })
+              .map(({ name }: IEntry) => `${name}.html`)
+              .reduce((result, fileName) => {
+                result[fileName] = {
                   target: `${protocol + host}:${ssrPort}${contentBase || ''}`,
                   secure: false,
                 };
-              });
-            } else {
-              fs.readdirSync(pagesDir)
-                .map((file: string) => path.basename(file))
-                .forEach((name: string) => {
-                  const file = `/${name}.html`;
-                  proxy[file] = {
-                    target: `${protocol + host}:${ssrPort}${contentBase || ''}`,
-                    secure: false,
-                  };
-                });
-            }
+                return result;
+              }, {});
             setProxy(app, proxy);
           };
         }

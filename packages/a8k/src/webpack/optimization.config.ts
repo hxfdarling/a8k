@@ -89,7 +89,7 @@ export default (
       .minimizer('js')
       .use(TerserPlugin, [
         {
-          cache: path.resolve(context.config.cache, 'terser-webpack-plugin'),
+          cache: path.resolve(context.config.cacheDirectory, 'terser-webpack-plugin'),
           parallel: true,
           sourceMap,
           terserOptions: {

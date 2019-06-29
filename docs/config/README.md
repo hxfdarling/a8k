@@ -17,7 +17,7 @@ mode 用于指定项目是多页面还是单页面，支持两个值：
 
 ### dist
 
-配置构建生产包（即执行`k build`）的结果输出目录，默认值:`dist`即当前项目目录下面的 dist 文件夹下
+配置构建生产包（即执行`k build`）的结果输出目录，默认值:`.a8k/static`。
 
 ### publicPath
 
@@ -32,9 +32,9 @@ module.exports = {
 };
 ```
 
-### cache
+### cacheDirectory
 
-配置构建阶段的缓存目录，默认:`node_modules/.cache`。
+配置构建阶段的缓存目录，默认:`.a8k/.cache`。
 
 a8k 默认会缓存构建中 js、css、html、eslint 的结果，只有当这些文件发生变化时才会重新构建，否则其中所有的 webpack loader 都将从缓存中获取结果，目的是为了提高构建性能
 
@@ -103,11 +103,11 @@ module.exports = {
 
 服务器渲染配置，将支持所有页面，如果需要单独配置部分页面直出，请添加 entry 指定需要直出的页面入口文件
 
-`dist`:服务器渲染代码入口构建存放目录，默认值：`./.a8k/server/entry`,不建议修改
+`entryPath`:服务器渲染代码入口构建存放目录, 默认值：`./.a8k/server/entry`,不建议修改
 
-`view`:视图代码存放目录（及 html 模板存放目录),默认值:`./.a8k/server/view`,不建议修改
+`viewPath`:视图代码存放目录（及 html 模板存放目录), 默认值:`./.a8k/server/view`,不建议修改
 
-`entry`:支持服务器渲染的页面入口文件
+`entry`:如果你不希望所有页面支持服务器渲染，可以选择自定义支持服务器渲染的页面入口文件
 
 `port`: `required` 指定 node 服务启动端口，在开发阶段调试需要代理到该页面
 
@@ -120,9 +120,7 @@ module.exports = {
   //省略其他配置
   ssrConfig: {
     port: 3000, // 配置node服务端口
-    entry: {
-      search: './src/pages/search/search',
-    },
+    entry: ['search'],
     routers: {
       'search/:key': 'search',
     },

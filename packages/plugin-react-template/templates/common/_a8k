@@ -19,9 +19,14 @@ module.exports = {
   },
   <% } %>
   // 配置额外的入口文件，会在每一个page中引用
-  entry:{
-    vendor:['./src/common/vendor'],
-  },
+  // 可以将每个页面都会用到的模块添加到这里
+  initEntry:['./src/common/vendor'],
+  // 如果要禁用默认的./src/pages/作为页面根目录，可以自定义入口
+  // entry:{
+  // // 可以是目录(查找目录下面的index.{js|jsx})
+  //  index:'./src/pages/index/index',
+  //  example:['./src/pages/example/index']
+  // },
   babel:{
     // 配置需要babel解析的路径
     include:[],

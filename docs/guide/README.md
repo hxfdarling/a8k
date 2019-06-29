@@ -113,8 +113,6 @@ module.exports = {
   mode: 'multi',
   // dist 目录
   dist: 'dist',
-  // 加快热构建的缓存目录
-  cache: '.cache',
   // cdn部署路径
   publicPath,
   // 是否将 JS 标签配置 crossOrigin='anonymous'
@@ -136,19 +134,11 @@ module.exports = {
     // 排除非我们自己控制的JS
     exclude: [/\/\/sqimg\.qq\.com/],
   },
-  ssr: true,
   // 服务器直出页面
   ssrConfig: {
-    // js存放目录
-    // dist:'',// 默认：'.a8k/entry'
-    // html存放目录
-    // view:'',//默认: '.a8k/view'
     // 入口文件,注意如果不配置，将默认认为所有页面支持直出
-    entry: {
-      index: './src/pages/index/index.node',
-    },
+    entry: ['index'],
   },
-
   // pages目录下需要忽略的文件夹（不作为页面处理）
   ignorePages: ['action_creators', 'action_types', 'reducers'],
   chainWebpack(config, { type, mode }) {

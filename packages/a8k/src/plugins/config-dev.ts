@@ -49,7 +49,10 @@ export default class DevConfig {
               failOnError: false,
               failOnWarning: false,
               quit: true,
-              cache: path.resolve(context.config.cache, `eslint-loader-${hash.digest('hex')}`),
+              cache: path.resolve(
+                context.config.cacheDirectory,
+                `eslint-loader-${hash.digest('hex')}`
+              ),
               formatter: require.resolve('eslint-friendly-formatter'),
               // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
               eslintPath: context.resolve('node_modules', 'eslint'),

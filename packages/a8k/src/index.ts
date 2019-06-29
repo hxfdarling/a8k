@@ -101,44 +101,49 @@ export default class A8k {
       cwd: baseDir,
       packageKey: 'a8k',
     });
+    let { config } = this;
     if (res.path) {
       this.configFilePath = res.path;
-      this.config = merge(res.data, this.config);
+      config = merge(res.data, config);
       logger.debug(`a8k config file: ${this.configFilePath}`);
     } else {
       logger.debug('a8k is not using any config file');
     }
-    if (this.config.ssrDevServer) {
+    // TODO: remove
+    if (config.ssrDevServer) {
       logger.warn('ssrDevServer Deprecated ,instead of ssrConfig');
-      this.config.ssrConfig = { ...this.config.ssrDevServer };
+      config.ssrConfig = { ...config.ssrDevServer };
     }
-    if (this.config.ssrConfig) {
-      this.config.ssrConfig = { ...ssrConfig, ...this.config.ssrConfig };
+    if (config.ssrConfig) {
+      config.ssrConfig = { ...ssrConfig, ...config.ssrConfig };
     }
-    this.config = merge(defaultConfig, this.config);
+    config = merge(defaultConfig, config);
 
     // 构建输出文件根目录
-    this.config.dist = this.resolve(this.config.dist);
+    config.dist = this.resolve(config.dist);
     // 页面根目录
-    this.config.pagesDir = this.resolve(this.config.pagesDir);
+    config.pagesPath = this.resolve(config.pagesPath);
+    if (config.initEntry) {
+      // 处理公共entry
+      config.initEntry = config.initEntry.map((i: string) => this.resolve(i));
+    }
     // html模板路径
-    this.config.template = this.resolve(this.config.template);
-    // 缓存基础目录
-    this.config.cacheBase = path.resolve(this.config.cache);
+    config.template = this.resolve(config.template);
     // 缓存版本标记
-    this.config.cache = path.resolve(this.config.cache, `v-${version}`);
-    if (this.config.ssrConfig) {
+    config.cacheDirectory = path.resolve(config.cacheDirectory);
+    if (config.ssrConfig) {
       // ssr配置
-      this.config.ssrConfig.dist = this.resolve(this.config.ssrConfig.dist);
-      this.config.ssrConfig.view = this.resolve(this.config.ssrConfig.view);
+      config.ssrConfig.entryPath = this.resolve(config.ssrConfig.entryPath);
+      config.ssrConfig.viewPath = this.resolve(config.ssrConfig.viewPath);
     }
     if (process.env.HOST) {
-      this.config.devServer.host = process.env.HOST;
+      config.devServer.host = process.env.HOST;
     }
     if (process.env.PORT) {
-      this.config.devServer.port = Number(process.env.PORT);
+      config.devServer.port = Number(process.env.PORT);
     }
-    this.config.envs = { ...this.config.envs, ...this.loadEnvs() };
+    config.envs = { ...config.envs, ...this.loadEnvs() };
+    this.config = config;
   }
   public hook(name: string, fn: Function) {
     return this.hooks.add(name, fn);

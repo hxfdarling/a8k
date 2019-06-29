@@ -13,11 +13,11 @@ interface A8kOptions {
 interface A8kConfig {
   type: string; // 项目类型，例如react项目、vue项目
   mode: PROJECT_MODE; // 项目模式，单页面多页面
-  entry: any; //配置每个页面额外的入口文件
+  initEntry: string[]; //配置每个页面额外的入口文件
+  entry: any; // 自定义入口文件
   dist: any; //构建文件输出目录
-  cacheBase: any; //缓存根目录
-  cache: any; //缓存目录
-  pagesDir: string;
+  cacheDirectory: any; //缓存目录
+  pagesPath: string;
   template: string; // html模板路径
   devServer: WebpackDevServer.Configuration; // webpack-dev-server配置
   //服务器渲染配置
@@ -28,11 +28,9 @@ interface A8kConfig {
         https: boolean;
         port: string;
         host: string;
-        dist: string;
-        view: string;
-        entry?: {
-          [key: string]: string;
-        };
+        entryPath: string;
+        viewPath: string;
+        entry: true | string[];
       };
   ssrDevServer: any;
   chainWebpack: Function;

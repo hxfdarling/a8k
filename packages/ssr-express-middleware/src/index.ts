@@ -5,15 +5,15 @@ import fs from 'fs';
 import path from 'path';
 import url from 'url';
 
-function middleware(options: { entryDir?: string; viewDir?: string } = {}) {
+function middleware(options: { entryPath?: string; viewPath?: string } = {}) {
   const defaultRootDir = path.join(process.cwd(), '.a8k/server');
-  const entryDir = options.entryDir || path.join(defaultRootDir, 'entry');
-  const viewDir = options.viewDir || path.join(defaultRootDir, 'view');
+  const entryPath = options.entryPath || path.join(defaultRootDir, 'entry');
+  const viewPath = options.viewPath || path.join(defaultRootDir, 'view');
   let entries = {};
   let views = {};
   try {
-    entries = mapToString(fs.readdirSync(entryDir), entryDir);
-    views = mapToString(fs.readdirSync(viewDir), viewDir);
+    entries = mapToString(fs.readdirSync(entryPath), entryPath);
+    views = mapToString(fs.readdirSync(viewPath), viewPath);
   } catch (e) {
     logger.warn('entry or view direction is empty');
   }
@@ -30,8 +30,8 @@ function middleware(options: { entryDir?: string; viewDir?: string } = {}) {
     const key = pathname.split('.')[0];
 
     if (process.env.A8K_ENV === 'development') {
-      views = mapToString(fs.readdirSync(viewDir), viewDir);
-      entries = mapToString(fs.readdirSync(entryDir), entryDir);
+      views = mapToString(fs.readdirSync(viewPath), viewPath);
+      entries = mapToString(fs.readdirSync(entryPath), entryPath);
     }
 
     if (views[key]) {

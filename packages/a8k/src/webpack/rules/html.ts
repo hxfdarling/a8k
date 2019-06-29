@@ -14,7 +14,7 @@ export default (
   }
   const {
     internals: { mode },
-    config: { cache, envs },
+    config: { cacheDirectory, envs },
   } = context;
   config.module
     // 部分json文件只需要使用路径
@@ -31,7 +31,7 @@ export default (
     .loader('@a8k/html-loader')
     .options({
       rootDir: context.resolve('src'),
-      cacheDirectory: path.resolve(cache, '@a8k/html-loader'),
+      cacheDirectory: path.resolve(cacheDirectory, '@a8k/html-loader'),
       minimize: mini && mode === BUILD_ENV.PRODUCTION,
     })
     .end()

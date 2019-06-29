@@ -3,7 +3,6 @@ import fs from 'fs-extra';
 import webpack from 'webpack';
 import A8k from '..';
 import { ICommandOptions } from '../interface';
-import cleanUnusedCache from '../utils/clean-old-cache.js';
 
 export default class BuildCommand {
   public name = 'builtin:build';
@@ -21,7 +20,6 @@ export default class BuildCommand {
       .option('--inspectWebpack', '输出webpack配置信息')
       .option('-t,--target [target]', '可选择构建all,browser,node', 'all')
       .action(async ({ dev, analyzer, inspectWebpack, sourceMap, mini, silent, target }) => {
-        await cleanUnusedCache(context);
         // 为了让react这样的库不要使用压缩代码;
         process.env.NODE_ENV = dev ? ENV_DEV : ENV_PROD;
 
@@ -70,8 +68,8 @@ export default class BuildCommand {
         if (ssrConfig && buildNode) {
           await hooks.invokePromise('beforeSSRBuild', context);
 
-          fs.emptyDirSync(ssrConfig.dist);
-          fs.emptyDirSync(ssrConfig.view);
+          fs.emptyDirSync(ssrConfig.entryPath);
+          fs.emptyDirSync(ssrConfig.viewPath);
 
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,

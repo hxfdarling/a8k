@@ -1,49 +1,30 @@
 import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '@a8k/common/lib/constants';
-import fs from 'fs-extra';
-import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
+import { getEntry } from '../utils/entry';
 
 export default class SsrConfig {
   public name = 'builtin:config-ssr';
   public apply(context: A8k) {
     context.chainWebpack(
       (config: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
-        const { ssrConfig, publicPath, pagesDir } = context.config;
+        const { ssrConfig, publicPath } = context.config;
+
+        const entry = getEntry(context);
         if (type === BUILD_TARGET.NODE && ssrConfig) {
           const isDevMode = watch;
           config.mode(isDevMode ? ENV_DEV : ENV_PROD);
           config.devtool(false);
           config.target('node');
 
-          let entry: Array<{ key: string; value: string[] }> = [];
-          if (ssrConfig.entry) {
-            entry = Object.keys(ssrConfig.entry).map(key => {
-              let value: any = ssrConfig.entry[key];
-              if (!Array.isArray(value)) {
-                value = [value];
-              }
-              return {
-                key,
-                value,
-              };
-            });
-          } else {
-            entry = fs.readdirSync(pagesDir).map((dir: string) => {
-              return {
-                key: path.basename(dir),
-                value: [path.join(pagesDir, dir, 'index')],
-              };
-            });
-          }
-
-          entry.forEach(({ key, value }) => {
-            config.entry(key).merge(value);
+          // tslint:disable-next-line: no-shadowed-variable
+          entry.forEach(({ name, entry }) => {
+            config.entry(name).merge(entry);
           });
 
           config.output
-            .path(ssrConfig.dist)
+            .path(ssrConfig.entryPath)
             .publicPath(isDevMode ? '' : publicPath)
             .filename('[name].js')
             .libraryTarget('commonjs2');
@@ -65,7 +46,6 @@ export default class SsrConfig {
           });
         }
         if (type === BUILD_TARGET.BROWSER) {
-          const { ssrConfig, dist, pagesDir } = context.config;
           const { mode } = context.internals;
           // 生产模式，或者开发模式下明确声明参数ssr，时需要添加该插件
           const needSsr = (mode === BUILD_ENV.DEVELOPMENT && ssr) || mode === BUILD_ENV.PRODUCTION;
@@ -74,9 +54,7 @@ export default class SsrConfig {
             SSRPlugin.__expression = "require('a8k/lib/webpack/plugins/ssr-plugin')";
             config.plugin('ssr-plugin').use(SSRPlugin, [
               {
-                dist,
-                mode,
-                pagesDir,
+                entry,
                 ssrConfig,
               },
             ]);
