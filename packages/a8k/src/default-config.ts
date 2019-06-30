@@ -32,10 +32,7 @@ const devServer: WebpackDevServer.Configuration = {
   headers: {
     'access-control-allow-origin': '*',
   },
-  historyApiFallback: {
-    // Paths with dots should still use the history fallback.
-    disableDotRule: true,
-  },
+  historyApiFallback: false,
   // By default files from `contentBase` will not trigger a page reload.
   watchContentBase: false,
   // It is important to tell WebpackDevServer to use the same "root" path

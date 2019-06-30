@@ -1,4 +1,4 @@
 {
-  "watch": ["app", ".a8k"],
+  "watch": ["server", ".a8k", "*.js"],
   "ignoreRoot": [".git"]
 }

@@ -52,27 +52,20 @@ export default class DevCommand {
         const options = { ssr, eslint, stylelint, cssSourceMap };
         const { devServer, ssrConfig } = context.config;
 
-        if (ssr) {
-          if (!ssrConfig) {
-            logger.error('项目没有启用服务器渲染，请参考文档配置');
-            process.exit(-1);
-            return;
-          }
-
-          if (!ssrConfig.port) {
-            logger.error('如需要调试直出，请配置 ssrConfig:{port:xxx} 端口信息');
-            process.exit(-1);
-          }
-
-          const { before } = devServer;
+        try {
+          const { before, after } = devServer;
           devServer.before = (app: Application, server: WebpackDevServer) => {
-            context.hooks.invoke('devServerBefore', app, server);
+            context.hooks.invoke('devServerBefore', app, server, options);
             if (before) {
               before(app, server);
             }
           };
-        }
-        try {
+          devServer.after = (app: Application, server: WebpackDevServer) => {
+            context.hooks.invoke('devServerAfter', app, server, options);
+            if (after) {
+              after(app, server);
+            }
+          };
           const webpackConfig = context.resolveWebpackConfig({
             ...options,
             type: BUILD_TARGET.BROWSER,
@@ -89,8 +82,17 @@ export default class DevCommand {
               isFirstCompile = false;
             }
           });
-
-          const server = new WebpackDevServer(compiler, devServer);
+          let temp: any = devServer;
+          if (ssr) {
+            temp = {
+              ...temp,
+              index: '',
+              contentBase: false,
+              serveIndex: false,
+              historyApiFallback: false,
+            };
+          }
+          const server = new WebpackDevServer(compiler, temp);
           // Launch WebpackDevServer.
           server.listen(devServer.port, devServer.host, err => {
             if (err) {
@@ -111,6 +113,16 @@ export default class DevCommand {
           process.exit(1);
         }
         if (ssr) {
+          if (!ssrConfig) {
+            logger.error('项目没有启用服务器渲染，请参考文档配置');
+            process.exit(-1);
+            return;
+          }
+
+          if (!ssrConfig.port) {
+            logger.error('如需要调试直出，请配置 ssrConfig:{port:xxx} 端口信息');
+            process.exit(-1);
+          }
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,
             type: BUILD_TARGET.NODE,

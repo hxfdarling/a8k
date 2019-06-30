@@ -65,6 +65,8 @@ class Logger {
     this.options = { ...this.options, ...options };
     if (this.options.debug) {
       this.setLevel(LoggerLevel.debug);
+    } else {
+      this.setLevel(LoggerLevel.info);
     }
   }
   public debug(...args: any[]) {

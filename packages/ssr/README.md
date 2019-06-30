@@ -1,4 +1,4 @@
-# `@a8k/server`
+# `@a8k/ssr`
 
 > a8k app ssr server
 

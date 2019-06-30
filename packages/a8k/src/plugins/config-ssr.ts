@@ -5,6 +5,7 @@ import { Application } from 'express';
 import { IncomingMessage, ServerResponse } from 'http';
 import httpProxyMiddleware from 'http-proxy-middleware';
 import WebpackChain from 'webpack-chain';
+import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
 import { getEntry } from '../utils/entry';
@@ -67,27 +68,50 @@ export default class SsrConfig {
         }
       }
     );
-    context.hook('devServerBefore', (app: Application) => {
-      const { ssrConfig } = context.config;
-      if (ssrConfig) {
-        const { contentBase, https, port, host } = ssrConfig;
-        const protocol = https ? 'https://' : 'http://';
-        const target = `${protocol + host}:${port}${contentBase || ''}`;
-        const ssr = new SSR(ssrConfig);
-        app.use((req: IncomingMessage, res: ServerResponse, next: any) => {
-          const route: IRouteMatch = ssr.router(req);
-          if (route) {
+    context.hook(
+      'devServerBefore',
+      (app: Application, server: WebpackDevServer, { ssr }: IResolveWebpackConfigOptions) => {
+        const { ssrConfig } = context.config;
+        if (ssrConfig && ssr) {
+          const { contentBase, https, port, host } = ssrConfig;
+          const protocol = https ? 'https://' : 'http://';
+          const target = `${protocol + host}:${port}${contentBase || ''}`;
+          const ssrInst = new SSR(ssrConfig);
+          app.use((req: IncomingMessage, res: ServerResponse, next: any) => {
+            const route: IRouteMatch = ssrInst.router(req);
+            if (route) {
+              const proxyConfig = {
+                context: req.url,
+                secure: false,
+                target,
+              };
+              return httpProxyMiddleware(req.url, proxyConfig)(req, res, next);
+            } else {
+              next();
+            }
+          });
+        }
+      }
+    );
+    context.hook(
+      'devServerAfter',
+      (app: Application, server: WebpackDevServer, { ssr }: IResolveWebpackConfigOptions) => {
+        const { ssrConfig } = context.config;
+        if (ssrConfig && ssr) {
+          const { contentBase, https, port, host } = ssrConfig;
+          const protocol = https ? 'https://' : 'http://';
+          const target = `${protocol + host}:${port}${contentBase || ''}`;
+          app.all('*', (req, res, next) => {
+            console.log(req.url);
             const proxyConfig = {
               context: req.url,
               secure: false,
               target,
             };
             return httpProxyMiddleware(req.url, proxyConfig)(req, res, next);
-          } else {
-            next();
-          }
-        });
+          });
+        }
       }
-    });
+    );
   }
 }
