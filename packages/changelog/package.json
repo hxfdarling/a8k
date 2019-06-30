@@ -23,6 +23,7 @@
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
+    "@a8k/common": "^1.0.0",
     "app-root-path": "^2.2.1",
     "chalk": "^2.4.2",
     "execa": "^1.0.0"

@@ -1,0 +1,50 @@
+{
+  "name": "@a8k/ssr",
+  "version": "2.0.0-beta.15",
+  "description": "a8k app ssr server ",
+  "author": "liuhua <hxfdarling@hotmail.com>",
+  "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/server#readme",
+  "license": "ISC",
+  "main": "lib/common/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hxfdarling/a8k.git"
+  },
+  "scripts": {
+    "dev": "tsc --sourceMap --outDir lib/common -m commonjs --watch",
+    "build:esm": "tsc  --outDir lib/esm -m es6",
+    "build:common": "tsc  --outDir lib/common -m commonjs",
+    "build": "rimraf lib && npm run build:esm & npm run build:common",
+    "prepublishOnly": "npm run test && npm run build",
+    "lint": "tslint --project tsconfig.json",
+    "lint:fix": "tslint --project tsconfig.json --fix",
+    "test": "jest --coverage --rootDir ./src --passWithNoTests",
+    "test:w": "jest --watchAll --rootDir ./src --passWithNoTests"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/hxfdarling/a8k/issues"
+  },
+  "dependencies": {
+    "@a8k/common": "^1.0.0",
+    "path-match": "^1.2.4",
+    "serialize-javascript": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/koa": "^2.0.48",
+    "@types/react": "^16.8.22",
+    "@types/react-dom": "^16.8.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}

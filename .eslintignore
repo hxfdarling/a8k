@@ -1,9 +1,7 @@
 node_modules
 /packages/a8k/
 /packages/plugin-typescript-template/lib
-/packages/ssr-koa-middleware/lib
-/packages/ssr-express-middleware/lib
-/packages/ssr-utils/lib
+/packages/ssr/lib
 /packages/common/lib
 a8k.config.js
 jest.config.js

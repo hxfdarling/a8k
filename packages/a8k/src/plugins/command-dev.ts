@@ -1,12 +1,11 @@
 import { logger } from '@a8k/common';
 import { BUILD_ENV, BUILD_TARGET, ENV_DEV } from '@a8k/common/lib/constants';
 import chalk from 'chalk';
-import fs from 'fs-extra';
+import { Application } from 'express';
 import os from 'os';
 import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
-import { getEntry, IEntry } from '../utils/entry';
-import { printInstructions, setProxy } from '../utils/helper';
+import { printInstructions } from '../utils/helper';
 
 const isInteractive = process.stdout.isTTY;
 
@@ -59,37 +58,18 @@ export default class DevCommand {
             process.exit(-1);
             return;
           }
-          const { contentBase, https, port: ssrPort, host, entry: customEntry } = ssrConfig;
 
-          if (!ssrPort) {
+          if (!ssrConfig.port) {
             logger.error('如需要调试直出，请配置 ssrConfig:{port:xxx} 端口信息');
             process.exit(-1);
           }
 
-          fs.ensureDirSync(ssrConfig.entryPath);
-          fs.ensureDirSync(ssrConfig.viewPath);
-
-          devServer.before = (app: any) => {
-            const protocol = https ? 'https://' : 'http://';
-            const proxy = getEntry(context)
-              .filter(({ name }) => {
-                if (customEntry === true || !customEntry) {
-                  return true;
-                }
-                if (customEntry.indexOf(name)) {
-                  return true;
-                }
-                return false;
-              })
-              .map(({ name }: IEntry) => `${name}.html`)
-              .reduce((result, fileName) => {
-                result['/' + fileName] = {
-                  target: `${protocol + host}:${ssrPort}${contentBase || ''}`,
-                  secure: false,
-                };
-                return result;
-              }, {});
-            setProxy(app, proxy);
+          const { before } = devServer;
+          devServer.before = (app: Application, server: WebpackDevServer) => {
+            context.hooks.invoke('devServerBefore', app, server);
+            if (before) {
+              before(app, server);
+            }
           };
         }
         try {
@@ -130,7 +110,7 @@ export default class DevCommand {
           logger.error(err.stack);
           process.exit(1);
         }
-        if (options.ssr) {
+        if (ssr) {
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,
             type: BUILD_TARGET.NODE,

@@ -131,6 +131,9 @@ export default class A8k {
     config.template = this.resolve(config.template);
     // 缓存版本标记
     config.cacheDirectory = path.resolve(config.cacheDirectory);
+    // 默认值必须是"/"
+    config.publicPath = config.publicPath || '/';
+
     if (config.ssrConfig) {
       // ssr配置
       config.ssrConfig.entryPath = this.resolve(config.ssrConfig.entryPath);

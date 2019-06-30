@@ -30,6 +30,7 @@ interface A8kConfig {
         host: string;
         entryPath: string;
         viewPath: string;
+        routesPath: string;
         entry: true | string[];
       };
   ssrDevServer: any;

@@ -3,7 +3,7 @@ const chalk = require('chalk');
 
 const Generator = require('yeoman-generator');
 const { join } = require('path');
-const logger = require('@a8k/common/lib/logger');
+const { logger } = require('@a8k/common');
 const {
   toArray,
   createExampleComponent,
@@ -131,6 +131,7 @@ class CreateGenerator extends Generator {
         this._copyFiles([['multi/server/index.express.js', 'server/index.js']]);
       }
       this._copyTpls([['multi/nodemon.json', 'nodemon.json']]);
+      this._copyTpls([['multi/routes.js', 'routes.js']]);
     }
     createExampleComponent(this, 'src/components', 'Example', false);
     createMultiExamplePage(this, 'index');

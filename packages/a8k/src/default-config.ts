@@ -1,4 +1,9 @@
-import { PROJECT_MODE } from '@a8k/common/lib/constants';
+import {
+  PROJECT_MODE,
+  SERVER_ENTRY_DIR,
+  SERVER_ROUTES,
+  SERVER_VIEW_DIR,
+} from '@a8k/common/lib/constants';
 import WebpackDevServer from 'webpack-dev-server';
 import { A8kConfig } from './interface';
 const devServer: WebpackDevServer.Configuration = {
@@ -58,8 +63,10 @@ export const ssrConfig = {
   https: false,
   port: '',
   // js存放地址
-  entryPath: './.a8k/server/entry',
+  entryPath: SERVER_ENTRY_DIR,
   // html存放地址
-  viewPath: './.a8k/server/view',
+  viewPath: SERVER_VIEW_DIR,
+  // 直出路由文件地址
+  routesPath: SERVER_ROUTES,
 };
 export default config;

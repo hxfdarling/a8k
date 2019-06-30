@@ -1,4 +1,3 @@
-import fs from 'fs';
 import serialize from 'serialize-javascript';
 
 const RICH_IMG_PLACEHOLDER = 'RICH_IMG_PLACEHOLDER';
@@ -92,24 +91,16 @@ interface ICombine {
 }
 
 export default class {
-  private templateContent: string;
-  private filename: string;
-  constructor(filename: string) {
-    this.filename = filename;
-    this.templateContent = this.readFile();
+  private template: string;
+  constructor(template: string) {
+    this.template = template;
   }
   public combine(kv: ICombine) {
-    let html = this.templateContent;
-    if (process.env.A8K_ENV === 'development') {
-      html = this.readFile();
-    }
+    let { template } = this;
     kv.SERVER_FLAG_INSERTER = 1;
     Object.keys(kv).forEach((key: string) => {
-      html = key2handler[key](html, kv[key] || '');
+      template = key2handler[key](template, kv[key] || '');
     });
-    return html;
-  }
-  private readFile() {
-    return fs.readFileSync(this.filename, 'utf-8');
+    return template;
   }
 }

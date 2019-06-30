@@ -1,13 +1,12 @@
 const path = require('path');
 const express = require('express');
-const ssr = require('@a8k/ssr-express-middleware');
+const { expressMiddleware } = require('@a8k/ssr');
 const {
   ssrConfig: { port },
 } = require('../a8k.config.js');
 
 const app = express();
-
-app.use(ssr());
+app.use(expressMiddleware());
 app.use(express.static(path.join(__dirname, '../.a8k/static/'), {}));
 app.listen(port, () => {
   console.log();

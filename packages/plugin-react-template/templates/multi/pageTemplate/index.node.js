@@ -2,8 +2,9 @@ import ProviderContainer from './ProviderContainer';
 import store from './store';
 import { init } from './Container';
 
-export async function bootstrap(ctx) {
-  console.log('TCL: bootstrap -> ctx', ctx);
+const App = () => ProviderContainer;
+App.bootstrap = async (params, req, res) => {
+  console.log('TCL: App.bootstrap -> params,req,res', params, req, res);
   init();
   const state = store.getState();
   return {
@@ -14,5 +15,5 @@ export async function bootstrap(ctx) {
     description: 'info', // 描述信息
     style: '<style>body{color:black;}</style>', // 动态插入的样式
   };
-}
-export default ProviderContainer;
+};
+export default App;

@@ -1,4 +1,4 @@
-import logger from '@a8k/common/lib/logger';
+import { logger } from '@a8k/common';
 import { join } from 'path';
 import semver from 'semver';
 import Generator from 'yeoman-generator';

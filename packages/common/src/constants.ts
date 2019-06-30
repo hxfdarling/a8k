@@ -26,5 +26,8 @@ if (process.platform === 'win32') {
 } else {
   root = process.env.HOME || process.env.TMPDIR || '/tmp';
 }
+export const SERVER_ENTRY_DIR = './.a8k/server/entry';
+export const SERVER_VIEW_DIR = './.a8k/server/view';
+export const SERVER_ROUTES = './routes.js';
 
 export const configPath = path.join(root, '.a8k.config.json');

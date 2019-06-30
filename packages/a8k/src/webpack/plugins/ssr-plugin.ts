@@ -25,6 +25,8 @@ class SSRPlugin {
         entry,
       } = this.options;
 
+      fs.ensureDirSync(viewPath);
+
       const entryMap = entry
         .map(({ name }: IEntry) => {
           return {

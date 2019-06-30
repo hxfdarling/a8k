@@ -1,4 +1,9 @@
 import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '@a8k/common/lib/constants';
+import { SSR } from '@a8k/ssr';
+import { IRouteMatch } from '@a8k/ssr/lib/common/utils/helper';
+import { Application } from 'express';
+import { IncomingMessage, ServerResponse } from 'http';
+import httpProxyMiddleware from 'http-proxy-middleware';
 import WebpackChain from 'webpack-chain';
 import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
@@ -62,5 +67,27 @@ export default class SsrConfig {
         }
       }
     );
+    context.hook('devServerBefore', (app: Application) => {
+      const { ssrConfig } = context.config;
+      if (ssrConfig) {
+        const { contentBase, https, port, host } = ssrConfig;
+        const protocol = https ? 'https://' : 'http://';
+        const target = `${protocol + host}:${port}${contentBase || ''}`;
+        const ssr = new SSR(ssrConfig);
+        app.use((req: IncomingMessage, res: ServerResponse, next: any) => {
+          const route: IRouteMatch = ssr.router(req);
+          if (route) {
+            const proxyConfig = {
+              context: req.url,
+              secure: false,
+              target,
+            };
+            return httpProxyMiddleware(req.url, proxyConfig)(req, res, next);
+          } else {
+            next();
+          }
+        });
+      }
+    });
   }
 }

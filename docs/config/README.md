@@ -111,8 +111,6 @@ module.exports = {
 
 `port`: `required` 指定 node 服务启动端口，在开发阶段调试需要代理到该页面
 
-`routers`: 配置直出页面路由, 如果不配置，默认使用`req.path` 进行匹配
-
 配置示例：
 
 ```js
@@ -121,9 +119,6 @@ module.exports = {
   ssrConfig: {
     port: 3000, // 配置node服务端口
     entry: ['search'],
-    routers: {
-      'search/:key': 'search',
-    },
   },
 };
 ```
