@@ -1,6 +1,6 @@
 {
   "name": "@a8k/ssr",
-  "version": "2.0.0-beta.16",
+  "version": "2.0.0-beta.17",
   "description": "a8k app ssr server ",
   "author": "liuhua <hxfdarling@hotmail.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/server#readme",
@@ -35,7 +35,7 @@
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
-    "@a8k/common": "^2.0.0-beta.16",
+    "@a8k/common": "^2.0.0-beta.17",
     "path-match": "^1.2.4",
     "serialize-javascript": "^1.7.0"
   },

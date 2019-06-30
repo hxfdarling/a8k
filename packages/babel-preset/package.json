@@ -1,6 +1,6 @@
 {
   "name": "@a8k/babel-preset",
-  "version": "2.0.0-beta.16",
+  "version": "2.0.0-beta.17",
   "description": "Babel preset used by a8k",
   "license": "MIT",
   "files": [
@@ -8,7 +8,7 @@
     "index.js"
   ],
   "dependencies": {
-    "@a8k/common": "^2.0.0-beta.16",
+    "@a8k/common": "^2.0.0-beta.17",
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-proposal-decorators": "^7.4.4",
