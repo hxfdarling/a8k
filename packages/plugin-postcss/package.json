@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-postcss",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.16",
   "description": "a8k project use postcss instead of sass",
   "author": "edenhliu <edenhliu@tencent.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-postcss#readme",
@@ -25,8 +25,8 @@
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
-    "@a8k/cli-utils": "^2.0.0-beta.5",
-    "@a8k/common": "^1.0.0",
+    "@a8k/cli-utils": "^2.0.0-beta.16",
+    "@a8k/common": "^2.0.0-beta.16",
     "cache-loader": "^4.0.0",
     "css-loader": "^3.0.0",
     "ignore-loader": "^0.1.2",
