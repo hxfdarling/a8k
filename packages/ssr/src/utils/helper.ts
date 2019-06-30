@@ -53,9 +53,11 @@ export const getRoutesConfig = (routesPath: string, entryPath: string): IRouteCo
       });
   }
   if (existsSync(routesPath)) {
+    delete require.cache[require.resolve(routesPath)];
     const customConfig = require(routesPath);
-    return customConfig.concat(defaultConfig);
-  } else {
-    return defaultConfig;
+    if (Array.isArray(customConfig)) {
+      return customConfig.concat(defaultConfig);
+    }
   }
+  return defaultConfig;
 };

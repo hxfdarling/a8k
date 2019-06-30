@@ -1,6 +1,7 @@
 import { logger } from '@a8k/common';
 import { SERVER_ENTRY_DIR, SERVER_VIEW_DIR } from '@a8k/common/lib/constants';
 import express from 'express';
+import fs from 'fs';
 import { readFileSync } from 'fs-extra';
 import koa, { Context } from 'koa';
 import { resolve } from 'path';
@@ -45,14 +46,19 @@ export class SSR {
     this.routesConfig = getRoutesConfig(this.routesPath, this.entryPath);
     this.router = createRouter(this.routesConfig);
     this.options = options || {};
-    logger.debug('[ssr]routesConfig', this.routesConfig);
+    logger.debug('[ssr] routesConfig', this.routesConfig);
+    if (process.env.NODE_ENV === 'development') {
+      const update = () => {
+        // 开发模式下为了防止entry目录清理或者修改时 直出服务器没有感知到，因此每次渲染都会重新查询一次
+        this.routesConfig = getRoutesConfig(this.routesPath, this.entryPath);
+        this.router = createRouter(this.routesConfig);
+        logger.debug('[ssr] update routesConfig', this.routesConfig);
+      };
+      fs.watch(this.entryPath, update);
+      fs.watch(this.routesPath, update);
+    }
   }
   get router() {
-    if (process.env.NODE_ENV === 'development') {
-      // 开发模式下为了防止entry目录清理或者修改时 直出服务器没有感知到，因此每次渲染都会重新查询一次
-      this.routesConfig = getRoutesConfig(this.routesPath, this.entryPath);
-      this.router = createRouter(this.routesConfig);
-    }
     return this._router;
   }
   set router(value) {
