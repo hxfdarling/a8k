@@ -2,17 +2,18 @@ import loadConfig from '@a8k/cli-utils/load-config';
 import { logger } from '@a8k/common';
 import { Options, parse } from 'acorn';
 import micromatch from 'micromatch';
+import webpack from 'webpack';
 
 interface EsCheckOptions {
   ecmaVersion: string;
   baseDir?: string;
   module?: boolean;
   allowHashBang?: boolean;
-  exclude?: string[];
+  exclude: string[];
 }
 
 const check = (files: Array<{ filename: string; source: string }>, acornOpts: Options) => {
-  const errArray = [];
+  const errArray: any = [];
   files.forEach(({ filename, source }) => {
     logger.debug(`ES-Check: checking ${filename}`);
     try {
@@ -34,7 +35,7 @@ const check = (files: Array<{ filename: string; source: string }>, acornOpts: Op
     logger.error(
       `you can add "escheck.exclude" option into "a8k.config.json" config to ignore this file or check you code`
     );
-    errArray.forEach(o => {
+    errArray.forEach((o: any) => {
       logger.info(`
           ES-Check Error:
           ----
@@ -50,10 +51,9 @@ const check = (files: Array<{ filename: string; source: string }>, acornOpts: Op
 };
 
 class EsCheckPlugin {
-  public options: EsCheckOptions;
+  public options: EsCheckOptions = {} as EsCheckOptions;
   public name = 'es-check-plugin';
   public acornOpts: Options;
-  public exclude: string[];
   constructor(options: EsCheckOptions) {
     this.options = { ...options };
     const res = loadConfig.loadSync({
@@ -146,7 +146,7 @@ class EsCheckPlugin {
     }
     this.acornOpts = acornOpts;
   }
-  public apply(compiler) {
+  public apply(compiler: webpack.Compiler) {
     logger.debug(` Going to check files using version ${this.options.ecmaVersion}`);
     compiler.hooks.afterEmit.tap(this.name, ({ assets }) => {
       const files = Object.keys(assets)

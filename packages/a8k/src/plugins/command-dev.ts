@@ -6,16 +6,17 @@ import os from 'os';
 import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
 import { printInstructions } from '../utils/helper';
+import webpack from 'webpack';
 
 const isInteractive = process.stdout.isTTY;
 
-const invalidHook = (filename, ctime) => {
+const invalidHook = (filename: string, ctime: string) => {
   if (isInteractive) {
     logger.clearConsole();
   }
   const d = new Date(ctime);
-  const leftpad = v => (v > 9 ? v : `0${v}`);
-  const prettyPath = p => p.replace(os.homedir(), '~');
+  const leftpad = (v: number) => (v > 9 ? v : `0${v}`);
+  const prettyPath = (p: string) => p.replace(os.homedir(), '~');
   console.log(
     chalk.cyan(
       `[${leftpad(d.getHours())}:${leftpad(d.getMinutes())}:${leftpad(
@@ -78,7 +79,7 @@ export default class DevCommand {
           compiler.hooks.invalid.tap('invalid', invalidHook);
 
           let isFirstCompile = true;
-          compiler.hooks.done.tap('done', stats => {
+          compiler.hooks.done.tap('done', (stats: webpack.Stats) => {
             if (!stats.hasErrors() && isFirstCompile) {
               printInstructions(devServer);
               isFirstCompile = false;
@@ -93,7 +94,7 @@ export default class DevCommand {
           }
           const server = new WebpackDevServer(compiler, temp);
           // Launch WebpackDevServer.
-          server.listen(devServer.port, devServer.host, err => {
+          server.listen(devServer.port as number, devServer.host as string, err => {
             if (err) {
               logger.error(err);
               process.exit(1);
@@ -128,7 +129,7 @@ export default class DevCommand {
             watch: true,
           });
           const compiler = context.createWebpackCompiler(webpackConfigSSR);
-          compiler.watch(webpackConfigSSR.watchOptions, err => {
+          compiler.watch(webpackConfigSSR.watchOptions, (err: any) => {
             if (err) {
               logger.error(err.stack || err);
               if (err.details) {

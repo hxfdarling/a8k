@@ -4,9 +4,14 @@ import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import path from 'path';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
+import { IResolveWebpackConfigOptions } from '../../interface';
 import { genCssModulesName } from './utils';
 
-export default (configChain: WebpackChain, context: A8k, { type }) => {
+export default (
+  configChain: WebpackChain,
+  context: A8k,
+  { type }: IResolveWebpackConfigOptions
+) => {
   const { babel: { include = [], exclude = [] } = {}, cssModules, cacheDirectory } = context.config;
   const { mode } = context.internals;
 

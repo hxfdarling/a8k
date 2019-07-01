@@ -36,7 +36,7 @@ export default (
     {
       fileName: 'manifest-legacy.json',
       // basePath: dist,
-      map: file => {
+      map: (file: any) => {
         file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
         return file;
       },

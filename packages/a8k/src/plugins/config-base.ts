@@ -19,7 +19,7 @@ export default class BaseConfig {
     context.chainWebpack((configChain: WebpackChain, options: IResolveWebpackConfigOptions) => {
       const { type, analyzer, watch } = options;
 
-      configChain.watch(watch);
+      configChain.watch(!!watch);
 
       configChain.context(context.options.baseDir);
 

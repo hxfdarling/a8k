@@ -68,7 +68,7 @@ const getStandardEntry = (context: A8k) => {
     .readdirSync(pagesPath)
     .filter((item: string) => !ignorePages.includes(item))
     .map((item: string) => getReallyEntry(path.join(pagesPath, item)))
-    .map((file: string) => {
+    .map((file: any) => {
       let name = path.dirname(file);
       if (name === pagesPath) {
         // 如果页面没有目录，只是pagesPath下的一个文件
@@ -114,13 +114,15 @@ const getCustomEntry = (context: A8k) => {
 export const getEntry = (context: A8k): IEntry[] => {
   const { entry } = context.config;
   const isCustomEntry = entry && Object.keys(entry).length >= 0;
-  return (!isCustomEntry ? getStandardEntry(context) : getCustomEntry(context)).map(item => {
-    item.entry = item.entry.map((i: string) => {
-      // 清理entry后面的扩展名
-      return i.replace(extensionsReg, '');
-    });
-    return item;
-  });
+  return (!isCustomEntry ? getStandardEntry(context) : getCustomEntry(context)).map(
+    (item: IEntry) => {
+      item.entry = item.entry.map((i: string) => {
+        // 清理entry后面的扩展名
+        return i.replace(extensionsReg, '');
+      });
+      return item;
+    }
+  );
 };
 
 export interface IEntry {

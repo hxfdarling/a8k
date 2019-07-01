@@ -9,7 +9,35 @@ interface A8kOptions {
   configFile: string;
   inspectWebpack: boolean;
 }
-
+type SsrConfig =
+  | false
+  | {
+      contentBase: string;
+      https: boolean;
+      port: string;
+      host: string;
+      entryPath: string; // SSR文件输出目录
+      viewPath: string; // SSR模板文件输出目录
+      routesPath: string; // 路由文件路径
+      entry: true | string[];
+    };
+type CssModules =
+  | boolean
+  | {
+      mode?: string;
+      localIdentName?: string;
+      context?: string;
+      hashPrefix?: string;
+    };
+type EsCheck =
+  | boolean
+  | {
+      ecmaVersion?: string;
+      baseDir?: string;
+      module?: boolean;
+      allowHashBang?: boolean;
+      exclude?: Array<string>;
+    };
 interface A8kConfig {
   type: string; // 项目类型，例如react项目、vue项目
   mode: PROJECT_MODE; // 项目模式，单页面多页面
@@ -21,24 +49,13 @@ interface A8kConfig {
   template: string; // html模板路径
   devServer: WebpackDevServer.Configuration; // webpack-dev-server配置
   //服务器渲染配置
-  ssrConfig:
-    | false
-    | {
-        contentBase: string;
-        https: boolean;
-        port: string;
-        host: string;
-        entryPath: string; // SSR文件输出目录
-        viewPath: string; // SSR模板文件输出目录
-        routesPath: string; // 路由文件路径
-        entry: true | string[];
-      };
+  ssrConfig: SsrConfig;
   ssrDevServer: any;
-  chainWebpack: Function;
-  envs: any; // 配置的.env环境文件
+  chainWebpack: Function | undefined;
+  envs: { [key: string]: any }; // 配置的.env环境文件
   publicPath: string; //资源的公共路径（CDN、站点路径）
   plugins: Array<string>; // a8k插件
-  webpackOverride: Function; // 直接修改webapck配置文件
+  webpackOverride: Function | undefined; // 直接修改webapck配置文件
   crossOrigin: boolean; // 是否跨域加载css、JavaScript
   retry: any; //主域重试
   babel: {
@@ -55,24 +72,8 @@ interface A8kConfig {
   };
   ignorePages: Array<string>;
   sri: boolean;
-  escheck:
-    | boolean
-    | {
-        ecmaVersion?: string;
-        baseDir?: string;
-        module?: boolean;
-        allowHashBang?: boolean;
-        exclude?: Array<string>;
-      };
-  cssModules:
-    | boolean
-    | {
-        mode?: string;
-        localIdentName?: string;
-        context?: string;
-        hashPrefix?: string;
-      };
-  // [key: string]: any;
+  escheck: EsCheck;
+  cssModules: CssModules;
 }
 
 interface Internals {
@@ -90,8 +91,8 @@ interface ICommandOptions {
 }
 
 interface IResolveWebpackConfigOptions extends ICommandOptions {
-  type: BUILD_TARGET;
-  mode?: BUILD_ENV;
-  watch?: boolean;
-  ssr?: boolean;
+  type: BUILD_TARGET; // 目标是浏览器还是node
+  mode?: BUILD_ENV; // 是生产模式还是开发模式
+  watch?: boolean; // ssr模式监听
+  ssr?: boolean; // ssr模式
 }

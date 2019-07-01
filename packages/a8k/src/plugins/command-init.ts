@@ -97,7 +97,7 @@ module.exports = {
                   'husky',
                   'lint-staged',
                 ];
-                await util.promisify(shell.exec)(`${npmCmd} i ${deps.join(' ')} -D`, {
+                await util.promisify(shell.exec as any)(`${npmCmd} i ${deps.join(' ')} -D`, {
                   silent: false,
                 });
 
@@ -115,7 +115,7 @@ module.exports = {
 
               logWithSpinner('添加依赖: ' + deps.join(' '));
               logWithSpinner('安装依赖中');
-              await util.promisify(shell.exec)(`${npmCmd} i ${deps.join(' ')} -D`, {
+              await util.promisify(shell.exec as any)(`${npmCmd} i ${deps.join(' ')} -D`, {
                 silent: true,
               });
 
@@ -123,7 +123,7 @@ module.exports = {
               const cmd = `./node_modules/.bin/a8k-changelog${
                 os.platform() === 'win32' ? '.cmd' : ''
               }`;
-              await util.promisify(shell.exec)(cmd, { silent: true });
+              await util.promisify(shell.exec as any)(cmd, { silent: true });
               stopSpinner();
               break;
             }

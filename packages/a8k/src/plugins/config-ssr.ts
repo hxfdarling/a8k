@@ -85,7 +85,7 @@ export default class SsrConfig {
                 secure: false,
                 target,
               };
-              return httpProxyMiddleware(req.url, proxyConfig)(req, res, next);
+              return httpProxyMiddleware(req.url as string, proxyConfig)(req, res, next);
             } else {
               next();
             }

@@ -5,6 +5,7 @@ interface IConfig {
   updateDate: string;
   needUpdate: boolean;
   plugins: string[];
+  [key: string]: any;
 }
 let config: IConfig = {} as IConfig;
 

@@ -1,5 +1,6 @@
 import formatWebpackMessages from '@a8k/dev-utils/formatWebpackMessages';
 import chalk from 'chalk';
+import webpack from 'webpack';
 
 /**
  * @typedef {Object} Options
@@ -9,21 +10,16 @@ import chalk from 'chalk';
 class ReportStatusPlugin {
   public options: any;
 
-  /**
-   *Creates an instance of ReportStatusPlugin.
-   * @param {Options} options
-   * @memberof ReportStatusPlugin
-   */
-  constructor(options) {
+  constructor(options: any) {
     this.options = { ...options };
   }
 
-  public apply(compiler) {
+  public apply(compiler: webpack.Compiler) {
     const { options } = this;
 
-    compiler.hooks.done.tap('report-status', async (stats) => {
+    compiler.hooks.done.tap('report-status', async (stats: webpack.Stats) => {
       const messages = formatWebpackMessages(
-        stats.toJson({ all: false, warnings: true, errors: true }),
+        stats.toJson({ all: false, warnings: true, errors: true })
       );
 
       // If errors exist, only show errors.
@@ -46,11 +42,11 @@ class ReportStatusPlugin {
         // Teach some ESLint tricks.
         console.log(
           `\nSearch for the ${chalk.underline(
-            chalk.yellow('keywords'),
-          )} to learn more about each warning.`,
+            chalk.yellow('keywords')
+          )} to learn more about each warning.`
         );
         console.log(
-          `To ignore, add ${chalk.cyan('// eslint-disable-next-line')} to the line before.\n`,
+          `To ignore, add ${chalk.cyan('// eslint-disable-next-line')} to the line before.\n`
         );
       }
     });

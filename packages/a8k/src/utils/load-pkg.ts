@@ -5,7 +5,7 @@ import path from 'path';
 
 export default ({ cwd = process.cwd() } = {}) => {
   let pkgData: any;
-  let pkgPath: string;
+  let pkgPath: string | undefined;
   let watcher: any;
 
   const updatePkg = () => {
@@ -18,11 +18,11 @@ export default ({ cwd = process.cwd() } = {}) => {
       cwd,
     });
 
-    pkgPath = res.path;
+    pkgPath = res.path || '';
     pkgData = res.data || {};
   };
 
-  const watchPkg = file => {
+  const watchPkg = (file: string) => {
     return chokidar
       .watch(file, {
         ignoreInitial: true,
@@ -32,7 +32,7 @@ export default ({ cwd = process.cwd() } = {}) => {
       })
       .on('unlink', () => {
         pkgData = {};
-        pkgPath = null;
+        pkgPath = undefined;
       })
       .on('change', () => {
         logger.debug(`${file} has changed..`);
@@ -51,7 +51,7 @@ export default ({ cwd = process.cwd() } = {}) => {
       return pkgData;
     },
 
-    watch(file) {
+    watch(file: string) {
       watcher = watcher || watchPkg(file || pkgPath || path.join(cwd, 'package.json'));
       return watcher;
     },

@@ -46,7 +46,7 @@ export default class BuildCommand {
         //   config = smp.wrap(config);
         // }
 
-        let clientCompiler: Promise<any>;
+        let clientCompiler: Promise<any> = Promise.resolve();
         if (buildBrowser) {
           await hooks.invokePromise('beforeBuild', context);
           fs.emptyDirSync(context.config.dist);
@@ -82,9 +82,9 @@ export default class BuildCommand {
             }
           });
           await context.runCompiler(compilerSSR);
-          if (buildBrowser) {
-            await clientCompiler;
-          }
+
+          await clientCompiler;
+
           await context.hooks.invokePromise('afterSSRBuild', context);
         }
       });

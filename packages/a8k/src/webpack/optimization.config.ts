@@ -40,7 +40,7 @@ export default (
           reuseExistingChunk: true,
         },
         vendor: {
-          test: ({ resource }) => {
+          test: ({ resource }: any) => {
             if (resource) {
               const include = [/[\\/]node_modules[\\/]/].every(reg => {
                 return reg.test(resource);
@@ -58,7 +58,7 @@ export default (
           reuseExistingChunk: true,
         },
         react: {
-          test({ resource }) {
+          test({ resource }: any) {
             return /[\\/]node_modules[\\/](react|redux)/.test(resource);
           },
           name: 'react',

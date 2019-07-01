@@ -17,6 +17,7 @@ import getFilenames from './utils/get-filenames';
 import { getConfig, setConfig } from './utils/global-config';
 import loadPkg from './utils/load-pkg';
 import loadPlugins from './utils/load-plugins';
+import webpack from 'webpack';
 
 const { version } = require('../package.json');
 
@@ -43,10 +44,10 @@ export default class A8k {
   public internals: Internals;
   public buildId: string;
   public pkg: any;
-  public configFilePath: string;
+  public configFilePath: string = '';
   public plugins: any[] = [];
   private pluginsSet = new Set<string>();
-  private inspectWebpackConfigPath: string;
+  private inspectWebpackConfigPath: string = '';
   private createProjectCommandTypes: Array<{
     type: string;
     description: string;
@@ -173,7 +174,7 @@ export default class A8k {
         } catch (e) {}
         const files = exist ? await fs.readdir(projectDir) : [];
         if (files.length) {
-          const answer = await inquirer.prompt([
+          const answer: any = await inquirer.prompt([
             {
               type: 'confirm',
               name: 'continue',
@@ -186,7 +187,7 @@ export default class A8k {
           }
         }
         if (!type) {
-          const prompts = [
+          const prompts: any = [
             {
               // tslint:disable-next-line: no-shadowed-variable
               choices: this.createProjectCommandTypes.map(({ type, description }) => {
@@ -197,17 +198,17 @@ export default class A8k {
               type: 'list',
             },
           ];
-          const result = await inquirer.prompt(prompts);
+          const result: any = await inquirer.prompt(prompts);
           type = result.type;
         }
         let name = path.basename(projectDir);
-        const prompt = [
+        const prompt: any = [
           {
             type: 'input',
             name: 'name',
             validate(input: string) {
               // Declare function as asynchronous, and save the done callback
-              const done = this.async();
+              const done = (this as any).async();
 
               if (input !== '' && /^[a-z@A-Z]/.test(input)) {
                 done(null, true);
@@ -229,10 +230,11 @@ export default class A8k {
         if (!commandType) {
           logger.error(`create "${type}" not support`);
           process.exit(-1);
+        } else {
+          spinner.info(commandType.description);
+          fs.ensureDir(projectDir);
+          commandType.action(createConfig);
         }
-        spinner.info(commandType.description);
-        fs.ensureDir(projectDir);
-        commandType.action(createConfig);
       });
     this.registerCommand('page')
       .alias('p')
@@ -321,7 +323,7 @@ export default class A8k {
   public loadEnvs() {
     const { NODE_ENV } = process.env;
     const dotenvPath = this.resolve('.env');
-    const dotenvFiles = [
+    const dotenvFiles: any[] = [
       NODE_ENV && `${dotenvPath}.${NODE_ENV}.local`,
       NODE_ENV && `${dotenvPath}.${NODE_ENV}`,
       // Don't include `.env.local` for `test` environment
@@ -331,7 +333,7 @@ export default class A8k {
       dotenvPath,
     ].filter(Boolean);
 
-    let envs = {};
+    let envs: any = {};
 
     dotenvFiles.forEach((dotenvFile: string) => {
       if (fs.existsSync(dotenvFile)) {
@@ -473,11 +475,11 @@ export default class A8k {
     return webpackConfig;
   }
 
-  public createWebpackCompiler(webpackConfig) {
+  public createWebpackCompiler(webpackConfig: webpack.Configuration) {
     return require('webpack')(webpackConfig);
   }
 
-  public async runWebpack(webpackConfig) {
+  public async runWebpack(webpackConfig: webpack.Configuration) {
     const compiler = this.createWebpackCompiler(webpackConfig);
     await new Promise((resolve, reject) => {
       compiler.run((err: Error, stats: any) => {
@@ -489,7 +491,7 @@ export default class A8k {
     });
   }
 
-  public async runCompiler(compiler) {
+  public async runCompiler(compiler: webpack.Compiler) {
     await new Promise((resolve, reject) => {
       compiler.run((err: Error, stats: any) => {
         if (err) {

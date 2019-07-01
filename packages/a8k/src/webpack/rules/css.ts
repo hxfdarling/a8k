@@ -7,7 +7,7 @@ import generateLoaders from './generate-loaders';
 export default (configChain: WebpackChain, context: A8k, options: IResolveWebpackConfigOptions) => {
   const { type, ssr } = options;
   // 生产模式和服务器渲染调试时，开启这个模式防止样式抖动
-  const needExtraCss = context.internals.mode === BUILD_ENV.PRODUCTION || ssr;
+  const needExtraCss = context.internals.mode === BUILD_ENV.PRODUCTION || !!ssr;
 
   if (type === BUILD_TARGET.NODE && !context.config.cssModules) {
     // 服务端渲染，直接忽略css

@@ -27,7 +27,7 @@ if (!process.argv.find((arg: string) => arg === '--nochecklatest')) {
   }
 }
 
-process.on('unhandledRejection', (err: Error) => {
+process.on('unhandledRejection' as any, (err: Error) => {
   throw err;
 });
 

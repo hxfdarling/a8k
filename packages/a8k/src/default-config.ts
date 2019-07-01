@@ -6,6 +6,7 @@ import {
 } from '@a8k/common/lib/constants';
 import WebpackDevServer from 'webpack-dev-server';
 import { A8kConfig } from './interface';
+
 const devServer: WebpackDevServer.Configuration = {
   host: '0.0.0.0',
   port: 8899,
@@ -13,7 +14,7 @@ const devServer: WebpackDevServer.Configuration = {
   inline: true,
   disableHostCheck: true,
   // not use https
-  https: true,
+  https: false,
   // Enable gzip compression of generated files.
   compress: true,
   // we need info in compile
@@ -42,19 +43,33 @@ const devServer: WebpackDevServer.Configuration = {
   serveIndex: false,
 } as any;
 const config: A8kConfig = {
+  type: '',
   mode: PROJECT_MODE.MULTI,
   entry: null,
   initEntry: [],
   dist: './.a8k/static',
   cacheDirectory: './.a8k/.cache',
   pagesPath: './src/pages',
-  ignorePages: [],
   template: './src/common/template.html',
-  publicPath: '',
-  devServer,
-  cssModules: false,
-  ssrConfig: false,
+  publicPath: '/',
   escheck: true,
+  cssModules: false,
+  devServer,
+  ssrConfig: false,
+  ssrDevServer: {},
+  crossOrigin: true,
+  retry: false,
+  sri: false,
+  babel: {
+    include: [],
+    exclude: [],
+  },
+  chainWebpack: undefined,
+  webpackOverride: undefined,
+  filenames: {} as any,
+  plugins: [],
+  ignorePages: [],
+  envs: {},
 } as A8kConfig;
 export const ssrConfig = {
   host: 'localhost',

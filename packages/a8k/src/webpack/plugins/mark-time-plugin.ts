@@ -1,5 +1,5 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
+import webpack from 'webpack';
 class MarkTimePlugin {
   public options: any;
 
@@ -7,12 +7,12 @@ class MarkTimePlugin {
     this.options = options;
   }
 
-  public apply(compiler) {
+  public apply(compiler: webpack.Compiler) {
     const { code = 'var T=window.T||{};T.mainEnd=Date.now();' } = this.options;
-    compiler.hooks.compilation.tap('MarkTimePlugin', (compilation) => {
+    compiler.hooks.compilation.tap('MarkTimePlugin', compilation => {
       HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tapAsync(
         'MarkTimePlugin',
-        (data, next) => {
+        (data: any, next: any) => {
           if (data.assetTags.scripts) {
             data.assetTags.scripts.push({
               tagName: 'script',
@@ -22,7 +22,7 @@ class MarkTimePlugin {
             });
           }
           next(null, data);
-        },
+        }
       );
     });
   }
