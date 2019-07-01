@@ -44,13 +44,22 @@ const getReallyEntry = (file: string) => {
 const getTemplate = (entry: string, context: A8k) => {
   const dirName = path.dirname(entry);
   const fileName = path.basename(entry);
-
-  let template = path.join(dirName, fileName.replace(/\.([^.]+)$/, '.html'));
-  // 如果没有配置，将使用template
-  if (!fs.existsSync(template)) {
-    template = context.config.template;
+  /**
+   * 查找规则：
+   * 如果 entry = 'example.pc.js'
+   * 1. example.pc.html
+   * 2. example.html
+   * 3. default template
+   */
+  const names = fileName.split('.');
+  while (names.pop() && names.length) {
+    const template = path.join(dirName, names.join('.') + '.html');
+    if (fs.existsSync(template)) {
+      return template;
+    }
   }
-  return template;
+  // 如果没有配置，将使用默认template
+  return context.config.template;
 };
 
 const getStandardEntry = (context: A8k) => {
