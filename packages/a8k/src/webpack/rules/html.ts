@@ -5,7 +5,7 @@ import A8k from '../..';
 import { IResolveWebpackConfigOptions } from '../../interface';
 
 export default (
-  config: WebpackChain,
+  configChain: WebpackChain,
   context: A8k,
   { type, mini }: IResolveWebpackConfigOptions
 ) => {
@@ -16,7 +16,7 @@ export default (
     internals: { mode },
     config: { cacheDirectory, envs },
   } = context;
-  config.module
+  configChain.module
     // 部分json文件只需要使用路径
     .rule('html')
     .test(/\.(html|njk|nunjucks)$/)

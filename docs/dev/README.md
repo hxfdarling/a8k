@@ -68,10 +68,10 @@ export default class YouPlugin {
 export default class A8kPlugin {
   name = 'you plugin name';
   apply(context) {
-    context.hook('chainWebpack', (config, { type }) => {
+    context.hook('chainWebpack', (configChain, { type }) => {
       if (type === 'browser' && context.internals.mode === 'development') {
-        config.plugin('plugin-name').use(require('plugin'), ['params1', 'params2']);
-        config.plugin('xxx').tap(options => {
+        configChain.plugin('plugin-name').use(require('plugin'), ['params1', 'params2']);
+        configChain.plugin('xxx').tap(options => {
           return { options, extraOption: {} };
         });
       }

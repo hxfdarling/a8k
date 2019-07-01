@@ -188,12 +188,12 @@ export class GenerateLoaders {
 
 export default (
   type: 'sass' | 'less' | 'css',
-  config: WebpackChain,
+  configChain: WebpackChain,
   context: A8k,
   options: IResolveWebpackConfigOptions,
   needExtraCss: boolean
 ) => {
-  const rule = config.module.rule(type).test(testMap[type]);
+  const rule = configChain.module.rule(type).test(testMap[type]);
   const gen = new GenerateLoaders(rule, context, options);
 
   switch (type) {

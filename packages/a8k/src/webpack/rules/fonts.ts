@@ -2,8 +2,8 @@ import { BUILD_TARGET } from '@a8k/common/lib/constants';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 
-export default (config: WebpackChain, context: A8k, { type }, filename: string) => {
-  config.module
+export default (configChain: WebpackChain, context: A8k, { type }) => {
+  configChain.module
     .rule('font')
     .test(/\.(eot|otf|ttf|woff|woff2)(\?.*)?$/)
     .use('url-loader')
@@ -14,7 +14,7 @@ export default (config: WebpackChain, context: A8k, { type }, filename: string) 
         loader: 'file-loader',
         options: {
           emitFile: type !== BUILD_TARGET.NODE,
-          name: filename,
+          name: context.config.filenames.font,
         },
       },
     });

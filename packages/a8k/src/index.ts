@@ -1,6 +1,6 @@
 import loadConfig from '@a8k/cli-utils/load-config';
-import { spinner } from '@a8k/common';
 import { logger } from '@a8k/common';
+import { spinner } from '@a8k/common';
 import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import program, { Command } from 'commander';
 import fs from 'fs-extra';
@@ -13,6 +13,7 @@ import WebpackChain from 'webpack-chain';
 import defaultConfig, { ssrConfig } from './default-config';
 import Hooks from './hooks';
 import { A8kConfig, A8kOptions, Internals, IResolveWebpackConfigOptions } from './interface';
+import getFilenames from './utils/get-filenames';
 import { getConfig, setConfig } from './utils/global-config';
 import loadPkg from './utils/load-pkg';
 import loadPlugins from './utils/load-plugins';
@@ -133,7 +134,10 @@ export default class A8k {
     config.cacheDirectory = path.resolve(config.cacheDirectory);
     // 默认值必须是"/"
     config.publicPath = config.publicPath || '/';
-
+    config.filenames = getFilenames({
+      filenames: config.filenames,
+      mode: this.internals.mode,
+    });
     if (config.ssrConfig) {
       // ssr配置
       config.ssrConfig.entryPath = this.resolve(config.ssrConfig.entryPath);
@@ -528,7 +532,9 @@ export default class A8k {
     this.createComponentCommand.push({ type, description, action });
     return this;
   }
-  public chainWebpack(fn: (config: WebpackChain, options: IResolveWebpackConfigOptions) => void) {
+  public chainWebpack(
+    fn: (configChain: WebpackChain, options: IResolveWebpackConfigOptions) => void
+  ) {
     this.hooks.add('chainWebpack', fn);
     return this;
   }

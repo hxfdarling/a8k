@@ -5,20 +5,20 @@ import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
 
 export default (
-  config: WebpackChain,
+  configChain: WebpackChain,
   context: A8k,
   { type, mini, sourceMap }: IResolveWebpackConfigOptions
 ) => {
-  config.optimization.minimize(false);
+  configChain.optimization.minimize(false);
 
   if (context.internals.mode === BUILD_ENV.PRODUCTION && mini) {
-    config.optimization.set('moduleIds', 'hashed');
+    configChain.optimization.set('moduleIds', 'hashed');
   } else {
-    config.optimization.set('moduleIds', 'named');
+    configChain.optimization.set('moduleIds', 'named');
   }
 
   if (type === BUILD_TARGET.BROWSER || type === BUILD_TARGET.STORYBOOK) {
-    config.optimization.splitChunks({
+    configChain.optimization.splitChunks({
       // Automatically split vendor and commons
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
 
@@ -76,16 +76,16 @@ export default (
       },
     });
     // Keep the runtime chunk seperated to enable long term caching
-    config.optimization.runtimeChunk('single');
+    configChain.optimization.runtimeChunk('single');
 
     if (context.internals.mode === BUILD_ENV.PRODUCTION && mini) {
-      config.optimization.minimize(true);
+      configChain.optimization.minimize(true);
     }
     const TerserPlugin = require('terser-webpack-plugin');
     TerserPlugin.__expression = "require('terser-webpack-plugin'";
     const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
     OptimizeCSSAssetsPlugin.__expression = "require('optimize-css-assets-webpack-plugin')";
-    config.optimization
+    configChain.optimization
       .minimizer('js')
       .use(TerserPlugin, [
         {
@@ -102,7 +102,7 @@ export default (
       ])
       .end();
 
-    config.optimization
+    configChain.optimization
       .minimizer('css')
       .use(OptimizeCSSAssetsPlugin, [
         {

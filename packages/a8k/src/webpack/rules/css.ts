@@ -4,19 +4,14 @@ import A8k from '../..';
 import { IResolveWebpackConfigOptions } from '../../interface';
 import generateLoaders from './generate-loaders';
 
-export default (
-  config: WebpackChain,
-  context: A8k,
-  options: IResolveWebpackConfigOptions,
-  filename: string
-) => {
+export default (configChain: WebpackChain, context: A8k, options: IResolveWebpackConfigOptions) => {
   const { type, ssr } = options;
   // 生产模式和服务器渲染调试时，开启这个模式防止样式抖动
   const needExtraCss = context.internals.mode === BUILD_ENV.PRODUCTION || ssr;
 
   if (type === BUILD_TARGET.NODE && !context.config.cssModules) {
     // 服务端渲染，直接忽略css
-    config.module
+    configChain.module
       .rule('css-sass-less')
       .test(/\.(css|scss|less)$/)
       .use('ignore-loader')
@@ -25,20 +20,20 @@ export default (
   }
 
   // css rule
-  generateLoaders('css', config, context, options, needExtraCss);
+  generateLoaders('css', configChain, context, options, needExtraCss);
 
   // sass rule
-  generateLoaders('sass', config, context, options, needExtraCss);
+  generateLoaders('sass', configChain, context, options, needExtraCss);
 
   // less rule
-  generateLoaders('less', config, context, options, needExtraCss);
+  generateLoaders('less', configChain, context, options, needExtraCss);
 
   if (needExtraCss) {
     const MiniCssExtractPlugin = require('mini-css-extract-plugin');
     MiniCssExtractPlugin.__expression = "require('mini-css-extract-plugin')";
-    config.plugin('mini-css-extract-plugin').use(MiniCssExtractPlugin, [
+    configChain.plugin('mini-css-extract-plugin').use(MiniCssExtractPlugin, [
       {
-        filename,
+        filename: context.config.filenames.css,
       },
     ]);
   }

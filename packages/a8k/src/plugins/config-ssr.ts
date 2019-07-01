@@ -14,36 +14,36 @@ export default class SsrConfig {
   public name = 'builtin:config-ssr';
   public apply(context: A8k) {
     context.chainWebpack(
-      (config: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
+      (configChain: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
         const { ssrConfig, publicPath } = context.config;
 
         const entry = getEntry(context);
         if (type === BUILD_TARGET.NODE && ssrConfig) {
           const isDevMode = watch;
-          config.mode(isDevMode ? ENV_DEV : ENV_PROD);
-          config.devtool(false);
-          config.target('node');
+          configChain.mode(isDevMode ? ENV_DEV : ENV_PROD);
+          configChain.devtool(false);
+          configChain.target('node');
 
           // tslint:disable-next-line: no-shadowed-variable
           entry.forEach(({ name, entry }) => {
-            config.entry(name).merge(entry);
+            configChain.entry(name).merge(entry);
           });
 
-          config.output
+          configChain.output
             .path(ssrConfig.entryPath)
             .publicPath(isDevMode ? '' : publicPath)
             .filename('[name].js')
             .libraryTarget('commonjs2');
 
           const nodeExternals = require('webpack-node-externals');
-          config.externals([
+          configChain.externals([
             nodeExternals({
               // 注意如果存在src下面其他目录的绝对引用，都需要添加到这里
               whitelist: [/^components/, /^assets/, /^pages/, /^@tencent/, /\.(scss|css)$/],
               // modulesFromFile:true
             }),
           ]);
-          config.merge({
+          configChain.merge({
             optimization: {
               splitChunks: false,
               minimizer: [],
@@ -58,7 +58,7 @@ export default class SsrConfig {
           if (needSsr) {
             const SSRPlugin = require('../webpack/plugins/ssr-plugin');
             SSRPlugin.__expression = "require('a8k/lib/webpack/plugins/ssr-plugin')";
-            config.plugin('ssr-plugin').use(SSRPlugin, [
+            configChain.plugin('ssr-plugin').use(SSRPlugin, [
               {
                 entry,
                 ssrConfig,

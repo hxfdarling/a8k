@@ -10,11 +10,11 @@ export default class HtmlConfig {
   public apply(context: A8k) {
     const HtmlWebpackPlugin = require('html-webpack-plugin');
     HtmlWebpackPlugin.__expression = "require('html-webpack-plugin')";
-    context.chainWebpack((config: WebpackChain, { type }: IResolveWebpackConfigOptions) => {
+    context.chainWebpack((configChain: WebpackChain, { type }: IResolveWebpackConfigOptions) => {
       const { initEntry, mode } = context.config;
       HtmlWebpackPlugin.__expression = "require('html-webpack-plugin')";
       if (type === BUILD_TARGET.STORYBOOK) {
-        config.entry('index').merge([...initEntry].filter(Boolean));
+        configChain.entry('index').merge([...initEntry].filter(Boolean));
         return;
       }
       // 服务器渲染 js 不需要构建 html
@@ -22,8 +22,8 @@ export default class HtmlConfig {
         if (mode === PROJECT_MODE.MULTI) {
           // tslint:disable-next-line: no-shadowed-variable
           getEntry(context).forEach(({ template, name, chunks, entry }) => {
-            config.entry(name).merge(entry);
-            config.plugin(`html-webpack-plugin-${name}`).use(HtmlWebpackPlugin, [
+            configChain.entry(name).merge(entry);
+            configChain.plugin(`html-webpack-plugin-${name}`).use(HtmlWebpackPlugin, [
               {
                 minify: false,
                 filename: `${name}.html`,
@@ -34,10 +34,10 @@ export default class HtmlConfig {
           });
         }
         if (mode === PROJECT_MODE.SINGLE) {
-          config
+          configChain
             .entry('index')
             .merge([...initEntry, context.resolve('./src/index')].filter(Boolean));
-          config.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
+          configChain.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
             {
               // https://github.com/jantimon/html-webpack-plugin/issues/870
               // html-webpack-plugin@next or chunksSortMode: 'none',
@@ -52,7 +52,7 @@ export default class HtmlConfig {
           SriPlugin.__expression = "require('webpack-subresource-integrity')";
           // 支持js资源完整性校验
           // https://www.w3.org/TR/SRI/
-          config.plugin('sri-plugin').use(SriPlugin, [
+          configChain.plugin('sri-plugin').use(SriPlugin, [
             {
               hashFuncNames: ['sha256'],
               enabled: context.internals.mode === BUILD_ENV.PRODUCTION,
@@ -61,7 +61,7 @@ export default class HtmlConfig {
         }
       }
       // mark html end
-      config.plugin('html-end').use(EmptyPlugin);
+      configChain.plugin('html-end').use(EmptyPlugin);
     });
   }
 }

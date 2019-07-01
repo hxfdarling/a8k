@@ -10,7 +10,7 @@ import { IResolveWebpackConfigOptions } from '../interface';
 export default class DevConfig {
   public name = 'builtin:config-dev';
   public apply(context: A8k) {
-    context.chainWebpack((config: WebpackChain, options: IResolveWebpackConfigOptions) => {
+    context.chainWebpack((configChain: WebpackChain, options: IResolveWebpackConfigOptions) => {
       const { type, eslint, stylelint } = options;
       // 只有客户端代码 开发模式才需要使用，构建服务器代码不需要
       if (
@@ -36,7 +36,7 @@ export default class DevConfig {
             )
           );
 
-          config.module
+          configChain.module
             .rule('eslint')
             .test(/\.(js|mjs|jsx)$/)
             .pre()
@@ -79,14 +79,14 @@ export default class DevConfig {
           const stylelintFormatter = require('stylelint-formatter-pretty');
           const StyleLintPlugin = require('stylelint-webpack-plugin');
           StyleLintPlugin.__expression = "require('stylelint-webpack-plugin')";
-          config
+          configChain
             .plugin('StyleLintPlugin')
             .use(StyleLintPlugin, [{ formatter: stylelintFormatter }]);
         }
         const { HotModuleReplacementPlugin } = webpack;
         (HotModuleReplacementPlugin as any).__expression =
           "require('webpack').HotModuleReplacementPlugin";
-        config.plugin('HotModuleReplacementPlugin').use(webpack.HotModuleReplacementPlugin);
+        configChain.plugin('HotModuleReplacementPlugin').use(webpack.HotModuleReplacementPlugin);
       }
     });
   }

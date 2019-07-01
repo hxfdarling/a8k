@@ -1,7 +1,7 @@
 import WebpackChain from 'webpack-chain';
 
-export default (config: WebpackChain) => {
-  config.module
+export default (configChain: WebpackChain) => {
+  configChain.module
     .rule('ts')
     .test(/\.tsx?$/)
     .use('ts-loader')

@@ -7,6 +7,7 @@ export default ({ filenames, mode }) => {
     css: useHash ? 'assets/css/[name]_[contenthash:8].css' : 'assets/css/[name].css',
     font: useHash ? 'assets/fonts/[name]_[hash:8].[ext]' : 'assets/fonts/[path]_[name].[ext]',
     image: useHash ? 'assets/images/[name]_[hash:8].[ext]' : 'assets/images/[path]_[name].[ext]',
+    file: useHash ? 'assets/file/[name]_[chunkhash:8].js' : 'assets/file/[name].js',
     chunk: useHash ? 'assets/js/[name]_[chunkhash:8].js' : 'assets/js/[name].js',
     ...filenames,
   };

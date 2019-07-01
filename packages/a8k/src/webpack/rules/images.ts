@@ -2,9 +2,10 @@ import { BUILD_TARGET } from '@a8k/common/lib/constants';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 
-export default (config: WebpackChain, context: A8k, { type }, filename: string) => {
+export default (configChain: WebpackChain, context: A8k, { type }) => {
   const isSSR = type === BUILD_TARGET.NODE;
-  config.module
+  const filename = context.config.filenames.image;
+  configChain.module
     .rule('image')
     .test([/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.webp$/])
     .use('url-loader')
@@ -21,7 +22,7 @@ export default (config: WebpackChain, context: A8k, { type }, filename: string) 
     });
 
   // 项目外svg 直接拷贝过来
-  config.module
+  configChain.module
     .rule('svg')
     .test(/\.(svg)(\?.*)?$/)
     .exclude.add(context.resolve('src'))
@@ -39,7 +40,7 @@ export default (config: WebpackChain, context: A8k, { type }, filename: string) 
       },
     });
   // svg 直接inline
-  config.module
+  configChain.module
     .rule('svg-inline')
     .test(/\.(svg)(\?.*)?$/)
     .include.add(context.resolve('src'))

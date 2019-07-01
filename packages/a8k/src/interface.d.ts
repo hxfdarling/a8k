@@ -15,7 +15,7 @@ interface A8kConfig {
   mode: PROJECT_MODE; // 项目模式，单页面多页面
   initEntry: string[]; //配置每个页面额外的入口文件
   entry: any; // 自定义入口文件
-  dist: any; //构建文件输出目录
+  dist: any; // 静态资源输出目录
   cacheDirectory: any; //缓存目录
   pagesPath: string;
   template: string; // html模板路径
@@ -28,9 +28,9 @@ interface A8kConfig {
         https: boolean;
         port: string;
         host: string;
-        entryPath: string;
-        viewPath: string;
-        routesPath: string;
+        entryPath: string; // SSR文件输出目录
+        viewPath: string; // SSR模板文件输出目录
+        routesPath: string; // 路由文件路径
         entry: true | string[];
       };
   ssrDevServer: any;
@@ -50,6 +50,7 @@ interface A8kConfig {
     css: string;
     font: string;
     image: string;
+    file: string;
     chunk: string;
   };
   ignorePages: Array<string>;

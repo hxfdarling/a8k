@@ -6,13 +6,13 @@ import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 import { genCssModulesName } from './utils';
 
-export default (config: WebpackChain, context: A8k, { type }) => {
+export default (configChain: WebpackChain, context: A8k, { type }) => {
   const { babel: { include = [], exclude = [] } = {}, cssModules, cacheDirectory } = context.config;
   const { mode } = context.internals;
 
   // TODO 需要抽离成插件？
   // 加载 imui 里的 // @require '.css'
-  config.module
+  configChain.module
     .rule('imui')
     .test(/\.js$/)
     .include.add(context.resolve('node_modules/imui'))
@@ -21,7 +21,7 @@ export default (config: WebpackChain, context: A8k, { type }) => {
     .loader('comment-require-loader')
     .options({});
 
-  let rule = config.module
+  let rule = configChain.module
     .rule('js')
     .test(/\.(js|mjs|jsx)$/)
     .include // 热重载插件需要被编译

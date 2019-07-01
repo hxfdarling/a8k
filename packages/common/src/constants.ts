@@ -22,7 +22,7 @@ export enum PROJECT_MODE {
 let root: string;
 if (process.platform === 'win32') {
   // prettier-ignore
-  root = process.env.USERPROFILE || process.env.APPDATA || process.env.TMP || process.env.TEMP||"";
+  root = process.env.USERPROFILE || process.env.APPDATA || process.env.TMP || process.env.TEMP || "";
 } else {
   root = process.env.HOME || process.env.TMPDIR || '/tmp';
 }

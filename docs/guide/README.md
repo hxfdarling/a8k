@@ -108,6 +108,7 @@ k sb
 ```js
 const publicPath = '//7.url.cn/fudao/pc/';
 module.exports = {
+  version: 2,
   type: 'react', // 项目类型
   // 标示是多页面还是单页面应用:single/multi
   mode: 'multi',
@@ -141,12 +142,12 @@ module.exports = {
   },
   // pages目录下需要忽略的文件夹（不作为页面处理）
   ignorePages: ['action_creators', 'action_types', 'reducers'],
-  chainWebpack(config, { type, mode }) {
+  chainWebpack(configChain, { type, mode }) {
     if (type === 'browser') {
       // 客户端代构建
       if (mode === 'production') {
         // 生产模式代码
-        config.plugin('pwa').use(require('xxx'), [params1, params2]);
+        configChain.plugin('pwa').use(require('xxx'), [params1, params2]);
       } else {
         // 开发模式代码
       }

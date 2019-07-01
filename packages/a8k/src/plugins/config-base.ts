@@ -2,7 +2,6 @@ import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import WebpackChain, { DevTool } from 'webpack-chain';
 import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
-import getFileNames from '../utils/get-filenames';
 import optimization from '../webpack/optimization.config';
 import plugins from '../webpack/plugins.config';
 import resolve from '../webpack/resolve.config';
@@ -17,16 +16,12 @@ import ruleTs from '../webpack/rules/ts';
 export default class BaseConfig {
   public name = 'builtin:config-base';
   public apply(context: A8k) {
-    context.chainWebpack((config: WebpackChain, options: IResolveWebpackConfigOptions) => {
-      const filenames = getFileNames({
-        filenames: context.config.filenames,
-        mode: context.internals.mode,
-      });
+    context.chainWebpack((configChain: WebpackChain, options: IResolveWebpackConfigOptions) => {
       const { type, analyzer, watch } = options;
 
-      config.watch(watch);
+      configChain.watch(watch);
 
-      config.context(context.options.baseDir);
+      configChain.context(context.options.baseDir);
 
       if (type === BUILD_TARGET.BROWSER || type === BUILD_TARGET.STORYBOOK) {
         let devtool: DevTool = false;
@@ -40,14 +35,14 @@ export default class BaseConfig {
         // css/optimization 配置中需要使用bool
         options.sourceMap = Boolean(devtool);
 
-        config.mode(context.internals.mode);
-        config.devtool(devtool);
+        configChain.mode(context.internals.mode);
+        configChain.devtool(devtool);
 
-        const rule = config.output
+        const rule = configChain.output
           .path(context.config.dist)
-          .filename(filenames.js)
+          .filename(context.config.filenames.js)
           .publicPath(context.config.publicPath)
-          .chunkFilename(filenames.chunk);
+          .chunkFilename(context.config.filenames.chunk);
         // 根据配置确定是否需要anonymous
         if (context.config.crossOrigin) {
           rule.crossOriginLoading('anonymous');
@@ -60,22 +55,22 @@ export default class BaseConfig {
       // TODO：项目里面有使用到
       // config.module.set('wrappedContextRecursive', false);
 
-      resolve(config, context, options);
+      resolve(configChain, context, options);
 
-      ruleTs(config);
-      ruleJs(config, context, options);
-      ruleCss(config, context, options, filenames.css);
-      ruleFonts(config, context, options, filenames.font);
-      ruleImages(config, context, options, filenames.image);
-      ruleFile(config, context, options, filenames.image);
-      ruleHtml(config, context, options);
+      ruleTs(configChain);
+      ruleJs(configChain, context, options);
+      ruleCss(configChain, context, options);
+      ruleFonts(configChain, context, options);
+      ruleImages(configChain, context, options);
+      ruleFile(configChain, context, options);
+      ruleHtml(configChain, context, options);
 
-      optimization(config, context, options);
-      plugins(config, context, options);
+      optimization(configChain, context, options);
+      plugins(configChain, context, options);
 
       if (analyzer) {
         const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-        config.plugin('bundle-analyzer-plugin').use(BundleAnalyzerPlugin, [
+        configChain.plugin('bundle-analyzer-plugin').use(BundleAnalyzerPlugin, [
           {
             analyzerMode: 'static',
             reportFilename: `a8k_report_${type}.html`,

@@ -2,9 +2,10 @@ import { BUILD_TARGET } from '@a8k/common/lib/constants';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 
-export default (config: WebpackChain, context: A8k, { type }, filename: string) => {
+export default (configChain: WebpackChain, context: A8k, { type }) => {
   const isSSR = BUILD_TARGET.NODE === type;
-  config.module
+  const filename = context.config.filenames.file;
+  configChain.module
     // 部分json文件只需要使用路径
     .rule('json')
     .test(/\.(path\.json)$/)
@@ -16,7 +17,7 @@ export default (config: WebpackChain, context: A8k, { type }, filename: string) 
       name: filename,
     });
 
-  config.module
+  configChain.module
     // 其它文件直接拷贝
     .rule('file')
     .test(/\.(mp3|pdf)$/)
