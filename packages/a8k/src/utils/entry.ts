@@ -5,20 +5,26 @@ import A8k from '..';
 
 const extensions = ['.js', '.ts', '.jsx', '.tsx'];
 const extensionsReg = RegExp('(' + extensions.join('|') + ')$');
+const getReallyFile = (file: string) =>
+  extensions
+    .map((ext: string) => file + ext)
+    .find((tmp: string) => {
+      try {
+        fs.statSync(tmp);
+        return tmp;
+      } catch (e) {
+        //
+      }
+    });
 const getReallyEntry = (file: string) => {
   try {
+    let reallyFile = getReallyFile(file);
+    if (reallyFile) {
+      return reallyFile;
+    }
     const stat = fs.statSync(file);
     if (stat.isDirectory()) {
-      const reallyFile = extensions
-        .map((ext: string) => path.join(file, 'index' + ext))
-        .find((tmp: string) => {
-          try {
-            fs.statSync(tmp);
-            return tmp;
-          } catch (e) {
-            //
-          }
-        });
+      reallyFile = getReallyFile(path.join(file, 'index'));
       if (reallyFile) {
         return reallyFile;
       } else {
@@ -41,7 +47,7 @@ const getTemplate = (entry: string, context: A8k) => {
 
   let template = path.join(dirName, fileName.replace(/\.([^.]+)$/, '.html'));
   // 如果没有配置，将使用template
-  if (!fs.existsSync(entry)) {
+  if (!fs.existsSync(template)) {
     template = context.config.template;
   }
   return template;
