@@ -6,10 +6,16 @@ export default (config: WebpackChain, context: A8k, { type }, filename: string) 
   config.module
     .rule('font')
     .test(/\.(eot|otf|ttf|woff|woff2)(\?.*)?$/)
-    .use('file-loader')
-    .loader('file-loader')
+    .use('url-loader')
+    .loader('url-loader')
     .options({
-      emitFile: type !== BUILD_TARGET.NODE,
-      name: filename,
+      limit: 10000,
+      fallback: {
+        loader: 'file-loader',
+        options: {
+          emitFile: type !== BUILD_TARGET.NODE,
+          name: filename,
+        },
+      },
     });
 };

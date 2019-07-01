@@ -7,11 +7,17 @@ export default (config: WebpackChain, context: A8k, { type }, filename: string) 
   config.module
     .rule('image')
     .test([/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.webp$/])
-    .use('file-loader')
-    .loader('file-loader')
+    .use('url-loader')
+    .loader('url-loader')
     .options({
-      emitFile: !isSSR,
-      name: filename,
+      limit: 10000,
+      fallback: {
+        loader: 'file-loader',
+        options: {
+          emitFile: !isSSR,
+          name: filename,
+        },
+      },
     });
 
   // 项目外svg 直接拷贝过来
@@ -20,13 +26,18 @@ export default (config: WebpackChain, context: A8k, { type }, filename: string) 
     .test(/\.(svg)(\?.*)?$/)
     .exclude.add(context.resolve('src'))
     .end()
-    .use('file-loader')
-    .loader('file-loader')
+    .use('url-loader')
+    .loader('url-loader')
     .options({
-      emitFile: !isSSR,
-      name: filename,
+      limit: 10000,
+      fallback: {
+        loader: 'file-loader',
+        options: {
+          emitFile: !isSSR,
+          name: filename,
+        },
+      },
     });
-
   // svg 直接inline
   config.module
     .rule('svg-inline')
