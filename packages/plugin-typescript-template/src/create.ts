@@ -45,6 +45,7 @@ class CreateGenerator extends Generator {
       ['common/.prettierrc', '.prettierrc'],
       ['common/tsconfig.json', 'tsconfig.json'],
       ['common/tslint.json', 'tslint.json'],
+      ['common/jest.config.js', 'jest.config.js'],
       ['src/', 'src/'],
     ]);
 

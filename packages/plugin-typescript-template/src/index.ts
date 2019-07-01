@@ -13,7 +13,7 @@ export default class PluginCreateTypescriptProject {
   apply(context: any) {
     context.registerCreateType(
       'typescript-sample',
-      '基于typescript的简单项目',
+      '基于typescript的项目(可用于开发库)',
       async ({ projectDir, name }) => {
         await createGenerator(projectDir, name);
         await context.hooks.invokePromise('afterCreate', context);
@@ -31,6 +31,7 @@ export default class PluginCreateTypescriptProject {
           'prettier',
           'tslint',
           'jest',
+          'ts-jest',
           '@types/jest',
           '@types/node',
           'typescript',

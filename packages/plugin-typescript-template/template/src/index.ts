@@ -1,3 +1,3 @@
-export default () => {
-  // you code
+export default (a: number, b: number) => {
+  return a + b;
 };

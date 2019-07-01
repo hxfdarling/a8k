@@ -57,19 +57,5 @@
     }
   },
   "devDependencies": {
-    "@a8k/changelog": "^1.13.0",
-    "@commitlint/cli": "^8.0.0",
-    "@types/jest": "^24.0.15",
-    "@types/node": "^12.0.10",
-    "commitizen": "^3.1.1",
-    "commitlint-config-cz": "^0.12.0",
-    "cz-customizable": "^6.2.0",
-    "husky": "^2.4.1",
-    "jest": "^24.8.0",
-    "lint-staged": "^8.2.1",
-    "prettier": "^1.17.1",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.2"
   }
 }
