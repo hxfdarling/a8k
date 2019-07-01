@@ -19,11 +19,11 @@ exports[`dist loader 在production模式下引入: module (evaluated) 1`] = `
     <script>\\"use strict\\";
 
 console.log('inline');</script>
-    <script src=\\"inline_fde1ab.js\\"></script>
+    <script src=\\"inline_fde1ab1ceea63785012b63c0db3969a2.js\\"></script>
   </head>
   <body>
 
 </body></html>"
 `;
 
-exports[`dist loader 在production模式下引入: module 1`] = `"module.exports = \\"<!DOCTYPE html><html><head>\\\\n    <title>imt application</title>\\\\n    <script>\\\\\\"use strict\\\\\\";\\\\n\\\\nconsole.log('inline');</script>\\\\n    <script src=\\\\\\"inline_fde1ab.js\\\\\\"></script>\\\\n  </head>\\\\n  <body>\\\\n\\\\n</body></html>\\";"`;
+exports[`dist loader 在production模式下引入: module 1`] = `"module.exports = \\"<!DOCTYPE html><html><head>\\\\n    <title>imt application</title>\\\\n    <script>\\\\\\"use strict\\\\\\";\\\\n\\\\nconsole.log('inline');</script>\\\\n    <script src=\\\\\\"inline_fde1ab1ceea63785012b63c0db3969a2.js\\\\\\"></script>\\\\n  </head>\\\\n  <body>\\\\n\\\\n</body></html>\\";"`;
