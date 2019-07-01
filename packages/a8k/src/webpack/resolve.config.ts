@@ -29,7 +29,7 @@ export default (config: WebpackChain, context: A8k, { type }: IResolveWebpackCon
     .add(context.resolve('src')); // 项目根目录
 
   config.resolveLoader.modules
+    .add('node_modules') // 相对目录优先
     .add(ownModules)
-    .add(projectModules)
-    .add('node_modules');
+    .add(projectModules);
 };
