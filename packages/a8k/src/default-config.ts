@@ -13,7 +13,7 @@ const devServer: WebpackDevServer.Configuration = {
   inline: true,
   disableHostCheck: true,
   // not use https
-  https: false,
+  https: true,
   // Enable gzip compression of generated files.
   compress: true,
   // we need info in compile
@@ -38,7 +38,9 @@ const devServer: WebpackDevServer.Configuration = {
   // It is important to tell WebpackDevServer to use the same "root" path
   // as we specified in the config. In development, we always serve from /.
   publicPath: '/',
-};
+  // Don't show server directory information
+  serveIndex: false,
+} as any;
 const config: A8kConfig = {
   mode: PROJECT_MODE.MULTI,
   entry: null,

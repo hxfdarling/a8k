@@ -1,7 +1,7 @@
 import { logger } from '@a8k/common';
 import { SERVER_ENTRY_DIR, SERVER_VIEW_DIR } from '@a8k/common/lib/constants';
 import express from 'express';
-import fs from 'fs';
+import fs from 'fs-extra';
 import { readFileSync } from 'fs-extra';
 import koa, { Context } from 'koa';
 import { resolve } from 'path';
@@ -54,8 +54,11 @@ export class SSR {
         this.router = createRouter(this.routesConfig);
         logger.debug('[ssr] update routesConfig', this.routesConfig);
       };
+      fs.ensureDirSync(this.entryPath);
       fs.watch(this.entryPath, update);
-      fs.watch(this.routesPath, update);
+      if (fs.existsSync(this.routesPath)) {
+        fs.watch(this.routesPath, update);
+      }
     }
   }
   get router() {

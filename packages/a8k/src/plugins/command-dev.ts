@@ -86,9 +86,6 @@ export default class DevCommand {
           if (ssr) {
             temp = {
               ...temp,
-              index: '',
-              contentBase: false,
-              serveIndex: false,
               historyApiFallback: false,
             };
           }
