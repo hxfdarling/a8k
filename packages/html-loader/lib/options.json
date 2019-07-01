@@ -17,6 +17,9 @@
     },
     "rootDir": {
       "anyOf": [{ "type": "string" }]
+    },
+    "filenames": {
+      "type": "object"
     }
   },
   "errorMessages": {

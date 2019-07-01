@@ -134,10 +134,6 @@ export default class A8k {
     config.cacheDirectory = path.resolve(config.cacheDirectory);
     // 默认值必须是"/"
     config.publicPath = config.publicPath || '/';
-    config.filenames = getFilenames({
-      filenames: config.filenames,
-      mode: this.internals.mode,
-    });
     if (config.ssrConfig) {
       // ssr配置
       config.ssrConfig.entryPath = this.resolve(config.ssrConfig.entryPath);
@@ -434,18 +430,20 @@ export default class A8k {
   }
 
   public resolveWebpackConfig(options: IResolveWebpackConfigOptions) {
-    const config = new WebpackChain();
-
+    const configChain = new WebpackChain();
     options = {
       type: BUILD_TARGET.BROWSER,
       ...options,
       mode: this.internals.mode,
     };
-
-    this.hooks.invoke('chainWebpack', config, options);
+    this.config.filenames = getFilenames({
+      filenames: this.config.filenames,
+      mode: options.mode,
+    });
+    this.hooks.invoke('chainWebpack', configChain, options);
 
     if (this.config.chainWebpack) {
-      this.config.chainWebpack(config, options, this);
+      this.config.chainWebpack(configChain, options, this);
     }
 
     if (this.options.inspectWebpack) {
@@ -455,12 +453,12 @@ export default class A8k {
       );
       fs.appendFileSync(
         this.inspectWebpackConfigPath,
-        `//${JSON.stringify(options)}\nconst ${options.type} = ${config.toString()}\n`
+        `//${JSON.stringify(options)}\nconst ${options.type} = ${configChain.toString()}\n`
       );
       require('open')(this.inspectWebpackConfigPath);
     }
 
-    let webpackConfig = config.toConfig();
+    let webpackConfig = configChain.toConfig();
     if (this.config.webpackOverride) {
       logger.warn('!!webpackOverride 已经废弃，请使用chainWebpack修改配置!!');
       // 兼容旧版本imt

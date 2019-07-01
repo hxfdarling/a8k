@@ -4,11 +4,9 @@ const fs = require('fs-extra');
 const path = require('path');
 const loaderUtils = require('loader-utils');
 const queryParse = require('query-parse');
-
 const validateOptions = require('schema-utils');
-
-const crypto = require('crypto');
 const parse5 = require('parse5');
+
 const schema = require('./options.json');
 const babel = require('./utils/babel');
 const cache = require('./utils/cache');
@@ -17,6 +15,11 @@ const htmlParse = require('./utils/htmlParse');
 const { getLink, isLink, isStyle, isHtml, isScript } = require('./utils/helpers');
 
 const varName = '__JS_RETRY__';
+const defaultFilenames = {
+  js: '[name]_[contenthash].[ext]',
+  css: '[name]_[contenthash].[ext]',
+  image: '[name]_[hash].[ext]',
+};
 module.exports = async function(content) {
   const options = loaderUtils.getOptions(this) || {};
   validateOptions(schema, options, 'html inline assets loader');
@@ -29,6 +32,12 @@ module.exports = async function(content) {
   const { rootDir } = options;
   const { root, list: nodes } = htmlParse(content);
 
+  let { filenames = {} } = options;
+  filenames = { ...defaultFilenames, ...filenames };
+  // 不支持 chunkhash
+  Object.keys(filenames).forEach(key => {
+    filenames[key] = filenames[key].replace('[chunkhash]', '[contenthash]');
+  });
   // html 转换
   await Promise.all(
     nodes.map(async node => {
@@ -107,22 +116,29 @@ module.exports = async function(content) {
           this.emitWarning(msg);
         }
       } else {
-        const Hash = crypto.createHash('md5');
-        Hash.update(result);
-        const hash = Hash.digest('hex').substr(0, 6);
-        const newFileName = `${path.basename(filePath).split('.')[0]}_${hash}${path.extname(
-          filePath
-        )}`;
-        const newUrl = [publicPath.replace(/\/$/, ''), newFileName].join(publicPath ? '/' : '');
+        let url = '';
+        const loaderContext = { resourcePath: filePath };
         if (isScript(node)) {
           // 添加主域重试需要标记
-          result = `var ${varName}=${varName}||{};\n${varName}["${newFileName}"]=true;${result}`;
+          url = loaderUtils.interpolateName(loaderContext, filenames.js, {
+            content: result,
+          });
+          result = `var ${varName}=${varName}||{};\n${varName}["${url}"]=true;${result}`;
+        } else if (isStyle(node)) {
+          url = loaderUtils.interpolateName(loaderContext, filenames.css, {
+            content: result,
+          });
+        } else {
+          url = loaderUtils.interpolateName(loaderContext, filenames.image, {
+            content: result,
+          });
         }
-        this.emitFile(newFileName, result);
+
+        this.emitFile(url, result);
 
         node.attrs = node.attrs.map(i => {
           if (isLink(i)) {
-            i.value = newUrl;
+            i.value = [publicPath.replace(/\/$/, ''), url].join(publicPath ? '/' : '');
           }
           return i;
         });

@@ -33,6 +33,7 @@ export default (
       rootDir: context.resolve('src'),
       cacheDirectory: path.resolve(cacheDirectory, '@a8k/html-loader'),
       minimize: mini && mode === BUILD_ENV.PRODUCTION,
+      filenames: context.config.filenames,
     })
     .end()
     .use('nunjucks-loader')
