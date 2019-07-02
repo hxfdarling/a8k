@@ -31,5 +31,7 @@
     "query-parse": "^2.0.0",
     "util.promisify": "^1.0.0",
     "zlib": "^1.0.5"
+  },
+  "devDependencies": {
   }
 }

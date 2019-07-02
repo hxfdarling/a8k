@@ -1,11 +1,10 @@
 module.exports = {
   presets: [
     [
-      '@babel/preset-env',
+      '@a8k/babel-preset',
       {
-        targets: {
-          node: 'current',
-        },
+        target: 'browser',
+        useBuiltIns: false,
       },
     ],
   ],

@@ -16,14 +16,12 @@ exports[`dist loader 在development模式下不引入: module 1`] = `"module.exp
 exports[`dist loader 在production模式下引入: module (evaluated) 1`] = `
 "<!DOCTYPE html><html><head>
     <title>imt application</title>
-    <script>\\"use strict\\";
-
-console.log('inline');</script>
-    <script src=\\"inline_fde1ab1ceea63785012b63c0db3969a2.js\\"></script>
+    <script>console.log('inline');</script>
+    <script src=\\"inline_2fa3a66c2eda34ed9dcd2a9afab1ea12.js\\"></script>
   </head>
   <body>
 
 </body></html>"
 `;
 
-exports[`dist loader 在production模式下引入: module 1`] = `"module.exports = \\"<!DOCTYPE html><html><head>\\\\n    <title>imt application</title>\\\\n    <script>\\\\\\"use strict\\\\\\";\\\\n\\\\nconsole.log('inline');</script>\\\\n    <script src=\\\\\\"inline_fde1ab1ceea63785012b63c0db3969a2.js\\\\\\"></script>\\\\n  </head>\\\\n  <body>\\\\n\\\\n</body></html>\\";"`;
+exports[`dist loader 在production模式下引入: module 1`] = `"module.exports = \\"<!DOCTYPE html><html><head>\\\\n    <title>imt application</title>\\\\n    <script>console.log('inline');</script>\\\\n    <script src=\\\\\\"inline_2fa3a66c2eda34ed9dcd2a9afab1ea12.js\\\\\\"></script>\\\\n  </head>\\\\n  <body>\\\\n\\\\n</body></html>\\";"`;
