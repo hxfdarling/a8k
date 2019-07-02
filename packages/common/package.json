@@ -24,6 +24,5 @@
     "ora": "^3.4.0"
   },
   "devDependencies": {
-    "@types/ora": "^3.2.0"
   }
 }
