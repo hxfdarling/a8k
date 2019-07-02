@@ -1,6 +1,6 @@
 {
   "name": "@a8k/cli-utils",
-  "version": "2.0.0-beta.17",
+  "version": "2.0.0-beta.18",
   "description": "a8k 项目 cli 工具库",
   "author": "zman",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/cli-utils#readme",
@@ -24,7 +24,7 @@
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
-    "@a8k/common": "^2.0.0-beta.17",
+    "@a8k/common": "^2.0.0-beta.18",
     "command-exists": "^1.2.8",
     "joycon": "^2.2.5",
     "shelljs": "^0.8.3"

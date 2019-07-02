@@ -1,6 +1,6 @@
 {
   "name": "@a8k/common",
-  "version": "2.0.0-beta.17",
+  "version": "2.0.0-beta.18",
   "description": "a8k 项目公共模块",
   "main": "lib/index.js",
   "scripts": {
