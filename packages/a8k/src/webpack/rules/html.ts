@@ -16,6 +16,7 @@ export default (
     internals: { mode },
     config: { cacheDirectory, envs },
   } = context;
+  const needMini = mini && mode === BUILD_ENV.PRODUCTION;
   configChain.module
     // 部分json文件只需要使用路径
     .rule('html')
@@ -24,7 +25,8 @@ export default (
     .loader('html-loader')
     .options({
       removeComments: false,
-      minimize: mini && mode === BUILD_ENV.PRODUCTION,
+      removeAttributeQuotes: false,
+      minimize: needMini,
     })
     .end()
     .use('@a8k/html-loader')
@@ -32,7 +34,7 @@ export default (
     .options({
       rootDir: context.resolve('src'),
       cacheDirectory: path.resolve(cacheDirectory, '@a8k/html-loader'),
-      minimize: mini && mode === BUILD_ENV.PRODUCTION,
+      minimize: needMini,
       filenames: context.config.filenames,
     })
     .end()
