@@ -2,7 +2,11 @@
   "name": "<%= name %>",
   "version": "1.0.0",
   "description": "",
-  "sideEffects":[],
+  "sideEffects": [
+      "*.scss",
+      "*.less",
+      "*.css"
+  ],
   <% if(ssr) {%>
   "main": "app/index.js",
   <% } %>

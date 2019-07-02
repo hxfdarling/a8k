@@ -149,7 +149,6 @@ export class GenerateLoaders {
         .use('MiniCssExtractPlugin.loader')
         .loader(MiniCssExtractPlugin.loader)
         .options({
-          publicPath: context.config.publicPath,
           hmr: context.internals.mode === BUILD_ENV.DEVELOPMENT,
           sourceMap,
         })

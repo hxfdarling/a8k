@@ -33,7 +33,7 @@ export default (
     .add(context.resolve('src')); // 项目根目录
 
   configChain.resolveLoader.modules
-    .add('node_modules') // 相对目录优先
     .add(ownModules)
+    .add('node_modules')
     .add(projectModules);
 };

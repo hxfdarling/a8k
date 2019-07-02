@@ -22,7 +22,5 @@
   "license": "ISC",
   "dependencies": {
     "ora": "^3.4.0"
-  },
-  "devDependencies": {
   }
 }
