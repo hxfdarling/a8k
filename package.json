@@ -55,6 +55,7 @@
     "tslint": "^5.18.0",
     "typescript": "^3.5.2",
     "vm": "^0.1.0",
+    "vuepress": "^1.0.2",
     "webpack": "^4.35.2"
   },
   "directories": {
