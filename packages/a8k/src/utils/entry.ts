@@ -125,6 +125,19 @@ export const getEntry = (context: A8k): IEntry[] => {
   );
 };
 
+export const getNodeEntry = (context: A8k): IEntry[] => {
+  const { ssrConfig } = context.config;
+  if (!ssrConfig) {
+    return [];
+  }
+  return getEntry(context).filter(item => {
+    if (Array.isArray(ssrConfig.entry)) {
+      return ssrConfig.entry.indexOf(item.name) > -1;
+    }
+    return true;
+  });
+};
+
 export interface IEntry {
   name: string;
   template: string;

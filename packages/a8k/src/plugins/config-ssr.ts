@@ -1,3 +1,4 @@
+import { logger } from '@a8k/common';
 import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '@a8k/common/lib/constants';
 import { SSR } from '@a8k/ssr';
 import { IRouteMatch } from '@a8k/ssr/lib/common/utils/helper';
@@ -9,8 +10,7 @@ import WebpackChain from 'webpack-chain';
 import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
-import { getEntry } from '../utils/entry';
-import { logger } from '@a8k/common';
+import { getNodeEntry } from '../utils/entry';
 
 export default class SsrConfig {
   public name = 'builtin:config-ssr';
@@ -19,19 +19,13 @@ export default class SsrConfig {
       (configChain: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
         const { ssrConfig, publicPath } = context.config;
 
-        let entry = getEntry(context);
+        const entry = getNodeEntry(context);
         if (type === BUILD_TARGET.NODE && ssrConfig) {
           const isDevMode = watch;
           configChain.mode(isDevMode ? ENV_DEV : ENV_PROD);
           configChain.devtool(false);
           configChain.target('node');
 
-          entry = entry.filter(item => {
-            if (Array.isArray(ssrConfig.entry)) {
-              return ssrConfig.entry.indexOf(item.name) > -1;
-            }
-            return true;
-          });
           if (entry.length === 0) {
             logger.error('Not found ssr entry, please check ssrConfig.entry is right');
             process.exit(-1);
@@ -62,7 +56,7 @@ export default class SsrConfig {
             },
           });
         }
-        if (type === BUILD_TARGET.BROWSER) {
+        if (type === BUILD_TARGET.BROWSER && ssrConfig) {
           const { mode } = context.internals;
           // 生产模式，或者开发模式下明确声明参数ssr，时需要添加该插件
           const needSsr = (mode === BUILD_ENV.DEVELOPMENT && ssr) || mode === BUILD_ENV.PRODUCTION;
@@ -72,7 +66,7 @@ export default class SsrConfig {
             configChain.plugin('ssr-plugin').use(SSRPlugin, [
               {
                 entry,
-                ssrConfig,
+                viewPath: ssrConfig.viewPath,
               },
             ]);
           }

@@ -8,7 +8,7 @@ import { IEntry } from '../../utils/entry';
 class SSRPlugin {
   public options: {
     entry: IEntry[];
-    ssrConfig: A8kConfig['ssrConfig'];
+    viewPath: string;
   };
   constructor(options: any) {
     this.options = options;
@@ -17,13 +17,7 @@ class SSRPlugin {
   public apply(compiler: webpack.Compiler) {
     compiler.hooks.afterEmit.tap('ssr', async (compilation: any) => {
       const { assets } = compilation;
-      if (!this.options.ssrConfig) {
-        return;
-      }
-      const {
-        ssrConfig: { entry: customEntry, viewPath },
-        entry,
-      } = this.options;
+      const { viewPath, entry } = this.options;
 
       fs.ensureDirSync(viewPath);
 
@@ -33,12 +27,6 @@ class SSRPlugin {
             name,
             fileName: `${name}.html`,
           };
-        })
-        .filter(({ name }) => {
-          if (Array.isArray(customEntry)) {
-            return customEntry.indexOf(name) > -1;
-          }
-          return true;
         })
         .reduce((result: any, { fileName }) => {
           const targetFile = path.join(viewPath, fileName);
