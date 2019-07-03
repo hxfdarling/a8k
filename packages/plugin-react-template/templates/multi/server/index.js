@@ -12,5 +12,4 @@ app.use(require('koa-static')(path.join(__dirname, '../.a8k/static/'), {}));
 
 app.listen(port, () => {
   console.log();
-  console.log(`http://localhost:${port}`);
 });
