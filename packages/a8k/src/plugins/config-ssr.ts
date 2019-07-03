@@ -2,6 +2,7 @@ import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '@a8k/common/lib/cons
 import { SSR } from '@a8k/ssr';
 import { IRouteMatch } from '@a8k/ssr/lib/common/utils/helper';
 import { Application } from 'express';
+import fs from 'fs-extra';
 import { IncomingMessage, ServerResponse } from 'http';
 import httpProxyMiddleware from 'http-proxy-middleware';
 import WebpackChain from 'webpack-chain';
@@ -9,6 +10,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
 import { getEntry } from '../utils/entry';
+import { logger } from '@a8k/common';
 
 export default class SsrConfig {
   public name = 'builtin:config-ssr';
@@ -17,16 +19,25 @@ export default class SsrConfig {
       (configChain: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
         const { ssrConfig, publicPath } = context.config;
 
-        const entry = getEntry(context);
+        let entry = getEntry(context);
         if (type === BUILD_TARGET.NODE && ssrConfig) {
           const isDevMode = watch;
           configChain.mode(isDevMode ? ENV_DEV : ENV_PROD);
           configChain.devtool(false);
           configChain.target('node');
 
-          // tslint:disable-next-line: no-shadowed-variable
-          entry.forEach(({ name, entry }) => {
-            configChain.entry(name).merge(entry);
+          entry = entry.filter(item => {
+            if (Array.isArray(ssrConfig.entry)) {
+              return ssrConfig.entry.indexOf(item.name) > -1;
+            }
+            return true;
+          });
+          if (entry.length === 0) {
+            logger.error('Not found ssr entry, please check ssrConfig.entry is right');
+            process.exit(-1);
+          }
+          entry.forEach(item => {
+            configChain.entry(item.name).merge(item.entry);
           });
 
           configChain.output
@@ -68,6 +79,13 @@ export default class SsrConfig {
         }
       }
     );
+    context.hook('beforeSSRBuild', () => {
+      const { ssrConfig } = context.config;
+      if (ssrConfig) {
+        fs.emptyDirSync(ssrConfig.entryPath);
+        fs.emptyDirSync(ssrConfig.viewPath);
+      }
+    });
     context.hook(
       'devServerBefore',
       (app: Application, server: WebpackDevServer, { ssr }: IResolveWebpackConfigOptions) => {

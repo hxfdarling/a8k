@@ -19,7 +19,7 @@ type SsrConfig =
       entryPath: string; // SSR文件输出目录
       viewPath: string; // SSR模板文件输出目录
       routesPath: string; // 路由文件路径
-      entry: true | string[];
+      entry: undefined | string[];
     };
 type CssModules =
   | boolean

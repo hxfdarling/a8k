@@ -35,13 +35,10 @@ class SSRPlugin {
           };
         })
         .filter(({ name }) => {
-          if (customEntry === true || !customEntry) {
-            return true;
+          if (Array.isArray(customEntry)) {
+            return customEntry.indexOf(name) > -1;
           }
-          if (customEntry.indexOf(name)) {
-            return true;
-          }
-          return false;
+          return true;
         })
         .reduce((result: any, { fileName }) => {
           const targetFile = path.join(viewPath, fileName);

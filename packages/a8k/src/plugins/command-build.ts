@@ -1,3 +1,4 @@
+import { logger } from '@a8k/common';
 import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '@a8k/common/lib/constants';
 import fs from 'fs-extra';
 import webpack from 'webpack';
@@ -68,9 +69,6 @@ export default class BuildCommand {
         if (ssrConfig && buildNode) {
           await hooks.invokePromise('beforeSSRBuild', context);
 
-          fs.emptyDirSync(ssrConfig.entryPath);
-          fs.emptyDirSync(ssrConfig.viewPath);
-
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,
             type: BUILD_TARGET.NODE,
@@ -86,6 +84,8 @@ export default class BuildCommand {
           await clientCompiler;
 
           await context.hooks.invokePromise('afterSSRBuild', context);
+        } else if (target === 'node') {
+          logger.warn('This project disabled SSR, you need add ssrConfig in a8.config.js');
         }
       });
   }

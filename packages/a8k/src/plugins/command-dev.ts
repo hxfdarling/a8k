@@ -3,10 +3,10 @@ import { BUILD_ENV, BUILD_TARGET, ENV_DEV } from '@a8k/common/lib/constants';
 import chalk from 'chalk';
 import { Application } from 'express';
 import os from 'os';
+import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import A8k from '..';
 import { printInstructions } from '../utils/helper';
-import webpack from 'webpack';
 
 const isInteractive = process.stdout.isTTY;
 
@@ -123,6 +123,9 @@ export default class DevCommand {
             logger.error('如需要调试直出，请配置 ssrConfig:{port:xxx} 端口信息');
             process.exit(-1);
           }
+
+          await context.hooks.invokePromise('beforeSSRBuild', context);
+
           const webpackConfigSSR = context.resolveWebpackConfig({
             ...options,
             type: BUILD_TARGET.NODE,
