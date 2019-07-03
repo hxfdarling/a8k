@@ -2,7 +2,6 @@ import { logger } from '@a8k/common';
 import fs from 'fs-extra';
 import path from 'path';
 import webpack from 'webpack';
-import { A8kConfig } from '../../interface';
 import { IEntry } from '../../utils/entry';
 
 class SSRPlugin {

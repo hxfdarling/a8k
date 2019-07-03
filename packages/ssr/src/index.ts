@@ -7,27 +7,76 @@ import koa, { Context } from 'koa';
 import { resolve } from 'path';
 import React from 'react';
 import { createRouter, getRoutesConfig, IRouteConfig, IRouteMatch } from './utils/helper';
-import renderToString, { IRenderOptions } from './utils/render';
+import defaultRenderToString, { IRenderOptions } from './utils/render';
+
+type Bundle = any;
+type Request = koa.Request | express.Request;
+type Response = koa.Response | express.Response;
 
 export interface IA8kSsrOptions {
   routesPath?: string;
   entryPath?: string;
   viewPath?: string;
+  // 自定义render方法
+  render?: (
+    req: Request,
+    res: Response,
+    template: string,
+    component: React.ElementType,
+    params: any
+  ) => Promise<any>;
+  // 如果不使用自定义render可以使用该方法增强组件
   enhanceComponent?: (
     component: React.ElementType,
-    options: { state: any; renderOptions: IRenderOptions; req: any; res: any }
+    options: { state: any; renderOptions: IRenderOptions; req: Request }
   ) => React.ElementType;
+  // 自定义模板渲染
   renderToString?: (
     template: string,
     element: React.ReactElement,
     state: any,
     renderOptions: IRenderOptions,
-    req: any,
-    res: any
+    req: Request
   ) => string;
 }
 
 const cwd = process.cwd();
+
+const defaultRender = async (
+  req: Request,
+  res: Response,
+  template: string,
+  component: Bundle,
+  params: any,
+  options: IA8kSsrOptions
+) => {
+  let state = {};
+  let renderOptions: any;
+  if (component.bootstrap) {
+    ({ state, ...renderOptions } = await component.bootstrap(params, req, res));
+  }
+  if (component.getInitialProps) {
+    state = component.getInitialProps(params, req, res);
+    if (state instanceof Promise) {
+      state = await state;
+    }
+  }
+  if (component.prefetch) {
+    state = component.prefetch(params, req, res);
+    if (state instanceof Promise) {
+      state = await state;
+    }
+  }
+  const { renderToString, enhanceComponent } = options;
+  if (enhanceComponent) {
+    component = enhanceComponent(component, { state, renderOptions, req });
+  }
+  const element = React.createElement(component, state);
+  if (renderToString) {
+    return renderToString(template, element, state, renderOptions, req);
+  }
+  return defaultRenderToString(template, element, state, renderOptions);
+};
 
 export class SSR {
   private routesConfig: IRouteConfig[];
@@ -67,43 +116,18 @@ export class SSR {
   set router(value) {
     this._router = value;
   }
-  public async render(
-    req: koa.Request | express.Request,
-    res: koa.Response | express.Response,
-    entry: string,
-    params: any
-  ) {
+  public async render(req: Request, res: Response, entry: string, params: any) {
     logger.debug('[ssr] render entry:', entry, ', params:', params);
 
     const template = this.getTemplate(entry);
     try {
-      let component = this.getEntry(entry);
-      let state = {};
-      let renderOptions: any;
-      if (component.bootstrap) {
-        ({ state, ...renderOptions } = await component.bootstrap(params, req, res));
+      const component = this.getEntry(entry);
+      const { render } = this.options;
+      if (render) {
+        return await render(req, res, template, component, params);
+      } else {
+        return await defaultRender(req, res, template, component, params, this.options);
       }
-      if (component.getInitialProps) {
-        state = component.getInitialProps(params, req, res);
-        if (state instanceof Promise) {
-          state = await state;
-        }
-      }
-      if (component.prefetch) {
-        state = component.prefetch(params, req, res);
-        if (state instanceof Promise) {
-          state = await state;
-        }
-      }
-      const { renderToString: customRenderToString, enhanceComponent } = this.options;
-      if (enhanceComponent) {
-        component = enhanceComponent(component, { state, renderOptions, req, res });
-      }
-      const element = React.createElement(component, state);
-      if (customRenderToString) {
-        return customRenderToString(template, element, state, renderOptions, req, res);
-      }
-      return renderToString(template, element, state, renderOptions);
     } catch (e) {
       logger.error(`[ssr error] ${entry}, ${req.url}`);
       console.error(e);
@@ -116,7 +140,7 @@ export class SSR {
       readFileSync(resolve(this.viewPath, entry + '.html'), 'utf-8').toString();
     return this.viewCache[entry];
   }
-  private getEntry(entry: string) {
+  private getEntry(entry: string): Bundle {
     const bundle = require(resolve(this.entryPath, entry + '.js'));
     return bundle.__esModule ? bundle.default : bundle;
   }
@@ -138,7 +162,14 @@ export function expressMiddleware(options: IA8kSsrOptions) {
   return async (req: express.Request, res: express.Response, next: any) => {
     const route = ssr.router(req);
     if (route) {
-      res.status(200).send(await ssr.render(req, res, route.entry, route.params));
+      try {
+        const html = await ssr.render(req, res, route.entry, route.params);
+        res.status(200).send(html);
+      } catch (e) {
+        res.status(500).send('Server internal error');
+        logger.error('Server slide render error');
+        console.error(route, e);
+      }
     } else {
       return next();
     }

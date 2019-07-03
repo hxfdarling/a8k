@@ -87,20 +87,12 @@ interface ICombine {
   EXTRA_DATA_PLACEHOLDER: any;
   SERVER_FLAG_INSERTER?: any;
   PERF_INSERTER: any;
-  [key: string]: any;
 }
 
-export default class {
-  private template: string;
-  constructor(template: string) {
-    this.template = template;
-  }
-  public combine(kv: ICombine) {
-    let { template } = this;
-    kv.SERVER_FLAG_INSERTER = 1;
-    Object.keys(kv).forEach((key: string) => {
-      template = key2handler[key](template, kv[key] || '');
-    });
-    return template;
-  }
-}
+export default (template: string, kv: ICombine) => {
+  kv.SERVER_FLAG_INSERTER = true;
+  Object.keys(kv).forEach((key: string) => {
+    template = key2handler[key](template, kv[key] || '');
+  });
+  return template;
+};

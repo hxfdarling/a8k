@@ -1,5 +1,5 @@
 import { renderToString } from 'react-dom/server';
-import TemplateHelper from './templateHelper';
+import templateHelper from './templateHelper';
 
 export interface IRenderOptions {
   richImg: string;
@@ -10,26 +10,23 @@ export interface IRenderOptions {
   extraData: any;
 }
 
-const engineCache: { [key: string]: TemplateHelper } = {};
 export default function render(
-  htmlFile: string,
-  element: any,
+  template: string,
+  element: React.ReactElement<any>,
   state: any,
   options: IRenderOptions = {} as IRenderOptions
 ) {
+  const renderStart = Date.now();
   const perfData: { renderTime: number; renderStart: number } = {
-    renderStart: Date.now(),
+    renderStart,
     renderTime: 0,
   };
 
-  const startTime = Date.now();
   const domString = renderToString(element);
-  perfData.renderTime = Date.now() - startTime;
-  if (!engineCache[htmlFile]) {
-    engineCache[htmlFile] = new TemplateHelper(htmlFile);
-  }
-  const templateEngine: TemplateHelper = engineCache[htmlFile];
-  return templateEngine.combine({
+
+  perfData.renderTime = Date.now() - renderStart;
+
+  return templateHelper(template, {
     HTML_PLACEHOLDER: domString,
     STATE_PLACEHOLDER: state || {},
     PERF_INSERTER: perfData,
