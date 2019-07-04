@@ -25,6 +25,7 @@
     "@babel/core": "^7.4.5",
     "find-cache-dir": "^3.0.0",
     "fs-extra": "^8.0.1",
+    "jest": "^24.8.0",
     "loader-utils": "^1.2.3",
     "mkdirp": "^0.5.1",
     "parse5": "^5.1.0",
