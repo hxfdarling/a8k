@@ -58,13 +58,13 @@ const key2handler = {
   STATE_PLACEHOLDER: (html: string, val: string) => {
     return html.replace(
       getRegExp(STATE_PLACEHOLDER),
-      `<script>window.__initialState=${serialize(val)};</script>`
+      `<script>window.__initialState=JSON.parse('${serialize(val)}');</script>`
     );
   },
   EXTRA_DATA_PLACEHOLDER: (html: string, val: any) => {
     return html.replace(
       getRegExp(EXTRA_DATA_PLACEHOLDER),
-      `<script>window.__extraData=${serialize(val)};</script>`
+      `<script>window.__extraData=JSON.parse('${serialize(val)}');</script>`
     );
   },
 
@@ -72,7 +72,10 @@ const key2handler = {
     return html.replace(/<\/head>/, '<script>window.isSvr=true;</script>$&');
   },
   PERF_INSERTER: (html: string, val: string) => {
-    return html.replace(/<\/head>/, `<script>window.__perfData=${serialize(val)};</script>$&`);
+    return html.replace(
+      /<\/head>/,
+      `<script>window.__perfData=JSON.parse('${serialize(val)}');</script>$&`
+    );
   },
 } as any;
 
