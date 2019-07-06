@@ -59,11 +59,6 @@ export default (
       configChain.plugin('CrossOriginLoadingPlugin').use(CrossOriginLoadingPlugin);
     }
 
-    // html 最后插入js解析完成时间节点
-    const MarkTimePlugin = require('./plugins/mark-time-plugin');
-    MarkTimePlugin.__expression = "require('a8k/lib/webpack/plugins/mark-time-plugin')";
-    configChain.plugin('MarkTimePlugin').use(MarkTimePlugin);
-
     if (context.config.retry) {
       const RetryPlugin = require('webpack-retry-load-plugin');
       RetryPlugin.__expression = "require('webpack-retry-load-plugin')";

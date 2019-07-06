@@ -29,6 +29,7 @@ export default class HtmlConfig {
                 filename: `${name}.html`,
                 template,
                 chunks,
+                inject: 'head',
               },
             ]);
           });
@@ -44,6 +45,7 @@ export default class HtmlConfig {
               minify: false,
               filename: 'index.html',
               template: './src/index.html',
+              inject: 'head',
             },
           ]);
         }
@@ -59,6 +61,18 @@ export default class HtmlConfig {
             },
           ]);
         }
+        const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+        ScriptExtHtmlWebpackPlugin.__expression = `require('script-ext-html-webpack-plugin')`;
+        configChain.plugin('script-ext-html-webpack-plugin').use(ScriptExtHtmlWebpackPlugin, [
+          {
+            defaultAttribute: 'defer',
+            inline: ['runtime'],
+          },
+        ]);
+        // html 最后插入js解析完成时间节点
+        // const MarkTimePlugin = require('./webpack/plugins/mark-time-plugin');
+        // MarkTimePlugin.__expression = "require('a8k/lib/webpack/plugins/mark-time-plugin')";
+        // configChain.plugin('MarkTimePlugin').use(MarkTimePlugin);
       }
       // mark html end
       configChain.plugin('html-end').use(EmptyPlugin);
