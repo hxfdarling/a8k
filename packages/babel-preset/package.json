@@ -5,7 +5,8 @@
   "license": "MIT",
   "files": [
     "create.js",
-    "index.js"
+    "index.js",
+    "options.json"
   ],
   "dependencies": {
     "@a8k/common": "^2.0.0-beta.20",
