@@ -41,24 +41,31 @@ type EsCheck =
 interface A8kConfig {
   type: string; // 项目类型，例如react项目、vue项目
   mode: PROJECT_MODE; // 项目模式，单页面多页面
-  extractCss: boolean; // mini-css-extract-plugin
+
+  template: string; // html模板路径
   initEntry: string[]; //配置每个页面额外的入口文件
   entry: any; // 自定义入口文件
+  pagesPath: string;
+  publicPath: string; //资源的公共路径（CDN、站点路径）
   dist: any; // 静态资源输出目录
   cacheDirectory: any; //缓存目录
-  pagesPath: string;
-  template: string; // html模板路径
-  devServer: WebpackDevServer.Configuration; // webpack-dev-server配置
+
+  // feature
+  extractCss: boolean; // mini-css-extract-plugin
+  escheck: EsCheck;
+  cssModules: CssModules;
   //服务器渲染配置
   ssrConfig: SsrConfig;
-  ssrDevServer: any;
-  chainWebpack: Function | undefined;
-  envs: { [key: string]: any }; // 配置的.env环境文件
-  publicPath: string; //资源的公共路径（CDN、站点路径）
-  plugins: Array<string>; // a8k插件
-  webpackOverride: Function | undefined; // 直接修改webapck配置文件
   crossOrigin: boolean; // 是否跨域加载css、JavaScript
   retry: any; //主域重试
+  sri: boolean;
+
+  ssrDevServer: any;
+  devServer: WebpackDevServer.Configuration; // webpack-dev-server配置
+  chainWebpack: Function | undefined;
+  envs: { [key: string]: any }; // 配置的.env环境文件
+  plugins: Array<string>; // a8k插件
+  webpackOverride: Function | undefined; // 直接修改webapck配置文件
   babel: {
     include: Array<string | RegExp>;
     exclude: Array<string | RegExp>;
@@ -72,9 +79,6 @@ interface A8kConfig {
     chunk: string;
   };
   ignorePages: Array<string>;
-  sri: boolean;
-  escheck: EsCheck;
-  cssModules: CssModules;
 }
 
 interface Internals {

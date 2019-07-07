@@ -45,22 +45,26 @@ const devServer: WebpackDevServer.Configuration = {
 const config: A8kConfig = {
   type: '',
   mode: PROJECT_MODE.MULTI,
-  entry: null,
-  extractCss: true,
-  initEntry: [],
-  dist: './.a8k/static',
-  cacheDirectory: './.a8k/.cache',
-  pagesPath: './src/pages',
+
   template: './src/common/template.html',
+  initEntry: [],
+  entry: null,
+  pagesPath: './src/pages',
+  dist: './.a8k/static',
   publicPath: '/',
+  cacheDirectory: './.a8k/.cache',
+
+  // feature
+  extractCss: true,
   escheck: true,
   cssModules: false,
-  devServer,
   ssrConfig: false,
-  ssrDevServer: {},
   crossOrigin: true,
   retry: false,
   sri: false,
+
+  devServer,
+  ssrDevServer: {},
   babel: {
     include: [],
     exclude: [],
