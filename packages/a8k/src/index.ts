@@ -25,7 +25,7 @@ program.version(version);
 
 program.option('--nochecklatest', '不检测最新版本');
 program.option('--debug', '输出构建调试信息');
-program.option('--npm-client <npmClient>', '自定义npm命令行');
+program.option('--npm-client <npmClient>', '自定义npm命令');
 program.on('command:*', () => {
   logger.error(
     `Invalid command: ${program.args.join(' ')}\nSee --help for a list of available commands.`

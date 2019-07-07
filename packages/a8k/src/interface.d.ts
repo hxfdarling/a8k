@@ -41,6 +41,7 @@ type EsCheck =
 interface A8kConfig {
   type: string; // 项目类型，例如react项目、vue项目
   mode: PROJECT_MODE; // 项目模式，单页面多页面
+  extractCss: boolean; // mini-css-extract-plugin
   initEntry: string[]; //配置每个页面额外的入口文件
   entry: any; // 自定义入口文件
   dist: any; // 静态资源输出目录

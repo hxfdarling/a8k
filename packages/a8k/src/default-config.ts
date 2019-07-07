@@ -46,6 +46,7 @@ const config: A8kConfig = {
   type: '',
   mode: PROJECT_MODE.MULTI,
   entry: null,
+  extractCss: true,
   initEntry: [],
   dist: './.a8k/static',
   cacheDirectory: './.a8k/.cache',

@@ -122,10 +122,10 @@ export class GenerateLoaders {
 
   public addBaseLoader({
     importLoaders,
-    needExtraCss,
+    extractCss,
   }: {
     importLoaders: number;
-    needExtraCss: boolean;
+    extractCss: boolean;
   }): GenerateLoaders {
     const {
       context,
@@ -133,7 +133,7 @@ export class GenerateLoaders {
       options: { sourceMap, cssSourceMap },
     } = this;
 
-    if (!needExtraCss) {
+    if (!extractCss) {
       this.rule = this.rule
         .use('style-loader')
         .loader('style-loader')
@@ -190,7 +190,7 @@ export default (
   configChain: WebpackChain,
   context: A8k,
   options: IResolveWebpackConfigOptions,
-  needExtraCss: boolean
+  extractCss: boolean
 ) => {
   const rule = configChain.module.rule(type).test(testMap[type]);
   const gen = new GenerateLoaders(rule, context, options);
@@ -199,7 +199,7 @@ export default (
     case 'css':
       gen
         .addBaseLoader({
-          needExtraCss,
+          extractCss,
           importLoaders: 1,
         })
         .addPostCssLoader();
@@ -207,7 +207,7 @@ export default (
     case 'sass':
       gen
         .addBaseLoader({
-          needExtraCss,
+          extractCss,
           importLoaders: 2,
         })
         .addPostCssLoader()
@@ -216,7 +216,7 @@ export default (
     case 'less':
       gen
         .addBaseLoader({
-          needExtraCss,
+          extractCss,
           importLoaders: 2,
         })
         .addPostCssLoader()
