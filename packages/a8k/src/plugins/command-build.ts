@@ -52,7 +52,6 @@ export default class BuildCommand {
         let clientCompiler: Promise<any> = Promise.resolve();
         if (buildBrowser) {
           await hooks.invokePromise('beforeBuild', context);
-          fs.emptyDirSync(context.config.dist);
           const webpackConfig = context.resolveWebpackConfig({
             ...options,
             type: BUILD_TARGET.BROWSER,
