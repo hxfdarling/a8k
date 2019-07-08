@@ -121,7 +121,7 @@
     "webpackbar": "^3.2.0",
     "whatwg-fetch": "^3.0.0"
   },
-  "description": "集成 webpack 的 react 项目最佳实践的构建工具",
+  "description": "集成 webpack 的 react 项目最佳实践的构建工具v1",
   "directories": {
     "lib": "lib"
   },
