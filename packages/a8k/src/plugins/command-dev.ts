@@ -38,10 +38,10 @@ export default class DevCommand {
       .option('--stylelint', '启用stylelint检测css')
       .option('-c, --css-source-map', '使用cssSourceMap ，但会导致开发模式 FOUC')
       .option('--no-silent', '输出日志')
-      .option('--inspectWebpack', '输出webpack配置信息')
-      .action(async ({ ssr, port, eslint, silent, stylelint, cssSourceMap, inspectWebpack }) => {
+      .option('--inspect', '输出webpack配置信息')
+      .action(async ({ ssr, port, eslint, silent, stylelint, cssSourceMap, inspect }) => {
         process.env.NODE_ENV = ENV_DEV;
-        context.options.inspectWebpack = inspectWebpack;
+        context.options.inspect = inspect;
         context.internals.mode = BUILD_ENV.DEVELOPMENT;
         // 开发模式禁用 publicPath
         context.config.publicPath = '/';

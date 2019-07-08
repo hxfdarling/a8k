@@ -18,13 +18,14 @@ export default class BuildCommand {
       .option('--no-mini', '禁用压缩代码')
       .option('--no-silent', '输出日志')
       .option('--dev', '环境变量使用 development')
-      .option('--inspectWebpack', '输出webpack配置信息')
+      .option('--inspect', '输出webpack配置信息')
+      .option('-w, --watch', '文件发生变化自动重新构建')
       .option('-t,--target [target]', '可选择构建all,browser,node', 'all')
-      .action(async ({ dev, analyzer, inspectWebpack, sourceMap, mini, silent, target }) => {
+      .action(async ({ dev, watch, analyzer, inspect, sourceMap, mini, silent, target }) => {
         // 为了让react这样的库不要使用压缩代码;
         process.env.NODE_ENV = dev ? ENV_DEV : ENV_PROD;
 
-        context.options.inspectWebpack = inspectWebpack;
+        context.options.inspect = inspect;
         context.internals.mode = BUILD_ENV.PRODUCTION;
 
         const buildBrowser = target === 'all' || target === 'browser';
@@ -35,6 +36,7 @@ export default class BuildCommand {
           mini,
           silent,
           analyzer,
+          watch,
         };
 
         if (silent) {
@@ -61,9 +63,20 @@ export default class BuildCommand {
               process.exit(-1);
             }
           });
-          clientCompiler = context
-            .runCompiler(compiler)
-            .then(() => hooks.invokePromise('afterBuild', context));
+          if (watch) {
+            compiler.watch(webpackConfig.watchOptions, (err: any) => {
+              if (err) {
+                logger.error(err.stack || err);
+                if (err.details) {
+                  logger.error(err.details);
+                }
+              }
+            });
+          } else {
+            clientCompiler = context
+              .runCompiler(compiler)
+              .then(() => hooks.invokePromise('afterBuild', context));
+          }
         }
         const { ssrConfig } = context.config;
         if (ssrConfig && buildNode) {
@@ -73,17 +86,29 @@ export default class BuildCommand {
             ...options,
             type: BUILD_TARGET.NODE,
           });
+
           const compilerSSR = context.createWebpackCompiler(webpackConfigSSR);
           compilerSSR.hooks.done.tap('done', (stats: webpack.Stats) => {
             if (stats.hasErrors()) {
               process.exit(-1);
             }
           });
-          await context.runCompiler(compilerSSR);
+          if (watch) {
+            compilerSSR.watch(webpackConfigSSR.watchOptions, (err: any) => {
+              if (err) {
+                logger.error(err.stack || err);
+                if (err.details) {
+                  logger.error(err.details);
+                }
+              }
+            });
+          } else {
+            await context.runCompiler(compilerSSR);
 
-          await clientCompiler;
+            await clientCompiler;
 
-          await context.hooks.invokePromise('afterSSRBuild', context);
+            await context.hooks.invokePromise('afterSSRBuild', context);
+          }
         } else if (target === 'node') {
           logger.warn('This project disabled SSR, you need add ssrConfig in a8.config.js');
         }

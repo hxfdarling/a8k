@@ -26,6 +26,7 @@ program.version(version);
 program.option('--nochecklatest', '不检测最新版本');
 program.option('--debug', '输出构建调试信息');
 program.option('--npm-client <npmClient>', '自定义npm命令');
+program.option('--config <configPath>', '自定义a8k.config.js');
 program.on('command:*', () => {
   logger.error(
     `Invalid command: ${program.args.join(' ')}\nSee --help for a list of available commands.`
@@ -47,7 +48,7 @@ export default class A8k {
   public configFilePath: string = '';
   public plugins: any[] = [];
   private pluginsSet = new Set<string>();
-  private inspectWebpackConfigPath: string = '';
+  private inspectConfigPath: string = '';
   private createProjectCommandTypes: Array<{
     type: string;
     description: string;
@@ -71,9 +72,8 @@ export default class A8k {
     } as A8kOptions;
     if (options) {
       this.options = { ...this.options, ...options };
-      const { baseDir } = options;
-      if (baseDir) {
-        this.options.baseDir = path.resolve(baseDir);
+      if (this.options.baseDir) {
+        this.options.baseDir = path.resolve(this.options.baseDir);
       }
     }
     const { baseDir, debug } = this.options;
@@ -95,6 +95,12 @@ export default class A8k {
   }
   public initConfig() {
     const { baseDir, configFile } = this.options;
+    if (configFile) {
+      if (!fs.existsSync(this.resolve(configFile))) {
+        logger.error(configFile + ' not found');
+        process.exit(-1);
+      }
+    }
     const res = loadConfig.loadSync({
       files:
         typeof configFile === 'string'
@@ -448,16 +454,16 @@ export default class A8k {
       this.config.chainWebpack(configChain, options, this);
     }
 
-    if (this.options.inspectWebpack) {
-      this.inspectWebpackConfigPath = path.join(
+    if (this.options.inspect) {
+      this.inspectConfigPath = path.join(
         require('os').tmpdir(),
         `a8k-inspect-webpack-config-${options.type}-${this.buildId}.js`
       );
       fs.appendFileSync(
-        this.inspectWebpackConfigPath,
+        this.inspectConfigPath,
         `//${JSON.stringify(options)}\nconst ${options.type} = ${configChain.toString()}\n`
       );
-      require('open')(this.inspectWebpackConfigPath);
+      require('open')(this.inspectConfigPath);
     }
 
     let webpackConfig = configChain.toConfig();

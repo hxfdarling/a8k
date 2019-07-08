@@ -7,7 +7,7 @@ interface A8kOptions {
   baseDir: string;
   debug: boolean;
   configFile: string;
-  inspectWebpack: boolean;
+  inspect: boolean;
 }
 type SsrConfig =
   | false
@@ -86,6 +86,7 @@ interface Internals {
 }
 
 interface ICommandOptions {
+  watch?: boolean;
   sourceMap?: boolean;
   cssSourceMap?: boolean;
   mini?: boolean;
