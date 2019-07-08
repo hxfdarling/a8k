@@ -1,6 +1,5 @@
 import loadConfig from '@a8k/cli-utils/load-config';
-import { logger } from '@a8k/common';
-import { spinner } from '@a8k/common';
+import { logger, spinner } from '@a8k/common';
 import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
 import program, { Command } from 'commander';
 import fs from 'fs-extra';
@@ -9,6 +8,7 @@ import inquirer from 'inquirer';
 import { merge } from 'lodash';
 import path from 'path';
 import resolveFrom from 'resolve-from';
+import webpack from 'webpack';
 import WebpackChain from 'webpack-chain';
 import defaultConfig, { ssrConfig } from './default-config';
 import Hooks from './hooks';
@@ -17,7 +17,6 @@ import getFilenames from './utils/get-filenames';
 import { getConfig, setConfig } from './utils/global-config';
 import loadPkg from './utils/load-pkg';
 import loadPlugins from './utils/load-plugins';
-import webpack from 'webpack';
 
 const { version } = require('../package.json');
 

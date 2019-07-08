@@ -1,6 +1,5 @@
 import { logger } from '@a8k/common';
 import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '@a8k/common/lib/constants';
-import fs from 'fs-extra';
 import webpack from 'webpack';
 import A8k from '..';
 import { ICommandOptions } from '../interface';
