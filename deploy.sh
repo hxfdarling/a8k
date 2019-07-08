@@ -3,7 +3,7 @@
 # 确保脚本抛出遇到的错误
 set -e
 
-if [[ $TRAVIS_TAG =~ beta ]]; then
+if [[ $TRAVIS_TAG =~ beta ]] ; then
     echo 'npm run lerna:publish:beta'
     # 发布预发布版本
     npm run lerna:publish:beta
