@@ -3,6 +3,12 @@ import WebpackChain from 'webpack-chain';
 import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
 
+const COLOR_MAP: any = {
+  [BUILD_TARGET.BROWSER]: '#41b883',
+  [BUILD_TARGET.NODE]: 'yellow',
+  default: '#41b883',
+};
+
 export default (
   configChain: WebpackChain,
   context: A8k,
@@ -18,7 +24,7 @@ export default (
   configChain.plugin('bar').use(WebpackBar, [
     {
       name: type,
-      color: '#41b883',
+      color: COLOR_MAP[type] || COLOR_MAP.default,
     },
   ]);
   // }

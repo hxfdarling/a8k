@@ -2,9 +2,8 @@ import { logger } from '@a8k/common';
 import { BUILD_ENV, BUILD_TARGET, ENV_DEV, ENV_PROD } from '@a8k/common/lib/constants';
 import { SSR } from '@a8k/ssr';
 import { IRouteMatch } from '@a8k/ssr/lib/common/utils/helper';
-import { Application } from 'express';
+import { Application, Request, Response } from 'express';
 import fs from 'fs-extra';
-import { IncomingMessage, ServerResponse } from 'http';
 import httpProxyMiddleware from 'http-proxy-middleware';
 import WebpackChain from 'webpack-chain';
 import WebpackDevServer from 'webpack-dev-server';
@@ -89,7 +88,7 @@ export default class SsrConfig {
           const protocol = https ? 'https://' : 'http://';
           const target = `${protocol + host}:${port}${contentBase || ''}`;
           const ssrInst = new SSR(ssrConfig);
-          app.use((req: IncomingMessage, res: ServerResponse, next: any) => {
+          app.use((req: Request, res: Response, next: any) => {
             const route: IRouteMatch = ssrInst.router(req);
             if (route) {
               const proxyConfig = {
@@ -113,7 +112,7 @@ export default class SsrConfig {
           const { contentBase, https, port, host } = ssrConfig;
           const protocol = https ? 'https://' : 'http://';
           const target = `${protocol + host}:${port}${contentBase || ''}`;
-          app.all('*', (req, res, next) => {
+          app.all('*', (req: Request, res: Response, next: any) => {
             console.log(req.url);
             const proxyConfig = {
               context: req.url,

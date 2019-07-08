@@ -2,12 +2,12 @@ import { BUILD_ENV, BUILD_TARGET, PROJECT_MODE } from './const';
 import WebpackDevServer from 'webpack-dev-server';
 
 interface A8kOptions {
-  cliArgs: Array<string>;
-  cliPath: string;
-  baseDir: string;
-  debug: boolean;
-  configFile: string;
-  inspect: boolean;
+  cliArgs: Array<string>; // 命令参数
+  cliPath: string; // cli 路径目录
+  baseDir: string; // 项目根目录
+  debug: boolean; // debug模式，会打印debug级别日志
+  configFile: string; // 自定义配置文件
+  inspect: boolean; // 需要导出webpack config文件
 }
 type SsrConfig =
   | false
@@ -19,24 +19,24 @@ type SsrConfig =
       entryPath: string; // SSR文件输出目录
       viewPath: string; // SSR模板文件输出目录
       routesPath: string; // 路由文件路径
-      entry: undefined | string[];
+      entry: undefined | string[]; // 自定义服务器渲染页面
     };
 type CssModules =
   | boolean
   | {
       mode?: string;
-      localIdentName?: string;
+      localIdentName?: string; // 该项不被可修改
       context?: string;
       hashPrefix?: string;
     };
 type EsCheck =
   | boolean
   | {
-      ecmaVersion?: string;
-      baseDir?: string;
-      module?: boolean;
+      ecmaVersion?: string; // 默认: es5
+      baseDir?: string; // 检测目录
+      module?: boolean; // 是否支持import
       allowHashBang?: boolean;
-      exclude?: Array<string>;
+      exclude?: Array<string>; // 排除文件
     };
 interface A8kConfig {
   type: string; // 项目类型，例如react项目、vue项目
@@ -58,9 +58,9 @@ interface A8kConfig {
   ssrConfig: SsrConfig;
   crossOrigin: boolean; // 是否跨域加载css、JavaScript
   retry: any; //主域重试
-  sri: boolean;
+  sri: boolean; // 子资源完整性校验
 
-  ssrDevServer: any;
+  ssrDevServer: any; // 废弃，请使用ssrConfig
   devServer: WebpackDevServer.Configuration; // webpack-dev-server配置
   chainWebpack: Function | undefined;
   envs: { [key: string]: any }; // 配置的.env环境文件
@@ -86,14 +86,14 @@ interface Internals {
 }
 
 interface ICommandOptions {
-  watch?: boolean;
-  sourceMap?: boolean;
-  cssSourceMap?: boolean;
-  mini?: boolean;
-  silent?: boolean;
-  analyzer?: boolean;
-  eslint?: boolean;
-  stylelint?: boolean;
+  watch?: boolean; // 启动watch模式，构建结束后不会退出，文件变化会重新触发构建
+  sourceMap?: boolean; // 是否开启sourceMap
+  cssSourceMap?: boolean; // 是否使用css sourceMap，这个造成 FOUC
+  mini?: boolean; // 是否启动压缩
+  silent?: boolean; // 是否静默不输出webpack构建日志
+  analyzer?: boolean; // 是否输出bundle分析
+  eslint?: boolean; // 是否启动dev eslint
+  stylelint?: boolean; // 是否启用dev stylelint
 }
 
 interface IResolveWebpackConfigOptions extends ICommandOptions {
