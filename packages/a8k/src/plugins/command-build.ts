@@ -57,7 +57,7 @@ export default class BuildCommand {
           });
           const compiler = context.createWebpackCompiler(webpackConfig);
           compiler.hooks.done.tap('done', (stats: webpack.Stats) => {
-            if (stats.hasErrors()) {
+            if (stats.hasErrors() && !watch) {
               process.exit(-1);
             }
           });
@@ -87,7 +87,7 @@ export default class BuildCommand {
 
           const compilerSSR = context.createWebpackCompiler(webpackConfigSSR);
           compilerSSR.hooks.done.tap('done', (stats: webpack.Stats) => {
-            if (stats.hasErrors()) {
+            if (stats.hasErrors() && !watch) {
               process.exit(-1);
             }
           });
