@@ -74,9 +74,9 @@ export default (
     }
 
     // 支持lodash包 按需引用
-    const LodashPlugin = require('lodash-webpack-plugin');
-    LodashPlugin.__expression = "require('lodash-webpack-plugin')";
-    configChain.plugin('LodashPlugin').use(LodashPlugin);
+    // const LodashPlugin = require('lodash-webpack-plugin');
+    // LodashPlugin.__expression = "require('lodash-webpack-plugin')";
+    // configChain.plugin('LodashPlugin').use(LodashPlugin);
 
     const { CleanWebpackPlugin } = require('clean-webpack-plugin');
     CleanWebpackPlugin.__expression = "require('clean-webpack-plugin')";
