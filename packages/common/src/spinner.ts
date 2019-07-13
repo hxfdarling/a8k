@@ -3,7 +3,7 @@ import ora from 'ora';
 const spinner = ora();
 let lastMsg = null;
 
-export const logWithSpinner = msg => {
+export const logWithSpinner = (msg: string) => {
   if (lastMsg) {
     spinner.stopAndPersist({
       text: lastMsg.text,

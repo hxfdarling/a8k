@@ -374,6 +374,7 @@ export default class A8k {
     const buildInPlugins = [
       [require('@a8k/plugin-react-template'), []],
       [require('@a8k/plugin-typescript-template'), []],
+      [require('./plugins/command-create'), []],
       require('./plugins/config-base'),
       require('./plugins/config-dev'),
       require('./plugins/config-html'),
