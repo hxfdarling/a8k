@@ -1,6 +1,6 @@
 {
   "name": "@a8k/html-loader",
-  "version": "2.0.0-beta.22",
+  "version": "2.0.0-beta.25",
   "description": "resolve assets in html file",
   "main": "./lib/index.js",
   "directories": {
@@ -20,8 +20,8 @@
   "author": "zman",
   "license": "ISC",
   "dependencies": {
-    "@a8k/babel-preset": "^2.0.0-beta.22",
-    "@a8k/common": "^2.0.0-beta.20",
+    "@a8k/babel-preset": "^2.0.0-beta.25",
+    "@a8k/common": "^2.0.0-beta.25",
     "@babel/core": "^7.4.5",
     "find-cache-dir": "^3.0.0",
     "fs-extra": "^8.0.1",
