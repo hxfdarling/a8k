@@ -38,19 +38,20 @@ class CreateGenerator extends Generator {
   public writing() {
     // files
     this.copyFiles([
-      ['common/_gitignore', '.gitignore'],
-      ['common/.commitlintrc.js', '.commitlintrc.js'],
-      ['common/.editorconfig', '.editorconfig'],
-      ['common/.gitmessage', '.gitmessage'],
-      ['common/.prettierrc', '.prettierrc'],
-      ['common/tsconfig.json', 'tsconfig.json'],
-      ['common/tslint.json', 'tslint.json'],
-      ['common/jest.config.js', 'jest.config.js'],
-      ['src/', 'src/'],
+      ['tpl/_gitignore', '.gitignore'],
+      ['files/', './'],
+      ['files/.commitlintrc.js', '.commitlintrc.js'],
+      ['files/.editorconfig', '.editorconfig'],
+      ['files/.eslintrc.yml', '.eslintrc.yml'],
+      ['files/.gitmessage', '.gitmessage'],
+      ['files/.prettierrc', '.prettierrc'],
+      ['files/.stylelintrc.js', '.stylelintrc.js'],
+      ['files/.circleci', '.circleci'],
+      ['files/.vscode', '.vscode'],
     ]);
 
     // tpl
-    this.copyTpls([['common/package', 'package.json'], ['common/README.md', 'README.md']]);
+    this.copyTpls([['tpl/package', 'package.json'], ['tpl/README.md', 'README.md']]);
   }
 }
 

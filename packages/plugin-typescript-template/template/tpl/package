@@ -1,0 +1,79 @@
+{
+  "name": "<%= name %>",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/common/index.js",
+  "module": "lib/esm/index.js",
+  "author": "zman",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./lib/app.js",
+    "dev": "tsnd --inspect --debug --transpileOnly --respawn src/app.ts",
+    "dev:2": "tsc --watch & nodemon ./lib/app.js",
+    "build": "rimraf lib && tsc",
+    "build:esm": "tsc  --outDir lib/esm -m es6",
+    "build:common": "tsc  --outDir lib/common -m commonjs",
+    "prepublishOnly": "npm run test && npm run build",
+    "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,tsx}' --fix",
+    "stylelint": "stylelint --fix src/**/*.{less,scss,css}",
+    "test": "jest",
+    "test:w": "jest --watchAll --rootDir ./src --passWithNoTests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@a8k/changelog": "^2.0.0-beta.20",
+    "@commitlint/cli": "^8.0.0",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.6.2",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.1.0",
+    "commitizen": "^3.1.1",
+    "commitlint-config-cz": "^0.12.0",
+    "cz-customizable": "^6.2.0",
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.0",
+    "jest": "^24.0.0",
+    "lint-staged": "^9.2.0",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
+    "stylelint": "^10.1.0",
+    "stylelint-config-standard": "^18.3.0",
+    "stylelint-scss": "^3.9.1",
+    "ts-jest": "^24.0.2",
+    "ts-node-dev": "^1.0.0-pre.40",
+    "typescript": "^3.5.3"
+  },
+  "lint-staged": {
+    "*.{css,less,scss}": [
+      "prettier --write",
+      "stylelint --fix",
+      "git add"
+    ],
+    "*.{ts,tsx,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{jsx,js}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "node_modules/@a8k/changelog/cz-config.js"
+    }
+  }
+}
