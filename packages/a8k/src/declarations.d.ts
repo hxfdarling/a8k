@@ -3,3 +3,4 @@ declare namespace NodeJS {
     noDeprecation: boolean;
   }
 }
+declare module 'html-webpack-plugin';
