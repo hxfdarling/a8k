@@ -99,12 +99,12 @@ export class GenerateLoaders {
             },
             stage: 3,
             features: {
+              // "postcss-custom-properties": "^6.3.1", 该版本支持下面的语法
               // --primary: var(--customPrimary, var(--green)); 语法处理存在bug
-              'custom-properties': false,
+              // 'custom-properties': false,
             },
           }),
-          require('postcss-custom-properties'),
-          // stone-ui 中有用到
+          // require('postcss-custom-properties'),
           require('postcss-color-function'),
         ].filter(Boolean),
       };

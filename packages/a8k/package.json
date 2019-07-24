@@ -90,7 +90,6 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "ora": "^3.4.0",
     "postcss-color-function": "^4.1.0",
-    "postcss-custom-properties": "^6.3.1",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.5.0",
     "pretty-ms": "^5.0.0",
