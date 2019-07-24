@@ -101,4 +101,5 @@ interface IResolveWebpackConfigOptions extends ICommandOptions {
   mode?: BUILD_ENV; // 是生产模式还是开发模式
   watch?: boolean; // ssr模式监听
   ssr?: boolean; // ssr模式
+  extractCss?: boolean; // 是否需要extract css
 }

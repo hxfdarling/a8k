@@ -17,6 +17,7 @@ import getFilenames from './utils/get-filenames';
 import { getConfig, setConfig } from './utils/global-config';
 import loadPkg from './utils/load-pkg';
 import loadPlugins from './utils/load-plugins';
+import { GenerateLoaders } from './webpack/rules/generate-loaders';
 
 const { version } = require('../package.json');
 
@@ -439,11 +440,16 @@ export default class A8k {
 
   public resolveWebpackConfig(options: IResolveWebpackConfigOptions) {
     const configChain = new WebpackChain();
+
     options = {
       type: BUILD_TARGET.BROWSER,
       ...options,
       mode: this.internals.mode,
     };
+    // 生产模式和dev服务器渲染调试时，开启这个模式防止样式抖动
+    options.extractCss =
+      this.config.extractCss && (options.mode === BUILD_ENV.PRODUCTION || !!options.ssr);
+
     this.config.filenames = getFilenames({
       filenames: this.config.filenames,
       mode: options.mode,
@@ -556,5 +562,23 @@ export default class A8k {
   public localRequire(id: string, fallbackDir: string) {
     const resolved = this.localResolve(id, fallbackDir);
     return resolved && require(resolved);
+  }
+  /**
+   *  用于生成自定义的css-处理器
+   *  支持postcss/sass/less预处理器
+   * @param name 命名，比如: sass
+   * @param test rule.test规则
+   * @param configChain  WebpackChain
+   * @param options IResolveWebpackConfigOptions
+   * @returns {GenerateLoaders}
+   */
+  public genCssLoader(
+    name: string,
+    test: any,
+    configChain: WebpackChain,
+    options: IResolveWebpackConfigOptions
+  ): GenerateLoaders {
+    const rule = configChain.module.rule(name).test(test);
+    return new GenerateLoaders(rule, this, options);
   }
 }

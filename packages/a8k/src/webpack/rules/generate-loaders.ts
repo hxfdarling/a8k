@@ -49,7 +49,7 @@ export class GenerateLoaders {
       .end();
     return this;
   }
-  public addSassLoader(): GenerateLoaders {
+  public addSassLoader(options: any = {}): GenerateLoaders {
     const {
       context,
       options: { sourceMap },
@@ -65,11 +65,12 @@ export class GenerateLoaders {
           context.resolve('node_modules'),
         ],
         sourceMap,
+        ...options,
       })
       .end();
     return this;
   }
-  public addPostCssLoader(): GenerateLoaders {
+  public addPostCssLoader(options: any = {}): GenerateLoaders {
     const {
       context,
       options: { sourceMap },
@@ -115,18 +116,38 @@ export class GenerateLoaders {
       .options({
         sourceMap,
         ...postCssConfig,
+        ...options,
       })
       .end();
     return this;
   }
-
-  public addBaseLoader({
-    importLoaders,
-    extractCss,
-  }: {
-    importLoaders: number;
-    extractCss: boolean;
-  }): GenerateLoaders {
+  public addCssLoader(
+    options: { importLoaders?: number; sourceMap?: boolean; [key: string]: any } = {}
+  ): GenerateLoaders {
+    const { sourceMap } = this.options;
+    let modules = this.context.config.cssModules;
+    if (modules) {
+      if (modules === true) {
+        modules = {};
+      }
+      if (modules.localIdentName && !warnOnce) {
+        warnOnce = true;
+        logger.warn(`you can't override cssModules.localIdentName`);
+      }
+      modules = { ...modules, localIdentName: genCssModulesName(this.context) };
+    }
+    this.rule = this.rule
+      .use('css-loader')
+      .loader('css-loader')
+      .options({
+        sourceMap,
+        modules,
+        ...options,
+      })
+      .end();
+    return this;
+  }
+  public addBaseLoader({ extractCss }: { extractCss: boolean }): GenerateLoaders {
     const {
       context,
       cacheDirectory,
@@ -154,30 +175,11 @@ export class GenerateLoaders {
         })
         .end();
     }
-    let modules = this.context.config.cssModules;
-    if (modules) {
-      if (modules === true) {
-        modules = {};
-      }
-      if (modules.localIdentName && !warnOnce) {
-        warnOnce = true;
-        logger.warn(`you can't override cssModules.localIdentName`);
-      }
-      modules = { ...modules, localIdentName: genCssModulesName(context) };
-    }
     this.rule = this.rule
       .use('cache-loader')
       .loader('cache-loader')
       .options({
         cacheDirectory,
-      })
-      .end()
-      .use('css-loader')
-      .loader('css-loader')
-      .options({
-        importLoaders,
-        sourceMap,
-        modules,
       })
       .end();
 
@@ -189,17 +191,18 @@ export default (
   type: 'sass' | 'less' | 'css',
   configChain: WebpackChain,
   context: A8k,
-  options: IResolveWebpackConfigOptions,
-  extractCss: boolean
+  options: IResolveWebpackConfigOptions
 ) => {
   const rule = configChain.module.rule(type).test(testMap[type]);
   const gen = new GenerateLoaders(rule, context, options);
-
+  const extractCss = !!options.extractCss;
   switch (type) {
     case 'css':
       gen
         .addBaseLoader({
           extractCss,
+        })
+        .addCssLoader({
           importLoaders: 1,
         })
         .addPostCssLoader();
@@ -208,6 +211,8 @@ export default (
       gen
         .addBaseLoader({
           extractCss,
+        })
+        .addCssLoader({
           importLoaders: 2,
         })
         .addPostCssLoader()
@@ -217,10 +222,13 @@ export default (
       gen
         .addBaseLoader({
           extractCss,
+        })
+        .addCssLoader({
           importLoaders: 2,
         })
         .addPostCssLoader()
         .addLessLoader();
       break;
   }
+  return rule;
 };

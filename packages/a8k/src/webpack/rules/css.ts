@@ -1,15 +1,12 @@
-import { BUILD_ENV, BUILD_TARGET } from '@a8k/common/lib/constants';
+import { BUILD_TARGET } from '@a8k/common/lib/constants';
 import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 import { IResolveWebpackConfigOptions } from '../../interface';
 import generateLoaders from './generate-loaders';
 
 export default (configChain: WebpackChain, context: A8k, options: IResolveWebpackConfigOptions) => {
-  const { type, ssr } = options;
-  const { config, internals } = context;
-  // 生产模式和服务器渲染调试时，开启这个模式防止样式抖动
-  const extractCss = config.extractCss && (internals.mode === BUILD_ENV.PRODUCTION || !!ssr);
-
+  const { type } = options;
+  const { config } = context;
   if (type === BUILD_TARGET.NODE && !config.cssModules) {
     // 服务端渲染，直接忽略css
     configChain.module
@@ -21,15 +18,15 @@ export default (configChain: WebpackChain, context: A8k, options: IResolveWebpac
   }
 
   // css rule
-  generateLoaders('css', configChain, context, options, extractCss);
+  generateLoaders('css', configChain, context, options);
 
   // sass rule
-  generateLoaders('sass', configChain, context, options, extractCss);
+  generateLoaders('sass', configChain, context, options);
 
   // less rule
-  generateLoaders('less', configChain, context, options, extractCss);
+  generateLoaders('less', configChain, context, options);
 
-  if (extractCss) {
+  if (options.extractCss) {
     const MiniCssExtractPlugin = require('mini-css-extract-plugin');
     MiniCssExtractPlugin.__expression = "require('mini-css-extract-plugin')";
     configChain.plugin('mini-css-extract-plugin').use(MiniCssExtractPlugin, [
