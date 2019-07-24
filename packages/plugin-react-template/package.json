@@ -29,9 +29,9 @@
     "@a8k/common": "^2.0.0-beta.25",
     "chalk": "^2.4.2",
     "fs-extra": "^8.0.1",
-    "inquirer": "^6.3.1",
+    "inquirer": "^6.5.0",
     "ora": "^3.4.0",
-    "semver": "^6.1.1",
+    "semver": "^6.3.0",
     "shelljs": "^0.8.3",
     "yeoman-generator": "^4.0.1"
   }
