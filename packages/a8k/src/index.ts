@@ -401,29 +401,29 @@ export default class A8k {
   }
   private initPlugins(plugins: any, type: string) {
     this.plugins.push(...plugins);
-    for (const [Plugin, options, resolve] of plugins) {
+    for (const [Plugin, options = [], resolve] of plugins) {
       let pluginInst = null;
       if (Plugin instanceof Function) {
-        pluginInst = new Plugin(options);
+        pluginInst = new Plugin(...options);
       } else {
         pluginInst = Plugin;
       }
-      const pluginName = pluginInst.name;
-      try {
-        pluginInst.apply(this, options);
-      } catch (e) {
-        logger.error('plugin ' + (resolve || '') + ' apply error ');
-        throw e;
-      }
-
+      const pluginName = pluginInst.name || Plugin.name;
       if (!pluginName) {
         throw new Error('plugin name not found\n' + Plugin);
       }
-      logger.debug('[' + type + ']use plugin ' + pluginName);
       if (this.pluginsSet.has(pluginName)) {
-        logger.warn('[' + type + ']' + pluginName + ' plugin name have exists');
+        logger.warn('[' + type + '] "' + pluginName + '" plugin name have exists\n' + resolve);
+      } else {
+        try {
+          pluginInst.apply(this, ...options);
+        } catch (e) {
+          logger.error('plugin ' + (resolve || '') + ' apply error ');
+          throw e;
+        }
+        logger.debug('[' + type + ']use plugin ' + pluginName);
+        this.pluginsSet.add(pluginName);
       }
-      this.pluginsSet.add(pluginName);
     }
   }
 
