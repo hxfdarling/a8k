@@ -38,110 +38,119 @@ module.exports = async function(content) {
   Object.keys(filenames).forEach(key => {
     filenames[key] = filenames[key].replace('[chunkhash]', '[contenthash]');
   });
+
   // html 转换
   await Promise.all(
     nodes.map(async node => {
       const link = getLink(node);
-      const temp = link.value.split('?');
-      const query = queryParse.toObject(temp[1] || '');
-      Object.keys(query).forEach(key => {
-        if (query[key] === '') {
-          query[key] = true;
-        }
-      });
-      const { _inline: inline, _dist: dist, _noparse: noParse } = query;
-      let result = '';
-      const needInclude = !dist || (dist && process.env.NODE_ENV === 'production');
-      // 只有生产模式需要
-      if (!needInclude) {
-        const { childNodes } = node.parentNode;
-        childNodes.splice(childNodes.indexOf(node), 1);
-        return;
-      }
-      // url的资源不处理
-      if (/^(\/\/|http:|https:)/.test(link.value)) {
-        return;
-      }
-      const file = temp[0];
-      let filePath = path.join(baseDir, file);
-      if (!fs.existsSync(filePath)) {
-        // 绝对路径支持~
-        const absoluteFile = path.join(rootDir, file.replace(/^~/, ''));
-        if (fs.existsSync(absoluteFile)) {
-          filePath = absoluteFile;
-        } else {
-          this.emitError(new Error(`not found file: ${file} \n in ${baseDir} or ${rootDir}`));
+      try {
+        const temp = link.value.split('?');
+        const query = queryParse.toObject(temp[1] || '');
+        Object.keys(query).forEach(key => {
+          if (query[key] === '') {
+            query[key] = true;
+          }
+        });
+        const { _inline: inline, _dist: dist, _noparse: noParse } = query;
+        let result = '';
+        const needInclude = !dist || (dist && process.env.NODE_ENV === 'production');
+        // 只有生产模式需要
+        if (!needInclude) {
+          const { childNodes } = node.parentNode;
+          childNodes.splice(childNodes.indexOf(node), 1);
           return;
         }
-      }
-      const isMiniFile = /\.min\.(js|css)$/.test(filePath);
-      this.addDependency(filePath);
-      result = (await fs.readFile(filePath)).toString();
-      // 只需要转换未压缩的JS
-      if (!noParse && !isMiniFile && isScript(node)) {
-        if (options.cacheDirectory) {
-          result = await cache({
-            cacheDirectory: options.cacheDirectory,
-            options,
-            source: result,
-            // eslint-disable-next-line no-shadow
-            transform: (source, options) => {
-              return babel(source, options);
-            },
-          });
-        } else {
-          result = await babel(result, options);
+        // url的资源不处理,没有值也不处理
+        if (!link.value || /^(\/\/|https?:|data:;base64)/.test(link.value)) {
+          return;
         }
-      }
-      // only js/css/html support inline
-      if (inline || isHtml(node)) {
-        if (isScript(node)) {
-          node.attrs = [];
-          node.childNodes = [{ nodeName: '#text', value: result, parentNode: node }];
-        } else if (isStyle(node)) {
-          node.nodeName = 'style';
-          node.tagName = 'style';
-          node.attrs = [{ name: 'type', value: 'text/css' }];
-          node.childNodes = [{ nodeName: '#text', value: result, parentNode: node }];
-        } else if (isHtml(node)) {
-          const htmlDom = parse5.parseFragment(result);
-          const { childNodes } = node.parentNode;
-          childNodes.splice(childNodes.indexOf(node), 1, ...htmlDom.childNodes);
-        } else {
-          const msg = `\nonly js/css support inline:${JSON.stringify(
-            { tagName: node.tagName, attrs: node.attrs },
-            null,
-            2
-          )}`;
-          this.emitWarning(msg);
-        }
-      } else {
-        let url = '';
-        const loaderContext = { resourcePath: filePath };
-        if (isScript(node)) {
-          // 添加主域重试需要标记
-          url = loaderUtils.interpolateName(loaderContext, filenames.js, {
-            content: result,
-          });
-          result = `var ${varName}=${varName}||{};\n${varName}["${url}"]=true;${result}`;
-        } else if (isStyle(node)) {
-          url = loaderUtils.interpolateName(loaderContext, filenames.css, {
-            content: result,
-          });
-        } else {
-          url = loaderUtils.interpolateName(loaderContext, filenames.image, {
-            content: result,
-          });
-        }
-
-        this.emitFile(url, result);
-
-        node.attrs = node.attrs.map(i => {
-          if (isLink(i)) {
-            i.value = [publicPath.replace(/\/$/, ''), url].join(publicPath ? '/' : '');
+        const file = temp[0];
+        let filePath = path.join(baseDir, file);
+        if (!fs.existsSync(filePath)) {
+          // 绝对路径支持~
+          const absoluteFile = path.join(rootDir, file.replace(/^~/, ''));
+          if (fs.existsSync(absoluteFile)) {
+            filePath = absoluteFile;
+          } else {
+            this.emitError(new Error(`not found file: ${file} \n in ${baseDir} or ${rootDir}`));
+            return;
           }
-          return i;
-        });
+        }
+        const isMiniFile = /\.min\.(js|css)$/.test(filePath);
+        this.addDependency(filePath);
+        result = (await fs.readFile(filePath)).toString();
+        // 只需要转换未压缩的JS
+        if (!noParse && !isMiniFile && isScript(node)) {
+          if (options.cacheDirectory) {
+            result = await cache({
+              cacheDirectory: options.cacheDirectory,
+              options,
+              source: result,
+              // eslint-disable-next-line no-shadow
+              transform: (source, options) => {
+                return babel(source, options);
+              },
+            });
+          } else {
+            result = await babel(result, options);
+          }
+        }
+        // only js/css/html support inline
+        if (inline || isHtml(node)) {
+          if (isScript(node)) {
+            node.attrs = [];
+            node.childNodes = [{ nodeName: '#text', value: result, parentNode: node }];
+          } else if (isStyle(node)) {
+            node.nodeName = 'style';
+            node.tagName = 'style';
+            node.attrs = [{ name: 'type', value: 'text/css' }];
+            node.childNodes = [{ nodeName: '#text', value: result, parentNode: node }];
+          } else if (isHtml(node)) {
+            const htmlDom = parse5.parseFragment(result);
+            const { childNodes } = node.parentNode;
+            childNodes.splice(childNodes.indexOf(node), 1, ...htmlDom.childNodes);
+          } else {
+            const msg = `\nonly js/css support inline:${JSON.stringify(
+              { tagName: node.tagName, attrs: node.attrs },
+              null,
+              2
+            )}`;
+            this.emitWarning(msg);
+          }
+        } else {
+          let url = '';
+          const loaderContext = { resourcePath: filePath };
+          if (isScript(node)) {
+            // 添加主域重试需要标记
+            url = loaderUtils.interpolateName(loaderContext, filenames.js, {
+              content: result,
+            });
+            result = `var ${varName}=${varName}||{};\n${varName}["${url}"]=true;${result}`;
+          } else if (isStyle(node)) {
+            url = loaderUtils.interpolateName(loaderContext, filenames.css, {
+              content: result,
+            });
+          } else {
+            url = loaderUtils.interpolateName(loaderContext, filenames.image, {
+              content: result,
+            });
+          }
+
+          this.emitFile(url, result);
+
+          node.attrs = node.attrs.map(i => {
+            if (isLink(i)) {
+              i.value = [publicPath.replace(/\/$/, ''), url].join(publicPath ? '/' : '');
+            }
+            return i;
+          });
+        }
+      } catch (e) {
+        console.log('---------------@a8k/html-loader error---------------------');
+        console.log(this.resourcePath);
+        console.error(`process "${node.tagName}" error\n`, node.attrs);
+        console.log('---------------------------------------------------------');
+        throw e;
       }
     })
   );
