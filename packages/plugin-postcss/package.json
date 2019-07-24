@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-postcss",
-  "version": "2.0.0-beta.25",
+  "version": "2.0.0-beta.27",
   "description": "a8k project use postcss instead of sass",
   "author": "edenhliu <edenhliu@tencent.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-postcss#readme",
