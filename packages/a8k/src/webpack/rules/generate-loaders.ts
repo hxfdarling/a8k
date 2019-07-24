@@ -122,9 +122,13 @@ export class GenerateLoaders {
     return this;
   }
   public addCssLoader(
-    options: { importLoaders?: number; sourceMap?: boolean; [key: string]: any } = {}
+    options: {
+      importLoaders?: number;
+      sourceMap?: boolean;
+      modules?: boolean;
+      [key: string]: any;
+    } = {}
   ): GenerateLoaders {
-    const { sourceMap } = this.options;
     let modules = this.context.config.cssModules;
     if (modules) {
       if (modules === true) {
@@ -140,18 +144,17 @@ export class GenerateLoaders {
       .use('css-loader')
       .loader('css-loader')
       .options({
-        sourceMap,
         modules,
         ...options,
       })
       .end();
     return this;
   }
-  public addBaseLoader({ extractCss }: { extractCss: boolean }): GenerateLoaders {
+  public addBaseLoader(): GenerateLoaders {
     const {
       context,
       cacheDirectory,
-      options: { sourceMap, cssSourceMap },
+      options: { sourceMap, cssSourceMap, extractCss },
     } = this;
 
     if (!extractCss) {
@@ -193,42 +196,74 @@ export default (
   context: A8k,
   options: IResolveWebpackConfigOptions
 ) => {
+  const modules = context.config.cssModules;
   const rule = configChain.module.rule(type).test(testMap[type]);
   const gen = new GenerateLoaders(rule, context, options);
-  const extractCss = !!options.extractCss;
+  gen.addBaseLoader();
+
+  let noModuleGen;
+  if (modules) {
+    // 如果是css modules模式，理论上只需要处理src目录下面的
+    // 其他目录比如node_modules不需要转换为css modules
+    gen.rule.include.add(context.resolve('src'));
+    noModuleGen = new GenerateLoaders(
+      configChain.module.rule(type + '-no-modules').test(testMap[type]),
+      context,
+      options
+    );
+    noModuleGen.rule.exclude.add(context.resolve('src'));
+    noModuleGen.addBaseLoader();
+  }
+
   switch (type) {
     case 'css':
       gen
-        .addBaseLoader({
-          extractCss,
-        })
         .addCssLoader({
           importLoaders: 1,
         })
         .addPostCssLoader();
+      if (noModuleGen) {
+        noModuleGen
+          .addCssLoader({
+            importLoaders: 1,
+            modules: false,
+          })
+          .addPostCssLoader();
+      }
       break;
     case 'sass':
       gen
-        .addBaseLoader({
-          extractCss,
-        })
         .addCssLoader({
           importLoaders: 2,
         })
         .addPostCssLoader()
         .addSassLoader();
+      if (noModuleGen) {
+        noModuleGen
+          .addCssLoader({
+            importLoaders: 2,
+            modules: false,
+          })
+          .addPostCssLoader()
+          .addSassLoader();
+      }
       break;
     case 'less':
       gen
-        .addBaseLoader({
-          extractCss,
-        })
         .addCssLoader({
           importLoaders: 2,
         })
         .addPostCssLoader()
         .addLessLoader();
+      if (noModuleGen) {
+        noModuleGen
+          .addCssLoader({
+            importLoaders: 2,
+            modules: false,
+          })
+          .addPostCssLoader()
+          .addLessLoader();
+      }
       break;
   }
-  return rule;
 };
