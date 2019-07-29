@@ -385,7 +385,7 @@ export default class A8k {
       require('./plugins/command-test'),
       require('./plugins/command-utils'),
       require('./plugins/command-init'),
-      [require('@a8k/plugin-sb-react'), []],
+      // [require('@a8k/plugin-sb-react'), []],// 暂时禁用story-book能力，待完善
     ];
     const { baseDir } = this.options;
     this.initPlugins(loadPlugins(buildInPlugins, baseDir), 'build-in');

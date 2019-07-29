@@ -56,7 +56,7 @@ const config: A8kConfig = {
 
   // feature
   extractCss: true,
-  escheck: true,
+  escheck: false,
   cssModules: false,
   ssrConfig: false,
   crossOrigin: true,

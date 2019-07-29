@@ -149,6 +149,7 @@ class CreateGenerator extends Generator {
       ['common/.prettierrc', '.prettierrc'],
       ['common/jsconfig.json', 'jsconfig.json'],
       ['common/.stylelintrc.js', '.stylelintrc.js'],
+      ['common/.browserslistrc', '.browserslistrc'],
     ]);
 
     // tpl

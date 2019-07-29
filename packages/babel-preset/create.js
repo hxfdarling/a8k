@@ -34,10 +34,7 @@ module.exports = function(api, options, env) {
                 // 根据当前环境的node编译
                 node: 'current',
               }
-              : {
-                // 最低支持ie11
-                ie: 11,
-              },
+              : undefined,
           // 转化为commonjs，为了支持module.exports => export default
           // 为了支持webpack tree shake
           modules: target === 'node' ? 'commonjs' : false,
@@ -60,19 +57,6 @@ module.exports = function(api, options, env) {
       [require('babel-plugin-jsx-if-directive'), {}],
       // 优化lodash导入
       require('babel-plugin-lodash'),
-
-      // Polyfills the runtime needed for async/await, generators, and friends
-      // https://babeljs.io/docs/en/babel-plugin-transform-runtime
-      // [
-      //   require('@babel/plugin-transform-runtime').default,
-      //   {
-      //     corejs: 3,
-      //     // https://babeljs.io/docs/en/babel-plugin-transform-runtime#useesmodules
-      //     // We should turn this on once the lowest version of Node LTS
-      //     // supports ES Modules.
-      //     useESModules: target === 'node' ? false : isEnvDevelopment || isEnvProduction,
-      //   },
-      // ],
 
       // Stage 0
       require('@babel/plugin-proposal-function-bind').default,
