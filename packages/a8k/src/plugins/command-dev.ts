@@ -69,7 +69,7 @@ export default class DevCommand {
               after(app, server);
             }
           };
-          const webpackConfig = context.resolveWebpackConfig({
+          const webpackConfig = await context.resolveWebpackConfig({
             ...options,
             type: BUILD_TARGET.BROWSER,
           });
@@ -126,7 +126,7 @@ export default class DevCommand {
 
           await context.hooks.invokePromise('beforeSSRBuild', context);
 
-          const webpackConfigSSR = context.resolveWebpackConfig({
+          const webpackConfigSSR = await context.resolveWebpackConfig({
             ...options,
             type: BUILD_TARGET.NODE,
             watch: true,

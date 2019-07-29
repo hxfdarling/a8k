@@ -438,7 +438,7 @@ export default class A8k {
     }
   }
 
-  public resolveWebpackConfig(options: IResolveWebpackConfigOptions) {
+  public async resolveWebpackConfig(options: IResolveWebpackConfigOptions) {
     const configChain = new WebpackChain();
 
     options = {
@@ -454,10 +454,10 @@ export default class A8k {
       filenames: this.config.filenames,
       mode: options.mode,
     });
-    this.hooks.invoke('chainWebpack', configChain, options);
+    await this.hooks.invokePromise('chainWebpack', configChain, options, this);
 
     if (this.config.chainWebpack) {
-      this.config.chainWebpack(configChain, options, this);
+      await this.config.chainWebpack(configChain, options, this);
     }
 
     if (this.options.inspect) {
