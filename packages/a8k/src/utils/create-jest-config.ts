@@ -31,10 +31,10 @@ export default (context: A8k) => {
       '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
     },
     moduleDirectories: [
-      context.resolve('src'),
+      'node_modules',
       context.resolve('node_modules'),
       context.rootResolve('node_modules'),
-      'node_modules',
+      context.resolve('src'),
     ],
   };
   const overrides = require(path.join(rootDir, 'package.json')).jest;
