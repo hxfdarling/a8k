@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-react-template",
-  "version": "2.0.0-beta.27",
+  "version": "2.0.0-beta.30",
   "description": "react 模板插件，支持创建react项目",
   "author": "zman",
   "license": "ISC",
