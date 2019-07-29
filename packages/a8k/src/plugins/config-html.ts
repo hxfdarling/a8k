@@ -67,7 +67,7 @@ export default class HtmlConfig {
             configChain.plugin('script-ext-html-webpack-plugin').use(ScriptExtHtmlWebpackPlugin, [
               {
                 defaultAttribute: 'defer',
-                inline: ['runtime'],
+                inline: [/runtime([\w-]*)\.(js|css)$/],
               },
             ]);
             // html 最后插入js解析完成时间节点
