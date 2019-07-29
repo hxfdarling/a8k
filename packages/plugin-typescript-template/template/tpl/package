@@ -11,6 +11,7 @@
     "dev": "tsnd --inspect --debug --transpileOnly --respawn src/app.ts",
     "dev:2": "tsc --watch & nodemon ./lib/app.js",
     "build": "rimraf lib && tsc",
+    "build:2": "rimraf lib && npm run build:esm && npm run build:common",
     "build:esm": "tsc  --outDir lib/esm -m es6",
     "build:common": "tsc  --outDir lib/common -m commonjs",
     "prepublishOnly": "npm run test && npm run build",
@@ -54,6 +55,7 @@
     ],
     "*.{ts,tsx,json,md}": [
       "prettier --write",
+      "eslint --fix",
       "git add"
     ],
     "*.{jsx,js}": [
