@@ -36,8 +36,8 @@
   <% } %>
 <% } %>
     "prepublishOnly": "npm run test && npm run build",
-    "lint": "eslint --config .eslintrc --fix --ext .js,.jsx,.ts,.tsx src",
-    "stylelint": "stylelint --fix src/**/*.{less,scss,css}",
+    "lint:js": "eslint --config .eslintrc --fix --ext .js,.jsx,.ts,.tsx src",
+    "lint:style": "stylelint --fix src/**/*.{less,scss,css}",
     "test": "jest --rootDir ./src --passWithNoTests",
     "test:w": "jest --watchAll --rootDir ./src --passWithNoTests"
   },

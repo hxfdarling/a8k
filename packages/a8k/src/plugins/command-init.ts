@@ -42,16 +42,17 @@ export default class InitCommand {
             case 'lint':
               {
                 pkg['lint-staged'] = {
+                  '*.{json,md}': ['prettier --write', 'git add'],
                   '*.{css,less,scss}': ['prettier --write', 'stylelint --fix', 'git add'],
-                  '*.{ts,tsx,json,md}': ['prettier --write', 'git add'],
+                  '*.{ts,tsx}': ['prettier --write', 'git add'],
                   '*.{jsx,js}': ['prettier --write', 'eslint --fix', 'git add'],
                 };
                 pkg.scripts = pkg.scripts || {};
                 if (!pkg.scripts.stylelint) {
-                  pkg.scripts.stylelint = 'stylelint --fix src/**/*.{less,scss,css}';
+                  pkg.scripts['lint:style'] = 'stylelint --fix src/**/*.{less,scss,css}';
                 }
                 if (!pkg.scripts.eslint) {
-                  pkg.scripts.eslint = 'eslint --fix src/**/*.{js,jsx}';
+                  pkg.scripts['lint:js'] = 'eslint --fix src --ext .js,.jsx';
                 }
                 pkg.husky = pkg.husky || {};
                 pkg.husky.hooks = pkg.husky.hooks || {};
@@ -64,7 +65,11 @@ export default class InitCommand {
                     stylelintFile,
                     `
 module.exports = {
-  extends: ['stylelint-config-standard'],
+  extends: [
+    'stylelint-config-recommended',
+    'stylelint-config-standard',
+    'stylelint-config-css-modules',
+  ],
   plugins: ['stylelint-scss'],
   rules: {
     'at-rule-no-unknown': null,
@@ -78,12 +83,17 @@ module.exports = {
                 if (!fs.existsSync(prettierFile)) {
                   fs.writeFileSync(
                     prettierFile,
-                    `{
+                    `
+{
   "bracketSpacing": true,
   "singleQuote": true,
   "jsxBracketSameLine": false,
   "trailingComma": "es5",
-  "printWidth": 80
+  "tabWidth": 2,
+  "semi": true,
+  "printWidth": 120,
+  "jsxSingleQuote": false,
+  "arrowParens": "always"
 }`
                   );
                 }
@@ -91,6 +101,8 @@ module.exports = {
                 const deps = [
                   'eslint',
                   'stylelint',
+                  'stylelint-config-recommended',
+                  'stylelint-config-css-modules',
                   'stylelint-config-standard',
                   'stylelint-scss',
                   'prettier',

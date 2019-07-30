@@ -20,9 +20,9 @@
     "server:dev": "cross-env LOG_LEVEL=debug NODE_ENV=development nodemon server/index.js",
     <% } %>
     "clean": "rimraf -rf public/ && rimraf -rf pack/",
-    "eslint":"eslint --fix src/**/*.{js,jsx}",
-    "stylelint": "stylelint --fix src/**/*.{scss,css}",
-    "lint":"npm run eslint&&npm run stylelint"
+    "lint":"npm run lint:js && npm run lint:style",
+    "lint:js":"eslint --fix src/**/*.{js,jsx}",
+    "lint:style": "stylelint --fix src/**/*.{scss,css,less}"
   },
   "husky": {
     "hooks": {
