@@ -58,6 +58,22 @@ module.exports = function(api, options, env) {
       // 优化lodash导入
       require('babel-plugin-lodash'),
 
+      // Polyfills the runtime needed for async/await, generators, and friends
+      // https://babeljs.io/docs/en/babel-plugin-transform-runtime
+      // [
+      //   require('@babel/plugin-transform-runtime').default,
+      //   {
+      //     absoluteRuntime: false,
+      //     corejs: false,
+      //     helpers: true,
+      //     regenerator: true,
+      //     // https://babeljs.io/docs/en/babel-plugin-transform-runtime#useesmodules
+      //     // We should turn this on once the lowest version of Node LTS
+      //     // supports ES Modules.
+      //     useESModules: target === 'node' ? false : isEnvDevelopment || isEnvProduction,
+      //   },
+      // ],
+
       // Stage 0
       require('@babel/plugin-proposal-function-bind').default,
 
