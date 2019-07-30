@@ -29,7 +29,7 @@
     "build": "rimraf lib && babel --extensions .ts,.tsx src -d lib --copy-files",
   <% } %>
   <% if(!babel){ %> 
-    "dev": "tsc --watch",
+    "dev": "tsc  --outDir lib/esm -m es6 --watch & tsc  --outDir lib/common -m commonjs --watch",
     "build": "rimraf lib && npm run build:esm && npm run build:common",
     "build:esm": "tsc  --outDir lib/esm -m es6",
     "build:common": "tsc  --outDir lib/common -m commonjs",
@@ -38,7 +38,7 @@
     "prepublishOnly": "npm run test && npm run build",
     "lint": "eslint --config .eslintrc --fix --ext .js,.jsx,.ts,.tsx src",
     "stylelint": "stylelint --fix src/**/*.{less,scss,css}",
-    "test": "jest",
+    "test": "jest --rootDir ./src --passWithNoTests",
     "test:w": "jest --watchAll --rootDir ./src --passWithNoTests"
   },
   "dependencies": {
