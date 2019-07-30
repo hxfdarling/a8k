@@ -15,7 +15,7 @@ export default class PluginCreateTypescriptProject {
   public apply(context: any) {
     context.registerCreateType(
       'typescript-sample',
-      '基于typescript的项目(可用于开发库)',
+      '基于typescript的项目',
       async ({ projectDir, name }) => {
         await createGenerator(projectDir, name);
         await context.hooks.invokePromise('afterCreate', context);

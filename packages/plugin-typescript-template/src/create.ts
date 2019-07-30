@@ -18,6 +18,33 @@ class CreateGenerator extends Generator {
     this.sourceRoot(join(__dirname, '../template/'));
   }
 
+  public async prompting() {
+    const prompts = [
+      {
+        name: 'type',
+        message: 'select application type',
+        type: 'list',
+        choices: [
+          { name: 'node server', value: 'server' },
+          { name: 'node module', value: 'module' },
+        ],
+      },
+    ];
+    const { type } = await this.prompt(prompts);
+    let babel = false;
+    if (type === 'module') {
+      ({ babel } = await this.prompt([
+        {
+          name: 'babel',
+          message: '使用babel编译代码？如果是react项目建议使用babel',
+          type: 'confirm',
+          default: false,
+        },
+      ]));
+    }
+    this.props = { type, babel, ...this.props };
+  }
+
   private copyFiles(files = []) {
     files.forEach(([src, dest]) => {
       src = toArray(src);
@@ -46,9 +73,14 @@ class CreateGenerator extends Generator {
       ['files/.gitmessage', '.gitmessage'],
       ['files/.prettierrc', '.prettierrc'],
       ['files/.stylelintrc.js', '.stylelintrc.js'],
+      ['files/.eslintignore', '.eslintignore'],
       ['files/.circleci', '.circleci'],
       ['files/.vscode', '.vscode'],
     ]);
+
+    if (this.props.babel) {
+      this.copyFiles([['files/.babelrc.js', '.babelrc.js']]);
+    }
 
     // tpl
     this.copyTpls([['tpl/package', 'package.json'], ['tpl/README.md', 'README.md']]);

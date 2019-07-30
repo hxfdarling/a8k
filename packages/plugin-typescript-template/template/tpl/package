@@ -2,30 +2,69 @@
   "name": "<%= name %>",
   "version": "1.0.0",
   "description": "",
+<% if(type ==="server"){ %>
+  "main": "lib/app.js",
+<% } %>
+<% if(type ==="module"){ %>
+  <% if(babel){ %> 
+  "main": "lib/index.js",
+  <% } %>
+  <% if(!babel){ %> 
   "main": "lib/common/index.js",
   "module": "lib/esm/index.js",
+  <% } %>
+<% } %>
   "author": "zman",
   "license": "MIT",
   "scripts": {
+<% if(type ==="server"){ %>
     "start": "node ./lib/app.js",
-    "dev": "tsnd --inspect --debug --transpileOnly --respawn src/app.ts",
-    "dev:2": "tsc --watch & nodemon ./lib/app.js",
+    "dev:tsnd": "tsnd --inspect --debug --transpileOnly --respawn src/app.ts",
+    "dev:nodemon": "tsc --watch & nodemon ./lib/app.js",
     "build": "rimraf lib && tsc",
-    "build:2": "rimraf lib && npm run build:esm && npm run build:common",
+<% } %>
+<% if(type ==="module"){ %>
+  <% if(babel){ %> 
+    "dev": "babel -w --extensions .ts,tsx src -d lib --copy-files",
+    "build": "rimraf lib && babel --extensions .ts,.tsx src -d lib --copy-files",
+  <% } %>
+  <% if(!babel){ %> 
+    "dev": "tsc --watch",
+    "build": "rimraf lib && npm run build:esm && npm run build:common",
     "build:esm": "tsc  --outDir lib/esm -m es6",
     "build:common": "tsc  --outDir lib/common -m commonjs",
+  <% } %>
+<% } %>
     "prepublishOnly": "npm run test && npm run build",
-    "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,tsx}' --fix",
+    "lint": "eslint --config .eslintrc --fix --ext .js,.jsx,.ts,.tsx src",
     "stylelint": "stylelint --fix src/**/*.{less,scss,css}",
     "test": "jest",
     "test:w": "jest --watchAll --rootDir ./src --passWithNoTests"
   },
-  "dependencies": {},
+  "dependencies": {
+<% if(type ==="server"){ %>
+    "koa":"^2.7.0"
+<% } %>
+  },
   "devDependencies": {
     "@a8k/changelog": "^2.0.0-beta.20",
+<% if(babel){ %> 
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "babel-plugin-import": "^1.12.0",
+<% } %>
+<% if(type ==="server"){ %>
+    "@types/koa": "^2.0.49",
+<% } %>
     "@commitlint/cli": "^8.0.0",
     "@types/jest": "^24.0.15",
     "@types/node": "^12.6.2",
+    "@types/prop-types": "^15.7.1",
+    "@types/react": "^16.8.23",
+    "@types/react-router-dom": "^4.3.4",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.1.0",
     "commitizen": "^3.1.1",
@@ -34,6 +73,7 @@
     "eslint": "^6.0.1",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
     "husky": "^3.0.0",
     "jest": "^24.0.0",
     "lint-staged": "^9.2.0",
@@ -41,6 +81,8 @@
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
     "stylelint": "^10.1.0",
+    "stylelint-config-css-modules": "^1.4.0",
+    "stylelint-config-recommended": "^2.2.0",
     "stylelint-config-standard": "^18.3.0",
     "stylelint-scss": "^3.9.1",
     "ts-jest": "^24.0.2",
@@ -53,7 +95,11 @@
       "stylelint --fix",
       "git add"
     ],
-    "*.{ts,tsx,json,md}": [
+    "*.{json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{ts,tsx}": [
       "prettier --write",
       "eslint --fix",
       "git add"
