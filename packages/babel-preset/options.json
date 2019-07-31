@@ -17,6 +17,21 @@
           "enum": [false]
         }
       ]
+    },
+    "useESModules": {
+      "type": "boolean"
+    },
+    "modules": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": ["commonjs"]
+        },
+        {
+          "type": "boolean",
+          "enum": [false]
+        }
+      ]
     }
   }
 }

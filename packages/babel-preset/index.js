@@ -5,5 +5,5 @@ const schema = require('./options.json');
 module.exports = function(api, options = {}) {
   const env = process.env.BABEL_ENV || process.env.NODE_ENV;
   validateOptions(schema, options, '@a8k/babel-preset');
-  return create(api, { useBuiltIns: 'usage', ...options }, env);
+  return create(api, options, env);
 };

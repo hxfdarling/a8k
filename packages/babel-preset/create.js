@@ -2,7 +2,12 @@ module.exports = function(api, options, env) {
   const isEnvDevelopment = env === 'development';
   const isEnvProduction = env === 'production';
   const isEnvTest = env === 'test';
-  const { target, useBuiltIns } = options;
+  const {
+    target,
+    useBuiltIns = 'usage',
+    useESModules = target === 'node' ? false : isEnvDevelopment || isEnvProduction,
+    modules = target === 'node' ? 'commonjs' : false,
+  } = options;
   if (!isEnvDevelopment && !isEnvProduction && !isEnvTest) {
     throw new Error(
       `${'Using `@a8k/babel-preset` requires that you specify `NODE_ENV` or '
@@ -37,7 +42,7 @@ module.exports = function(api, options, env) {
               : undefined,
           // 转化为commonjs，为了支持module.exports => export default
           // 为了支持webpack tree shake
-          modules: target === 'node' ? 'commonjs' : false,
+          modules,
         },
       ],
       [
@@ -70,7 +75,7 @@ module.exports = function(api, options, env) {
           // https://babeljs.io/docs/en/babel-plugin-transform-runtime#useesmodules
           // We should turn this on once the lowest version of Node LTS
           // supports ES Modules.
-          useESModules: target === 'node' ? false : isEnvDevelopment || isEnvProduction,
+          useESModules,
         },
       ],
 
