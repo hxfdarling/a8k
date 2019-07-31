@@ -1,6 +1,6 @@
 {
   "name": "a8k",
-  "version": "2.0.0-beta.31",
+  "version": "2.0.0-beta.32",
   "bin": {
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js",
@@ -29,15 +29,15 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@a8k/babel-preset": "^2.0.0-beta.30",
+    "@a8k/babel-preset": "^2.0.0-beta.32",
     "@a8k/cli-utils": "^2.0.0-beta.25",
     "@a8k/common": "^2.0.0-beta.25",
     "@a8k/dev-utils": "^2.0.0-beta.25",
-    "@a8k/html-loader": "^2.0.0-beta.30",
+    "@a8k/html-loader": "^2.0.0-beta.32",
     "@a8k/nunjucks-loader": "^2.0.0-beta.25",
-    "@a8k/plugin-react-template": "^2.0.0-beta.30",
+    "@a8k/plugin-react-template": "^2.0.0-beta.32",
     "@a8k/plugin-sb-react": "^2.0.0-beta.25",
-    "@a8k/plugin-typescript-template": "^2.0.0-beta.31",
+    "@a8k/plugin-typescript-template": "^2.0.0-beta.32",
     "@a8k/ssr": "^2.0.0-beta.25",
     "@babel/runtime": "^7.5.5",
     "acorn": "^6.2.1",
