@@ -28,13 +28,13 @@ export default (
     },
   ]);
   // }
-  const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
-  MomentLocalesPlugin.__expression = "require('moment-locales-webpack-plugin')";
-  configChain.plugin('MomentLocalesPlugin').use(MomentLocalesPlugin, [
-    {
-      localesToKeep: ['es-us', 'zh-cn'],
-    },
-  ]);
+  // const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+  // MomentLocalesPlugin.__expression = "require('moment-locales-webpack-plugin')";
+  // configChain.plugin('MomentLocalesPlugin').use(MomentLocalesPlugin, [
+  //   {
+  //     localesToKeep: ['es-us', 'zh-cn'],
+  //   },
+  // ]);
 
   const ManifestPlugin = require('webpack-manifest-plugin');
   ManifestPlugin.__expression = "require('webpack-manifest-plugin')";
