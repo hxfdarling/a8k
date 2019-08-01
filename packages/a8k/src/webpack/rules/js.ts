@@ -93,7 +93,7 @@ export default (
             generateScopedName: genCssModulesName(context),
             autoResolveMultipleImports: true,
             webpackHotModuleReloading: mode === BUILD_ENV.DEVELOPMENT,
-            handleMissingStyleName: 'warn',
+            handleMissingStyleName: 'throw',
           },
         ],
         mode === BUILD_ENV.DEVELOPMENT && require.resolve('react-hot-loader/babel'),
