@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-sb-react",
-  "version": "2.0.0-beta.25",
+  "version": "2.0.0",
   "description": "storybook for react",
   "keywords": [
     "storybook",
@@ -26,8 +26,8 @@
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
-    "@a8k/cli-utils": "^2.0.0-beta.25",
-    "@a8k/common": "^2.0.0-beta.25",
+    "@a8k/cli-utils": "^2.0.0",
+    "@a8k/common": "^2.0.0",
     "babel-plugin-react-docgen": "^3.1.0",
     "storybook-react-tmp": "0.0.1"
   },
