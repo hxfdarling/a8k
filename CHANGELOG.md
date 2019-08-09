@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/hxfdarling/a8k/compare/v2.0.0...v2.1.0) (2019-08-09)
+
+### Features
+
+- 更新 ts 模板 ([5a748a7](https://github.com/hxfdarling/a8k/commit/5a748a7))
+
 # [2.0.0-beta.34](https://github.com/hxfdarling/a8k/compare/v2.0.0-beta.33...v2.0.0-beta.34) (2019-08-01)
 
 ### Bug Fixes

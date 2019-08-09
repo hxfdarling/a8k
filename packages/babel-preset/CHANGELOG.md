@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/hxfdarling/a8k/compare/v2.0.0...v2.1.0) (2019-08-09)
+
+**Note:** Version bump only for package @a8k/babel-preset
+
 ## [1.18.1](https://github.com/hxfdarling/a8k/compare/v1.18.0...v1.18.1) (2019-06-15)
 
 **Note:** Version bump only for package @a8k/babel-preset
