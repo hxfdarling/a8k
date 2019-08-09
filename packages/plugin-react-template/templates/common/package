@@ -83,7 +83,7 @@
     "@commitlint/cli": "^8.1.0",
     "commitizen": "^4.0.3",
     "commitlint-config-cz": "^0.12.1",
-    "cz-customizable": "^6.2.0"
+    "cz-customizable": "^6.2.0",
     "eslint-config-imweb": "^0.2.11",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.9.0",
