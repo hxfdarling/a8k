@@ -79,11 +79,11 @@
     "nodemon": "^1.18.6",
     <% } %>
     "cross-env": "^5.2.0",
-    "@a8k/changelog": "^1.12.2",
-    "@commitlint/cli": "^7.6.1",
-    "commitizen": "^3.1.1",
-    "commitlint-config-cz": "^0.11.1",
-    "cz-customizable": "^6.1.0",
+    "@a8k/changelog": "*",
+    "@commitlint/cli": "^8.1.0",
+    "commitizen": "^4.0.3",
+    "commitlint-config-cz": "^0.12.1",
+    "cz-customizable": "^6.2.0"
     "eslint-config-imweb": "^0.2.11",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.9.0",

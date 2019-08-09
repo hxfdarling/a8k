@@ -29,9 +29,9 @@
     "execa": "^1.0.0"
   },
   "peerDependencies": {
-    "@commitlint/cli": "^7.6.1",
-    "commitizen": "^3.1.1",
-    "commitlint-config-cz": "^0.11.1",
-    "cz-customizable": "^6.1.0"
+    "@commitlint/cli": "^8.1.0",
+    "commitizen": "^4.0.3",
+    "commitlint-config-cz": "^0.12.1",
+    "cz-customizable": "^6.2.0"
   }
 }
