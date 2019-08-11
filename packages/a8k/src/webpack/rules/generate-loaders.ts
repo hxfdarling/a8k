@@ -154,7 +154,7 @@ export class GenerateLoaders {
     const {
       context,
       cacheDirectory,
-      options: { sourceMap, cssSourceMap, extractCss },
+      options: { sourceMap, extractCss },
     } = this;
 
     if (!extractCss) {
@@ -163,8 +163,6 @@ export class GenerateLoaders {
         .loader('style-loader')
         .options({
           // https://github.com/webpack-contrib/style-loader/issues/107
-          singleton: !cssSourceMap,
-          sourceMap,
         })
         .end();
     } else {
