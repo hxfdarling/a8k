@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/hxfdarling/a8k/compare/v2.1.0...v2.1.1) (2019-08-11)
+
+### Bug Fixes
+
+- 修复 style-loader 不能工作问题 ([4ffb35f](https://github.com/hxfdarling/a8k/commit/4ffb35f))
+
 # [2.1.0](https://github.com/hxfdarling/a8k/compare/v2.0.0...v2.1.0) (2019-08-09)
 
 **Note:** Version bump only for package a8k
