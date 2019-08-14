@@ -31,7 +31,7 @@ export default class BaseConfig {
           // 其他模式可以选择开启
           devtool = 'source-map';
         }
-
+        configChain.target('web');
         // css/optimization 配置中需要使用bool
         options.sourceMap = Boolean(devtool);
 
@@ -47,6 +47,10 @@ export default class BaseConfig {
         if (context.config.crossOrigin) {
           rule.crossOriginLoading('anonymous');
         }
+      }
+
+      if (type === BUILD_TARGET.NODE) {
+        configChain.target('node');
       }
 
       // 这些库都是不依赖其它库的库 不需要解析他们可以加快编译速度
