@@ -61,7 +61,7 @@ module.exports = function(api, options, env) {
     plugins: [
       [require('babel-plugin-jsx-if-directive'), {}],
       // 优化lodash导入
-      require('babel-plugin-lodash'),
+      // require('babel-plugin-lodash'),
 
       // Polyfills the runtime needed for async/await, generators, and friends
       // https://babeljs.io/docs/en/babel-plugin-transform-runtime
