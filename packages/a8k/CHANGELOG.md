@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://github.com/hxfdarling/a8k/compare/v2.1.1...v2.1.2) (2019-08-15)
+
+### Bug Fixes
+
+- 修复 webpack 没有添加 target 问题 ([38012bc](https://github.com/hxfdarling/a8k/commit/38012bc))
+
 ## [2.1.1](https://github.com/hxfdarling/a8k/compare/v2.1.0...v2.1.1) (2019-08-11)
 
 ### Bug Fixes
