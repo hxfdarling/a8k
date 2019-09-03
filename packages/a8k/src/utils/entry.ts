@@ -4,6 +4,8 @@ import path from 'path';
 import A8k from '..';
 
 const extensions = ['.js', '.ts', '.jsx', '.tsx'];
+const ignoreFileList = ['.DS_Store'];
+
 const extensionsReg = RegExp('(' + extensions.join('|') + ')$');
 const getReallyFile = (file: string) =>
   extensions
@@ -66,7 +68,7 @@ const getStandardEntry = (context: A8k) => {
   const { pagesPath, ignorePages, initEntry } = context.config;
   return fs
     .readdirSync(pagesPath)
-    .filter((item: string) => !ignorePages.includes(item))
+    .filter((item: string) => !ignorePages.includes(item) && !ignoreFileList.includes(item))
     .map((item: string) => getReallyEntry(path.join(pagesPath, item)))
     .map((file: any) => {
       let name = path.dirname(file);

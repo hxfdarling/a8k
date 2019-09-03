@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.4](https://github.com/hxfdarling/a8k/compare/v2.1.3...v2.1.4) (2019-08-27)
+
+### Bug Fixes
+
+- 修复 pages 目录存在 .DS_Store 文件造成构建失败的问题 ([de4bf3f](https://github.com/hxfdarling/a8k/commit/de4bf3f)), closes [#30](https://github.com/hxfdarling/a8k/issues/30)
+
 ## [2.1.3](https://github.com/hxfdarling/a8k/compare/v2.1.2...v2.1.3) (2019-08-25)
 
 ### Bug Fixes
