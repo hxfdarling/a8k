@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.5](https://github.com/hxfdarling/a8k/compare/v2.1.4...v2.1.5) (2019-09-03)
+
+**Note:** Version bump only for package @a8k/dev-utils
+
 ## [1.17.4](https://github.com/hxfdarling/a8k/compare/v1.17.3...v1.17.4) (2019-06-09)
 
 **Note:** Version bump only for package @a8k/dev-utils

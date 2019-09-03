@@ -1,6 +1,6 @@
 {
   "name": "@a8k/nunjucks-loader",
-  "version": "2.0.0",
+  "version": "2.1.5",
   "description": "A webpack loader that takes nunjucks templates and returns raw html. It also works with webpack's watch command",
   "keywords": [
     "webpack",
@@ -14,7 +14,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "@a8k/common": "^2.0.0",
+    "@a8k/common": "^2.1.5",
     "loader-utils": "^1.1.0",
     "nunjucks": "^3.0.0"
   },
