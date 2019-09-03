@@ -27,7 +27,7 @@ export default class BuildCommand {
         context.options.inspect = inspect;
         context.internals.mode = BUILD_ENV.PRODUCTION;
 
-        const buildBrowser = target === 'all' || target === 'browser';
+        const buildBrowser = target === 'all' || target === 'web';
         const buildNode = target === 'all' || target === 'node';
 
         const options: ICommandOptions = {
@@ -53,7 +53,7 @@ export default class BuildCommand {
           await hooks.invokePromise('beforeBuild', context);
           const webpackConfig = await context.resolveWebpackConfig({
             ...options,
-            type: BUILD_TARGET.BROWSER,
+            type: BUILD_TARGET.WEB,
           });
           const compiler = context.createWebpackCompiler(webpackConfig);
           compiler.hooks.done.tap('done', (stats: webpack.Stats) => {

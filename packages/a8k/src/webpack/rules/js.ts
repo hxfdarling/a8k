@@ -72,7 +72,7 @@ export default (
       presets: [
         [
           require.resolve('@a8k/babel-preset'),
-          { target: type === BUILD_TARGET.NODE ? 'node' : 'browser' },
+          { target: type === BUILD_TARGET.NODE ? 'node' : 'web' },
         ],
       ],
       plugins: [

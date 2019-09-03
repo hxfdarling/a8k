@@ -55,7 +55,7 @@ export default class SsrConfig {
             },
           });
         }
-        if (type === BUILD_TARGET.BROWSER && ssrConfig) {
+        if (type === BUILD_TARGET.WEB && ssrConfig) {
           const { mode } = context.internals;
           // 生产模式，或者开发模式下明确声明参数ssr，时需要添加该插件
           const needSsr = (mode === BUILD_ENV.DEVELOPMENT && ssr) || mode === BUILD_ENV.PRODUCTION;

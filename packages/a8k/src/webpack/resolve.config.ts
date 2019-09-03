@@ -11,7 +11,7 @@ export default (
   const { resolve } = configChain;
   const extensions = ['.js', '.jsx', '.ts', '.tsx', '.json'];
   extensions.forEach((ext: string) => {
-    if (type && type !== BUILD_TARGET.BROWSER) {
+    if (type && type !== BUILD_TARGET.WEB) {
       resolve.extensions.add(`.${type}${ext}`);
     }
     resolve.extensions.add(ext);

@@ -14,7 +14,7 @@ export default class DevConfig {
       const { type, eslint, stylelint } = options;
       // 只有客户端代码 开发模式才需要使用，构建服务器代码不需要
       if (
-        (type === BUILD_TARGET.BROWSER || type === BUILD_TARGET.STORYBOOK) &&
+        (type === BUILD_TARGET.WEB || type === BUILD_TARGET.STORYBOOK) &&
         context.internals.mode === BUILD_ENV.DEVELOPMENT
       ) {
         // 开发模式

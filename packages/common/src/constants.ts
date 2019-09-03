@@ -5,7 +5,7 @@ export const ENV_PROD = 'production';
 export const ENV_TEST = 'test';
 
 export enum BUILD_TARGET {
-  BROWSER = 'browser',
+  WEB = 'web',
   NODE = 'node',
   STORYBOOK = 'storybook', // storybook 组件构建
 }

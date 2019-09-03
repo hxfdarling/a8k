@@ -14,7 +14,7 @@ export default class HtmlConfig {
       const { initEntry, mode, entry } = context.config;
       switch (type) {
         // 服务器渲染 js 不需要构建 html
-        case BUILD_TARGET.BROWSER:
+        case BUILD_TARGET.WEB:
           {
             let entries: IEntry[] = [];
             if (mode === PROJECT_MODE.SINGLE) {

@@ -3,7 +3,7 @@ module.exports = {
     [
       '@a8k/babel-preset',
       {
-        target: 'browser',
+        target: 'web',
         useBuiltIns: false,
       },
     ],

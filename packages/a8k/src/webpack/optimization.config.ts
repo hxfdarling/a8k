@@ -17,7 +17,7 @@ export default (
     configChain.optimization.set('moduleIds', 'named');
   }
 
-  if (type === BUILD_TARGET.BROWSER || type === BUILD_TARGET.STORYBOOK) {
+  if (type === BUILD_TARGET.WEB || type === BUILD_TARGET.STORYBOOK) {
     configChain.optimization.splitChunks({
       // Automatically split vendor and commons
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366

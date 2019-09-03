@@ -4,7 +4,7 @@
   "properties": {
     "target": {
       "type": "string",
-      "enum": ["node", "browser"]
+      "enum": ["node", "web"]
     },
     "useBuiltIns": {
       "oneOf": [

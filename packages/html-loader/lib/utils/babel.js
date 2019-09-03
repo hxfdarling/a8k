@@ -7,7 +7,7 @@ module.exports = (code, options) => {
       [
         require('@a8k/babel-preset'),
         {
-          target: 'browser',
+          target: 'web',
           useBuiltIns: false,
         },
       ],

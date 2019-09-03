@@ -442,7 +442,7 @@ export default class A8k {
     const configChain = new WebpackChain();
 
     options = {
-      type: BUILD_TARGET.BROWSER,
+      type: BUILD_TARGET.WEB,
       ...options,
       mode: this.internals.mode,
     };
@@ -477,7 +477,7 @@ export default class A8k {
       logger.warn('!!webpackOverride 已经废弃，请使用chainWebpack修改配置!!');
       // 兼容旧版本imt
       const legacyOptions = {
-        type: options.type === BUILD_TARGET.BROWSER ? options.mode : 'server',
+        type: options.type === BUILD_TARGET.WEB ? options.mode : 'server',
       };
       const modifyConfig = this.config.webpackOverride(webpackConfig, legacyOptions);
       if (modifyConfig) {

@@ -69,7 +69,7 @@ export default class A8kPlugin {
   name = 'you plugin name';
   apply(context) {
     context.hook('chainWebpack', (configChain, { type }) => {
-      if (type === 'browser' && context.internals.mode === 'development') {
+      if (type === 'web' && context.internals.mode === 'development') {
         configChain.plugin('plugin-name').use(require('plugin'), ['params1', 'params2']);
         configChain.plugin('xxx').tap(options => {
           return { options, extraOption: {} };

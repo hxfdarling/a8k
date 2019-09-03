@@ -3,7 +3,7 @@ const loadConfig = require('@a8k/cli-utils/load-config');
 const path = require('path');
 
 const TYPE_SERVER = 'node';
-// const TYPE_CLIENT = 'browser';
+// const TYPE_CLIENT = 'web';
 const ENV_PROD = 'production';
 
 module.exports = class PluginPostcss {

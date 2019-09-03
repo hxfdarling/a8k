@@ -71,7 +71,7 @@ export default class DevCommand {
           };
           const webpackConfig = await context.resolveWebpackConfig({
             ...options,
-            type: BUILD_TARGET.BROWSER,
+            type: BUILD_TARGET.WEB,
           });
 
           const compiler = context.createWebpackCompiler(webpackConfig);

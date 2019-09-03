@@ -23,7 +23,7 @@ export default class BaseConfig {
 
       configChain.context(context.options.baseDir);
 
-      if (type === BUILD_TARGET.BROWSER || type === BUILD_TARGET.STORYBOOK) {
+      if (type === BUILD_TARGET.WEB || type === BUILD_TARGET.STORYBOOK) {
         let devtool: DevTool = false;
         if (context.internals.mode === BUILD_ENV.DEVELOPMENT) {
           devtool = 'cheap-module-eval-source-map';

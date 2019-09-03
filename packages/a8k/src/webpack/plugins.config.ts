@@ -4,7 +4,7 @@ import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
 
 const COLOR_MAP: any = {
-  [BUILD_TARGET.BROWSER]: '#41b883',
+  [BUILD_TARGET.WEB]: '#41b883',
   [BUILD_TARGET.NODE]: 'yellow',
   default: '#41b883',
 };
@@ -57,7 +57,7 @@ export default (
     },
   ]);
 
-  if (context.internals.mode === BUILD_ENV.PRODUCTION && type === BUILD_TARGET.BROWSER) {
+  if (context.internals.mode === BUILD_ENV.PRODUCTION && type === BUILD_TARGET.WEB) {
     if (context.config.crossOrigin) {
       const CrossOriginLoadingPlugin = require('./plugins/cross-origin-loading');
       CrossOriginLoadingPlugin.__expression =
