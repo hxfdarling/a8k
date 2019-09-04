@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <script>
+      var T = { start: Date.now() };
+    </script>
+    <meta name="format-detection" content="telephone=no" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- KEYWORDS_PLACEHOLDER -->
+    <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+    <!-- DESCRIPTION_PLACEHOLDER -->
+    <meta
+      name="description"
+      itemprop="description"
+      content="{% block description %}{% endblock %}"
+    />
+
+    <!-- 微信QQ分享支持 -->
+    <meta itemprop="name" content="{% block qqtitle %}{% endblock %}" />
+
+    <script>
+      T.header = Date.now();
+    </script>
+
+    <!-- STYLE_PLACEHOLDER -->
+  </head>
+
+  <body>
+    <div id="react-app"><!-- HTML_PLACEHOLDER --></div>
+
+    <script>
+      T.body = Date.now();
+    </script>
+
+    <!-- STATE_PLACEHOLDER -->
+    <!-- EXTRA_DATA_PLACEHOLDER -->
+    <script>
+      T.mainStart = Date.now();
+    </script>
+
+    <!-- RESOURCEMAP_PLACEHOLDER -->
+  </body>
+</html>
