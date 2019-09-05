@@ -17,14 +17,12 @@
     <!-- KEYWORDS_PLACEHOLDER -->
     <meta name="keywords" content="{% block keywords %}{% endblock %}" />
     <!-- DESCRIPTION_PLACEHOLDER -->
-    <meta
-      name="description"
-      itemprop="description"
-      content="{% block description %}{% endblock %}"
-    />
+    <meta name="description" content="{% block description %}{% endblock %}" />
 
     <!-- 微信QQ分享支持 -->
     <meta itemprop="name" content="{% block qqtitle %}{% endblock %}" />
+    <meta itemprop="description" content="{% block qqdesc %}{% endblock %}" />
+    <meta itemprop="image" content="{% block qqimage %}{% endblock %}" />
 
     <script>
       T.header = Date.now();
