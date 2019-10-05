@@ -1,6 +1,6 @@
 {
   "name": "a8k",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "bin": {
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js",
@@ -37,7 +37,7 @@
     "@a8k/nunjucks-loader": "^2.1.5",
     "@a8k/plugin-react-template": "^2.1.5",
     "@a8k/plugin-sb-react": "^2.1.5",
-    "@a8k/plugin-typescript-template": "^2.1.5",
+    "@a8k/plugin-typescript-template": "^2.1.7",
     "@a8k/ssr": "^2.1.5",
     "@babel/runtime": "^7.5.5",
     "acorn": "^6.2.1",
