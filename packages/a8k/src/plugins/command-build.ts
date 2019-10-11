@@ -19,8 +19,14 @@ export default class BuildCommand {
       .option('--dev', '环境变量使用 development')
       .option('--inspect', '输出webpack配置信息')
       .option('-w, --watch', '文件发生变化自动重新构建')
-      .option('-t,--target [target]', '可选择构建all,browser,node', 'all')
+      .option('-t,--target [target]', '可选择构建all,web,node', 'all')
       .action(async ({ dev, watch, analyzer, inspect, sourceMap, mini, silent, target }) => {
+        if (!['all', 'web', 'node'].includes(target)) {
+          logger.error('target support: all,web,node');
+          process.exit(-1);
+          return;
+        }
+
         // 为了让react这样的库不要使用压缩代码;
         process.env.NODE_ENV = dev ? ENV_DEV : ENV_PROD;
 
