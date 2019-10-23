@@ -42,6 +42,7 @@ export default (
     .loader('@a8k/nunjucks-loader')
     .options({
       context: {
+        ...process.env, // 添加nunjucks模板参数
         envs,
         mode,
       },
