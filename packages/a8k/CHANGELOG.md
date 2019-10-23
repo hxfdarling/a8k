@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.9](https://github.com/hxfdarling/a8k/compare/v2.1.8...v2.1.9) (2019-10-23)
+
+### Bug Fixes
+
+- 优化 html-loader,支持更多的 nunjucks 环境参数 ([c630468](https://github.com/hxfdarling/a8k/commit/c630468))
+
 ## [2.1.8](https://github.com/hxfdarling/a8k/compare/v2.1.7...v2.1.8) (2019-10-11)
 
 ### Bug Fixes
