@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/hxfdarling/a8k/compare/v2.1.9...v2.2.0) (2019-11-03)
+
+### Features
+
+- 更新 babel-preset，支持 babel 编译 ts 文件 ([1c584a7](https://github.com/hxfdarling/a8k/commit/1c584a75bdba0ab800a2ee12a516c71d13d6e497))
+
 ## [2.1.9](https://github.com/hxfdarling/a8k/compare/v2.1.8...v2.1.9) (2019-10-23)
 
 ### Bug Fixes

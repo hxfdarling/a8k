@@ -1,6 +1,6 @@
 {
   "name": "a8k",
-  "version": "2.1.9",
+  "version": "2.2.0",
   "bin": {
     "a8k": "./lib/bin/cli.js",
     "k": "./lib/bin/cli.js",
@@ -29,11 +29,11 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@a8k/babel-preset": "^2.1.5",
+    "@a8k/babel-preset": "^2.2.0",
     "@a8k/cli-utils": "^2.1.5",
     "@a8k/common": "^2.1.5",
     "@a8k/dev-utils": "^2.1.5",
-    "@a8k/html-loader": "^2.1.5",
+    "@a8k/html-loader": "^2.2.0",
     "@a8k/nunjucks-loader": "^2.1.5",
     "@a8k/plugin-react-template": "^2.1.5",
     "@a8k/plugin-sb-react": "^2.1.5",
