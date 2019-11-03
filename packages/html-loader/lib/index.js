@@ -65,20 +65,20 @@ module.exports = async function(content) {
           return;
         }
         const file = temp[0];
-        let filePath = path.join(baseDir, file);
-        if (!fs.existsSync(filePath)) {
+        let filepath = path.join(baseDir, file);
+        if (!fs.existsSync(filepath)) {
           // 绝对路径支持~
           const absoluteFile = path.join(rootDir, file.replace(/^~/, ''));
           if (fs.existsSync(absoluteFile)) {
-            filePath = absoluteFile;
+            filepath = absoluteFile;
           } else {
             this.emitError(new Error(`not found file: ${file} \n in ${baseDir} or ${rootDir}`));
             return;
           }
         }
-        const isMiniFile = /\.min\.(js|css)$/.test(filePath);
-        this.addDependency(filePath);
-        result = (await fs.readFile(filePath)).toString();
+        const isMiniFile = /\.min\.(js|css)$/.test(filepath);
+        this.addDependency(filepath);
+        result = (await fs.readFile(filepath)).toString();
         // 只需要转换未压缩的JS
         if (!noParse && !isMiniFile && isScript(node)) {
           if (options.cacheDirectory) {
@@ -88,11 +88,11 @@ module.exports = async function(content) {
               source: result,
               // eslint-disable-next-line no-shadow
               transform: (source, options) => {
-                return babel(source, options);
+                return babel(filepath, source, options);
               },
             });
           } else {
-            result = await babel(result, options);
+            result = await babel(filepath, result, options);
           }
         }
         // only js/css/html support inline
@@ -119,7 +119,7 @@ module.exports = async function(content) {
           }
         } else {
           let url = '';
-          const loaderContext = { resourcePath: filePath };
+          const loaderContext = { resourcePath: filepath };
           if (isScript(node)) {
             // 添加主域重试需要标记
             url = loaderUtils.interpolateName(loaderContext, filenames.js, {
@@ -146,6 +146,7 @@ module.exports = async function(content) {
           });
         }
       } catch (e) {
+        console.error(e);
         console.log('---------------@a8k/html-loader error---------------------');
         console.log(this.resourcePath);
         console.error(`process "${node.tagName}" error\n`, node.attrs);

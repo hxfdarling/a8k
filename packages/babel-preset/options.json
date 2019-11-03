@@ -2,6 +2,24 @@
   "type": "object",
   "required": ["target"],
   "properties": {
+    "typescript": {
+      "type": "object",
+      "description": "babel-preset-typescript options https://babeljs.io/docs/en/babel-preset-typescript#options",
+      "properties": {
+        "isTSX": {
+          "type": "boolean"
+        },
+        "jsxPragma": {
+          "type": "string"
+        },
+        "allExtensions": {
+          "type": "boolean"
+        },
+        "allowNamespaces": {
+          "type": "boolean"
+        }
+      }
+    },
     "target": {
       "type": "string",
       "enum": ["node", "web"]

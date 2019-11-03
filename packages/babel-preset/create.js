@@ -7,6 +7,7 @@ module.exports = function(api, options, env) {
     useBuiltIns = 'usage',
     useESModules = target === 'node' ? false : isEnvDevelopment || isEnvProduction,
     modules = target === 'node' ? 'commonjs' : false,
+    typescript = {},
   } = options;
   if (!isEnvDevelopment && !isEnvProduction && !isEnvTest) {
     throw new Error(
@@ -18,6 +19,12 @@ module.exports = function(api, options, env) {
 
   return {
     presets: [
+      [
+        require('@babel/preset-typescript').default,
+        {
+          ...typescript,
+        },
+      ],
       isEnvTest && [
         // ES features necessary for user's Node version
         require('@babel/preset-env').default,

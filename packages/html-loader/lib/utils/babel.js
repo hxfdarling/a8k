@@ -1,7 +1,8 @@
 const { transform } = require('@babel/core');
 
-module.exports = (code, options) => {
+module.exports = (filename, code, options) => {
   const babelOptions = {
+    filename,
     minified: options.minimize,
     presets: [
       [
