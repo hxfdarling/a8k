@@ -31,7 +31,7 @@
     "@types/resolve": "0.0.8",
     "@types/semver": "^6.0.1",
     "@types/shelljs": "^0.8.5",
-    "@types/webpack-dev-server": "^3.1.7",
+    "@types/webpack-dev-server": "3.1.7",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@vuepress/plugin-back-to-top": "^1.0.3",
     "@vuepress/plugin-pwa": "^1.0.3",
