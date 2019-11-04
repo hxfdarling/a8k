@@ -450,10 +450,13 @@ export default class A8k {
     options.extractCss =
       this.config.extractCss && (options.mode === BUILD_ENV.PRODUCTION || !!options.ssr);
 
-    this.config.filenames = getFilenames({
-      filenames: this.config.filenames,
-      mode: options.mode,
-    });
+    this.config.filenames = getFilenames(
+      {
+        filenames: this.config.filenames,
+        mode: options.mode,
+      },
+      options
+    );
     await this.hooks.invokePromise('chainWebpack', configChain, options, this);
 
     if (this.config.chainWebpack) {
