@@ -15,20 +15,9 @@ export default (
   const { babel: { include = [], exclude = [] } = {}, cssModules, cacheDirectory } = context.config;
   const { mode } = context.internals;
 
-  // TODO 需要抽离成插件？
-  // 加载 imui 里的 // @require '.css'
-  configChain.module
-    .rule('imui')
-    .test(/\.js$/)
-    .include.add(context.resolve('node_modules/imui'))
-    .end()
-    .use('comment-require-loader')
-    .loader('comment-require-loader')
-    .options({});
-
   let rule = configChain.module
     .rule('js')
-    .test(/\.(js|mjs|jsx)$/)
+    .test(/\.(jsx?|mjs|tsx?)$/)
     .include // 热重载插件需要被编译
     .add(context.resolve('src'))
     .add(context.resolve('node_modules/lodash-es/'));

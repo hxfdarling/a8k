@@ -11,7 +11,6 @@ import ruleFonts from '../webpack/rules/fonts';
 import ruleHtml from '../webpack/rules/html';
 import ruleImages from '../webpack/rules/images';
 import ruleJs from '../webpack/rules/js';
-import ruleTs from '../webpack/rules/ts';
 
 export default class BaseConfig {
   public name = 'builtin:config-base';
@@ -61,7 +60,6 @@ export default class BaseConfig {
 
       resolve(configChain, context, options);
 
-      ruleTs(configChain);
       ruleJs(configChain, context, options);
       ruleCss(configChain, context, options);
       ruleFonts(configChain, context, options);
