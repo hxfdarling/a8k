@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/hxfdarling/a8k/compare/v2.2.0...v2.3.0) (2019-11-04)
+
+### Bug Fixes
+
+- update deps ([fa1b8d7](https://github.com/hxfdarling/a8k/commit/fa1b8d7e7d8b7ce968e8d4cfb6203be44b02fb21))
+
+### Features
+
+- typescript 编译采用 babel;移除不通用的 comment-require-loader ([99d3be7](https://github.com/hxfdarling/a8k/commit/99d3be714123875a2a3d5791c68ab45c0f8a4c25))
+- 支持 filenames 配置 function ([5410ded](https://github.com/hxfdarling/a8k/commit/5410dedd882309203924ece89ee0c740a1a4531b))
+
 # [2.2.0](https://github.com/hxfdarling/a8k/compare/v2.1.9...v2.2.0) (2019-11-03)
 
 **Note:** Version bump only for package a8k

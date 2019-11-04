@@ -1,6 +1,6 @@
 {
   "name": "@a8k/plugin-typescript-template",
-  "version": "2.1.7",
+  "version": "2.3.0",
   "description": "init typescript project",
   "author": "eden <hxfdarling@hotmail.com>",
   "homepage": "https://github.com/hxfdarling/a8k/tree/master/packages/plugin-typescript-template#readme",
@@ -27,8 +27,8 @@
     "url": "https://github.com/hxfdarling/a8k/issues"
   },
   "dependencies": {
-    "@a8k/cli-utils": "^2.1.5",
-    "@a8k/common": "^2.1.5",
+    "@a8k/cli-utils": "^2.3.0",
+    "@a8k/common": "^2.3.0",
     "chalk": "^2.4.2",
     "fs-extra": "^8.0.1",
     "inquirer": "^6.5.0",
