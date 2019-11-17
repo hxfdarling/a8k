@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/hxfdarling/a8k/compare/v2.3.0...v2.4.0) (2019-11-17)
+
+### Features
+
+- 支持更多模板能力 ([5c5521f](https://github.com/hxfdarling/a8k/commit/5c5521f07f033fe3946f965f52418515ff329dfc))
+
 # [2.3.0](https://github.com/hxfdarling/a8k/compare/v2.2.0...v2.3.0) (2019-11-04)
 
 ### Bug Fixes
