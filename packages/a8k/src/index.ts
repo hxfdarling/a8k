@@ -13,6 +13,8 @@ import WebpackChain from 'webpack-chain';
 import defaultConfig, { ssrConfig } from './default-config';
 import Hooks from './hooks';
 import { A8kConfig, A8kOptions, Internals, IResolveWebpackConfigOptions } from './interface';
+import create from './utils/create-by-template';
+import download from './utils/download';
 import getFilenames from './utils/get-filenames';
 import { getConfig, setConfig } from './utils/global-config';
 import loadPkg from './utils/load-pkg';
@@ -28,13 +30,12 @@ program.option('--debug', '输出构建调试信息');
 program.option('--npm-client <npmClient>', '自定义npm命令');
 program.option('--config <configPath>', '自定义a8k.config.js');
 program.on('command:*', () => {
-  logger.error(
-    `Invalid command: ${program.args.join(' ')}\nSee --help for a list of available commands.`
-  );
+  logger.error(`Invalid command: ${program.args.join(' ')}\nSee --help for a list of available commands.`);
   process.exit(1);
 });
 
-type emptyFn = () => void;
+type ActionFunction = (options: any) => void;
+type ActionCreateFunction = (options: { name: string; projectDir: string; type: string }) => void;
 export default class A8k {
   public logger: any = logger;
   public options: A8kOptions;
@@ -52,17 +53,17 @@ export default class A8k {
   private createProjectCommandTypes: Array<{
     type: string;
     description: string;
-    action: (options: any) => void;
+    action: ActionCreateFunction;
   }> = [];
   private createPageCommand: Array<{
     type: string;
     description: string;
-    action: (options: any) => void;
+    action: ActionFunction;
   }> = [];
   private createComponentCommand: Array<{
     type: string;
     description: string;
-    action: (options: any) => void;
+    action: ActionFunction;
   }> = [];
   constructor(options: A8kOptions) {
     this.options = {
@@ -102,10 +103,7 @@ export default class A8k {
       }
     }
     const res = loadConfig.loadSync({
-      files:
-        typeof configFile === 'string'
-          ? [configFile]
-          : ['a8k.config.js', 'imtrc.js', 'package.json'],
+      files: typeof configFile === 'string' ? [configFile] : ['a8k.config.js', 'imtrc.js', 'package.json'],
       cwd: baseDir,
       packageKey: 'a8k',
     });
@@ -172,26 +170,52 @@ export default class A8k {
     this.registerCommand('create [dir] [type]')
       .description('create project')
       .action(async (dir, type) => {
+        // start: pull remote template list
+        spinner.logWithSpinner('pull template list...');
+        const { path: tmpDir, cleanupCallback } = await download('https://github.com/a8k/template.git');
+
+        const templateList: Array<{
+          type: string;
+          name: string;
+          description: string;
+          url: string;
+        }> = require(tmpDir);
+        spinner.succeed('pull template list success');
+
+        templateList.map(item => {
+          this.createProjectCommandTypes.push({
+            type: item.type,
+            description: item.name,
+            // tslint:disable-next-line: no-shadowed-variable
+            action: ({ projectDir }) => {
+              create(projectDir, item.url, this);
+            },
+          });
+        });
+
+        // end
+
         const projectDir = path.join(this.options.baseDir, dir || '');
-        let exist = false;
         try {
           await fs.stat(projectDir);
-          exist = true;
-        } catch (e) {}
-        const files = exist ? await fs.readdir(projectDir) : [];
-        if (files.length) {
-          const answer: any = await inquirer.prompt([
-            {
-              type: 'confirm',
-              name: 'continue',
-              message: 'current directory not empty, continue?',
-              default: false,
-            },
-          ]);
-          if (!answer.continue) {
-            process.exit(0);
+          const files = await fs.readdir(projectDir);
+          if (files.length) {
+            const answer: any = await inquirer.prompt([
+              {
+                type: 'confirm',
+                name: 'continue',
+                message: 'current directory not empty, continue?',
+                default: false,
+              },
+            ]);
+            if (!answer.continue) {
+              process.exit(0);
+            }
           }
+        } catch (e) {
+          //
         }
+
         if (!type) {
           const prompts: any = [
             {
@@ -227,11 +251,6 @@ export default class A8k {
           },
         ];
         ({ name } = await inquirer.prompt(prompt));
-        const createConfig = {
-          name,
-          projectDir,
-          type,
-        };
         const commandType = this.createProjectCommandTypes.find(({ type: c }) => c === type);
         if (!commandType) {
           logger.error(`create "${type}" not support`);
@@ -239,8 +258,13 @@ export default class A8k {
         } else {
           spinner.info(commandType.description);
           fs.ensureDir(projectDir);
-          commandType.action(createConfig);
+          commandType.action({
+            name,
+            projectDir,
+            type,
+          });
         }
+        cleanupCallback();
       });
     this.registerCommand('page')
       .alias('p')
@@ -401,7 +425,6 @@ export default class A8k {
     }
   }
   private initPlugins(plugins: any, type: string) {
-    this.plugins.push(...plugins);
     for (const [Plugin, options = [], resolve] of plugins) {
       let pluginInst = null;
       if (Plugin instanceof Function) {
@@ -413,6 +436,7 @@ export default class A8k {
       if (!pluginName) {
         throw new Error('plugin name not found\n' + Plugin);
       }
+      this.plugins.push({ pluginName, pluginInst });
       if (this.pluginsSet.has(pluginName)) {
         logger.warn('[' + type + '] "' + pluginName + '" plugin name have exists\n' + resolve);
       } else {
@@ -447,8 +471,7 @@ export default class A8k {
       mode: this.internals.mode,
     };
     // 生产模式和dev服务器渲染调试时，开启这个模式防止样式抖动
-    options.extractCss =
-      this.config.extractCss && (options.mode === BUILD_ENV.PRODUCTION || !!options.ssr);
+    options.extractCss = this.config.extractCss && (options.mode === BUILD_ENV.PRODUCTION || !!options.ssr);
 
     this.config.filenames = getFilenames(
       {
@@ -535,21 +558,19 @@ export default class A8k {
   public registerCommand(command: string): Command {
     return this.cli.command(command);
   }
-  public registerCreateType(type: string, description: string, action: emptyFn): A8k {
+  public registerCreateType(type: string, description: string, action: ActionCreateFunction): A8k {
     this.createProjectCommandTypes.push({ type, description, action });
     return this;
   }
-  public registerPageType(type: string, description: string, action: emptyFn): A8k {
+  public registerPageType(type: string, description: string, action: ActionFunction): A8k {
     this.createPageCommand.push({ type, description, action });
     return this;
   }
-  public registerComponentType(type: string, description: string, action: emptyFn): A8k {
+  public registerComponentType(type: string, description: string, action: ActionFunction): A8k {
     this.createComponentCommand.push({ type, description, action });
     return this;
   }
-  public chainWebpack(
-    fn: (configChain: WebpackChain, options: IResolveWebpackConfigOptions) => void
-  ) {
+  public chainWebpack(fn: (configChain: WebpackChain, options: IResolveWebpackConfigOptions) => void) {
     this.hooks.add('chainWebpack', fn);
     return this;
   }
