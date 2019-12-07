@@ -38,7 +38,7 @@
     "@a8k/common": "^2.3.0",
     "fs-extra": "^8.1.0",
     "path-match": "^1.2.4",
-    "serialize-javascript": "^1.7.0"
+    "serialize-javascript": "^2.1.1"
   },
   "devDependencies": {
     "react": "^16.8.6",
