@@ -57,16 +57,16 @@ export default class DevCommand {
 
         try {
           const { before, after } = devServer;
-          devServer.before = (app: Application, server: WebpackDevServer) => {
+          devServer.before = (app: Application, server: WebpackDevServer, compiler) => {
             context.hooks.invoke('devServerBefore', app, server, options);
             if (before) {
-              before(app, server);
+              before(app, server, compiler);
             }
           };
-          devServer.after = (app: Application, server: WebpackDevServer) => {
+          devServer.after = (app: Application, server: WebpackDevServer, compiler) => {
             context.hooks.invoke('devServerAfter', app, server, options);
             if (after) {
-              after(app, server);
+              after(app, server, compiler);
             }
           };
           const webpackConfig = await context.resolveWebpackConfig({
