@@ -1,8 +1,8 @@
-
 import 'jest-extended';
 
 const { compile, evaluated } = require('./helpers');
 
+jest.setTimeout(15 * 1000);
 describe('dist loader', () => {
   it('在development模式下不引入', async () => {
     const stats = await compile('dist.html');
@@ -13,8 +13,7 @@ describe('dist loader', () => {
     const { modules } = stats.toJson();
     const [module] = modules;
     expect(module.source).toMatchSnapshot('module');
-    expect(evaluated(module.source, modules))
-      .toMatchSnapshot('module (evaluated)');
+    expect(evaluated(module.source, modules)).toMatchSnapshot('module (evaluated)');
   });
   it('在production模式下引入', async () => {
     process.env.NODE_ENV = 'production';
@@ -26,7 +25,6 @@ describe('dist loader', () => {
     const { modules } = stats.toJson();
     const [module] = modules;
     expect(module.source).toMatchSnapshot('module');
-    expect(evaluated(module.source, modules))
-      .toMatchSnapshot('module (evaluated)');
+    expect(evaluated(module.source, modules)).toMatchSnapshot('module (evaluated)');
   });
 });

@@ -1,8 +1,8 @@
-
 import 'jest-extended';
 
 const { compile, evaluated } = require('./helpers');
 
+jest.setTimeout(15 * 1000);
 describe('inline loader', () => {
   it('should inline html/js/css', async () => {
     const stats = await compile('inline.html');
@@ -13,7 +13,6 @@ describe('inline loader', () => {
     const { modules } = stats.toJson();
     const [module] = modules;
     expect(module.source).toMatchSnapshot('module');
-    expect(evaluated(module.source, modules))
-      .toMatchSnapshot('module (evaluated)');
+    expect(evaluated(module.source, modules)).toMatchSnapshot('module (evaluated)');
   });
 });

@@ -1,8 +1,8 @@
-
 import 'jest-extended';
 
 const { compile, evaluated } = require('./helpers');
 
+jest.setTimeout(15 * 1000);
 describe('base loader', () => {
   it('should compile with `js` entry point', async () => {
     const stats = await compile('basic.js');
@@ -13,8 +13,7 @@ describe('base loader', () => {
     const { modules } = stats.toJson();
     const [module] = modules;
     expect(module.source).toMatchSnapshot('module');
-    expect(evaluated(module.source, modules))
-      .toMatchSnapshot('module (evaluated)');
+    expect(evaluated(module.source, modules)).toMatchSnapshot('module (evaluated)');
   });
 
   it('should compile with `html` entry point', async () => {
@@ -25,7 +24,6 @@ describe('base loader', () => {
     const { modules } = stats.toJson();
     const [module] = modules;
     expect(module.source).toMatchSnapshot('module');
-    expect(evaluated(module.source, modules))
-      .toMatchSnapshot('module (evaluated)');
+    expect(evaluated(module.source, modules)).toMatchSnapshot('module (evaluated)');
   });
 });
