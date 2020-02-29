@@ -1,6 +1,14 @@
+const util = require('util');
+
 function spawn(cmd, args, options) {
+  if (process.platform === 'win32') {
+    cmd = process.env.comspec || 'cmd.exe';
+    args = ['/s', '/c', cmd, ...args];
+    options = util._extend({}, options);
+    options.windowsVerbatimArguments = true;
+  }
   return new Promise(resolve => {
-    const sp = require('child_process').spawn(cmd, args, { stdio: [0, 1, 2], ...options });
+    const sp = require('child_process').spawn(cmd, args, { stdio: 'inherit', ...options });
     sp.on('error', err => {
       console.trace(err);
     });
