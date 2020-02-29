@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.2](https://github.com/hxfdarling/a8k/compare/v2.4.1...v2.4.2) (2020-02-29)
+
+**Note:** Version bump only for package a8k
+
 ## [2.4.1](https://github.com/hxfdarling/a8k/compare/v2.4.0...v2.4.1) (2020-01-29)
 
 **Note:** Version bump only for package a8k

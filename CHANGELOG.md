@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.2](https://github.com/hxfdarling/a8k/compare/v2.4.1...v2.4.2) (2020-02-29)
+
+### Bug Fixes
+
+- 🐛 Not work on win10 ([f8b7ceb](https://github.com/hxfdarling/a8k/commit/f8b7ceba44316b2213697c075125565854906212)), closes [#31](https://github.com/hxfdarling/a8k/issues/31)
+
 ## [2.4.1](https://github.com/hxfdarling/a8k/compare/v2.4.0...v2.4.1) (2020-01-29)
 
 **Note:** Version bump only for package a8k-packages
