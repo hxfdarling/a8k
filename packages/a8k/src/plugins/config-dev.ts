@@ -23,13 +23,7 @@ export default class DevConfig {
           hash.update(
             JSON.stringify(
               loadConfig.loadSync({
-                files: [
-                  '.eslintrc.js',
-                  '.eslintrc.yaml',
-                  '.eslintrc.yml',
-                  '.eslintrc.json',
-                  '.eslintrc',
-                ],
+                files: ['.eslintrc.js', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc'],
                 cwd: context.options.baseDir,
                 packageKey: 'eslintConfig',
               })
@@ -49,10 +43,7 @@ export default class DevConfig {
               failOnError: false,
               failOnWarning: false,
               quit: true,
-              cache: path.resolve(
-                context.config.cacheDirectory,
-                `eslint-loader-${hash.digest('hex')}`
-              ),
+              cache: path.resolve(context.config.cacheDirectory, `eslint-loader-${hash.digest('hex')}`),
               formatter: require.resolve('eslint-friendly-formatter'),
               // 要求项目安装eslint，babel-eslint依赖，目的是让vscode 也提示eslint错误
               eslintPath: context.resolve('node_modules', 'eslint'),
@@ -60,32 +51,21 @@ export default class DevConfig {
         }
         if (stylelint) {
           const stylelintConfig = loadConfig.loadSync({
-            files: [
-              '.stylelintrc.js',
-              '.stylelintrc.yaml',
-              '.stylelintrc.yml',
-              '.stylelintrc.json',
-              '.stylelintrc',
-            ],
+            files: ['.stylelintrc.js', '.stylelintrc.yaml', '.stylelintrc.yml', '.stylelintrc.json', '.stylelintrc'],
             cwd: context.options.baseDir,
             packageKey: 'stylelintrc',
           });
           if (!stylelintConfig.data || Object.keys(stylelintConfig.data).length < 1) {
-            logger.error(
-              '确保stylelint配置文件正确有效,可以使用`npx k init lint`自动初始化stylelint'
-            );
+            logger.error('确保stylelint配置文件正确有效,可以使用`npx k init lint`自动初始化stylelint');
             process.exit(-1);
           }
           const stylelintFormatter = require('stylelint-formatter-pretty');
           const StyleLintPlugin = require('stylelint-webpack-plugin');
           StyleLintPlugin.__expression = "require('stylelint-webpack-plugin')";
-          configChain
-            .plugin('StyleLintPlugin')
-            .use(StyleLintPlugin, [{ formatter: stylelintFormatter }]);
+          configChain.plugin('StyleLintPlugin').use(StyleLintPlugin, [{ formatter: stylelintFormatter }]);
         }
         const { HotModuleReplacementPlugin } = webpack;
-        (HotModuleReplacementPlugin as any).__expression =
-          "require('webpack').HotModuleReplacementPlugin";
+        (HotModuleReplacementPlugin as any).__expression = "require('webpack').HotModuleReplacementPlugin";
         configChain.plugin('HotModuleReplacementPlugin').use(webpack.HotModuleReplacementPlugin);
       }
     });

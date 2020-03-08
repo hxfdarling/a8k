@@ -4,9 +4,7 @@ const format = (label, msg) => {
   return msg
     .split('\n')
     .map((line, i) => {
-      return i === 0
-        ? `${label} ${line}`
-        : String.prototype.padStart.call(line, chalk.reset(label).length);
+      return i === 0 ? `${label} ${line}` : String.prototype.padStart.call(line, chalk.reset(label).length);
     })
     .join('\n');
 };
@@ -31,6 +29,7 @@ class Logger {
       this.setLevel(process.env.LOG_LEVEL as LoggerLevel);
     }
   }
+
   public setLevel(level: LoggerLevel) {
     Object.keys(this.level).forEach(key => {
       this.level[key] = false;
@@ -61,6 +60,7 @@ class Logger {
         break;
     }
   }
+
   public setOptions(options: ILoggerOptions) {
     this.options = { ...this.options, ...options };
     if (this.options.debug) {
@@ -69,14 +69,12 @@ class Logger {
       this.setLevel(LoggerLevel.info);
     }
   }
+
   public debug(...args: any[]) {
     if (!this.level[LoggerLevel.debug]) {
       return;
     }
-    console.log(
-      chalk.magenta.bold('===>'),
-      ...args.map(str => (typeof str === 'string' ? chalk.bold(str) : str))
-    );
+    console.log(chalk.magenta.bold('===>'), ...args.map(str => (typeof str === 'string' ? chalk.bold(str) : str)));
   }
 
   public info(msg, tag = null) {
@@ -90,9 +88,7 @@ class Logger {
     if (!this.level[LoggerLevel.warn]) {
       return;
     }
-    console.warn(
-      format(chalk.bgYellow.black(' WARN ') + (tag ? chalkTag(tag) : ''), chalk.yellow(msg))
-    );
+    console.warn(format(chalk.bgYellow.black(' WARN ') + (tag ? chalkTag(tag) : ''), chalk.yellow(msg)));
   }
 
   public error(msg, tag = null) {

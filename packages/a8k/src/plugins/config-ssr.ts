@@ -14,64 +14,62 @@ import { getNodeEntry } from '../utils/entry';
 export default class SsrConfig {
   public name = 'builtin:config-ssr';
   public apply(context: A8k) {
-    context.chainWebpack(
-      (configChain: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
-        const { ssrConfig, publicPath } = context.config;
+    context.chainWebpack((configChain: WebpackChain, { type, watch, ssr }: IResolveWebpackConfigOptions) => {
+      const { ssrConfig, publicPath } = context.config;
 
-        const entry = getNodeEntry(context);
-        if (type === BUILD_TARGET.NODE && ssrConfig) {
-          const isDevMode = watch;
-          configChain.mode(isDevMode ? ENV_DEV : ENV_PROD);
-          configChain.devtool(false);
-          configChain.target('node');
+      const entry = getNodeEntry(context);
+      if (type === BUILD_TARGET.NODE && ssrConfig) {
+        const isDevMode = watch;
+        configChain.mode(isDevMode ? ENV_DEV : ENV_PROD);
+        configChain.devtool(false);
+        configChain.target('node');
 
-          if (entry.length === 0) {
-            logger.error('Not found ssr entry, please check ssrConfig.entry is right');
-            process.exit(-1);
-          }
-          entry.forEach(item => {
-            configChain.entry(item.name).merge(item.entry);
-          });
-
-          configChain.output
-            .path(ssrConfig.entryPath)
-            .publicPath(isDevMode ? '' : publicPath)
-            .filename('[name].js')
-            .libraryTarget('commonjs2');
-
-          const nodeExternals = require('webpack-node-externals');
-          configChain.externals([
-            nodeExternals({
-              // 注意如果存在src下面其他目录的绝对引用，都需要添加到这里
-              whitelist: [/^components/, /^assets/, /^pages/, /^@tencent/, /\.(scss|css)$/],
-              // modulesFromFile:true
-            }),
-          ]);
-          configChain.merge({
-            optimization: {
-              splitChunks: false,
-              minimizer: [],
-              runtimeChunk: false,
-            },
-          });
+        if (entry.length === 0) {
+          logger.error('Not found ssr entry, please check ssrConfig.entry is right');
+          process.exit(-1);
         }
-        if (type === BUILD_TARGET.WEB && ssrConfig) {
-          const { mode } = context.internals;
-          // 生产模式，或者开发模式下明确声明参数ssr，时需要添加该插件
-          const needSsr = (mode === BUILD_ENV.DEVELOPMENT && ssr) || mode === BUILD_ENV.PRODUCTION;
-          if (needSsr) {
-            const SSRPlugin = require('../webpack/plugins/ssr-plugin');
-            SSRPlugin.__expression = "require('a8k/lib/webpack/plugins/ssr-plugin')";
-            configChain.plugin('ssr-plugin').use(SSRPlugin, [
-              {
-                entry,
-                viewPath: ssrConfig.viewPath,
-              },
-            ]);
-          }
+        entry.forEach(item => {
+          configChain.entry(item.name).merge(item.entry);
+        });
+
+        configChain.output
+          .path(ssrConfig.entryPath)
+          .publicPath(isDevMode ? '' : publicPath)
+          .filename('[name].js')
+          .libraryTarget('commonjs2');
+
+        const nodeExternals = require('webpack-node-externals');
+        configChain.externals([
+          nodeExternals({
+            // 注意如果存在src下面其他目录的绝对引用，都需要添加到这里
+            whitelist: [/^components/, /^assets/, /^pages/, /^@tencent/, /\.(scss|css)$/],
+            // modulesFromFile:true
+          }),
+        ]);
+        configChain.merge({
+          optimization: {
+            splitChunks: false,
+            minimizer: [],
+            runtimeChunk: false,
+          },
+        });
+      }
+      if (type === BUILD_TARGET.WEB && ssrConfig) {
+        const { mode } = context.internals;
+        // 生产模式，或者开发模式下明确声明参数ssr，时需要添加该插件
+        const needSsr = (mode === BUILD_ENV.DEVELOPMENT && ssr) || mode === BUILD_ENV.PRODUCTION;
+        if (needSsr) {
+          const SSRPlugin = require('../webpack/plugins/ssr-plugin');
+          SSRPlugin.__expression = "require('a8k/lib/webpack/plugins/ssr-plugin')";
+          configChain.plugin('ssr-plugin').use(SSRPlugin, [
+            {
+              entry,
+              viewPath: ssrConfig.viewPath,
+            },
+          ]);
         }
       }
-    );
+    });
     context.hook('beforeSSRBuild', () => {
       const { ssrConfig } = context.config;
       if (ssrConfig) {

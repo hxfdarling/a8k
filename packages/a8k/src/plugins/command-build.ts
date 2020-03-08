@@ -24,7 +24,6 @@ export default class BuildCommand {
         if (!['all', 'web', 'node'].includes(target)) {
           logger.error('target support: all,web,node');
           process.exit(-1);
-          return;
         }
 
         // 为了让react这样的库不要使用压缩代码;
@@ -77,9 +76,7 @@ export default class BuildCommand {
               }
             });
           } else {
-            clientCompiler = context
-              .runCompiler(compiler)
-              .then(() => hooks.invokePromise('afterBuild', context));
+            clientCompiler = context.runCompiler(compiler).then(() => hooks.invokePromise('afterBuild', context));
           }
         }
         const { ssrConfig } = context.config;

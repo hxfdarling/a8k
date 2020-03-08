@@ -4,11 +4,7 @@ import WebpackChain from 'webpack-chain';
 import A8k from '..';
 import { IResolveWebpackConfigOptions } from '../interface';
 
-export default (
-  configChain: WebpackChain,
-  context: A8k,
-  { type, mini, sourceMap }: IResolveWebpackConfigOptions
-) => {
+export default (configChain: WebpackChain, context: A8k, { type, mini, sourceMap }: IResolveWebpackConfigOptions) => {
   configChain.optimization.minimize(false);
 
   if (context.internals.mode === BUILD_ENV.PRODUCTION && mini) {

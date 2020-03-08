@@ -10,20 +10,17 @@ class MarkTimePlugin {
   public apply(compiler: webpack.Compiler) {
     const { code = 'var T=window.T||{};T.mainEnd=Date.now();' } = this.options;
     compiler.hooks.compilation.tap('MarkTimePlugin', compilation => {
-      HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tapAsync(
-        'MarkTimePlugin',
-        (data: any, next: any) => {
-          if (data.assetTags.scripts) {
-            data.assetTags.scripts.push({
-              tagName: 'script',
-              voidTag: false,
-              attributes: {},
-              innerHTML: code,
-            });
-          }
-          next(null, data);
+      HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tapAsync('MarkTimePlugin', (data: any, next: any) => {
+        if (data.assetTags.scripts) {
+          data.assetTags.scripts.push({
+            tagName: 'script',
+            voidTag: false,
+            attributes: {},
+            innerHTML: code,
+          });
         }
-      );
+        next(null, data);
+      });
     });
   }
 }

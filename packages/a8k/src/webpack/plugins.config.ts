@@ -9,11 +9,7 @@ const COLOR_MAP: any = {
   default: '#41b883',
 };
 
-export default (
-  configChain: WebpackChain,
-  context: A8k,
-  { type, mini, silent }: IResolveWebpackConfigOptions
-) => {
+export default (configChain: WebpackChain, context: A8k, { type, mini, silent }: IResolveWebpackConfigOptions) => {
   // 只有命令行中才显示进度，CI系统日志不需要
   // if (process.stderr.isTTY) {
   // const { ProgressPlugin } = webpack;
@@ -60,17 +56,14 @@ export default (
   if (context.internals.mode === BUILD_ENV.PRODUCTION && type === BUILD_TARGET.WEB) {
     if (context.config.crossOrigin) {
       const CrossOriginLoadingPlugin = require('./plugins/cross-origin-loading');
-      CrossOriginLoadingPlugin.__expression =
-        "require('a8k/lib/webpack/plugins/cross-origin-loading')";
+      CrossOriginLoadingPlugin.__expression = "require('a8k/lib/webpack/plugins/cross-origin-loading')";
       configChain.plugin('CrossOriginLoadingPlugin').use(CrossOriginLoadingPlugin);
     }
 
     if (context.config.retry) {
       const RetryPlugin = require('webpack-retry-load-plugin');
       RetryPlugin.__expression = "require('webpack-retry-load-plugin')";
-      configChain
-        .plugin('RetryPlugin')
-        .use(RetryPlugin, [{ ...context.config.retry, minimize: mini }]);
+      configChain.plugin('RetryPlugin').use(RetryPlugin, [{ ...context.config.retry, minimize: mini }]);
     }
 
     // 支持lodash包 按需引用
@@ -89,14 +82,12 @@ export default (
     const { escheck } = context.config;
     if (escheck) {
       const EsCheckPlugin = require('./plugins/es-check-plugin');
-      EsCheckPlugin.__expression = `require('./plugins/es-check-plugin')`;
+      EsCheckPlugin.__expression = "require('./plugins/es-check-plugin')";
       let escheckConfig = {};
       if (typeof escheck === 'object') {
         escheckConfig = escheck;
       }
-      configChain
-        .plugin('es-check-plugin')
-        .use(EsCheckPlugin, [{ ecmaVersion: 'es5', ...escheckConfig }]);
+      configChain.plugin('es-check-plugin').use(EsCheckPlugin, [{ ecmaVersion: 'es5', ...escheckConfig }]);
     }
   }
 };

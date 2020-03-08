@@ -61,7 +61,6 @@ class CreateGenerator extends Generator {
     });
   }
 
-  // tslint:disable-next-line: member-ordering
   public writing() {
     // files
     this.copyFiles([
@@ -83,7 +82,10 @@ class CreateGenerator extends Generator {
     }
 
     // tpl
-    this.copyTpls([['tpl/package', 'package.json'], ['tpl/README.md', 'README.md']]);
+    this.copyTpls([
+      ['tpl/package', 'package.json'],
+      ['tpl/README.md', 'README.md'],
+    ]);
   }
 }
 

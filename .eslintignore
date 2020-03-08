@@ -1,5 +1,5 @@
 node_modules
-/packages/a8k/
+/packages/a8k/lib
 /packages/plugin-typescript-template/lib
 /packages/ssr/lib
 /packages/common/lib

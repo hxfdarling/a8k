@@ -72,10 +72,7 @@ const key2handler = {
     return html.replace(/<\/head>/, '<script>window.isSvr=true;</script>$&');
   },
   PERF_INSERTER: (html: string, val: string) => {
-    return html.replace(
-      /<\/head>/,
-      `<script>window.__perfData=JSON.parse('${serialize(val)}');</script>$&`
-    );
+    return html.replace(/<\/head>/, `<script>window.__perfData=JSON.parse('${serialize(val)}');</script>$&`);
   },
 } as any;
 

@@ -34,7 +34,10 @@ class CreateGenerator extends Generator {
         name: 'type',
         message: '选择组建类型',
         type: 'list',
-        choices: [{ name: '通用组件', value: 'common' }, { name: '页面组件', value: 'page' }],
+        choices: [
+          { name: '通用组件', value: 'common' },
+          { name: '页面组件', value: 'page' },
+        ],
       },
     ]);
     this.props.type = type;

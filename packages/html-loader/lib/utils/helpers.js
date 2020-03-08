@@ -7,8 +7,8 @@ const getLink = node => node.attrs.find(isLink);
 // <meta itemprop="image" content="./assets/image.png" />
 function isImage(node) {
   return (
-    node.nodeName === META
-    && node.attrs.find(({ name, value }) => {
+    node.nodeName === META &&
+    node.attrs.find(({ name, value }) => {
       value = value.trim();
       return name === 'itemprop' && value === 'image';
     })
@@ -16,8 +16,8 @@ function isImage(node) {
 }
 function isIcon(node) {
   return (
-    node.nodeName === LINK
-    && node.attrs.find(({ name, value }) => {
+    node.nodeName === LINK &&
+    node.attrs.find(({ name, value }) => {
       value = value.trim();
       return name === 'rel' && (value === 'shortcut icon' || value === 'icon');
     })
@@ -26,8 +26,8 @@ function isIcon(node) {
 
 const isStyle = ({ nodeName, attrs }) => {
   return (
-    nodeName === LINK
-    && attrs.find(({ name, value }) => {
+    nodeName === LINK &&
+    attrs.find(({ name, value }) => {
       value = value.trim();
       return name === 'rel' && value === 'stylesheet';
     })
@@ -35,8 +35,8 @@ const isStyle = ({ nodeName, attrs }) => {
 };
 const isHtml = ({ nodeName, attrs }) => {
   return (
-    nodeName === LINK
-    && attrs.find(({ name, value }) => {
+    nodeName === LINK &&
+    attrs.find(({ name, value }) => {
       value = value.trim();
       return name === 'rel' && value === 'html';
     })

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-require('source-map-support/register');
 import getNpmClient from '@a8k/cli-utils/npm';
 import { logger } from '@a8k/common';
 import A8k from '../index';
 import { A8kOptions } from '../interface';
+require('source-map-support/register');
 
 function getParam(key: string) {
   const index = process.argv.findIndex((arg: string) => arg === key);

@@ -1,9 +1,4 @@
-import {
-  PROJECT_MODE,
-  SERVER_ENTRY_DIR,
-  SERVER_ROUTES,
-  SERVER_VIEW_DIR,
-} from '@a8k/common/lib/constants';
+import { PROJECT_MODE, SERVER_ENTRY_DIR, SERVER_ROUTES, SERVER_VIEW_DIR } from '@a8k/common/lib/constants';
 import WebpackDevServer from 'webpack-dev-server';
 import { A8kConfig } from './interface';
 

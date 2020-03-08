@@ -7,8 +7,6 @@
     "dev": "tsc --sourceMap --watch",
     "build": "rimraf lib && tsc",
     "prepublishOnly": "npm run test && npm run build",
-    "lint": "tslint --project tsconfig.json",
-    "lint:fix": "tslint --project tsconfig.json --fix",
     "test": "jest --coverage --rootDir ./src --passWithNoTests",
     "test:w": "jest --watchAll --rootDir ./src --passWithNoTests"
   },

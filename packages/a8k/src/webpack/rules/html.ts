@@ -4,11 +4,7 @@ import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 import { IResolveWebpackConfigOptions } from '../../interface';
 
-export default (
-  configChain: WebpackChain,
-  context: A8k,
-  { type, mini }: IResolveWebpackConfigOptions
-) => {
+export default (configChain: WebpackChain, context: A8k, { type, mini }: IResolveWebpackConfigOptions) => {
   if (type === BUILD_TARGET.NODE || type === BUILD_TARGET.STORYBOOK) {
     return;
   }

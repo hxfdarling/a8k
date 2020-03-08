@@ -98,9 +98,8 @@ const devDependencies = Object.keys(pkg.devDependencies || {});
 // 工具本身不执行该步骤
 // 需要添加了依赖才执行
 if (
-  pkg.name !== packageName
-  && (dependencies.find(key => key === packageName)
-    || devDependencies.find(key => key === packageName))
+  pkg.name !== packageName &&
+  (dependencies.find(key => key === packageName) || devDependencies.find(key => key === packageName))
 ) {
   updatePackageJson();
   genCommitlintrc();

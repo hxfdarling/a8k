@@ -5,9 +5,14 @@ const menus = [{ title: 'index page', page: 'index' }];
 
 function wrapComponent(page) {
   return Loadable({
-    loader: () => import(/* webpackExclude: /components/ */
-      `./pages/${page}/index.jsx`),
-    loading: () => <div>loading</div>,
+    loader: () =>
+      import(
+        /* webpackExclude: /components/ */
+        `./pages/${page}/index.jsx`
+      ),
+    loading: function Loading() {
+      return <div>loading</div>;
+    },
   });
 }
 const routers = [];

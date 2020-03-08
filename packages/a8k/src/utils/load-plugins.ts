@@ -15,11 +15,7 @@ export default (plugins: any[], cwd: string) => {
         plugin = [plugin, []];
       }
       if (plugin && plugin[0]) {
-        return [
-          typeof plugin[0] === 'string' ? requireFrom(cwd, plugin[0]) : plugin[0],
-          plugin[1],
-          plugin[0],
-        ];
+        return [typeof plugin[0] === 'string' ? requireFrom(cwd, plugin[0]) : plugin[0], plugin[1], plugin[0]];
       }
       throw new TypeError(`Invalid plugin: ${plugin}`);
     })

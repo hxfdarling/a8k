@@ -116,7 +116,6 @@ export default class DevCommand {
           if (!ssrConfig) {
             logger.error('项目没有启用服务器渲染，请参考文档配置');
             process.exit(-1);
-            return;
           }
 
           if (!ssrConfig.port) {

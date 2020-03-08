@@ -15,28 +15,24 @@ module.exports = class PluginReact {
   }
 
   apply(context) {
-    context.registerCreateType(
-      'react',
-      '基于react的项目(支持SSR)',
-      async ({ projectDir, name }) => {
-        await createGenerator(projectDir, name);
-        await context.hooks.invokePromise('afterCreate', context);
-        spinner.succeed('File Generate Done');
-        const npmCmd = getNpmCommand();
-        shell.cd(projectDir);
-        await spawn(npmCmd, ['i'], { cwd: projectDir });
+    context.registerCreateType('react', '基于react的项目(支持SSR)', async ({ projectDir, name }) => {
+      await createGenerator(projectDir, name);
+      await context.hooks.invokePromise('afterCreate', context);
+      spinner.succeed('File Generate Done');
+      const npmCmd = getNpmCommand();
+      shell.cd(projectDir);
+      await spawn(npmCmd, ['i'], { cwd: projectDir });
 
-        spinner.succeed('安装依赖完毕');
-        try {
-          await util.promisify(shell.exec)('npx eslint --fix src  a8k.config.js  --ext jsx,js');
-          spinner.succeed('执行eslint校验');
-        } catch (e) {
-          spinner.warn('执行eslint校验失败');
-        }
-        await context.hooks.invokePromise(context);
-        spinner.succeed('项目创建完毕');
+      spinner.succeed('安装依赖完毕');
+      try {
+        await util.promisify(shell.exec)('npx eslint --fix src  a8k.config.js  --ext jsx,js');
+        spinner.succeed('执行eslint校验');
+      } catch (e) {
+        spinner.warn('执行eslint校验失败');
       }
-    );
+      await context.hooks.invokePromise(context);
+      spinner.succeed('项目创建完毕');
+    });
     context.registerPageType('react', '创建react项目page', async () => {
       addPage(context);
       await context.hooks.invokePromise('afterAddPage', context);

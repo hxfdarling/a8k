@@ -13,21 +13,17 @@ export default class PluginCreateTypescriptProject {
   }
 
   public apply(context: any) {
-    context.registerCreateType(
-      'typescript-sample',
-      '基于typescript的项目',
-      async ({ projectDir, name }) => {
-        await createGenerator(projectDir, name);
-        await context.hooks.invokePromise('afterCreate', context);
-        spinner.succeed('File Generate Done');
+    context.registerCreateType('typescript-sample', '基于typescript的项目', async ({ projectDir, name }) => {
+      await createGenerator(projectDir, name);
+      await context.hooks.invokePromise('afterCreate', context);
+      spinner.succeed('File Generate Done');
 
-        const npmCmd = getNpmCommand();
+      const npmCmd = getNpmCommand();
 
-        await spawn(npmCmd, ['i'], { cwd: projectDir });
-        spinner.succeed('安装依赖完毕');
-        await context.hooks.invokePromise(context);
-        spinner.succeed('项目创建完毕');
-      }
-    );
+      await spawn(npmCmd, ['i'], { cwd: projectDir });
+      spinner.succeed('安装依赖完毕');
+      await context.hooks.invokePromise(context);
+      spinner.succeed('项目创建完毕');
+    });
   }
 }

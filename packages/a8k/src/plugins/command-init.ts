@@ -132,9 +132,7 @@ module.exports = {
               });
 
               logWithSpinner('初始化commit配置');
-              const cmd = `./node_modules/.bin/a8k-changelog${
-                os.platform() === 'win32' ? '.cmd' : ''
-              }`;
+              const cmd = `./node_modules/.bin/a8k-changelog${os.platform() === 'win32' ? '.cmd' : ''}`;
               await util.promisify(shell.exec as any)(cmd, { silent: true });
               stopSpinner();
               break;

@@ -46,25 +46,28 @@ export default class A8k {
   public internals: Internals;
   public buildId: string;
   public pkg: any;
-  public configFilePath: string = '';
+  public configFilePath = '';
   public plugins: any[] = [];
   private pluginsSet = new Set<string>();
-  private inspectConfigPath: string = '';
+  private inspectConfigPath = '';
   private createProjectCommandTypes: Array<{
     type: string;
     description: string;
     action: ActionCreateFunction;
   }> = [];
+
   private createPageCommand: Array<{
     type: string;
     description: string;
     action: ActionFunction;
   }> = [];
+
   private createComponentCommand: Array<{
     type: string;
     description: string;
     action: ActionFunction;
   }> = [];
+
   constructor(options: A8kOptions) {
     this.options = {
       cliPath: path.resolve(__dirname, '../'),
@@ -94,6 +97,7 @@ export default class A8k {
 
     this.initConfig();
   }
+
   public initConfig() {
     const { baseDir, configFile } = this.options;
     if (configFile) {
@@ -153,6 +157,7 @@ export default class A8k {
     config.envs = { ...config.envs, ...this.loadEnvs() };
     this.config = config;
   }
+
   public hook(name: string, fn: Function) {
     return this.hooks.add(name, fn);
   }
@@ -219,7 +224,6 @@ export default class A8k {
         if (!type) {
           const prompts: any = [
             {
-              // tslint:disable-next-line: no-shadowed-variable
               choices: this.createProjectCommandTypes.map(({ type, description }) => {
                 return { name: description, value: type };
               }),
@@ -330,7 +334,10 @@ export default class A8k {
               logger.error('pluginName param not found');
               return;
             }
-            setConfig('plugins', plugins.filter((p: string) => p !== pluginName));
+            setConfig(
+              'plugins',
+              plugins.filter((p: string) => p !== pluginName)
+            );
             break;
           case 'ls':
           case 'list':
@@ -424,6 +431,7 @@ export default class A8k {
       console.error(e);
     }
   }
+
   private initPlugins(plugins: any, type: string) {
     for (const [Plugin, options = [], resolve] of plugins) {
       let pluginInst = null;
@@ -558,18 +566,22 @@ export default class A8k {
   public registerCommand(command: string): Command {
     return this.cli.command(command);
   }
+
   public registerCreateType(type: string, description: string, action: ActionCreateFunction): A8k {
     this.createProjectCommandTypes.push({ type, description, action });
     return this;
   }
+
   public registerPageType(type: string, description: string, action: ActionFunction): A8k {
     this.createPageCommand.push({ type, description, action });
     return this;
   }
+
   public registerComponentType(type: string, description: string, action: ActionFunction): A8k {
     this.createComponentCommand.push({ type, description, action });
     return this;
   }
+
   public chainWebpack(fn: (configChain: WebpackChain, options: IResolveWebpackConfigOptions) => void) {
     this.hooks.add('chainWebpack', fn);
     return this;
@@ -587,6 +599,7 @@ export default class A8k {
     const resolved = this.localResolve(id, fallbackDir);
     return resolved && require(resolved);
   }
+
   /**
    *  用于生成自定义的css-处理器
    *  支持postcss/sass/less预处理器

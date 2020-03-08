@@ -1,0 +1,84 @@
+ignorePatterns:
+  - '**/node_modules/**'
+  - '**/dist/**'
+env:
+  browser: true
+  es6: true
+  node: true
+  jest: true
+  worker: false
+  serviceworker: false
+extends:
+  - standard
+  - plugin:@typescript-eslint/recommended
+  - plugin:@typescript-eslint/recommended # Uses the recommended rules from the @typescript-eslint/eslint-plugin
+  - prettier/@typescript-eslint # Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
+  - plugin:react/recommended
+  - plugin:prettier/recommended # Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 2018
+  sourceType: module
+overrides:
+  - files:
+      - '*.js'
+      - '*.jsx'
+    settings:
+      import/parsers:
+        'babel-eslint':
+          - '.js'
+          - '.jsx'
+    rules:
+      '@typescript-eslint/no-var-requires': 0
+plugins:
+  - '@typescript-eslint'
+  # https://www.npmjs.com/package/eslint-plugin-prettier
+  - 'prettier'
+  # https://www.npmjs.com/package/eslint-plugin-babel
+  - 'babel'
+  # https://www.npmjs.com/package/eslint-plugin-react
+  - 'react'
+  # https://www.npmjs.com/package/eslint-plugin-react-hooks
+  - 'react-hooks'
+  # https://www.npmjs.com/package/eslint-plugin-import
+  - 'import'
+  # https://www.npmjs.com/package/eslint-plugin-eslint-comments
+  - 'eslint-comments'
+  # https://www.npmjs.com/package/eslint-plugin-filenames
+  - 'filenames'
+  # https://www.npmjs.com/package/eslint-plugin-promise
+  - 'promise'
+  # https://www.npmjs.com/package/eslint-plugin-node
+  - 'node'
+  # https://github.com/gajus/eslint-plugin-jsdoc
+  - 'jsdoc'
+  # https: //github.com/eslint/eslint-plugin-markdown
+  - 'markdown'
+rules:
+  '@typescript-eslint/no-use-before-define': 0
+  '@typescript-eslint/no-this-alias': 0
+  'node/no-deprecated-api': 0
+  '@typescript-eslint/no-empty-function': 0
+  '@typescript-eslint/no-var-requires': 0
+  '@typescript-eslint/explicit-function-return-type':
+    - off
+  'react/prop-types': 0
+  '@typescript-eslint/camelcase': 0
+  'react/jsx-key': 1
+  'react/no-deprecated': 1
+  '@typescript-eslint/class-name-casing': 1
+  'promise/param-names': 1
+  'no-async-promise-executor': 1
+  'jsx-a11y/anchor-is-valid': 0
+  'standard/no-callback-literal': 1
+  'handle-callback-err': 1
+  '@typescript-eslint/no-explicit-any': 0
+  '@typescript-eslint/interface-name-prefix': 0
+  quotes:
+    - off
+    - single

@@ -9,8 +9,8 @@ function evaluated(output, modules, moduleId = 1) {
   let m;
   try {
     const fn = vm.runInThisContext(
-      `(function(module, exports, require) {var __webpack_public_path__ = '/webpack/public/path/';${
-        output}})`);
+      `(function(module, exports, require) {var __webpack_public_path__ = '/webpack/public/path/';${output}})`
+    );
     m = { exports: {}, id: moduleId };
     fn(m, m.exports, module => {
       if (module.indexOf('runtime/api') >= 0) {
@@ -32,7 +32,7 @@ function evaluated(output, modules, moduleId = 1) {
   return m.exports;
 }
 
-const moduleConfig = (config) => {
+const moduleConfig = config => {
   return {
     rules: [
       {
@@ -54,8 +54,7 @@ const pluginsConfig = config => [].concat(config.plugins || []);
 const outputConfig = config => {
   return {
     publicPath: config.publicPath || '',
-    path: path.resolve(
-      __dirname, `../outputs/${config.output ? config.output : ''}`),
+    path: path.resolve(__dirname, `../outputs/${config.output ? config.output : ''}`),
     filename: '[name].bundle.js',
   };
 };
@@ -91,12 +90,14 @@ function compile(fixture, config = {}, options = {}) {
     compiler.outputFileSystem = new MemoryFS();
   }
 
-  return new Promise((resolve, reject) => compiler.run((error, stats) => {
-    if (error) {
-      return reject(error);
-    }
-    return resolve(stats);
-  }));
+  return new Promise((resolve, reject) =>
+    compiler.run((error, stats) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(stats);
+    })
+  );
 }
 
 module.exports = {

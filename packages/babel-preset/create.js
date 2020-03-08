@@ -11,9 +11,9 @@ module.exports = function(api, options, env) {
   } = options;
   if (!isEnvDevelopment && !isEnvProduction && !isEnvTest) {
     throw new Error(
-      `${'Using `@a8k/babel-preset` requires that you specify `NODE_ENV` or '
-        + '`BABEL_ENV` environment variables. Valid values are "development", '
-        + '"test", and "production". Instead, received: '}${JSON.stringify(env)}.`
+      `${'Using `@a8k/babel-preset` requires that you specify `NODE_ENV` or ' +
+        '`BABEL_ENV` environment variables. Valid values are "development", ' +
+        '"test", and "production". Instead, received: '}${JSON.stringify(env)}.`
     );
   }
 
@@ -43,9 +43,9 @@ module.exports = function(api, options, env) {
           targets:
             target === 'node'
               ? {
-                // 根据当前环境的node编译
-                node: 'current',
-              }
+                  // 根据当前环境的node编译
+                  node: 'current',
+                }
               : undefined,
           // 转化为commonjs，为了支持module.exports => export default
           // 为了支持webpack tree shake

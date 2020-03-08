@@ -9,6 +9,7 @@ class SSRPlugin {
     entry: IEntry[];
     viewPath: string;
   };
+
   constructor(options: any) {
     this.options = options;
   }

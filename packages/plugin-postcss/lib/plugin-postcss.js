@@ -56,13 +56,7 @@ module.exports = class PluginPostcss {
             require('postcss-extend-rule'),
             require('postcss-color-function'),
             require('autoprefixer')({
-              browsers: [
-                'Firefox >= 20',
-                'Safari >= 6',
-                'Explorer >= 9',
-                'Chrome >= 21',
-                'Android >= 4.0',
-              ],
+              browsers: ['Firefox >= 20', 'Safari >= 6', 'Explorer >= 9', 'Chrome >= 21', 'Android >= 4.0'],
             }),
           ].filter(Boolean),
         };

@@ -15,7 +15,6 @@ export default (repo: string): Promise<{ path: string; cleanupCallback?: any }> 
       if (err) {
         reject(err);
       } else {
-        // tslint:disable-next-line: no-shadowed-variable
         download(repo, path, options, (err: Error) => {
           if (err) {
             cleanupCallback();

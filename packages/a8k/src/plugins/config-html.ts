@@ -35,7 +35,6 @@ export default class HtmlConfig {
               entries = getEntry(context);
             }
 
-            // tslint:disable-next-line: no-shadowed-variable
             entries.forEach(({ template, name, chunks, entry }) => {
               configChain.entry(name).merge(entry);
               configChain.plugin(`html-webpack-plugin-${name}`).use(HtmlWebpackPlugin, [
@@ -63,7 +62,7 @@ export default class HtmlConfig {
               ]);
             }
             const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-            ScriptExtHtmlWebpackPlugin.__expression = `require('script-ext-html-webpack-plugin')`;
+            ScriptExtHtmlWebpackPlugin.__expression = "require('script-ext-html-webpack-plugin')";
             configChain.plugin('script-ext-html-webpack-plugin').use(ScriptExtHtmlWebpackPlugin, [
               {
                 defaultAttribute: 'defer',

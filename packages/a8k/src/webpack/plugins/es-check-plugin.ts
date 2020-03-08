@@ -33,7 +33,7 @@ const check = (files: Array<{ filename: string; source: string }>, acornOpts: Op
     logger.error(`ES-Check: there were ${errArray.length} ES version matching errors.`);
     logger.error(`maybe you need not check some file support es ${acornOpts.ecmaVersion}`);
     logger.error(
-      `you can add "escheck.exclude" option into "a8k.config.json" config to ignore this file or check you code`
+      'you can add "escheck.exclude" option into "a8k.config.json" config to ignore this file or check you code'
     );
     errArray.forEach((o: any) => {
       logger.info(`
@@ -146,15 +146,12 @@ class EsCheckPlugin {
     }
     this.acornOpts = acornOpts;
   }
+
   public apply(compiler: webpack.Compiler) {
     logger.debug(` Going to check files using version ${this.options.ecmaVersion}`);
     compiler.hooks.afterEmit.tap(this.name, ({ assets }) => {
       const files = Object.keys(assets)
-        .filter(
-          filename =>
-            /\.js$/.test(filename) &&
-            !this.options.exclude.some(i => micromatch.isMatch(filename, i))
-        )
+        .filter(filename => /\.js$/.test(filename) && !this.options.exclude.some(i => micromatch.isMatch(filename, i)))
         .map((filename: string) => {
           return { filename, source: assets[filename].source() };
         });

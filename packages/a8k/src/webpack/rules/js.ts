@@ -7,11 +7,7 @@ import A8k from '../..';
 import { IResolveWebpackConfigOptions } from '../../interface';
 import { genCssModulesName } from './utils';
 
-export default (
-  configChain: WebpackChain,
-  context: A8k,
-  { type }: IResolveWebpackConfigOptions
-) => {
+export default (configChain: WebpackChain, context: A8k, { type }: IResolveWebpackConfigOptions) => {
   const { babel: { include = [], exclude = [] } = {}, cssModules, cacheDirectory } = context.config;
   const { mode } = context.internals;
 
@@ -45,7 +41,7 @@ export default (
 
   if (babelrc) {
     logger.debug(`Applying custom babel config at ${res.path}`);
-    logger.info(`babel config in you project, may be a8k internal config override you config`);
+    logger.info('babel config in you project, may be a8k internal config override you config');
   } else {
     logger.debug('Applying buildint babel config');
   }
@@ -58,12 +54,7 @@ export default (
       babelrc,
       // cacheDirectory 缓存babel编译结果加快重新编译速度
       cacheDirectory: path.resolve(cacheDirectory, 'babel-loader'),
-      presets: [
-        [
-          require.resolve('@a8k/babel-preset'),
-          { target: type === BUILD_TARGET.NODE ? 'node' : 'web' },
-        ],
-      ],
+      presets: [[require.resolve('@a8k/babel-preset'), { target: type === BUILD_TARGET.NODE ? 'node' : 'web' }]],
       plugins: [
         cssModules && [
           require.resolve('babel-plugin-react-css-modules'),

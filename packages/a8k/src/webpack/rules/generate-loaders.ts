@@ -24,9 +24,11 @@ export class GenerateLoaders {
     this.context = context;
     this.options = options;
   }
+
   public value() {
     return this.rule;
   }
+
   public addLessLoader(options = {}): GenerateLoaders {
     const {
       context,
@@ -49,6 +51,7 @@ export class GenerateLoaders {
       .end();
     return this;
   }
+
   public addSassLoader(options: any = {}): GenerateLoaders {
     const {
       context,
@@ -70,20 +73,14 @@ export class GenerateLoaders {
       .end();
     return this;
   }
+
   public addPostCssLoader(options: any = {}): GenerateLoaders {
     const {
       context,
       options: { sourceMap },
     } = this;
     const hasPostCSSConfig = loadConfig.resolveSync({
-      files: [
-        'postcss.config.js',
-        'package.json',
-        '.postcssrc',
-        '.postcssrc.js',
-        '.postcssrc.yaml',
-        '.postcssrc.json',
-      ],
+      files: ['postcss.config.js', 'package.json', '.postcssrc', '.postcssrc.js', '.postcssrc.yaml', '.postcssrc.json'],
       packageKey: 'postcss',
       cwd: context.options.baseDir,
     });
@@ -121,6 +118,7 @@ export class GenerateLoaders {
       .end();
     return this;
   }
+
   public addCssLoader(
     options: {
       importLoaders?: number;
@@ -136,7 +134,7 @@ export class GenerateLoaders {
       }
       if (modules.localIdentName && !warnOnce) {
         warnOnce = true;
-        logger.warn(`you can't override cssModules.localIdentName`);
+        logger.warn("you can't override cssModules.localIdentName");
       }
       modules = { ...modules, localIdentName: genCssModulesName(this.context) };
     }
@@ -150,6 +148,7 @@ export class GenerateLoaders {
       .end();
     return this;
   }
+
   public addBaseLoader(): GenerateLoaders {
     const {
       context,

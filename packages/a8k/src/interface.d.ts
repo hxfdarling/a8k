@@ -43,21 +43,21 @@ interface A8kConfig {
   mode: PROJECT_MODE; // 项目模式，单页面多页面
 
   template: string; // html模板路径
-  initEntry: string[]; //配置每个页面额外的入口文件
+  initEntry: string[]; // 配置每个页面额外的入口文件
   entry: any; // 自定义入口文件
   pagesPath: string;
-  publicPath: string; //资源的公共路径（CDN、站点路径）
+  publicPath: string; // 资源的公共路径（CDN、站点路径）
   dist: any; // 静态资源输出目录
-  cacheDirectory: any; //缓存目录
+  cacheDirectory: any; // 缓存目录
 
   // feature
   extractCss: boolean; // mini-css-extract-plugin
   escheck: EsCheck;
   cssModules: CssModules;
-  //服务器渲染配置
+  // 服务器渲染配置
   ssrConfig: SsrConfig;
   crossOrigin: boolean; // 是否跨域加载css、JavaScript
-  retry: any; //主域重试
+  retry: any; // 主域重试
   sri: boolean; // 子资源完整性校验
 
   ssrDevServer: any; // 废弃，请使用ssrConfig

@@ -6,10 +6,7 @@ import App from './App';
 import './index.scss';
 import store from './store';
 
-const WrapApp = connect(
-  state => state,
-  action
-)(App);
+const WrapApp = connect(state => state, action)(App);
 
 ReactDOM.render(
   <Provider store={store}>

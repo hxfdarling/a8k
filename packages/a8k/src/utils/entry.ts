@@ -30,9 +30,7 @@ const getReallyEntry = (file: string) => {
       if (reallyFile) {
         return reallyFile;
       } else {
-        logger.error(
-          `Not found index.{js,ts,jsx,tsx} in ${file} is directory, please check you a8k.config.js`
-        );
+        logger.error(`Not found index.{js,ts,jsx,tsx} in ${file} is directory, please check you a8k.config.js`);
         process.exit(-1);
       }
     } else {
@@ -116,15 +114,13 @@ const getCustomEntry = (context: A8k) => {
 export const getEntry = (context: A8k): IEntry[] => {
   const { entry } = context.config;
   const isCustomEntry = entry && Object.keys(entry).length >= 0;
-  return (!isCustomEntry ? getStandardEntry(context) : getCustomEntry(context)).map(
-    (item: IEntry) => {
-      item.entry = item.entry.map((i: string) => {
-        // 清理entry后面的扩展名
-        return i.replace(extensionsReg, '');
-      });
-      return item;
-    }
-  );
+  return (!isCustomEntry ? getStandardEntry(context) : getCustomEntry(context)).map((item: IEntry) => {
+    item.entry = item.entry.map((i: string) => {
+      // 清理entry后面的扩展名
+      return i.replace(extensionsReg, '');
+    });
+    return item;
+  });
 };
 
 export const getNodeEntry = (context: A8k): IEntry[] => {

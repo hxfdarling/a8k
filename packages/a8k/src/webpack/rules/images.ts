@@ -3,11 +3,7 @@ import WebpackChain from 'webpack-chain';
 import A8k from '../..';
 import { IResolveWebpackConfigOptions } from '../../interface';
 
-export default (
-  configChain: WebpackChain,
-  context: A8k,
-  { type }: IResolveWebpackConfigOptions
-) => {
+export default (configChain: WebpackChain, context: A8k, { type }: IResolveWebpackConfigOptions) => {
   const isSSR = type === BUILD_TARGET.NODE;
   const filename = context.config.filenames.image;
   configChain.module

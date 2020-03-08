@@ -4,12 +4,7 @@ const chalk = require('chalk');
 const Generator = require('yeoman-generator');
 const { join } = require('path');
 const { logger } = require('@a8k/common');
-const {
-  toArray,
-  createExampleComponent,
-  createMultiExamplePage,
-  createSingleExamplePage,
-} = require('./heper');
+const { toArray, createExampleComponent, createMultiExamplePage, createSingleExamplePage } = require('./heper');
 
 // debug.enabled = true;
 
@@ -67,7 +62,10 @@ class CreateGenerator extends Generator {
             name: 'nodeFramework',
             message: '使用koa or express',
             type: 'list',
-            choices: [{ name: 'koa', value: 'koa' }, { name: 'express', value: 'express' }],
+            choices: [
+              { name: 'koa', value: 'koa' },
+              { name: 'express', value: 'express' },
+            ],
           },
         ]);
         this.props.nodeFramework = nodeFramework;

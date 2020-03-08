@@ -63,8 +63,7 @@ export default (context: A8k) => {
     if (unsupportedKeys.length) {
       console.error(
         chalk.red(
-          `${'\nOut of the box, a8k only supports overriding ' +
-            'these Jest options:\n\n'}${supportedKeys
+          `${'\nOut of the box, a8k only supports overriding ' + 'these Jest options:\n\n'}${supportedKeys
             .map(key => chalk.bold(`  \u2022 ${key}`))
             .join('\n')}.\n\n` +
             'These options in your package.json Jest configuration ' +

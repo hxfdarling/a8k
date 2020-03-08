@@ -28,7 +28,8 @@ module.exports = {
     },
     {
       value: 'style',
-      name: '💅  style:    Code Style, Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)',
+      name:
+        '💅  style:    Code Style, Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)',
     },
     {
       value: 'revert',

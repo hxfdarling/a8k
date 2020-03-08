@@ -18,9 +18,7 @@ class ReportStatusPlugin {
     const { options } = this;
 
     compiler.hooks.done.tap('report-status', async (stats: webpack.Stats) => {
-      const messages = formatWebpackMessages(
-        stats.toJson({ all: false, warnings: true, errors: true })
-      );
+      const messages = formatWebpackMessages(stats.toJson({ all: false, warnings: true, errors: true }));
 
       // If errors exist, only show errors.
       if (messages.errors.length) {
@@ -40,14 +38,8 @@ class ReportStatusPlugin {
         console.log(messages.warnings.join('\n\n'));
 
         // Teach some ESLint tricks.
-        console.log(
-          `\nSearch for the ${chalk.underline(
-            chalk.yellow('keywords')
-          )} to learn more about each warning.`
-        );
-        console.log(
-          `To ignore, add ${chalk.cyan('// eslint-disable-next-line')} to the line before.\n`
-        );
+        console.log(`\nSearch for the ${chalk.underline(chalk.yellow('keywords'))} to learn more about each warning.`);
+        console.log(`To ignore, add ${chalk.cyan('// eslint-disable-next-line')} to the line before.\n`);
       }
     });
   }

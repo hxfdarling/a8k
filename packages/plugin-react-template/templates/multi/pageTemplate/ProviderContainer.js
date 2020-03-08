@@ -4,12 +4,9 @@ import action from './action_creators';
 import Container from './Container';
 import store from './store';
 
-const App = connect(
-  state => {
-    return state;
-  },
-  action
-)(Container);
+const App = connect(state => {
+  return state;
+}, action)(Container);
 
 const ProviderContainer = (
   <Provider store={store}>

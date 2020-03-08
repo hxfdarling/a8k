@@ -1,8 +1,8 @@
 import { logger } from '@a8k/common';
 import { SERVER_ENTRY_DIR, SERVER_VIEW_DIR } from '@a8k/common/lib/constants';
 import express from 'express';
-import fs from 'fs-extra';
-import { readFileSync } from 'fs-extra';
+import fs, { readFileSync } from 'fs-extra';
+
 import koa, { Context } from 'koa';
 import { resolve } from 'path';
 import React from 'react';
@@ -18,13 +18,7 @@ export interface IA8kSsrOptions {
   entryPath?: string;
   viewPath?: string;
   // 自定义render方法
-  render?: (
-    req: Request,
-    res: Response,
-    template: string,
-    component: React.ElementType,
-    params: any
-  ) => Promise<any>;
+  render?: (req: Request, res: Response, template: string, component: React.ElementType, params: any) => Promise<any>;
   // 如果不使用自定义render可以使用该方法增强组件
   enhanceComponent?: (
     component: React.ElementType,
@@ -84,7 +78,6 @@ export class SSR {
   private entryPath: string;
   private viewPath: string;
   private viewCache: { [key: string]: string } = {};
-  // tslint:disable-next-line: variable-name
   public _router: (request: any) => IRouteMatch | undefined;
   private options: IA8kSsrOptions;
   constructor(options?: IA8kSsrOptions) {
@@ -110,12 +103,15 @@ export class SSR {
       }
     }
   }
+
   get router() {
     return this._router;
   }
+
   set router(value) {
     this._router = value;
   }
+
   public async render(req: Request, res: Response, entry: string, params: any) {
     logger.debug('[ssr] render entry:', entry, ', params:', params);
 
@@ -134,12 +130,13 @@ export class SSR {
       return template;
     }
   }
+
   private getTemplate(entry: string) {
     this.viewCache[entry] =
-      this.viewCache[entry] ||
-      readFileSync(resolve(this.viewPath, entry + '.html'), 'utf-8').toString();
+      this.viewCache[entry] || readFileSync(resolve(this.viewPath, entry + '.html'), 'utf-8').toString();
     return this.viewCache[entry];
   }
+
   private getEntry(entry: string): Bundle {
     const bundle = require(resolve(this.entryPath, entry + '.js'));
     return bundle.__esModule ? bundle.default : bundle;
