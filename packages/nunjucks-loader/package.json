@@ -15,8 +15,8 @@
   "main": "index.js",
   "dependencies": {
     "@a8k/common": "^2.3.0",
-    "loader-utils": "^1.1.0",
-    "nunjucks": "^3.0.0"
+    "loader-utils": "^1.4.0",
+    "nunjucks": "^3.2.1"
   },
   "author": "zman",
   "publishConfig": {
