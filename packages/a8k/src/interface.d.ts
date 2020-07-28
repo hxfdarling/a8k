@@ -1,4 +1,4 @@
-import { BUILD_ENV, BUILD_TARGET, PROJECT_MODE } from './const';
+import { BUILD_ENV, BUILD_TARGET, PROJECT_MODE } from '@a8k/common/lib/constants';
 import WebpackDevServer from 'webpack-dev-server';
 
 interface A8kOptions {

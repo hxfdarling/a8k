@@ -474,10 +474,12 @@ export default class A8k {
     const configChain = new WebpackChain();
 
     options = {
-      type: BUILD_TARGET.WEB,
       ...options,
       mode: this.internals.mode,
     };
+    if (!options.type) {
+      options.type = BUILD_TARGET.WEB;
+    }
     // 生产模式和dev服务器渲染调试时，开启这个模式防止样式抖动
     options.extractCss = this.config.extractCss && (options.mode === BUILD_ENV.PRODUCTION || !!options.ssr);
 
