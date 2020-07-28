@@ -11,12 +11,13 @@ const configureHtmlLoader = () => {
     use: [
       {
         loader: resolve('html-loader'),
+      },
+      {
+        loader: resolve('@a8k/html-loader'),
         options: {
           imageAttrs: [{ name: 'name', value: 'image' }], // 自定义匹配作为图片资源处理的meta
         },
       },
-      // 自动处理html中的相对路径引用 css/js/html文件
-      resolve('html-inline-assets-loader'),
       {
         loader: resolve('nunjucks-html-loader'),
         options: {
