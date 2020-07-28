@@ -30,7 +30,7 @@ module.exports = async function(content) {
   const publicPath = this._compilation.options.output.publicPath || '';
   const baseDir = path.dirname(this.resource);
   const { rootDir } = options;
-  const { root, list: nodes } = htmlParse(content);
+  const { root, list: nodes } = htmlParse(content, options);
 
   let { filenames = {} } = options;
   filenames = { ...defaultFilenames, ...filenames };

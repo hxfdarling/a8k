@@ -7,6 +7,7 @@ exports[`base loader should compile with \`html\` entry point: module (evaluated
     <meta name=\\"format-detection\\" content=\\"telephone=no\\">
     <meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no\\">
     <meta itemprop=\\"image\\" content=\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\">
+    <meta name=\\"og:image\\" content=\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\">
     <link rel=\\"dns-prefetch\\" href=\\"//7.url.cn\\">
     <link rel=\\"shortcut icon \\" type=\\"image/ico\\" href=\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\">
     <link rel=\\"icon\\" type=\\"image/ico\\" href=\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\">
@@ -20,7 +21,7 @@ exports[`base loader should compile with \`html\` entry point: module (evaluated
 </body></html>"
 `;
 
-exports[`base loader should compile with \`html\` entry point: module 1`] = `"module.exports = \\"<!DOCTYPE html><html><head>\\\\n    <meta http-equiv=\\\\\\"X-UA-Compatible\\\\\\" content=\\\\\\"IE=edge\\\\\\">\\\\n    <meta charset=\\\\\\"utf-8\\\\\\">\\\\n    <meta name=\\\\\\"format-detection\\\\\\" content=\\\\\\"telephone=no\\\\\\">\\\\n    <meta name=\\\\\\"viewport\\\\\\" content=\\\\\\"width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no\\\\\\">\\\\n    <meta itemprop=\\\\\\"image\\\\\\" content=\\\\\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\\\\\">\\\\n    <link rel=\\\\\\"dns-prefetch\\\\\\" href=\\\\\\"//7.url.cn\\\\\\">\\\\n    <link rel=\\\\\\"shortcut icon \\\\\\" type=\\\\\\"image/ico\\\\\\" href=\\\\\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\\\\\">\\\\n    <link rel=\\\\\\"icon\\\\\\" type=\\\\\\"image/ico\\\\\\" href=\\\\\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\\\\\">\\\\n    <title>imt application</title>\\\\n  </head>\\\\n\\\\n  <body>\\\\n    <script src=\\\\\\"//sqimg.qq.com/expert_qq/webrtc/WebRTCAPI_CLOUD_V3.js?v=0.0.1\\\\\\"></script>\\\\n  \\\\n\\\\n</body></html>\\";"`;
+exports[`base loader should compile with \`html\` entry point: module 1`] = `"module.exports = \\"<!DOCTYPE html><html><head>\\\\n    <meta http-equiv=\\\\\\"X-UA-Compatible\\\\\\" content=\\\\\\"IE=edge\\\\\\">\\\\n    <meta charset=\\\\\\"utf-8\\\\\\">\\\\n    <meta name=\\\\\\"format-detection\\\\\\" content=\\\\\\"telephone=no\\\\\\">\\\\n    <meta name=\\\\\\"viewport\\\\\\" content=\\\\\\"width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no\\\\\\">\\\\n    <meta itemprop=\\\\\\"image\\\\\\" content=\\\\\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\\\\\">\\\\n    <meta name=\\\\\\"og:image\\\\\\" content=\\\\\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\\\\\">\\\\n    <link rel=\\\\\\"dns-prefetch\\\\\\" href=\\\\\\"//7.url.cn\\\\\\">\\\\n    <link rel=\\\\\\"shortcut icon \\\\\\" type=\\\\\\"image/ico\\\\\\" href=\\\\\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\\\\\">\\\\n    <link rel=\\\\\\"icon\\\\\\" type=\\\\\\"image/ico\\\\\\" href=\\\\\\"image_d56f9b15622e043d0ba09b0a48f6ec18.png\\\\\\">\\\\n    <title>imt application</title>\\\\n  </head>\\\\n\\\\n  <body>\\\\n    <script src=\\\\\\"//sqimg.qq.com/expert_qq/webrtc/WebRTCAPI_CLOUD_V3.js?v=0.0.1\\\\\\"></script>\\\\n  \\\\n\\\\n</body></html>\\";"`;
 
 exports[`base loader should compile with \`js\` entry point: module (evaluated) 1`] = `
 "<!DOCTYPE html><html><head>

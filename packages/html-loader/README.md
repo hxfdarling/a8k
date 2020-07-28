@@ -9,7 +9,12 @@ const configureHtmlLoader = () => {
   return {
     test: /\.(html|njk|nunjucks)$/,
     use: [
-      resolve('html-loader'),
+      {
+        loader: resolve('html-loader'),
+        options: {
+          imageAttrs: [{ name: 'name', value: 'image' }], // 自定义匹配作为图片资源处理的meta
+        },
+      },
       // 自动处理html中的相对路径引用 css/js/html文件
       resolve('html-inline-assets-loader'),
       {
@@ -30,15 +35,14 @@ HTML file
 
 ```html
 <!--auto transform and copy-->
-<link rel="stylesheet" href="./assets/css/reset.css"/>
-<script href='./assets/rem.js'></script>
+<link rel="stylesheet" href="./assets/css/reset.css" />
+<script href="./assets/rem.js"></script>
 
 <!--inline code-->
-<link rel='html' href="./assets/html/meta.html"/>
-<link rel="stylesheet" href="./assets/css/reset.css?_inline"/>
-<script href='./assets/rem.js?_inline'></script>
+<link rel="html" href="./assets/html/meta.html" />
+<link rel="stylesheet" href="./assets/css/reset.css?_inline" />
+<script href="./assets/rem.js?_inline"></script>
 
 <!-- only process.env.NODE_ENV==='production' -->
-<script href='./assets/rem.js?_dist'></script>
+<script href="./assets/rem.js?_dist"></script>
 ```
-

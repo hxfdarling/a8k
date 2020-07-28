@@ -5,12 +5,24 @@ const isLink = attr => linkKeys.find(i => i === attr.name);
 const getLink = node => node.attrs.find(isLink);
 
 // <meta itemprop="image" content="./assets/image.png" />
-function isImage(node) {
+// 自定义name <meta name="y" content="./assets/image.png" />
+function isImage(
+  node,
+  imageAttrs = [
+    {
+      name: 'itemprop',
+      value: 'image',
+    },
+  ]
+) {
   return (
     node.nodeName === META &&
     node.attrs.find(({ name, value }) => {
       value = value.trim();
-      return name === 'itemprop' && value === 'image';
+      if (name === 'name') {
+        console.log(name, value, imageAttrs);
+      }
+      return imageAttrs.some(item => item.name === name && item.value === value);
     })
   );
 }
@@ -46,7 +58,7 @@ const isScript = node => {
   return node.nodeName === SCRIPT && getLink(node);
 };
 
-function isOtherFile(node) {
-  return (isImage(node) || isIcon(node)) && getLink(node);
+function isOtherFile(node, imageAttrs) {
+  return (isImage(node, imageAttrs) || isIcon(node)) && getLink(node);
 }
 module.exports = { isOtherFile, getLink, isLink, isStyle, isHtml, isScript };
