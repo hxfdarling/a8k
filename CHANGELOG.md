@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/hxfdarling/a8k/compare/v2.4.3...v2.5.0) (2020-07-28)
+
+### Features
+
+- html-loader 支持自定义 image meta ([264aa6a](https://github.com/hxfdarling/a8k/commit/264aa6ac4d130c02a5ee2f0173da268a5e92368a))
+
 ## [2.4.3](https://github.com/hxfdarling/a8k/compare/v2.4.2...v2.4.3) (2020-03-23)
 
 ### Bug Fixes
