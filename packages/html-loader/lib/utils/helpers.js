@@ -19,9 +19,6 @@ function isImage(
     node.nodeName === META &&
     node.attrs.find(({ name, value }) => {
       value = value.trim();
-      if (name === 'name') {
-        console.log(name, value, imageAttrs);
-      }
       return imageAttrs.some(item => item.name === name && item.value === value);
     })
   );
