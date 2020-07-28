@@ -15,47 +15,47 @@ function isImage(
     },
   ]
 ) {
-  return (
+  return Boolean(
     node.nodeName === META &&
-    node.attrs.find(({ name, value }) => {
-      value = value.trim();
-      return imageAttrs.some(item => item.name === name && item.value === value);
-    })
+      node.attrs.find(({ name, value }) => {
+        value = value.trim();
+        return imageAttrs.some(item => item.name === name && item.value === value);
+      })
   );
 }
 function isIcon(node) {
-  return (
+  return Boolean(
     node.nodeName === LINK &&
-    node.attrs.find(({ name, value }) => {
-      value = value.trim();
-      return name === 'rel' && (value === 'shortcut icon' || value === 'icon');
-    })
+      node.attrs.find(({ name, value }) => {
+        value = value.trim();
+        return name === 'rel' && (value === 'shortcut icon' || value === 'icon');
+      })
   );
 }
 
 const isStyle = ({ nodeName, attrs }) => {
-  return (
+  return Boolean(
     nodeName === LINK &&
-    attrs.find(({ name, value }) => {
-      value = value.trim();
-      return name === 'rel' && value === 'stylesheet';
-    })
+      attrs.find(({ name, value }) => {
+        value = value.trim();
+        return name === 'rel' && value === 'stylesheet';
+      })
   );
 };
 const isHtml = ({ nodeName, attrs }) => {
-  return (
+  return Boolean(
     nodeName === LINK &&
-    attrs.find(({ name, value }) => {
-      value = value.trim();
-      return name === 'rel' && value === 'html';
-    })
+      attrs.find(({ name, value }) => {
+        value = value.trim();
+        return name === 'rel' && value === 'html';
+      })
   );
 };
 const isScript = node => {
-  return node.nodeName === SCRIPT && getLink(node);
+  return Boolean(node.nodeName === SCRIPT && getLink(node));
 };
 
 function isOtherFile(node, imageAttrs) {
-  return (isImage(node, imageAttrs) || isIcon(node)) && getLink(node);
+  return Boolean((isImage(node, imageAttrs) || isIcon(node)) && getLink(node));
 }
 module.exports = { isOtherFile, getLink, isLink, isStyle, isHtml, isScript };

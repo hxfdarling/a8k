@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 /* eslint-disable global-require */
 
 const fs = require('fs-extra');
@@ -21,14 +22,16 @@ const defaultFilenames = {
   image: '[name]_[hash].[ext]',
 };
 module.exports = async function(content) {
-  const options = loaderUtils.getOptions(this) || {};
+  const self = this;
+
+  const options = loaderUtils.getOptions(self) || {};
   validateOptions(schema, options, 'html inline assets loader');
 
-  this.cacheable && this.cacheable();
-  const callback = this.async();
+  self.cacheable && self.cacheable();
+  const callback = self.async();
 
-  const publicPath = this._compilation.options.output.publicPath || '';
-  const baseDir = path.dirname(this.resource);
+  const publicPath = self._compilation.options.output.publicPath || '';
+  const baseDir = path.dirname(self.resource);
   const { rootDir } = options;
   const { root, list: nodes } = htmlParse(content, options);
 
@@ -52,7 +55,6 @@ module.exports = async function(content) {
           }
         });
         const { _inline: inline, _dist: dist, _noparse: noParse } = query;
-        let result = '';
         const needInclude = !dist || (dist && process.env.NODE_ENV === 'production');
         // 只有生产模式需要
         if (!needInclude) {
@@ -72,72 +74,83 @@ module.exports = async function(content) {
           if (fs.existsSync(absoluteFile)) {
             filepath = absoluteFile;
           } else {
-            this.emitError(new Error(`not found file: ${file} \n in ${baseDir} or ${rootDir}`));
+            self.emitError(new Error(`not found file: ${file} \n in ${baseDir} or ${rootDir}`));
             return;
           }
         }
         const isMiniFile = /\.min\.(js|css)$/.test(filepath);
-        this.addDependency(filepath);
-        result = (await fs.readFile(filepath)).toString();
-        // 只需要转换未压缩的JS
-        if (!noParse && !isMiniFile && isScript(node)) {
-          if (options.cacheDirectory) {
-            result = await cache({
-              cacheDirectory: options.cacheDirectory,
-              options,
-              source: result,
-              // eslint-disable-next-line no-shadow
-              transform: (source, options) => {
-                return babel(filepath, source, options);
-              },
-            });
-          } else {
-            result = await babel(filepath, result, options);
+        self.addDependency(filepath);
+        const buffer = await fs.readFile(filepath);
+        const loaderContext = { resourcePath: filepath };
+        async function processScript() {
+          let result = buffer.toString();
+          // 只需要转换未压缩的JS
+          if (!noParse && !isMiniFile) {
+            if (options.cacheDirectory) {
+              result = await cache({
+                cacheDirectory: options.cacheDirectory,
+                options,
+                source: result,
+                // eslint-disable-next-line no-shadow
+                transform: (source, options) => {
+                  return babel(filepath, source, options);
+                },
+              });
+            } else {
+              result = await babel(filepath, result, options);
+            }
           }
-        }
-        // only js/css/html support inline
-        if (inline || isHtml(node)) {
-          if (isScript(node)) {
+          if (inline) {
             node.attrs = [];
             node.childNodes = [{ nodeName: '#text', value: result, parentNode: node }];
-          } else if (isStyle(node)) {
+          } else {
+            // 添加主域重试需要标记
+            const url = loaderUtils.interpolateName(loaderContext, filenames.js, {
+              content: result,
+            });
+            result = `var ${varName}=${varName}||{};\n${varName}["${url}"]=true;${result}`;
+            self.emitFile(url, result);
+            node.attrs = node.attrs.map(i => {
+              if (isLink(i)) {
+                i.value = [publicPath.replace(/\/$/, ''), url].join(publicPath ? '/' : '');
+              }
+              return i;
+            });
+          }
+        }
+        function processStyle() {
+          const result = buffer.toString();
+          if (inline) {
             node.nodeName = 'style';
             node.tagName = 'style';
             node.attrs = [{ name: 'type', value: 'text/css' }];
             node.childNodes = [{ nodeName: '#text', value: result, parentNode: node }];
-          } else if (isHtml(node)) {
-            const htmlDom = parse5.parseFragment(result);
-            const { childNodes } = node.parentNode;
-            childNodes.splice(childNodes.indexOf(node), 1, ...htmlDom.childNodes);
           } else {
-            const msg = `\nonly js/css support inline:${JSON.stringify(
-              { tagName: node.tagName, attrs: node.attrs },
-              null,
-              2
-            )}`;
-            this.emitWarning(msg);
+            const url = loaderUtils.interpolateName(loaderContext, filenames.css, {
+              content: result,
+            });
+            self.emitFile(url, result);
+            node.attrs = node.attrs.map(i => {
+              if (isLink(i)) {
+                i.value = [publicPath.replace(/\/$/, ''), url].join(publicPath ? '/' : '');
+              }
+              return i;
+            });
           }
-        } else {
-          let url = '';
+        }
+        function processHtml() {
+          const result = buffer.toString();
+          const htmlDom = parse5.parseFragment(result);
+          const { childNodes } = node.parentNode;
+          childNodes.splice(childNodes.indexOf(node), 1, ...htmlDom.childNodes);
+        }
+        function processImage() {
+          // 图片资源
           const loaderContext = { resourcePath: filepath };
-          if (isScript(node)) {
-            // 添加主域重试需要标记
-            url = loaderUtils.interpolateName(loaderContext, filenames.js, {
-              content: result,
-            });
-            result = `var ${varName}=${varName}||{};\n${varName}["${url}"]=true;${result}`;
-          } else if (isStyle(node)) {
-            url = loaderUtils.interpolateName(loaderContext, filenames.css, {
-              content: result,
-            });
-          } else {
-            url = loaderUtils.interpolateName(loaderContext, filenames.image, {
-              content: result,
-            });
-          }
-
-          this.emitFile(url, result);
-
+          const url = loaderUtils.interpolateName(loaderContext, filenames.image, {
+            content: buffer,
+          });
+          self.emitFile(url, buffer);
           node.attrs = node.attrs.map(i => {
             if (isLink(i)) {
               i.value = [publicPath.replace(/\/$/, ''), url].join(publicPath ? '/' : '');
@@ -145,10 +158,25 @@ module.exports = async function(content) {
             return i;
           });
         }
+
+        switch (true) {
+          case isScript(node):
+            await processScript();
+            break;
+          case isStyle(node):
+            processStyle();
+            break;
+          case isHtml(node):
+            processHtml();
+            break;
+          default:
+            processImage();
+            break;
+        }
       } catch (e) {
         console.error(e);
         console.log('---------------@a8k/html-loader error---------------------');
-        console.log(this.resourcePath);
+        console.log(self.resourcePath);
         console.error(`process "${node.tagName}" error\n`, node.attrs);
         console.log('---------------------------------------------------------');
         throw e;
