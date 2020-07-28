@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/hxfdarling/a8k/compare/v2.5.0...v2.5.1) (2020-07-28)
+
+### Bug Fixes
+
+- 移除 console 调试代码 ([3237ce0](https://github.com/hxfdarling/a8k/commit/3237ce057430487ee35e635ff9e9faf03a3c3b4a))
+
 # [2.5.0](https://github.com/hxfdarling/a8k/compare/v2.4.3...v2.5.0) (2020-07-28)
 
 ### Features

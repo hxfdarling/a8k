@@ -1,6 +1,6 @@
 {
   "name": "@a8k/html-loader",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "resolve assets in html file",
   "main": "./lib/index.js",
   "directories": {
