@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/hxfdarling/a8k/compare/v2.5.1...v2.5.2) (2020-07-28)
+
+### Bug Fixes
+
+- 修复 html-loader 处理图片资源导致 meta 信息丢失 ([ff7cd5f](https://github.com/hxfdarling/a8k/commit/ff7cd5f367b1a1921d8f8cca43ba2d315ea43533))
+
 ## [2.5.1](https://github.com/hxfdarling/a8k/compare/v2.5.0...v2.5.1) (2020-07-28)
 
 ### Bug Fixes
