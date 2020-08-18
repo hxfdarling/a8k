@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.3](https://github.com/hxfdarling/a8k/compare/v2.5.2...v2.5.3) (2020-08-18)
+
+**Note:** Version bump only for package @a8k/cli-utils
+
 ## [2.4.3](https://github.com/hxfdarling/a8k/compare/v2.4.2...v2.4.3) (2020-03-23)
 
 ### Bug Fixes

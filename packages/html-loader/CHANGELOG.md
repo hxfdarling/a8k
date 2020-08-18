@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.3](https://github.com/hxfdarling/a8k/compare/v2.5.2...v2.5.3) (2020-08-18)
+
+### Bug Fixes
+
+- 重构 html-loader, 修复自定义标签是识别后 inline 模式失效问题 ([ca73cd1](https://github.com/hxfdarling/a8k/commit/ca73cd1f368041ec5b854ffe6fd3f13dacb3bc9b))
+
 ## [2.5.2](https://github.com/hxfdarling/a8k/compare/v2.5.1...v2.5.2) (2020-07-28)
 
 ### Bug Fixes
