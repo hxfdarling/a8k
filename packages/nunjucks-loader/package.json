@@ -16,7 +16,7 @@
   "dependencies": {
     "@a8k/common": "^2.4.3",
     "loader-utils": "^1.4.0",
-    "nunjucks": "^3.2.1"
+    "nunjucks": "^3.2.2"
   },
   "author": "zman",
   "publishConfig": {
