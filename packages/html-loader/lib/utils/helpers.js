@@ -1,61 +1,28 @@
-const { LINK, SCRIPT, META } = require('../const');
+const queryParse = require('query-parse');
 
 const linkKeys = ['src', 'href', 'content'];
 const isLink = attr => linkKeys.find(i => i === attr.name);
-const getLink = node => node.attrs.find(isLink);
-
-// <meta itemprop="image" content="./assets/image.png" />
-// 自定义name <meta name="y" content="./assets/image.png" />
-function isImage(
-  node,
-  imageAttrs = [
-    {
-      name: 'itemprop',
-      value: 'image',
-    },
-  ]
-) {
-  return Boolean(
-    node.nodeName === META &&
-      node.attrs.find(({ name, value }) => {
-        value = value.trim();
-        return imageAttrs.some(item => item.name === name && item.value === value);
-      })
-  );
-}
-function isIcon(node) {
-  return Boolean(
-    node.nodeName === LINK &&
-      node.attrs.find(({ name, value }) => {
-        value = value.trim();
-        return name === 'rel' && (value === 'shortcut icon' || value === 'icon');
-      })
-  );
-}
-
-const isStyle = ({ nodeName, attrs }) => {
-  return Boolean(
-    nodeName === LINK &&
-      attrs.find(({ name, value }) => {
-        value = value.trim();
-        return name === 'rel' && value === 'stylesheet';
-      })
-  );
-};
-const isHtml = ({ nodeName, attrs }) => {
-  return Boolean(
-    nodeName === LINK &&
-      attrs.find(({ name, value }) => {
-        value = value.trim();
-        return name === 'rel' && value === 'html';
-      })
-  );
-};
-const isScript = node => {
-  return Boolean(node.nodeName === SCRIPT && getLink(node));
+const getLink = node => {
+  if (!node || !node.attrs) {
+    return null;
+  }
+  return node.attrs.find(isLink);
 };
 
-function isOtherFile(node, imageAttrs) {
-  return Boolean((isImage(node, imageAttrs) || isIcon(node)) && getLink(node));
+function getParams(node) {
+  const link = getLink(node);
+  if (link) {
+    const temp = link.value.split('?');
+    const query = queryParse.toObject(temp[1] || '');
+    Object.keys(query).forEach(key => {
+      if (query[key] === '') {
+        query[key] = true;
+      }
+    });
+    const { _inline: inline, _dist: dist, _noparse: noParse } = query;
+    const needInclude = !dist || (dist && process.env.NODE_ENV === 'production');
+    return { inline, dist, noParse, needInclude, filename: temp[0] };
+  }
+  return null;
 }
-module.exports = { isOtherFile, getLink, isLink, isStyle, isHtml, isScript };
+module.exports = { getParams, isLink, getLink };
