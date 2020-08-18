@@ -26,13 +26,25 @@ jobs:
       uses: actions/setup-node@v2.1.1
       with:
         # Set always-auth in npmrc
-        always-auth: false# optional, default is false
+        always-auth: false # optional, default is false
         # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
         node-version: 12.x # optional
         
+
+    - name: Install
+      run: |
+         npm install  
+         npm run bootstrap
+         
     # Runs a single command using the runners shell
-    - name: Run eslint
-      run: npm run eslint
+    - name: Run lint
+      run: npm run lint
+
+    - name: Run test
+      run: npm run test
+
+    - name: Run build
+      run: npm run build
 
     # Runs a set of commands using the runners shell
     - name: Run a multi-line script
