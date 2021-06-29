@@ -16,7 +16,7 @@ module.exports = async function(content) {
   const self = this;
 
   const options = loaderUtils.getOptions(self) || {};
-  validateOptions(schema, options, 'html inline assets loader');
+  validateOptions.validate(schema, options, 'html inline assets loader');
 
   self.cacheable && self.cacheable();
   const callback = self.async();
