@@ -54,7 +54,7 @@
     "dotenv": "^8.2.0",
     "dotenv-expand": "^5.1.0",
     "download-git-repo": "^2.0.0",
-    "ejs-loader": "^0.3.5",
+    "ejs-loader": "^0.5.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.1.1",
     "events": "^3.1.0",
